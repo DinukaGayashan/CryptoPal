@@ -61,6 +61,9 @@ flutter:
   # assets:
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
+  assets:
+    - assets/images/CryptoPal-logo-black.png
+    - assets/images/CryptoPal-logo-white.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
@@ -87,3 +90,10 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+  fonts:
+    - family: Bierstadt
+      fonts:
+        - asset: assets/fonts/Bierstadt.ttf
+    - family: Tenorite
+      fonts:
+        - asset: assets/fonts/Tenorite-Regular.ttf
