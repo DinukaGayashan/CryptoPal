@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'constants.dart';
 
 class registration_form extends StatelessWidget {
@@ -50,6 +51,22 @@ class registration_form extends StatelessWidget {
                   height: 30.0,
                 ),
                 const Text(
+                  'Birthday',
+                  style: kInstructionStyle2,
+                ),
+                SizedBox(
+                  height: 200,
+                  child: CupertinoDatePicker(
+                    mode: CupertinoDatePickerMode.date,
+                    initialDateTime: DateTime(2000, 1, 1),
+                    onDateTimeChanged: (DateTime newDateTime) {
+                    },
+                  ),
+                ),
+                const SizedBox(
+                  height: 30.0,
+                ),
+                const Text(
                   'Contact Number',
                   style: kInstructionStyle2,
                 ),
@@ -65,28 +82,6 @@ class registration_form extends StatelessWidget {
                         )
                     ),
                     hintText: 'Enter your contact number',
-                    hintStyle: kHintStyle,
-                  ),
-                ),
-                const SizedBox(
-                  height: 30.0,
-                ),
-                const Text(
-                  'Address',
-                  style: kInstructionStyle2,
-                ),
-                TextFormField(
-                  textCapitalization: TextCapitalization.words,
-                  style: kDetailsStyle,
-                  cursorHeight: 25,
-                  cursorColor: kAccentColor3,
-                  decoration: const InputDecoration(
-                    focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                            color: kAccentColor3
-                        )
-                    ),
-                    hintText: 'Enter your address',
                     hintStyle: kHintStyle,
                   ),
                 ),

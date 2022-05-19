@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "430233690845",
+    "project_id": "cryptopal-e288a",
+    "storage_bucket": "cryptopal-e288a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:430233690845:android:d97b14da2a37defa503134",
+        "android_client_info": {
+          "package_name": "com.dinukagayashan.cryptopal"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "430233690845-98j4r689el2n1sekuin9ade6mtpk4q2d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCQiBPHkwHcfYSeSEUIdrkV4ndtaNp9WCQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "430233690845-98j4r689el2n1sekuin9ade6mtpk4q2d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
