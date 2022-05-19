@@ -7,6 +7,12 @@ const kAccentColor2=Color(0xff2e7c90);
 const kAccentColor3=Color(0xff4C4637);
 const kTransparentColor=Color(0xcc4C4637);
 
+const TextStyle kMainTitleStyle=TextStyle(
+  color: kBaseColor1,
+  fontFamily: 'Tenorite',
+  fontSize: 50,
+);
+
 const TextStyle kTitleStyle=TextStyle(
   color: kBaseColor1,
   fontFamily: 'Tenorite',

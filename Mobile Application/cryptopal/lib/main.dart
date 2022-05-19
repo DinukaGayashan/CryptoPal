@@ -1,8 +1,10 @@
-import 'package:cryptopal/constants.dart';
+import 'package:cryptopal/screens/welcome.dart';
 import 'package:flutter/material.dart';
-import 'sign_up.dart';
-import 'sign_in.dart';
-import 'registration_form.dart';
+import 'utility/constants.dart';
+import 'screens/sign_up.dart';
+import 'screens/sign_in.dart';
+import 'screens/registration_form.dart';
+import 'screens/dashboard.dart';
 
 void main() {
   runApp(const CryptoPal());
@@ -19,14 +21,13 @@ class CryptoPal extends StatelessWidget {
         primaryColor: kBaseColor1,
         scaffoldBackgroundColor: kAccentColor1,
       ),
-      initialRoute: '/registration_form',
+      initialRoute: sign_up.id,
       routes: {
-        '/sign_up': (context) => sign_up(),
-        '/sign_in': (context) => sign_in(),
-        '/registration_form': (context) => registration_form(),
-        /*
-        '/settings': (context) => settings(),
-        */
+        welcome.id: (context) => welcome(),
+        sign_up.id: (context) => sign_up(),
+        sign_in.id: (context) => sign_in(),
+        registration_form.id: (context) => registration_form(),
+        dashboard.id: (context) => dashboard(),
       },
     );
   }

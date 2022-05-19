@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'constants.dart';
+import 'package:cryptopal/utility/constants.dart';
 
 class registration_form extends StatelessWidget {
   const registration_form({Key? key}) : super(key: key);
+  static const String id='registration_form';
 
   @override
   Widget build(BuildContext context) {

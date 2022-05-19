@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'constants.dart';
+import 'package:cryptopal/utility/constants.dart';
+import 'package:cryptopal/screens/sign_up.dart';
 
 class sign_in extends StatelessWidget {
   const sign_in({Key? key}) : super(key: key);
+  static const String id='sign_in';
 
   @override
   Widget build(BuildContext context) {
@@ -14,10 +16,13 @@ class sign_in extends StatelessWidget {
             padding: const EdgeInsets.only(top: 30.0),
             child: Column(
               children: <Widget>[
-                CircleAvatar(
-                  backgroundColor: kAccentColor1,
-                  radius: 50.0,
-                  child: Image.asset('assets/images/CryptoPal-logo-black.png'),
+                Hero(
+                  tag: 'logo',
+                  child: CircleAvatar(
+                    backgroundColor: kAccentColor1,
+                    radius: 50.0,
+                    child: Image.asset('assets/images/CryptoPal-logo-black.png'),
+                  ),
                 ),
                 const SizedBox(
                   height: 5.0,
@@ -26,9 +31,12 @@ class sign_in extends StatelessWidget {
                   height: 50.0,
                   width: double.infinity,
                   child: Center(
-                    child: Text(
-                      'CryptoPal',
-                      style: kTitleStyle,
+                    child: Hero(
+                      tag: 'name',
+                      child: Text(
+                        'CryptoPal',
+                        style: kTitleStyle,
+                      ),
                     ),
                   ),
                 ),
@@ -170,7 +178,7 @@ class sign_in extends StatelessWidget {
                           textStyle: kInstructionStyle,
                         ),
                         onPressed: () {
-                          Navigator.pushNamed(context, '/sign_up');
+                          Navigator.pushNamed(context, sign_up.id);
                         },
                         child: const Text('Sign up'),
                       ),
