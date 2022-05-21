@@ -1,10 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:cryptopal/utility/constants.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'sign_in.dart';
+import 'registration_form.dart';
 
-class sign_up extends StatelessWidget {
+class sign_up extends StatefulWidget {
   const sign_up({Key? key}) : super(key: key);
+
   static const String id='sign_up';
+
+  @override
+  State<sign_up> createState() => _sign_upState();
+}
+
+class _sign_upState extends State<sign_up> {
+
+  final _auth=FirebaseAuth.instance;
+  late String email,password1,password2;
 
   @override
   Widget build(BuildContext context) {
@@ -56,78 +68,66 @@ class sign_up extends StatelessWidget {
                 const SizedBox(
                   height: 20.0,
                 ),
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10.0),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
                   child: TextField(
-                    //controller: _emailController,
                     style: kInstructionStyle,
                     keyboardType: TextInputType.emailAddress,
                     textAlign: TextAlign.center,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       hintText: 'Enter email',
                       contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
                       border: InputBorder.none,
                       fillColor: kTransparentColor,
                       filled: true,
                     ),
+                    onChanged: (value){
+                      email=value;
+                    },
                   ),
                 ),
                 const SizedBox(
                   height: 10.0,
                 ),
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10.0),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
                   child: TextField(
-                    //controller: _passwordController,
                     style: kInstructionStyle,
                     keyboardType: TextInputType.visiblePassword,
                     obscureText: true,
                     textAlign: TextAlign.center,
-                    decoration: InputDecoration(
-                      /*suffixIcon: IconButton(
-                          onPressed: () {
-                            setState(() {
-                              _passwordVisible = !_passwordVisible;
-                            });
-                          },
-                          icon: Icon(_passwordVisible
-                              ? Icons.visibility
-                              : Icons.visibility_off_outlined)),*/
+                    decoration: const InputDecoration(
                       hintText: 'Enter password',
                       contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
                       border: InputBorder.none,
                       fillColor: kTransparentColor,
                       filled: true,
                     ),
+                    onChanged: (value){
+                      password1=value;
+                    },
                   ),
                 ),
                 const SizedBox(
                   height: 9.0,
                 ),
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10.0),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
                   child: TextField(
-                    //controller: _passwordController,
                     style: kInstructionStyle,
                     keyboardType: TextInputType.visiblePassword,
                     obscureText: true,
                     textAlign: TextAlign.center,
-                    decoration: InputDecoration(
-                      /*suffixIcon: IconButton(
-                          onPressed: () {
-                            setState(() {
-                              _passwordVisible = !_passwordVisible;
-                            });
-                          },
-                          icon: Icon(_passwordVisible
-                              ? Icons.visibility
-                              : Icons.visibility_off_outlined)),*/
+                    decoration: const InputDecoration(
                       hintText: 'Re-enter password',
                       contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
                       border: InputBorder.none,
                       fillColor: kTransparentColor,
                       filled: true,
                     ),
+                    onChanged: (value){
+                      password2=value;
+                    },
                   ),
                 ),
                 const SizedBox(
@@ -139,7 +139,25 @@ class sign_up extends StatelessWidget {
                     color: kAccentColor2,
                     height:40.0,
                     minWidth: double.infinity,
-                    onPressed: () {},
+                    onPressed: () async {
+                      if(password1.length<6){
+                        print("Password must be at least 6 characters long");
+                      }
+                      else if(password1==password2){
+                        try{
+                          final newUser=await _auth.createUserWithEmailAndPassword(email: email, password: password1);
+                          if(newUser!=null){
+                            Navigator.pushNamed(context, registration_form.id);
+                          }
+                        }
+                        catch(e){
+                          print(e);
+                        }
+                      }
+                      else{
+                        print("Not similar passwords");
+                      }
+                    },
                     child: const Text(
                       'Sign up',
                       style: kButtonTextStyle,

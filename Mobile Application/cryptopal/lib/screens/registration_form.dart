@@ -1,10 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cryptopal/utility/constants.dart';
 
-class registration_form extends StatelessWidget {
+class registration_form extends StatefulWidget {
   const registration_form({Key? key}) : super(key: key);
+
   static const String id='registration_form';
+
+  @override
+  State<registration_form> createState() => _registration_formState();
+}
+
+class _registration_formState extends State<registration_form> {
+
+  late String name;
+  late DateTime birthday;
+  late final User? user;
+  final _auth=FirebaseAuth.instance;
+  final _firestore=FirebaseFirestore.instance;
+
+  @override
+  void initState() {
+    getUser();
+    super.initState();
+  }
+
+  void getUser() {
+    try{
+      user= _auth.currentUser;
+    }
+    catch(e){
+      print(e);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,6 +77,9 @@ class registration_form extends StatelessWidget {
                     hintText: 'Enter your name',
                     hintStyle: kHintStyle,
                   ),
+                  onChanged: (value){
+                    name=value;
+                  },
                 ),
                 const SizedBox(
                   height: 30.0,
@@ -59,12 +92,13 @@ class registration_form extends StatelessWidget {
                   height: 200,
                   child: CupertinoDatePicker(
                     mode: CupertinoDatePickerMode.date,
-                    initialDateTime: DateTime(2000, 1, 1),
-                    onDateTimeChanged: (DateTime newDateTime) {
+                    initialDateTime: DateTime(2022, 1, 1),
+                    onDateTimeChanged: (DateTime value) {
+                      birthday=value;
                     },
                   ),
                 ),
-                const SizedBox(
+                /*const SizedBox(
                   height: 30.0,
                 ),
                 const Text(
@@ -85,7 +119,7 @@ class registration_form extends StatelessWidget {
                     hintText: 'Enter your contact number',
                     hintStyle: kHintStyle,
                   ),
-                ),
+                ),*/
                 const SizedBox(
                   height: 40.0,
                 ),
@@ -93,7 +127,21 @@ class registration_form extends StatelessWidget {
                   color: kAccentColor3,
                   height:40.0,
                   minWidth: double.infinity,
-                  onPressed: () {},
+                  onPressed: () async {
+                    try{
+                      await _firestore.collection('users').doc(user?.uid).set(
+                          {
+                            'email': user?.email,
+                            'name': name,
+                            'birthday': birthday,
+                          }
+                      );
+                      Navigator.pushNamed(context, '/delivery_tracking');
+                    }
+                    catch(e){
+                      print(e);
+                    }
+                  },
                   child: const Text(
                     'Submit',
                     style: kButtonTextStyle,

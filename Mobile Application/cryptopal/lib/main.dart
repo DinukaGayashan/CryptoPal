@@ -1,12 +1,15 @@
 import 'package:cryptopal/screens/welcome.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'utility/constants.dart';
 import 'screens/sign_up.dart';
 import 'screens/sign_in.dart';
 import 'screens/registration_form.dart';
 import 'screens/dashboard.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const CryptoPal());
 }
 
