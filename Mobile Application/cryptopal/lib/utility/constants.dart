@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 const kBaseColor1=Color(0xff000000);
 const kBaseColor2=Color(0xffffffff);
 const kAccentColor1=Color(0xffffe699);
-const kAccentColor2=Color(0xff2e7c90);
+const kAccentColor2=Color(0xFF0c4d5f);
 const kAccentColor3=Color(0xff4C4637);
 const kTransparentColor=Color(0xcc4C4637);
 
@@ -28,7 +29,8 @@ const TextStyle kSubjectStyle = TextStyle(
 const TextStyle kSubSubjectStyle = TextStyle(
   fontSize: 25,
   fontFamily: 'Bierstadt',
-  color: kBaseColor2,
+  color: kBaseColor1,
+  fontWeight: FontWeight.bold,
 );
 
 const TextStyle kInstructionStyle = TextStyle(
@@ -61,3 +63,4 @@ const TextStyle kDetailsStyle = TextStyle(
   fontFamily: 'Bierstadt',
   color: kAccentColor3,
 );
+

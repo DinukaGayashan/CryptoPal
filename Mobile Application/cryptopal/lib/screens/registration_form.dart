@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
 import 'package:cryptopal/utility/constants.dart';
+import 'dashboard.dart';
 
 class registration_form extends StatefulWidget {
   const registration_form({Key? key}) : super(key: key);
@@ -41,12 +43,29 @@ class _registration_formState extends State<registration_form> {
     return Scaffold(
       backgroundColor: kAccentColor1,
       appBar: AppBar(
-        backgroundColor: kAccentColor3,
-        elevation: 8.0,
+        backgroundColor: kAccentColor1,
+        elevation: 0.0,
         toolbarHeight: 80.0,
-        title: const Text(
-          'Registration Form',
-          style: kSubSubjectStyle,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: <Widget>[
+            Hero(
+              tag: 'logo',
+              child: CircleAvatar(
+                backgroundColor: kAccentColor1,
+                radius: 25.0,
+                child: Image.asset('assets/images/CryptoPal-logo-black.png'),
+              ),
+            ),
+            const Hero(
+              tag: 'name',
+              child: Text(
+                "CryptoPal",
+                style: kTitleStyle,
+              ),
+            ),
+          ],
         ),
       ),
       body: SafeArea(
@@ -58,6 +77,15 @@ class _registration_formState extends State<registration_form> {
               children: <Widget>[
                 const SizedBox(
                   height: 10.0,
+                ),
+                const Center(
+                  child: Text(
+                    'Registration Form',
+                    style: kSubSubjectStyle,
+                  ),
+                ),
+                const SizedBox(
+                  height: 30.0,
                 ),
                 const Text(
                   'Name',
@@ -92,7 +120,8 @@ class _registration_formState extends State<registration_form> {
                   height: 200,
                   child: CupertinoDatePicker(
                     mode: CupertinoDatePickerMode.date,
-                    initialDateTime: DateTime(2022, 1, 1),
+                    initialDateTime: DateTime.now(),
+                    maximumDate: DateTime.now(),
                     onDateTimeChanged: (DateTime value) {
                       birthday=value;
                     },
@@ -136,7 +165,7 @@ class _registration_formState extends State<registration_form> {
                             'birthday': birthday,
                           }
                       );
-                      Navigator.pushNamed(context, '/delivery_tracking');
+                      Navigator.pushNamed(context, dashboard.id);
                     }
                     catch(e){
                       print(e);

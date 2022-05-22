@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cryptopal/utility/constants.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 import 'sign_up.dart';
 import 'dashboard.dart';
+import 'registration_form.dart';
 
 class sign_in extends StatefulWidget {
   const sign_in({Key? key}) : super(key: key);
@@ -17,6 +19,7 @@ class sign_in extends StatefulWidget {
 class _sign_inState extends State<sign_in> {
 
   final _auth=FirebaseAuth.instance;
+  final _functions=FirebaseFunctions.instance;
   late String email,password;
   bool rememberMeToggle=false;
   final TextEditingController _emailController = TextEditingController();
@@ -221,7 +224,18 @@ class _sign_inState extends State<sign_in> {
                         password=_passwordController.text;
                         final user= await _auth.signInWithEmailAndPassword(email: email, password: password);
                         if(user!=null){
-                          Navigator.pushNamed(context, dashboard.id);
+                          try{
+                            HttpsCallable checkUser=_functions.httpsCallable('checkUser');
+                            final result=await checkUser.call(<String, dynamic>{'email': email,});
+                            print(result.data.toString());
+                            if(result.data.toString()=='user'){
+                              Navigator.pushNamed(context, dashboard.id);
+                            }else{
+                              Navigator.pushNamed(context, registration_form.id);
+                            }
+                          }catch(e){
+                            print(e);
+                          }
                         }
                       }
                       catch(e){
