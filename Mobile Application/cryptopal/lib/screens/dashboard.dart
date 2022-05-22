@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cryptopal/utility/constants.dart';
 
 class dashboard extends StatefulWidget {
@@ -10,6 +12,31 @@ class dashboard extends StatefulWidget {
 }
 
 class _dashboardState extends State<dashboard> {
+
+  late final User? user;
+  final _auth=FirebaseAuth.instance;
+  final _firestore=FirebaseFirestore.instance;
+
+  @override
+  void initState() {
+    getUser();
+    updateUserData();
+    super.initState();
+  }
+
+  void updateUserData(){
+    
+  }
+
+  void getUser() {
+    try{
+      user= _auth.currentUser;
+    }
+    catch(e){
+      print(e);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

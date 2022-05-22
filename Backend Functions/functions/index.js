@@ -6,6 +6,7 @@ admin.initializeApp(functions.config().firebase);
 
 const cryptocurrencies=["BTC", "ETH", "LTC", "XRP", "DOGE"];
 const numberOfCryptocurrencies=cryptocurrencies.length;
+const timeOfADay=24*60*60*1000;
 
 function delay(time) {
   return new Promise((resolve) => setTimeout(resolve, time));
@@ -45,7 +46,7 @@ function addCryptoData(cryptocurrency, year, month, date) {
     res.on("end", function() {
       obj = JSON.parse(str);
       admin.firestore().collection(obj.symbol).doc(obj.day.split("T")[0])
-          .set({open: obj.open, close: obj.close});
+          .set({openPrice: obj.open, closePrice: obj.close});
     });
   }).on("error", (e) => {
     console.error(e);
@@ -55,7 +56,7 @@ function addCryptoData(cryptocurrency, year, month, date) {
 exports.scheduledAPICall = functions.pubsub.schedule("0 1 * * *")
     .timeZone("America/New_York")
     .onRun((context) => {
-      const ts = Date.now()-24*3600*1000;
+      const ts = Date.now()-timeOfADay;
       const day = new Date(ts);
       const date = day.getDate();
       const month = day.getMonth() + 1;
@@ -69,9 +70,9 @@ exports.scheduledAPICall = functions.pubsub.schedule("0 1 * * *")
 exports.addPastCryptoData = functions.https.onCall(async (data, context) => {
   const numberOfDays = data.numberOfDays;
   const beforeDays = data.beforeDays;
-  let ts = Date.now() -(beforeDays*24*3600*1000);
+  let ts = Date.now() -(beforeDays*timeOfADay);
   for (let i=0; i<numberOfDays; i++) {
-    ts = ts - 24 * 3600 * 1000;
+    ts = ts - timeOfADay;
     const day = new Date(ts);
     const date = day.getDate();
     const month = day.getMonth() + 1;

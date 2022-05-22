@@ -26,7 +26,7 @@ class CryptoPal extends StatelessWidget {
         primaryColor: kBaseColor1,
         scaffoldBackgroundColor: kAccentColor1,
       ),
-      initialRoute: dashboard.id,
+      initialRoute: add_prediction.id,
       routes: {
         welcome.id: (context) => welcome(),
         sign_up.id: (context) => sign_up(),

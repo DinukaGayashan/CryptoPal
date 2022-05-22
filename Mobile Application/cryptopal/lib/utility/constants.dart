@@ -1,6 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+const List<String> cryptocurrencyNames = <String>[
+  "Bitcoin (BTC)", "Ethereum (ETH)", "Litecoin (LTC)", "Ripple (XRP)", "Dogecoin (DOGE)"
+];
+
+const List<String> cryptocurrencies = <String>[
+  "BTC", "ETH", "LTC", "XRP", "DOGE"
+];
+
 const kBaseColor1=Color(0xff000000);
 const kBaseColor2=Color(0xffffffff);
 const kAccentColor1=Color(0xffffe699);
