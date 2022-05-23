@@ -3,11 +3,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cryptopal/utility/constants.dart';
+import 'package:cryptopal/utility/widgets.dart';
 import 'dashboard.dart';
 
 class registration_form extends StatefulWidget {
   const registration_form({Key? key}) : super(key: key);
-
   static const String id='registration_form';
 
   @override
@@ -41,31 +41,9 @@ class _registration_formState extends State<registration_form> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kAccentColor1,
-      appBar: AppBar(
-        backgroundColor: kAccentColor1,
-        elevation: 0.0,
-        toolbarHeight: 80.0,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: <Widget>[
-            Hero(
-              tag: 'logo',
-              child: CircleAvatar(
-                backgroundColor: kAccentColor1,
-                radius: 25.0,
-                child: Image.asset('assets/images/CryptoPal-logo-black.png'),
-              ),
-            ),
-            const Hero(
-              tag: 'name',
-              child: Text(
-                "CryptoPal",
-                style: kTitleStyle,
-              ),
-            ),
-          ],
-        ),
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(90.0),
+        child: logoAppBar(context),
       ),
       body: SafeArea(
         child: SingleChildScrollView(

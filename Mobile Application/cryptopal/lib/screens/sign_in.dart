@@ -4,7 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cryptopal/utility/constants.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'sign_up.dart';
-import 'dashboard.dart';
+import 'dashboard_loading.dart';
 import 'registration_form.dart';
 
 class sign_in extends StatefulWidget {
@@ -229,7 +229,7 @@ class _sign_inState extends State<sign_in> {
                             final result=await checkUser.call(<String, dynamic>{'email': email,});
                             print(result.data.toString());
                             if(result.data.toString()=='user'){
-                              Navigator.pushNamed(context, dashboard.id);
+                              Navigator.pushNamed(context, dashboard_loading.id);
                             }else{
                               Navigator.pushNamed(context, registration_form.id);
                             }

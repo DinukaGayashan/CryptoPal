@@ -3,10 +3,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cryptopal/utility/constants.dart';
+import 'package:cryptopal/utility/widgets.dart';
+import 'package:cryptopal/utility/user_account.dart';
 
 class add_prediction extends StatefulWidget {
-  const add_prediction({Key? key}) : super(key: key);
+  const add_prediction( {Key? key}) : super(key: key);
   static const String id='add_prediction';
+  //final UserAccount currentUser;
 
   @override
   State<add_prediction> createState() => _add_predictionState();
@@ -17,9 +20,9 @@ class _add_predictionState extends State<add_prediction> {
   late int _selectedCrypto=0;
   late double predictionPrice;
   late DateTime predictionDate=DateTime.now().add(const Duration(days:1));
-  late final User? user;
   final _auth=FirebaseAuth.instance;
   final _firestore=FirebaseFirestore.instance;
+  late final User? user;
 
   @override
   void initState() {
@@ -40,31 +43,9 @@ class _add_predictionState extends State<add_prediction> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kAccentColor1,
-      appBar: AppBar(
-        backgroundColor: kAccentColor1,
-        elevation: 0.0,
-        toolbarHeight: 80.0,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: <Widget>[
-            Hero(
-              tag: 'logo',
-              child: CircleAvatar(
-                backgroundColor: kAccentColor1,
-                radius: 25.0,
-                child: Image.asset('assets/images/CryptoPal-logo-black.png'),
-              ),
-            ),
-            const Hero(
-              tag: 'name',
-              child: Text(
-                "CryptoPal",
-                style: kTitleStyle,
-              ),
-            ),
-          ],
-        ),
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(90.0),
+        child: logoAppBar(context),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -197,10 +178,12 @@ class _add_predictionState extends State<add_prediction> {
                   onPressed: () async {
                     try{
                       await _firestore.collection('users').doc(user?.uid)
-                          .collection('predictions').doc('cryptocurrency')
-                          .collection(cryptocurrencies[_selectedCrypto]+'-USD')
-                          .doc(predictionDate.toString().split(' ')[0]).set(
+                          .collection('predictions')
+                          .doc(predictionDate.toString().split(' ')[0]+' '+cryptocurrencies[_selectedCrypto]+'-USD')
+                          .set(
                           {
+                            'predictedDate':predictionDate.toString().split(' ')[0],
+                            'predictedCurrency':cryptocurrencies[_selectedCrypto]+'-USD',
                             'predictedClosePrice': predictionPrice,
                           }
                       );
