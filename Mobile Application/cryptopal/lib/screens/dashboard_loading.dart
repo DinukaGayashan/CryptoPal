@@ -14,7 +14,7 @@ class dashboard_loading extends StatefulWidget {
 
 class _dashboard_loadingState extends State<dashboard_loading> {
 
-  UserAccount currentUser=UserAccount();
+  late UserAccount currentUser=UserAccount();
 
   void loadUser() async{
     currentUser=await getActiveUserData();

@@ -14,6 +14,7 @@ Future<UserAccount> getActiveUserData() async {
   catch(e){
     print(e);
   }
+
   try {
     final userSnapshot=await _firestore.collection('users').doc(currentUser.user?.uid).get();
     currentUser.name=userSnapshot.data()!['name'];
