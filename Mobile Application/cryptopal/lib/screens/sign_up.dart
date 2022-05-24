@@ -146,9 +146,7 @@ class _sign_upState extends State<sign_up> {
                       else if(password1==password2){
                         try{
                           final newUser=await _auth.createUserWithEmailAndPassword(email: email, password: password1);
-                          if(newUser!=null){
-                            Navigator.pushNamed(context, registration_form.id);
-                          }
+                          Navigator.pushNamed(context, registration_form.id);
                         }
                         catch(e){
                           print(e);

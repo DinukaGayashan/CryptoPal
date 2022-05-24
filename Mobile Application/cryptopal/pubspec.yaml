@@ -42,6 +42,10 @@ dependencies:
   firebase_storage: ^10.2.16
   flutter_spinkit: ^5.1.0
   intl: ^0.17.0
+  liquid_pull_to_refresh: ^3.0.0
+  liquid_progress_indicator: ^0.4.0
+  syncfusion_flutter_charts: ^20.1.57
+  syncfusion_flutter_gauges: ^20.1.57
 
 dev_dependencies:
   flutter_test:

@@ -1,13 +1,11 @@
 import 'package:cryptopal/screens/add_prediction.dart';
 import 'package:cryptopal/screens/welcome.dart';
-import 'package:cryptopal/utility/user_account.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'utility/constants.dart';
 import 'screens/sign_up.dart';
 import 'screens/sign_in.dart';
 import 'screens/registration_form.dart';
-import 'screens/dashboard.dart';
 import 'screens/dashboard_loading.dart';
 import 'screens/add_prediction.dart';
 

@@ -223,19 +223,17 @@ class _sign_inState extends State<sign_in> {
                         email=_emailController.text;
                         password=_passwordController.text;
                         final user= await _auth.signInWithEmailAndPassword(email: email, password: password);
-                        if(user!=null){
-                          try{
-                            HttpsCallable checkUser=_functions.httpsCallable('checkUser');
-                            final result=await checkUser.call(<String, dynamic>{'email': email,});
-                            print(result.data.toString());
-                            if(result.data.toString()=='user'){
-                              Navigator.pushNamed(context, dashboard_loading.id);
-                            }else{
-                              Navigator.pushNamed(context, registration_form.id);
-                            }
-                          }catch(e){
-                            print(e);
+                        try{
+                          HttpsCallable checkUser=_functions.httpsCallable('checkUser');
+                          final result=await checkUser.call(<String, dynamic>{'email': email,});
+                          print(result.data.toString());
+                          if(result.data.toString()=='user'){
+                            Navigator.pushNamed(context, dashboard_loading.id);
+                          }else{
+                            Navigator.pushNamed(context, registration_form.id);
                           }
+                        }catch(e){
+                          print(e);
                         }
                       }
                       catch(e){

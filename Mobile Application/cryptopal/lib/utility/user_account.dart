@@ -27,16 +27,14 @@ Future<UserAccount> getActiveUserData() async {
         final priceSnap=await _firestore.collection(i.data()['predictedCurrency'])
             .doc(i.data()['predictedDate']).get();
         double realPrice=priceSnap.data()!['closePrice'];
-        if(realPrice!=null){
-          double error=100*(i.data()['predictedClosePrice']-realPrice)/realPrice;
-          await _firestore.collection('users').doc(currentUser.user?.uid)
-              .collection('predictions').doc(i.id).set(
-              {
-                'errorPercentage':error,
-              },
-            SetOptions(merge: true)
-          );
-        }
+        double error=100*(i.data()['predictedClosePrice']-realPrice)/realPrice;
+        await _firestore.collection('users').doc(currentUser.user?.uid)
+            .collection('predictions').doc(i.id).set(
+            {
+              'errorPercentage':error,
+            },
+          SetOptions(merge: true)
+        );
       }
       catch(e){
         print(e);
@@ -109,18 +107,18 @@ Future<UserAccount> getActiveUserData() async {
 class Prediction{
   late String predictedDate;
   late String predictedCurrency;
-  late final predictedClosePrice;
-  late final errorPercentage;
+  late double predictedClosePrice;
+  late double errorPercentage;
 
   Prediction(this.predictedDate,this.predictedCurrency,this.predictedClosePrice,this.errorPercentage);
 }
 
 class UserAccount{
-  late final User? user;
-  late final String name;
-  late final DateTime birthday;
-  late final List<Prediction> predictions=[];
-  late final double error,variance,standardDeviation;
-  late final Map<String,double> errorsOnCurrencies;
-  late final Map<String,double> errorVarianceOnCurrencies;
+  late User? user;
+  late String name;
+  late DateTime birthday;
+  late List<Prediction> predictions=[];
+  late double error,variance,standardDeviation;
+  late Map<String,double> errorsOnCurrencies;
+  late Map<String,double> errorVarianceOnCurrencies;
 }

@@ -4,7 +4,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cryptopal/utility/constants.dart';
 import 'package:cryptopal/utility/widgets.dart';
-import 'package:cryptopal/utility/user_account.dart';
 
 class add_prediction extends StatefulWidget {
   const add_prediction( {Key? key}) : super(key: key);
