@@ -78,7 +78,7 @@ class _sign_inState extends State<sign_in> {
                 Hero(
                   tag: 'logo',
                   child: CircleAvatar(
-                    backgroundColor: kAccentColor1,
+                    backgroundColor: Colors.transparent,
                     radius: 50.0,
                     child: Image.asset('assets/images/CryptoPal-logo-black.png'),
                   ),

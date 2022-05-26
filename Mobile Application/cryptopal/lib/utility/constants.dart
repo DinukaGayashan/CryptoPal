@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 const List<String> cryptocurrencyNames = <String>[
-  "Bitcoin (BTC)", "Ethereum (ETH)", "Litecoin (LTC)", "Ripple (XRP)", "Dogecoin (DOGE)"
+  "Bitcoin", "Ethereum", "Litecoin", "Ripple", "Dogecoin"
 ];
 
 const List<String> cryptocurrencies = <String>[
@@ -15,6 +15,11 @@ const kAccentColor1=Color(0xffffe699);
 const kAccentColor2=Color(0xFF0c4d5f);
 const kAccentColor3=Color(0xff4C4637);
 const kTransparentColor=Color(0xcc4C4637);
+const kRed=Colors.red;
+const kGreen=Colors.green;
+const kYellow=Colors.yellow;
+
+const kAnimationTime=1500;
 
 const TextStyle kMainTitleStyle=TextStyle(
   color: kBaseColor1,
@@ -72,3 +77,20 @@ const TextStyle kDetailsStyle = TextStyle(
   color: kAccentColor3,
 );
 
+const TextStyle kCardTitleStyle = TextStyle(
+  fontSize: 50,
+  fontFamily: 'Bierstadt',
+  color: kBaseColor2,
+);
+
+const TextStyle kCardTextStyle = TextStyle(
+  fontSize: 20,
+  fontFamily: 'Bierstadt',
+  color: kBaseColor2,
+);
+
+const TextStyle kCardNumberStyle = TextStyle(
+  fontSize: 50,
+  fontFamily: 'Bierstadt',
+  color: kBaseColor2,
+);

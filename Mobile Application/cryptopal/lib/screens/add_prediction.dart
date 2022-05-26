@@ -83,12 +83,12 @@ class _add_predictionState extends State<add_prediction> {
                                   setState(() {
                                     _selectedCrypto=value;
                                   });
-                                }, 
+                                },
                                 itemExtent: 32.0,
                                 children: List<Widget>.generate(cryptocurrencyNames.length, (int index) {
                                   return Center(
                                     child: Text(
-                                      cryptocurrencyNames[index],
+                                      cryptocurrencyNames[index]+' ('+cryptocurrencies[index]+')',
                                       style: kButtonTextStyle,
                                     ),
                                   );
@@ -96,7 +96,7 @@ class _add_predictionState extends State<add_prediction> {
                               ),
                             ),
                           ));
-                      },
+                    },
                     child: Text(
                       cryptocurrencyNames[_selectedCrypto],
                       style: kSubjectStyle,
@@ -183,7 +183,7 @@ class _add_predictionState extends State<add_prediction> {
                           {
                             'predictedDate':predictionDate.toString().split(' ')[0],
                             'predictedCurrency':cryptocurrencies[_selectedCrypto]+'-USD',
-                            'predictedClosePrice': predictionPrice,
+                            'predictedClosePrice': predictionPrice.toDouble(),
                           }
                       );
                     }

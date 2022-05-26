@@ -22,7 +22,7 @@ class welcome extends StatelessWidget {
                     Hero(
                       tag: 'logo',
                       child: CircleAvatar(
-                        backgroundColor: kAccentColor1,
+                        backgroundColor: Colors.transparent,
                         radius: 100.0,
                         child: Image.asset('assets/images/CryptoPal-logo-black.png'),
                       ),

@@ -46,6 +46,9 @@ dependencies:
   liquid_progress_indicator: ^0.4.0
   syncfusion_flutter_charts: ^20.1.57
   syncfusion_flutter_gauges: ^20.1.57
+  glass: ^1.0.1+1
+  animations: ^2.0.3
+  animated_text_kit: ^4.2.1
 
 dev_dependencies:
   flutter_test:
