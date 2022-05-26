@@ -24,7 +24,7 @@ class CryptoPal extends StatelessWidget {
       title: "CryptoPal",
       theme: ThemeData.dark().copyWith(
         primaryColor: kBaseColor1,
-        scaffoldBackgroundColor: kAccentColor1,
+        scaffoldBackgroundColor: kBackgroundColor,
       ),
       initialRoute: dashboard_loading.id,
       routes: {

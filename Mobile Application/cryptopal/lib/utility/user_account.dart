@@ -140,9 +140,12 @@ class Prediction {
   late String predictedCurrency;
   late double predictedClosePrice;
   late double errorPercentage;
+  late DateTime predictedDateAsDate;
 
   Prediction(this.predictedDate, this.predictedCurrency,
-      this.predictedClosePrice, this.errorPercentage);
+      this.predictedClosePrice, this.errorPercentage){
+    predictedDateAsDate=DateTime.parse(predictedDate);
+  }
 }
 
 class UserAccount {

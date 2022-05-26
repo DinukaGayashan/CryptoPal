@@ -5,6 +5,7 @@ import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:glass/glass.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:syncfusion_flutter_charts/charts.dart' as charts;
 import 'package:cryptopal/utility/constants.dart';
 import 'package:cryptopal/utility/widgets.dart';
 import 'package:cryptopal/utility/user_account.dart';
@@ -20,42 +21,166 @@ class dashboard extends StatefulWidget {
 }
 
 class _dashboardState extends State<dashboard> {
+
+  List<Prediction> getUserPredictions ({required String currency,bool past=false}){
+    List<Prediction> predictions=[];
+    List<Prediction> predictionSnap=past?currentUser.pastPredictions:currentUser.predictions;
+    if(currency=='all'){
+      predictions=predictionSnap;
+    }
+    else{
+      for(var prediction in predictionSnap){
+        if(prediction.predictedCurrency==currency+'-USD'){
+          predictions.add(prediction);
+        }
+      }
+    }
+    return predictions;
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: kAccentColor1,
+        backgroundColor: kBackgroundColor,
         appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(90.0),
+          preferredSize: const Size.fromHeight(80.0),
           child: logoAppBar(context),
         ),
         body: LiquidPullToRefresh(
-          backgroundColor: kAccentColor1,
-          color: kTransparentColor,
+          backgroundColor: kBackgroundColor,
+          color: kBaseColor2,
           onRefresh: () async {
             Navigator.pushNamedAndRemoveUntil(
                 context, dashboard_loading.id, (route) => false);
-            //Navigator.pushReplacementNamed(context, dashboard_loading.id);
-            //Navigator.popAndPushNamed(context, dashboard_loading.id);
-            //Navigator.pushNamed(context, dashboard_loading.id);
-            //currentUser=await getActiveUserData();
-            //Navigator.popUntil(context,(route)=> route.settings.name==dashboard_loading.id);
-            //Navigator.pop(context);
           },
           child: ListView(
             children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(5.0),
-                child: Card(
-                  child: Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Column(
-                      children: <Widget>[
-                        const Text(
-                          'Predictions',
-                          style: kCardTextStyle,
+              glassCard(context, Column(
+                children: <Widget>[
+                  const Text(
+                    'Predictions',
+                    style: kCardTextStyle,
+                  ),
+                  SizedBox(
+                    height: 200.0,
+                    width: 200.0,
+                    child: SfRadialGauge(
+                      axes: <RadialAxis>[
+                        RadialAxis(
+                          minimum: 0,
+                          maximum: 100,
+                          showLabels: false,
+                          showTicks: false,
+                          axisLineStyle: const AxisLineStyle(
+                            thickness: 0.2,
+                            cornerStyle: CornerStyle.bothCurve,
+                            color: kBaseColor1,
+                            thicknessUnit: GaugeSizeUnit.factor,
+                          ),
+                          pointers: <GaugePointer>[
+                            RangePointer(
+                              animationType: AnimationType.ease,
+                              enableAnimation: true,
+                              animationDuration: kAnimationTime.toDouble(),
+                              value: currentUser.accuracy.roundToDouble(),
+                              cornerStyle: CornerStyle.bothCurve,
+                              width: 0.2,
+                              sizeUnit: GaugeSizeUnit.factor,
+                            ),
+                          ],
+                          annotations: <GaugeAnnotation>[
+                            GaugeAnnotation(
+                              positionFactor: 0.1,
+                              angle: 90,
+                              widget: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Text(
+                                    currentUser.accuracy
+                                        .round()
+                                        .toString() +
+                                        '%',
+                                    style: kCardNumberStyle,
+                                  ),
+                                  const Text(
+                                    'Accuracy',
+                                    style: kCardTextStyle,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
                         ),
-                        /*SizedBox(
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              ),
+              glassCard(context, Column(
+                children: <Widget>[
+                  const Text(
+                    'Errors',
+                    style: kCardTextStyle,
+                  ),
+                  SizedBox(
+                    width: 500.0,
+                    height: 100.0,
+                    child: SfLinearGauge(
+                      orientation: LinearGaugeOrientation.vertical,
+                      minimum: 0,
+                      maximum: 100,
+                      showLabels: false,
+                      showTicks: false,
+                      showAxisTrack: false,
+                      isMirrored: true,
+                      barPointers: [
+                        for(int i=currentUser.pastPredictions.length;i>0 && i>currentUser.pastPredictions.length-10;i--)
+                          LinearBarPointer(
+                            enableAnimation: true,
+                            animationDuration: kAnimationTime,
+                            value: (currentUser.pastPredictions[i-1].errorPercentage<0?(-currentUser.pastPredictions[i-1].errorPercentage):currentUser.pastPredictions[i-1].errorPercentage)>=100.0?100.0:(currentUser.pastPredictions[i-1].errorPercentage<0?(-currentUser.pastPredictions[i-1].errorPercentage):currentUser.pastPredictions[i-1].errorPercentage),
+                            color: currentUser.pastPredictions[i-1].errorPercentage>0?kGreen:kRed,
+                            edgeStyle: LinearEdgeStyle.bothCurve,
+                            offset: i*10,
+                            position: LinearElementPosition.outside,
+                          ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              ),
+              glassCard(context, Column(
+                children: [
+                  charts.SfCartesianChart(
+                      primaryXAxis: charts.DateTimeAxis(),
+                      series: <charts.ChartSeries>[
+                        charts.LineSeries<Prediction, DateTime>(
+                          markerSettings: const charts.MarkerSettings(
+                            isVisible: true,
+                          ),
+                            dataSource: getUserPredictions(currency: 'BTC'),
+                            xValueMapper: (Prediction prediction, _) => prediction.predictedDateAsDate,
+                            yValueMapper: (Prediction prediction, _) => prediction.predictedClosePrice,
+                        ),
+                      ],
+                  ),
+                ],
+              ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+
+
+/*SizedBox(
                           height: 100.0,
                           width: 100.0,
                           child: LiquidCircularProgressIndicator(
@@ -73,114 +198,8 @@ class _dashboardState extends State<dashboard> {
                             ),
                           ),
                         ),*/
-                        SizedBox(
-                          height: 200.0,
-                          width: 200.0,
-                          child: SfRadialGauge(
-                            axes: <RadialAxis>[
-                              RadialAxis(
-                                minimum: 0,
-                                maximum: 100,
-                                showLabels: false,
-                                showTicks: false,
-                                axisLineStyle: const AxisLineStyle(
-                                  thickness: 0.2,
-                                  cornerStyle: CornerStyle.bothCurve,
-                                  color: kBaseColor1,
-                                  thicknessUnit: GaugeSizeUnit.factor,
-                                ),
-                                pointers: <GaugePointer>[
-                                  RangePointer(
-                                    animationType: AnimationType.ease,
-                                    enableAnimation: true,
-                                    animationDuration: kAnimationTime.toDouble(),
-                                    value: currentUser.accuracy.roundToDouble(),
-                                    cornerStyle: CornerStyle.bothCurve,
-                                    width: 0.2,
-                                    sizeUnit: GaugeSizeUnit.factor,
-                                  ),
-                                ],
-                                annotations: <GaugeAnnotation>[
-                                  GaugeAnnotation(
-                                    positionFactor: 0.1,
-                                    angle: 90,
-                                    widget: Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: <Widget>[
-                                        Text(
-                                          currentUser.accuracy
-                                                  .round()
-                                                  .toString() +
-                                              '%',
-                                          style: kCardNumberStyle,
-                                        ),
-                                        const Text(
-                                          'Accuracy',
-                                          style: kCardTextStyle,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ).asGlass(
-                  tintColor: Colors.white,
-                  clipBorderRadius: BorderRadius.circular(40),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(5.0),
-                child: Card(
-                  child: Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Column(
-                      children: <Widget>[
-                        const Text(
-                          'Errors',
-                          style: kCardTextStyle,
-                        ),
-                        SizedBox(
-                          width: 500.0,
-                          height: 100.0,
-                          child: SfLinearGauge(
-                            orientation: LinearGaugeOrientation.vertical,
-                            minimum: 0,
-                            maximum: 100,
-                            showLabels: false,
-                            showTicks: false,
-//showAxisTrack: false,
-                            isMirrored: true,
-                            barPointers: [
-                              for(int i=currentUser.pastPredictions.length;i>0 && i>currentUser.pastPredictions.length-10;i--)
-                                LinearBarPointer(
-                                  enableAnimation: true,
-                                  animationDuration: kAnimationTime,
-//animationType: AnimationType.ease,
-                                  value: (currentUser.pastPredictions[i-1].errorPercentage<0?(-currentUser.pastPredictions[i-1].errorPercentage):currentUser.pastPredictions[i-1].errorPercentage)>=100.0?100.0:(currentUser.pastPredictions[i-1].errorPercentage<0?(-currentUser.pastPredictions[i-1].errorPercentage):currentUser.pastPredictions[i-1].errorPercentage),
-                                  color: currentUser.pastPredictions[i-1].errorPercentage>0?kGreen:kRed,
-                                  edgeStyle: LinearEdgeStyle.bothCurve,
-                                  offset: i*10,
-                                  position: LinearElementPosition.outside,
-                                ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ).asGlass(
-                  tintColor: Colors.white,
-                  clipBorderRadius: BorderRadius.circular(15),
-                ),
-              ),
 
-              /*SizedBox(
+/*SizedBox(
                 child: DefaultTextStyle(
                   style: const TextStyle(
                     fontSize: 40.0,
@@ -196,16 +215,3 @@ class _dashboardState extends State<dashboard> {
                 ),
               ),
               ),*/
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-
-
-
-
-}
-

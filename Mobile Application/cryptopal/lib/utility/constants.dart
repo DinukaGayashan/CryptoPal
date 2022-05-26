@@ -11,6 +11,7 @@ const List<String> cryptocurrencies = <String>[
 
 const kBaseColor1=Color(0xff000000);
 const kBaseColor2=Color(0xffffffff);
+const kBackgroundColor=Color(0xff121212);
 const kAccentColor1=Color(0xffffe699);
 const kAccentColor2=Color(0xFF0c4d5f);
 const kAccentColor3=Color(0xff4C4637);
@@ -28,7 +29,7 @@ const TextStyle kMainTitleStyle=TextStyle(
 );
 
 const TextStyle kTitleStyle=TextStyle(
-  color: kBaseColor1,
+  color: kBaseColor2,
   fontFamily: 'Tenorite',
   fontSize: 30,
 );
