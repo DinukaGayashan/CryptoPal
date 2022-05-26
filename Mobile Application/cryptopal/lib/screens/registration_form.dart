@@ -4,23 +4,23 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cryptopal/utility/constants.dart';
 import 'package:cryptopal/utility/widgets.dart';
+import 'package:intl/intl.dart';
 import 'dashboard.dart';
 
-class registration_form extends StatefulWidget {
-  const registration_form({Key? key}) : super(key: key);
-  static const String id='registration_form';
+class RegistrationForm extends StatefulWidget {
+  const RegistrationForm({Key? key}) : super(key: key);
+  static const String id = 'RegistrationForm';
 
   @override
-  State<registration_form> createState() => _registration_formState();
+  State<RegistrationForm> createState() => _RegistrationFormState();
 }
 
-class _registration_formState extends State<registration_form> {
-
+class _RegistrationFormState extends State<RegistrationForm> {
   late String name;
   late DateTime birthday;
   late final User? user;
-  final _auth=FirebaseAuth.instance;
-  final _firestore=FirebaseFirestore.instance;
+  final _auth = FirebaseAuth.instance;
+  final _firestore = FirebaseFirestore.instance;
 
   @override
   void initState() {
@@ -29,10 +29,9 @@ class _registration_formState extends State<registration_form> {
   }
 
   void getUser() {
-    try{
-      user= _auth.currentUser;
-    }
-    catch(e){
+    try {
+      user = _auth.currentUser;
+    } catch (e) {
       print(e);
     }
   }
@@ -75,15 +74,12 @@ class _registration_formState extends State<registration_form> {
                   cursorColor: kAccentColor3,
                   decoration: const InputDecoration(
                     focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                            color: kAccentColor3
-                        )
-                    ),
+                        borderSide: BorderSide(color: kAccentColor3)),
                     hintText: 'Enter your name',
                     hintStyle: kHintStyle,
                   ),
-                  onChanged: (value){
-                    name=value;
+                  onChanged: (value) {
+                    name = value;
                   },
                 ),
                 const SizedBox(
@@ -100,7 +96,7 @@ class _registration_formState extends State<registration_form> {
                     initialDateTime: DateTime.now(),
                     maximumDate: DateTime.now(),
                     onDateTimeChanged: (DateTime value) {
-                      birthday=value;
+                      birthday = value;
                     },
                   ),
                 ),
@@ -131,20 +127,20 @@ class _registration_formState extends State<registration_form> {
                 ),
                 MaterialButton(
                   color: kAccentColor3,
-                  height:40.0,
+                  height: 40.0,
                   minWidth: double.infinity,
                   onPressed: () async {
-                    try{
+                    try {
                       await _firestore.collection('users').doc(user?.uid).set(
-                          {
-                            'email': user?.email,
-                            'name': name,
-                            'birthday': birthday,
-                          }
+                        {
+                          'email': user?.email,
+                          'name': name,
+                          'birthday': DateFormat('yyyy-MM-dd').format(birthday),
+                        },
+                        SetOptions(merge: true),
                       );
-                      Navigator.pushNamed(context, dashboard.id);
-                    }
-                    catch(e){
+                      Navigator.pushNamed(context, Dashboard.id);
+                    } catch (e) {
                       print(e);
                     }
                   },

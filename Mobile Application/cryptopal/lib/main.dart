@@ -26,14 +26,14 @@ class CryptoPal extends StatelessWidget {
         primaryColor: kBaseColor1,
         scaffoldBackgroundColor: kBackgroundColor,
       ),
-      initialRoute: dashboard_loading.id,
+      initialRoute: DashboardLoading.id,
       routes: {
-        welcome.id: (context) => const welcome(),
-        sign_up.id: (context) => const sign_up(),
-        sign_in.id: (context) => const sign_in(),
-        registration_form.id: (context) => const registration_form(),
-        dashboard_loading.id: (context) => const dashboard_loading(),
-        add_prediction.id: (context) => const add_prediction(),
+        Welcome.id: (context) => const Welcome(),
+        SignUp.id: (context) => const SignUp(),
+        SignIn.id: (context) => const SignIn(),
+        RegistrationForm.id: (context) => const RegistrationForm(),
+        DashboardLoading.id: (context) => const DashboardLoading(),
+        AddPrediction.id: (context) => const AddPrediction(),
       },
     );
   }

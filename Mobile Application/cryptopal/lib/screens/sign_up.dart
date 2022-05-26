@@ -4,16 +4,16 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'sign_in.dart';
 import 'registration_form.dart';
 
-class sign_up extends StatefulWidget {
-  const sign_up({Key? key}) : super(key: key);
+class SignUp extends StatefulWidget {
+  const SignUp({Key? key}) : super(key: key);
 
-  static const String id='sign_up';
+  static const String id='SignUp';
 
   @override
-  State<sign_up> createState() => _sign_upState();
+  State<SignUp> createState() => _SignUpState();
 }
 
-class _sign_upState extends State<sign_up> {
+class _SignUpState extends State<SignUp> {
 
   final _auth=FirebaseAuth.instance;
   late String email,password1,password2;
@@ -145,8 +145,8 @@ class _sign_upState extends State<sign_up> {
                       }
                       else if(password1==password2){
                         try{
-                          final newUser=await _auth.createUserWithEmailAndPassword(email: email, password: password1);
-                          Navigator.pushNamed(context, registration_form.id);
+                          await _auth.createUserWithEmailAndPassword(email: email, password: password1);
+                          Navigator.pushNamed(context, RegistrationForm.id);
                         }
                         catch(e){
                           print(e);
@@ -179,7 +179,7 @@ class _sign_upState extends State<sign_up> {
                           textStyle: kInstructionStyle,
                         ),
                         onPressed: () {
-                          Navigator.pushNamed(context, sign_in.id);
+                          Navigator.pushNamed(context, SignIn.id);
                         },
                         child: const Text('Sign in'),
                       ),

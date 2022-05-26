@@ -7,16 +7,15 @@ import 'sign_up.dart';
 import 'dashboard_loading.dart';
 import 'registration_form.dart';
 
-class sign_in extends StatefulWidget {
-  const sign_in({Key? key}) : super(key: key);
-
-  static const String id='sign_in';
+class SignIn extends StatefulWidget {
+  const SignIn({Key? key}) : super(key: key);
+  static const String id='SignIn';
 
   @override
-  State<sign_in> createState() => _sign_inState();
+  State<SignIn> createState() => _SignInState();
 }
 
-class _sign_inState extends State<sign_in> {
+class _SignInState extends State<SignIn> {
 
   final _auth=FirebaseAuth.instance;
   final _functions=FirebaseFunctions.instance;
@@ -222,15 +221,15 @@ class _sign_inState extends State<sign_in> {
                       try{
                         email=_emailController.text;
                         password=_passwordController.text;
-                        final user= await _auth.signInWithEmailAndPassword(email: email, password: password);
+                        await _auth.signInWithEmailAndPassword(email: email, password: password);
                         try{
                           HttpsCallable checkUser=_functions.httpsCallable('checkUser');
                           final result=await checkUser.call(<String, dynamic>{'email': email,});
                           print(result.data.toString());
                           if(result.data.toString()=='user'){
-                            Navigator.pushNamed(context, dashboard_loading.id);
+                            Navigator.pushNamed(context, DashboardLoading.id);
                           }else{
-                            Navigator.pushNamed(context, registration_form.id);
+                            Navigator.pushNamed(context, RegistrationForm.id);
                           }
                         }catch(e){
                           print(e);
@@ -263,7 +262,7 @@ class _sign_inState extends State<sign_in> {
                           textStyle: kInstructionStyle,
                         ),
                         onPressed: () {
-                          Navigator.pushNamed(context, sign_up.id);
+                          Navigator.pushNamed(context, SignUp.id);
                         },
                         child: const Text('Sign up'),
                       ),

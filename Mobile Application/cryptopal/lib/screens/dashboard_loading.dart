@@ -4,15 +4,15 @@ import 'package:cryptopal/utility/constants.dart';
 import 'package:cryptopal/utility/user_account.dart';
 import 'dashboard.dart';
 
-class dashboard_loading extends StatefulWidget {
-  const dashboard_loading({Key? key}) : super(key: key);
-  static const String id='dashboard_loading';
+class DashboardLoading extends StatefulWidget {
+  const DashboardLoading({Key? key}) : super(key: key);
+  static const String id='DashboardLoading';
 
   @override
-  State<dashboard_loading> createState() => _dashboard_loadingState();
+  State<DashboardLoading> createState() => _DashboardLoadingState();
 }
 
-class _dashboard_loadingState extends State<dashboard_loading> {
+class _DashboardLoadingState extends State<DashboardLoading> {
 
   late UserAccount currentUser=UserAccount();
 
@@ -20,7 +20,7 @@ class _dashboard_loadingState extends State<dashboard_loading> {
     currentUser=await getActiveUserData();
 
     Navigator.push(context, MaterialPageRoute(builder: (context){
-      return dashboard(currentUser);
+      return Dashboard(currentUser);
     }));
   }
 

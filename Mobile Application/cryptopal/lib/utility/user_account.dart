@@ -2,39 +2,52 @@ import 'dart:math';
 import 'package:cryptopal/utility/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 
+final _functions=FirebaseFunctions.instance;
 final _auth = FirebaseAuth.instance;
 final _firestore = FirebaseFirestore.instance;
 late UserAccount currentUser = UserAccount();
 
 Future<UserAccount> getActiveUserData() async {
+
+  /*try{
+    HttpsCallable addPastData=_functions.httpsCallable('addPastCryptoData');
+    final result=await addPastData.call(<String, dynamic>{'numberOfDays': 1,'beforeDays':1});
+    print(result.data.toString());
+  }catch(e){
+    print(e);
+  }*/
+
+
   try {
     currentUser.user = _auth.currentUser;
   } catch (e) {
-    print(e);
+    print(e.toString());
   }
 
   try {
     final userSnapshot =
         await _firestore.collection('users').doc(currentUser.user?.uid).get();
     currentUser.name = userSnapshot.data()!['name'];
-    currentUser.birthday = userSnapshot.data()!['birthday'].toDate();
+    currentUser.birthday = userSnapshot.data()!['birthday'];
 
     final predictionsWithoutErrorSnap = await _firestore
         .collection('users')
         .doc(currentUser.user?.uid)
         .collection('predictions')
-        .where('errorPercentage', isEqualTo: null)
+        .where('errorPercentage', isNull: true)
         .get();
     for (var i in predictionsWithoutErrorSnap.docs) {
       try {
-        final priceSnap = await _firestore
-            .collection(i.data()['predictedCurrency'])
-            .doc(i.data()['predictedDate'])
+        final priceSnap = await _firestore.collection('realPrices')
+            .doc(i.data()['predictedDate']+' '+i.data()['predictedCurrency'])
             .get();
+
         double realPrice = priceSnap.data()!['closePrice'].toDouble();
         double error =
             100 * (i.data()['predictedClosePrice'].toDouble() - realPrice) / realPrice;
+
         await _firestore
             .collection('users')
             .doc(currentUser.user?.uid)
@@ -151,7 +164,7 @@ class Prediction {
 class UserAccount {
   late User? user;
   late String name;
-  late DateTime birthday;
+  late String birthday;
   late List<Prediction> predictions = [], pastPredictions = [];
   late double error, variance, standardDeviation, accuracy;
   late Map<String, double> errorsOnCurrencies;

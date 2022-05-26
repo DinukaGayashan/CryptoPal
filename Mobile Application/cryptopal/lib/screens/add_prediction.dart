@@ -5,16 +5,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cryptopal/utility/constants.dart';
 import 'package:cryptopal/utility/widgets.dart';
 
-class add_prediction extends StatefulWidget {
-  const add_prediction( {Key? key}) : super(key: key);
-  static const String id='add_prediction';
-  //final UserAccount currentUser;
+class AddPrediction extends StatefulWidget {
+  const AddPrediction( {Key? key}) : super(key: key);
+  static const String id='AddPrediction';
 
   @override
-  State<add_prediction> createState() => _add_predictionState();
+  State<AddPrediction> createState() => _AddPredictionState();
 }
 
-class _add_predictionState extends State<add_prediction> {
+class _AddPredictionState extends State<AddPrediction> {
 
   late int _selectedCrypto=0;
   late double predictionPrice;

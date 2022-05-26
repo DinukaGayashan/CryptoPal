@@ -3,9 +3,9 @@ import 'package:cryptopal/utility/constants.dart';
 import 'sign_in.dart';
 import 'sign_up.dart';
 
-class welcome extends StatelessWidget {
-  const welcome({Key? key}) : super(key: key);
-  static const String id='welcome';
+class Welcome extends StatelessWidget {
+  const Welcome({Key? key}) : super(key: key);
+  static const String id='Welcome';
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +52,7 @@ class welcome extends StatelessWidget {
                     height:40.0,
                     minWidth: double.infinity,
                     onPressed: () {
-                      Navigator.pushNamed(context, sign_up.id);
+                      Navigator.pushNamed(context, SignUp.id);
                     },
                     child: const Text(
                       'Sign up',
@@ -70,7 +70,7 @@ class welcome extends StatelessWidget {
                     height:40.0,
                     minWidth: double.infinity,
                     onPressed: () {
-                      Navigator.pushNamed(context, sign_in.id);
+                      Navigator.pushNamed(context, SignIn.id);
                     },
                     child: const Text(
                       'Sign in',

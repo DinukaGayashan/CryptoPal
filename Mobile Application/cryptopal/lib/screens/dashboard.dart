@@ -11,16 +11,16 @@ import 'package:cryptopal/utility/widgets.dart';
 import 'package:cryptopal/utility/user_account.dart';
 import 'dashboard_loading.dart';
 
-class dashboard extends StatefulWidget {
-  const dashboard(this.currentUser, {Key? key}) : super(key: key);
+class Dashboard extends StatefulWidget {
+  const Dashboard(this.currentUser, {Key? key}) : super(key: key);
   static const String id = 'dashboard';
   final UserAccount currentUser;
 
   @override
-  State<dashboard> createState() => _dashboardState();
+  State<Dashboard> createState() => _DashboardState();
 }
 
-class _dashboardState extends State<dashboard> {
+class _DashboardState extends State<Dashboard> {
 
   List<Prediction> getUserPredictions ({required String currency,bool past=false}){
     List<Prediction> predictions=[];
@@ -52,7 +52,7 @@ class _dashboardState extends State<dashboard> {
           color: kBaseColor2,
           onRefresh: () async {
             Navigator.pushNamedAndRemoveUntil(
-                context, dashboard_loading.id, (route) => false);
+                context, DashboardLoading.id, (route) => false);
           },
           child: ListView(
             children: <Widget>[
@@ -96,12 +96,18 @@ class _dashboardState extends State<dashboard> {
                               widget: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
-                                  Text(
-                                    currentUser.accuracy
+                                  RichText(text: TextSpan(
+                                    text: currentUser.accuracy
                                         .round()
-                                        .toString() +
-                                        '%',
+                                        .toString(),
                                     style: kCardNumberStyle,
+                                    children: const <TextSpan>[
+                                      TextSpan(
+                                        text: '%',
+                                        style: kCardTextStyle,
+                                      )
+                                    ],
+                                  ),
                                   ),
                                   const Text(
                                     'Accuracy',
@@ -154,12 +160,23 @@ class _dashboardState extends State<dashboard> {
               ),
               glassCard(context, Column(
                 children: [
+                  for(var currency in cryptocurrencies)
+                    charts.SfCartesianChart(
+
+                    ),
+                ],
+              ),
+              ),
+              glassCard(context, Column(
+                children: [
                   charts.SfCartesianChart(
                       primaryXAxis: charts.DateTimeAxis(),
                       series: <charts.ChartSeries>[
                         charts.LineSeries<Prediction, DateTime>(
                           markerSettings: const charts.MarkerSettings(
                             isVisible: true,
+                            color: kBlue,
+                            borderWidth: 0.0,
                           ),
                             dataSource: getUserPredictions(currency: 'BTC'),
                             xValueMapper: (Prediction prediction, _) => prediction.predictedDateAsDate,

@@ -45,8 +45,12 @@ function addCryptoData(cryptocurrency, year, month, date) {
     });
     res.on("end", function() {
       obj = JSON.parse(str);
-      admin.firestore().collection(obj.symbol).doc(obj.day.split("T")[0])
-          .set({openPrice: obj.open, closePrice: obj.close});
+      admin.firestore().collection("realPrices")
+          .doc(obj.day.split("T")[0]+" "+obj.symbol)
+          .set({openPrice: obj.open,
+            closePrice: obj.close,
+            currency: obj.symbol,
+            date: obj.day.split("T")[0]});
     });
   }).on("error", (e) => {
     console.error(e);
