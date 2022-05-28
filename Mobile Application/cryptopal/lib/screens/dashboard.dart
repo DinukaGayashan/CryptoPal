@@ -6,6 +6,7 @@ import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:glass/glass.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:syncfusion_flutter_charts/charts.dart' as charts;
+import 'package:cryptocoins_icons/cryptocoins_icons.dart';
 import 'package:cryptopal/utility/constants.dart';
 import 'package:cryptopal/utility/widgets.dart';
 import 'package:cryptopal/utility/user_account.dart';
@@ -54,17 +55,17 @@ class _DashboardState extends State<Dashboard> {
     return realPrices;
   }
 
-  bool closePriceCheckBox=true, openPriceCheckBox=false, highPriceCheckBox=false, lowPriceCheckBox=false, ohlcCheckBox=true;
+  bool closePriceCheckBox=false, openPriceCheckBox=false, ohlcCheckBox=false;
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         backgroundColor: kBackgroundColor,
-        appBar: PreferredSize(
+        /*appBar: PreferredSize(
           preferredSize: const Size.fromHeight(80.0),
           child: logoAppBar(context),
-        ),
+        ),*/
         body: LiquidPullToRefresh(
           backgroundColor: kBackgroundColor,
           color: kBaseColor2,
@@ -74,6 +75,31 @@ class _DashboardState extends State<Dashboard> {
           },
           child: ListView(
             children: <Widget>[
+              SizedBox(
+                height: 70.0,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: <Widget>[
+                    Hero(
+                      tag: 'logo',
+                      child: CircleAvatar(
+                        backgroundColor: Colors.transparent,
+                        radius: 25.0,
+                        child: Image.asset('assets/images/CryptoPal-logo-white.png'),
+                      ),
+                    ),
+                    const Hero(
+                      tag: 'name',
+                      child: Text(
+                        "CryptoPal",
+                        style: kTitleStyle,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: 20.0,),
               glassCard(context, Column(
                 children: <Widget>[
                   const Text(
@@ -201,11 +227,35 @@ class _DashboardState extends State<Dashboard> {
                   for(int i=0;i<cryptocurrencies.length;i++)
                     openCloseAnimation(context,
                         closeWidget: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
+                            const SizedBox(width: 10.0,),
+                            Icon(
+                              CryptoCoinIcons.getCryptoIcon(cryptocurrencies[i]),
+                              //color: kAccentColor1,
+                              size: 30.0,
+                            ),
+                            const SizedBox(width: 5.0,),
                             SizedBox(
-                              width: 150.0,
-                              height: 120.0,
+                              width: 80.0,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    cryptocurrencies[i],
+                                    style: kCardTextStyle,
+                                  ),
+                                  Text(
+                                    cryptocurrencyNames[i],
+                                    style: kCardSmallTextStyle,
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(width: 10.0,),
+                            SizedBox(
+                              width: 120.0,
+                              height: 100.0,
                               child: charts.SfCartesianChart(
                                 primaryXAxis: charts.DateTimeAxis(
                                   isVisible: false,
@@ -216,91 +266,194 @@ class _DashboardState extends State<Dashboard> {
                                 plotAreaBorderWidth: 0,
                                 series: <charts.ChartSeries>[
                                   charts.LineSeries<RealPrice, DateTime>(
-                                    dataSource: getRealPrices(currency: cryptocurrencies[i]+'-USD',number: 10),
+                                    dataSource: getRealPrices(currency: cryptocurrencies[i]+'-USD',number: 20),
                                     xValueMapper: (RealPrice data, _) => DateTime.parse(data.date),
                                     yValueMapper: (RealPrice data, _) => data.closePrice,
-                                    pointColorMapper: (RealPrice data, _) => data.closePrice>data.openPrice?kGreen:kRed,
+                                    color: widget.realPriceList[i].priceIncreasePercentage>0?kGreen:kRed,
+                                    //pointColorMapper: (RealPrice data, _) => data.closePrice>data.openPrice?kGreen:kRed,
                                   ),
                                 ],
                               ),
                             ),
-                            const SizedBox(width: 30.0,),
+                            const SizedBox(width: 10.0,),
                             SizedBox(
-                              width: 60.0,
+                              width: 40.0,
                               child: Text(
-                                cryptocurrencies[i],
-                                style: kCardTextStyle,
+                                double.parse((widget.realPriceList[i].priceIncreasePercentage).toStringAsFixed(1)).toString()+'%',
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  fontFamily: 'Bierstadt',
+                                  color: widget.realPriceList[i].priceIncreasePercentage>0?kGreen:kRed,
+                                ),
                               ),
                             ),
+                            const SizedBox(width: 10.0,),
                           ],
                         ),
                         openWidget: SafeArea(
                             child: glassCard(context, Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  SizedBox(
-                                    width: 200.0,
-                                    child: Text(
-                                      cryptocurrencyNames[i]+' '+cryptocurrencies[i],
+                              children: [
+                                Text(
+                                  cryptocurrencyNames[i],
+                                  style: kCardTextStyle,
+                                  textAlign: TextAlign.center,
+                                ),
+                                SizedBox(height: 10.0,),
+                                Icon(
+                                  CryptoCoinIcons.getCryptoIcon(cryptocurrencies[i]),
+                                  size: 50.0,
+                                  //color: kTransparentColor,
+                                ),
+                                SizedBox(height: 20.0,),
+                                RichText(text: TextSpan(
+                                  text: "\$ "+widget.realPriceList[i].pricesList.last.closePrice.toString()+' ',
+                                  style: kCardNumberStyle,
+                                  children: <TextSpan>[
+                                    TextSpan(
+                                      text: cryptocurrencies[i],
                                       style: kCardTextStyle,
-                                      textAlign: TextAlign.center,
                                     ),
-                                  ),
-                                  SizedBox(
-                                    width: 500.0,
-                                    child: Column(
-                                      children: [
-                                        /*CheckboxListTile(
-                                          title: const Text('ohlc graphs'),
-                                          value: ohlcCheckBox,
-                                          onChanged: (bool? value) {
-                                            setState(() {
-                                              print(value);
-                                              ohlcCheckBox = value!;
-                                            });
-                                          },
-                                          secondary: const Icon(Icons.hourglass_empty),
-                                        ),*/
-                                        Checkbox(
-                                            value: ohlcCheckBox,
-                                            onChanged: (bool? value){
-                                              setState(() {
-                                                print(value);
-                                                ohlcCheckBox = value!;
-                                              });
-                                            }
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    child: charts.SfCartesianChart(
-                                      primaryXAxis: charts.DateTimeAxis(
+                                  ],
+                                ),
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      double.parse((widget.realPriceList[i].priceIncreasePercentage).toStringAsFixed(2)).toString()+'%',
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                        fontFamily: 'Bierstadt',
+                                        color: widget.realPriceList[i].priceIncreasePercentage>0?kGreen:kRed,
                                       ),
-                                      primaryYAxis: charts.NumericAxis(
-                                      ),
-                                      plotAreaBorderWidth: 1,
-                                      series: <charts.ChartSeries>[
-                                        charts.HiloOpenCloseSeries<RealPrice, DateTime>(
-                                          isVisible: ohlcCheckBox,
-                                            dataSource: getRealPrices(currency: cryptocurrencies[i]+'-USD'),
-                                            xValueMapper: (RealPrice data, _) => DateTime.parse(data.date),
-                                            lowValueMapper: (RealPrice data, _) => data.lowestPrice,
-                                            highValueMapper: (RealPrice data, _) => data.highestPrice,
-                                            openValueMapper: (RealPrice data, _) => data.openPrice,
-                                            closeValueMapper: (RealPrice data, _) => data.closePrice,
-                                        ),
-                                        charts.LineSeries<RealPrice, DateTime>(
-                                          dataSource: getRealPrices(currency: cryptocurrencies[i]+'-USD'),
-                                          xValueMapper: (RealPrice data, _) => DateTime.parse(data.date),
-                                          yValueMapper: (RealPrice data, _) => data.closePrice,
-                                          //pointColorMapper: (RealPrice data, _) => data.closePrice>data.openPrice?kGreen:kRed,
-                                        ),
-                                      ],
                                     ),
+                                    Icon(
+                                      widget.realPriceList[i].priceIncreasePercentage>0?Icons.arrow_upward:Icons.arrow_downward,
+                                      color: widget.realPriceList[i].priceIncreasePercentage>0?kGreen:kRed,
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  child: Column(
+                                    children: [
+                                      /*CheckboxListTile(
+                                        title: const Text('OHLC graph'),
+                                        value: ohlcCheckBox,
+                                        onChanged: (bool? value) {
+                                          setState(() {
+                                            print(value);
+                                            ohlcCheckBox = value!;
+                                          });
+                                        },
+                                        secondary: const Icon(Icons.graphic_eq),
+                                      ),
+                                      CheckboxListTile(
+                                        title: const Text('Close Price graph'),
+                                        value: closePriceCheckBox,
+                                        onChanged: (bool? value) {
+                                          setState(() {
+                                            print(value);
+                                            closePriceCheckBox = value!;
+                                          });
+                                        },
+                                        secondary: const Icon(Icons.graphic_eq),
+                                      ),
+                                      CheckboxListTile(
+                                        title: const Text('Open Price graph'),
+                                        value: openPriceCheckBox,
+                                        onChanged: (bool? value) {
+                                          setState(() {
+                                            print(value);
+                                            openPriceCheckBox = value!;
+                                          });
+                                        },
+                                      ),*/
+                                      SizedBox(height: 30.0,),
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Checkbox(
+                                              value: ohlcCheckBox,
+                                              onChanged: (bool? value){
+                                                setState(() {
+                                                  print(value);
+                                                  ohlcCheckBox = value!;
+                                                });
+                                              }
+                                          ),
+                                          const Text(
+                                            'OHLC',
+                                            style: kCardSmallTextStyle,
+                                          ),
+                                          SizedBox(width: 30.0,),
+                                          Checkbox(
+                                              value: closePriceCheckBox,
+                                              onChanged: (bool? value){
+                                                setState(() {
+                                                  print(value);
+                                                  closePriceCheckBox = value!;
+                                                });
+                                              }
+                                          ),
+                                          const Text(
+                                            'Close',
+                                            style: kCardSmallTextStyle,
+                                          ),
+                                          SizedBox(width: 30.0,),
+                                          Checkbox(
+                                              value: openPriceCheckBox,
+                                              onChanged: (bool? value){
+                                                setState(() {
+                                                  print(value);
+                                                  openPriceCheckBox = value!;
+                                                });
+                                              }
+                                          ),
+                                          const Text(
+                                            'Open',
+                                            style: kCardSmallTextStyle,
+                                          ),
+                                        ],
+                                      ),
+                                    ],
                                   ),
-                                ],
-                              ),
+                                ),
+                                Expanded(
+                                  child: charts.SfCartesianChart(
+                                    primaryXAxis: charts.DateTimeAxis(
+                                    ),
+                                    primaryYAxis: charts.NumericAxis(
+                                    ),
+                                    plotAreaBorderWidth: 1,
+                                    series: <charts.ChartSeries>[
+                                      charts.HiloOpenCloseSeries<RealPrice, DateTime>(
+                                        isVisible: ohlcCheckBox,
+                                        dataSource: getRealPrices(currency: cryptocurrencies[i]+'-USD'),
+                                        xValueMapper: (RealPrice data, _) => DateTime.parse(data.date),
+                                        lowValueMapper: (RealPrice data, _) => data.lowestPrice,
+                                        highValueMapper: (RealPrice data, _) => data.highestPrice,
+                                        openValueMapper: (RealPrice data, _) => data.openPrice,
+                                        closeValueMapper: (RealPrice data, _) => data.closePrice,
+                                      ),
+                                      charts.LineSeries<RealPrice, DateTime>(
+                                        isVisible: closePriceCheckBox,
+                                        dataSource: getRealPrices(currency: cryptocurrencies[i]+'-USD'),
+                                        xValueMapper: (RealPrice data, _) => DateTime.parse(data.date),
+                                        yValueMapper: (RealPrice data, _) => data.closePrice,
+                                        //pointColorMapper: (RealPrice data, _) => data.closePrice>data.openPrice?kGreen:kRed,
+                                      ),
+                                      charts.LineSeries<RealPrice, DateTime>(
+                                        isVisible: openPriceCheckBox,
+                                        dataSource: getRealPrices(currency: cryptocurrencies[i]+'-USD'),
+                                        xValueMapper: (RealPrice data, _) => DateTime.parse(data.date),
+                                        yValueMapper: (RealPrice data, _) => data.openPrice,
+                                        //pointColorMapper: (RealPrice data, _) => data.closePrice>data.openPrice?kGreen:kRed,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
                             ),
                         ),
                     ),

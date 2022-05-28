@@ -20,6 +20,9 @@ Future<List<RealPricesOfACurrency>> getRealPriceData() async {
         }
       }
     }
+    for(int i=0;i<cryptocurrencies.length;i++){
+      allPricesLists[i].calculatePriceIncreasePercentage();
+    }
   }
   catch(e){
     print(e);
@@ -29,9 +32,14 @@ Future<List<RealPricesOfACurrency>> getRealPriceData() async {
 
 class RealPricesOfACurrency{
   late String currency;
+  late double priceIncreasePercentage;
   late List<RealPrice> pricesList=[];
 
   RealPricesOfACurrency(this.currency);
+
+  void calculatePriceIncreasePercentage(){
+    priceIncreasePercentage=((pricesList.last.closePrice-pricesList.elementAt(pricesList.length-2).closePrice)/pricesList.elementAt(pricesList.length-2).closePrice)*100;
+  }
 }
 
 class RealPrice{

@@ -37,7 +37,7 @@ class _DashboardLoadingState extends State<DashboardLoading> {
   }
 
   void addPastCryptoData() async{
-    const int numberOfDaysBefore = 10;
+    const int numberOfDaysBefore = 20;
     for(int i=0;i<numberOfDaysBefore;i++){
       print('addPastCryptoData call '+(i+1).toString());
       try{

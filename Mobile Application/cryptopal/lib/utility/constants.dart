@@ -98,6 +98,12 @@ const TextStyle kCardTextStyle = TextStyle(
   color: kBaseColor2,
 );
 
+const TextStyle kCardSmallTextStyle = TextStyle(
+  fontSize: 15,
+  fontFamily: 'Bierstadt',
+  color: kBaseColor2,
+);
+
 const TextStyle kCardNumberStyle = TextStyle(
   fontSize: 50,
   fontFamily: 'Bierstadt',
