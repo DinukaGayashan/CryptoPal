@@ -9,12 +9,14 @@ import 'package:syncfusion_flutter_charts/charts.dart' as charts;
 import 'package:cryptopal/utility/constants.dart';
 import 'package:cryptopal/utility/widgets.dart';
 import 'package:cryptopal/utility/user_account.dart';
+import 'package:cryptopal/utility/database_data.dart';
 import 'dashboard_loading.dart';
 
 class Dashboard extends StatefulWidget {
-  const Dashboard(this.currentUser, {Key? key}) : super(key: key);
+  const Dashboard(this.currentUser, this.realPriceList, {Key? key}) : super(key: key);
   static const String id = 'dashboard';
   final UserAccount currentUser;
+  final List<RealPricesOfACurrency> realPriceList;
 
   @override
   State<Dashboard> createState() => _DashboardState();
@@ -37,6 +39,22 @@ class _DashboardState extends State<Dashboard> {
     }
     return predictions;
   }
+
+  List<RealPrice> getRealPrices ({required String currency, int number=0}){
+    List<RealPrice> realPrices=[];
+    for(var type in widget.realPriceList){
+      if(type.currency==currency){
+        realPrices=type.pricesList;
+        break;
+      }
+    }
+    if(number!=0 && realPrices.length>number){
+      return realPrices.sublist(realPrices.length-number);
+    }
+    return realPrices;
+  }
+
+  bool closePriceCheckBox=true, openPriceCheckBox=false, highPriceCheckBox=false, lowPriceCheckBox=false, ohlcCheckBox=true;
 
   @override
   Widget build(BuildContext context) {
@@ -158,16 +176,7 @@ class _DashboardState extends State<Dashboard> {
                 ],
               ),
               ),
-              glassCard(context, Column(
-                children: [
-                  for(var currency in cryptocurrencies)
-                    charts.SfCartesianChart(
-
-                    ),
-                ],
-              ),
-              ),
-              glassCard(context, Column(
+              /*glassCard(context, Column(
                 children: [
                   charts.SfCartesianChart(
                       primaryXAxis: charts.DateTimeAxis(),
@@ -179,11 +188,122 @@ class _DashboardState extends State<Dashboard> {
                             borderWidth: 0.0,
                           ),
                             dataSource: getUserPredictions(currency: 'BTC'),
-                            xValueMapper: (Prediction prediction, _) => prediction.predictedDateAsDate,
-                            yValueMapper: (Prediction prediction, _) => prediction.predictedClosePrice,
+                            xValueMapper: (Prediction data, _) => data.predictedDateAsDate,
+                            yValueMapper: (Prediction data, _) => data.predictedClosePrice,
                         ),
                       ],
                   ),
+                ],
+              ),
+              ),*/
+              glassCard(context, Column(
+                children: [
+                  for(int i=0;i<cryptocurrencies.length;i++)
+                    openCloseAnimation(context,
+                        closeWidget: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SizedBox(
+                              width: 150.0,
+                              height: 120.0,
+                              child: charts.SfCartesianChart(
+                                primaryXAxis: charts.DateTimeAxis(
+                                  isVisible: false,
+                                ),
+                                primaryYAxis: charts.NumericAxis(
+                                  isVisible: false,
+                                ),
+                                plotAreaBorderWidth: 0,
+                                series: <charts.ChartSeries>[
+                                  charts.LineSeries<RealPrice, DateTime>(
+                                    dataSource: getRealPrices(currency: cryptocurrencies[i]+'-USD',number: 10),
+                                    xValueMapper: (RealPrice data, _) => DateTime.parse(data.date),
+                                    yValueMapper: (RealPrice data, _) => data.closePrice,
+                                    pointColorMapper: (RealPrice data, _) => data.closePrice>data.openPrice?kGreen:kRed,
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(width: 30.0,),
+                            SizedBox(
+                              width: 60.0,
+                              child: Text(
+                                cryptocurrencies[i],
+                                style: kCardTextStyle,
+                              ),
+                            ),
+                          ],
+                        ),
+                        openWidget: SafeArea(
+                            child: glassCard(context, Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  SizedBox(
+                                    width: 200.0,
+                                    child: Text(
+                                      cryptocurrencyNames[i]+' '+cryptocurrencies[i],
+                                      style: kCardTextStyle,
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 500.0,
+                                    child: Column(
+                                      children: [
+                                        /*CheckboxListTile(
+                                          title: const Text('ohlc graphs'),
+                                          value: ohlcCheckBox,
+                                          onChanged: (bool? value) {
+                                            setState(() {
+                                              print(value);
+                                              ohlcCheckBox = value!;
+                                            });
+                                          },
+                                          secondary: const Icon(Icons.hourglass_empty),
+                                        ),*/
+                                        Checkbox(
+                                            value: ohlcCheckBox,
+                                            onChanged: (bool? value){
+                                              setState(() {
+                                                print(value);
+                                                ohlcCheckBox = value!;
+                                              });
+                                            }
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    child: charts.SfCartesianChart(
+                                      primaryXAxis: charts.DateTimeAxis(
+                                      ),
+                                      primaryYAxis: charts.NumericAxis(
+                                      ),
+                                      plotAreaBorderWidth: 1,
+                                      series: <charts.ChartSeries>[
+                                        charts.HiloOpenCloseSeries<RealPrice, DateTime>(
+                                          isVisible: ohlcCheckBox,
+                                            dataSource: getRealPrices(currency: cryptocurrencies[i]+'-USD'),
+                                            xValueMapper: (RealPrice data, _) => DateTime.parse(data.date),
+                                            lowValueMapper: (RealPrice data, _) => data.lowestPrice,
+                                            highValueMapper: (RealPrice data, _) => data.highestPrice,
+                                            openValueMapper: (RealPrice data, _) => data.openPrice,
+                                            closeValueMapper: (RealPrice data, _) => data.closePrice,
+                                        ),
+                                        charts.LineSeries<RealPrice, DateTime>(
+                                          dataSource: getRealPrices(currency: cryptocurrencies[i]+'-USD'),
+                                          xValueMapper: (RealPrice data, _) => DateTime.parse(data.date),
+                                          yValueMapper: (RealPrice data, _) => data.closePrice,
+                                          //pointColorMapper: (RealPrice data, _) => data.closePrice>data.openPrice?kGreen:kRed,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                        ),
+                    ),
                 ],
               ),
               ),

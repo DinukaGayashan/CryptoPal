@@ -1,8 +1,16 @@
+import 'dart:async';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:cryptopal/utility/constants.dart';
 import 'package:cryptopal/utility/user_account.dart';
+import 'package:cryptopal/utility/database_data.dart';
 import 'dashboard.dart';
+
+
+final _functions=FirebaseFunctions.instance;
 
 class DashboardLoading extends StatefulWidget {
   const DashboardLoading({Key? key}) : super(key: key);
@@ -15,17 +23,37 @@ class DashboardLoading extends StatefulWidget {
 class _DashboardLoadingState extends State<DashboardLoading> {
 
   late UserAccount currentUser=UserAccount();
+  late List<RealPricesOfACurrency> realPriceList;
 
   void loadUser() async{
     currentUser=await getActiveUserData();
-
     Navigator.push(context, MaterialPageRoute(builder: (context){
-      return Dashboard(currentUser);
+      return Dashboard(currentUser, realPriceList);
     }));
+  }
+
+  void loadData() async{
+    realPriceList=await getRealPriceData();
+  }
+
+  void addPastCryptoData() async{
+    const int numberOfDaysBefore = 10;
+    for(int i=0;i<numberOfDaysBefore;i++){
+      print('addPastCryptoData call '+(i+1).toString());
+      try{
+          HttpsCallable addPastData=_functions.httpsCallable('addPastCryptoData');
+          await addPastData.call(<String, dynamic>{'numberOfDays': 1,'beforeDays':i});
+        }catch(e){
+          print(e);
+        }
+      sleep(const Duration(minutes: 1));
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    //addPastCryptoData();
+    loadData();
     loadUser();
 
     return Scaffold(

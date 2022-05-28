@@ -2,23 +2,12 @@ import 'dart:math';
 import 'package:cryptopal/utility/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cloud_functions/cloud_functions.dart';
 
-final _functions=FirebaseFunctions.instance;
 final _auth = FirebaseAuth.instance;
 final _firestore = FirebaseFirestore.instance;
 late UserAccount currentUser = UserAccount();
 
 Future<UserAccount> getActiveUserData() async {
-
-  /*try{
-    HttpsCallable addPastData=_functions.httpsCallable('addPastCryptoData');
-    final result=await addPastData.call(<String, dynamic>{'numberOfDays': 1,'beforeDays':1});
-    print(result.data.toString());
-  }catch(e){
-    print(e);
-  }*/
-
 
   try {
     currentUser.user = _auth.currentUser;

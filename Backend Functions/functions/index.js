@@ -36,7 +36,8 @@ async function addAllCryptoData(year, month, date) {
 }
 
 function addCryptoData(cryptocurrency, year, month, date) {
-  const PolygonURL="https://api.polygon.io/v1/open-close/crypto/" + cryptocurrency + "/USD/" + year + "-" + month + "-" + date + "?adjusted=true&apiKey=" + PolygonAPIKey;
+  const PolygonURL="https://api.polygon.io/v2/aggs/ticker/X:" + cryptocurrency + "USD/range/1/day/" + year + "-" + month + "-" + date + "/"+ year + "-" + month + "-" + date +"?adjusted=true&sort=asc&limit=120&apiKey=" + PolygonAPIKey;
+
   https.get(PolygonURL, (res) => {
     let str="";
     let obj;
@@ -46,11 +47,15 @@ function addCryptoData(cryptocurrency, year, month, date) {
     res.on("end", function() {
       obj = JSON.parse(str);
       admin.firestore().collection("realPrices")
-          .doc(obj.day.split("T")[0]+" "+obj.symbol)
-          .set({openPrice: obj.open,
-            closePrice: obj.close,
-            currency: obj.symbol,
-            date: obj.day.split("T")[0]});
+          .doc(year + "-" + month + "-" + date + " " + cryptocurrency + "-USD")
+          .set({
+            openPrice: obj.results[0].o,
+            closePrice: obj.results[0].c,
+            highestPrice: obj.results[0].h,
+            lowestPrice: obj.results[0].l,
+            currency: cryptocurrency + "-USD",
+            date: year + "-" + month + "-" + date,
+          });
     });
   }).on("error", (e) => {
     console.error(e);
@@ -84,6 +89,8 @@ exports.addPastCryptoData = functions.https.onCall(async (data, context) => {
     const monthString = month < 10 ? "0" + month : month;
     const dateString = date < 10 ? "0" + date : date;
     addAllCryptoData(year, monthString, dateString);
-    await delay(numberOfCryptocurrencies*15*1000);
+    if (numberOfDays>1) {
+      await delay(numberOfCryptocurrencies*11*1000);
+    }
   }
 });
