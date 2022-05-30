@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:crypto_font_icons/crypto_font_icons.dart';
 
 const List<String> cryptocurrencyNames = <String>[
   "Bitcoin",
@@ -15,6 +16,25 @@ const List<String> cryptocurrencies = <String>[
   "XRP",
   "DOGE"
 ];
+
+IconData? getIconByName(String name){
+  if(name=='BTC'){
+    return CryptoFontIcons.BTC;
+  }
+  else if(name=='ETH'){
+    return CryptoFontIcons.ETH;
+  }
+  else if(name=='LTC'){
+    return CryptoFontIcons.LTC;
+  }
+  else if(name=='XRP'){
+    return CryptoFontIcons.XRP;
+  }
+  else if(name=='DOGE'){
+    return CryptoFontIcons.DOGE;
+  }
+  return null;
+}
 
 const kBaseColor1 = Color(0xff000000);
 const kBaseColor2 = Color(0xffffffff);

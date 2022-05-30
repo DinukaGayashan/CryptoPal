@@ -1,6 +1,4 @@
-import 'dart:async';
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -59,55 +57,57 @@ class _DashboardLoadingState extends State<DashboardLoading> {
     return Scaffold(
       backgroundColor: kAccentColor1,
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.only(top: 100.0),
-          child: Column(
-            children: <Widget>[
-              Column(
-                children: [
-                  Hero(
-                    tag: 'logo',
-                    child: CircleAvatar(
-                      backgroundColor: kAccentColor1,
-                      radius: 100.0,
-                      child: Image.asset('assets/images/CryptoPal-logo-black.png'),
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.only(top: 100.0),
+            child: Column(
+              children: <Widget>[
+                Column(
+                  children: [
+                    Hero(
+                      tag: 'logo',
+                      child: CircleAvatar(
+                        backgroundColor: kAccentColor1,
+                        radius: 100.0,
+                        child: Image.asset('assets/images/CryptoPal-logo-black.png'),
+                      ),
                     ),
-                  ),
-                  const SizedBox(
-                    height: 50.0,
-                    width: double.infinity,
-                    child: Center(
-                      child: Hero(
-                        tag: 'name',
-                        child: Text(
-                          'CryptoPal',
-                          style: kMainTitleStyle,
+                    const SizedBox(
+                      height: 50.0,
+                      width: double.infinity,
+                      child: Center(
+                        child: Hero(
+                          tag: 'name',
+                          child: Text(
+                            'CryptoPal',
+                            style: kMainTitleStyle,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 50.0,
-                child: Center(
-                  child: Text(
-                    'Advisory platform for cryptocurrency investments',
-                    style:kInstructionStyle,
+                  ],
+                ),
+                const SizedBox(
+                  height: 50.0,
+                  child: Center(
+                    child: Text(
+                      'Advisory platform for cryptocurrency investments',
+                      style:kInstructionStyle,
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(
-                height: 70.0,
-              ),
-              const SizedBox(
-                width: 50.0,
-                height: 50.0,
-                child: SpinKitFoldingCube(
-                  color: kBaseColor1,
+                const SizedBox(
+                  height: 70.0,
                 ),
-              ),
-            ],
+                const SizedBox(
+                  width: 50.0,
+                  height: 50.0,
+                  child: SpinKitFoldingCube(
+                    color: kBaseColor1,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

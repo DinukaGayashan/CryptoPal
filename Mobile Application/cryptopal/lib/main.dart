@@ -33,7 +33,7 @@ class CryptoPal extends StatelessWidget {
         SignIn.id: (context) => const SignIn(),
         RegistrationForm.id: (context) => const RegistrationForm(),
         DashboardLoading.id: (context) => const DashboardLoading(),
-        AddPrediction.id: (context) => const AddPrediction(),
+        //AddPrediction.id: (context) => const AddPrediction(),
       },
     );
   }
