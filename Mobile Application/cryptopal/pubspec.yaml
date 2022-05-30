@@ -48,8 +48,9 @@ dependencies:
   syncfusion_flutter_gauges: ^20.1.57
   glass: ^1.0.1+1
   animations: ^2.0.3
+  page_transition: ^2.0.5
   animated_text_kit: ^4.2.1
-  crypto_font_icons: ^1.0.1
+  flutter_svg: ^1.1.0
 
 dev_dependencies:
   flutter_test:
@@ -80,6 +81,7 @@ flutter:
   assets:
     - assets/images/CryptoPal-logo-black.png
     - assets/images/CryptoPal-logo-white.png
+    - assets/images/cryptocoin_icons/color/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

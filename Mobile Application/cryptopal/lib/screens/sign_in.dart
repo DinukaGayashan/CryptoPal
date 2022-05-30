@@ -9,18 +9,17 @@ import 'registration_form.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({Key? key}) : super(key: key);
-  static const String id='SignIn';
+  static const String id = 'SignIn';
 
   @override
   State<SignIn> createState() => _SignInState();
 }
 
 class _SignInState extends State<SignIn> {
-
-  final _auth=FirebaseAuth.instance;
-  final _functions=FirebaseFunctions.instance;
-  late String email,password;
-  bool rememberMeToggle=false;
+  final _auth = FirebaseAuth.instance;
+  final _functions = FirebaseFunctions.instance;
+  late String email, password;
+  bool rememberMeToggle = false;
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
@@ -38,8 +37,7 @@ class _SignInState extends State<SignIn> {
         _emailController.text = _email;
         _passwordController.text = _password;
       }
-    }
-    catch(e){
+    } catch (e) {
       print(e);
     }
   }
@@ -47,7 +45,7 @@ class _SignInState extends State<SignIn> {
   void _handleRememberMe(bool value) {
     rememberMeToggle = value;
     SharedPreferences.getInstance().then(
-          (prefs) {
+      (prefs) {
         prefs.setBool("remember_me", value);
         prefs.setString('email', _emailController.text);
         prefs.setString('password', _passwordController.text);
@@ -67,7 +65,7 @@ class _SignInState extends State<SignIn> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: kAccentColor1,
+      backgroundColor: kBackgroundColor,
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
@@ -80,11 +78,9 @@ class _SignInState extends State<SignIn> {
                     child: CircleAvatar(
                       backgroundColor: Colors.transparent,
                       radius: 50.0,
-                      child: Image.asset('assets/images/CryptoPal-logo-black.png'),
+                      child:
+                          Image.asset('assets/images/CryptoPal-logo-white.png'),
                     ),
-                  ),
-                  const SizedBox(
-                    height: 5.0,
                   ),
                   const SizedBox(
                     height: 50.0,
@@ -100,7 +96,7 @@ class _SignInState extends State<SignIn> {
                     ),
                   ),
                   const SizedBox(
-                    height: 50.0,
+                    height: 40.0,
                   ),
                   const SizedBox(
                     height: 60.0,
@@ -119,15 +115,16 @@ class _SignInState extends State<SignIn> {
                     padding: const EdgeInsets.symmetric(horizontal: 10.0),
                     child: TextField(
                       controller: _emailController,
-                      onChanged: (value){
-                        email=value;
+                      onChanged: (value) {
+                        email = value;
                       },
                       style: kInstructionStyle,
                       keyboardType: TextInputType.emailAddress,
                       textAlign: TextAlign.center,
                       decoration: const InputDecoration(
                         hintText: 'Enter email',
-                        contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+                        contentPadding: EdgeInsets.symmetric(
+                            vertical: 10.0, horizontal: 20.0),
                         border: InputBorder.none,
                         fillColor: kTransparentColor,
                         filled: true,
@@ -141,8 +138,8 @@ class _SignInState extends State<SignIn> {
                     padding: const EdgeInsets.symmetric(horizontal: 10.0),
                     child: TextField(
                       controller: _passwordController,
-                      onChanged: (value){
-                        password=value;
+                      onChanged: (value) {
+                        password = value;
                       },
                       style: kInstructionStyle,
                       keyboardType: TextInputType.visiblePassword,
@@ -150,8 +147,15 @@ class _SignInState extends State<SignIn> {
                       textAlign: TextAlign.center,
                       decoration: const InputDecoration(
                         hintText: 'Enter password',
-                        contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-                        border: InputBorder.none,
+                        contentPadding: EdgeInsets.symmetric(
+                            vertical: 10.0, horizontal: 20.0
+                        ),
+                        border: InputBorder.none,/*OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5),
+                          borderSide: const BorderSide(
+                            width: 0,
+                            style: BorderStyle.none,
+                          ),),*/
                         fillColor: kTransparentColor,
                         filled: true,
                       ),
@@ -168,24 +172,21 @@ class _SignInState extends State<SignIn> {
                         Row(
                           children: [
                             SizedBox(
-                                height: 15.0,
-                                width: 24.0,
-                                child: Theme(
-                                  data: ThemeData(
-                                    unselectedWidgetColor: kAccentColor2,
-                                  ),
-                                  child: Checkbox(
-                                      activeColor: kAccentColor2,
-                                      value: rememberMeToggle,
-                                      onChanged: (bool? value) {
-                                        _handleRememberMe(value!);
-                                      }
-                                   ),
+                              height: 15.0,
+                              width: 24.0,
+                              child: Theme(
+                                data: ThemeData(
+                                  unselectedWidgetColor: kAccentColor3,
                                 ),
+                                child: Checkbox(
+                                    activeColor: kAccentColor3,
+                                    value: rememberMeToggle,
+                                    onChanged: (bool? value) {
+                                      _handleRememberMe(value!);
+                                    }),
+                              ),
                             ),
-                            const SizedBox(
-                                width: 5.0
-                            ),
+                            const SizedBox(width: 5.0),
                             const Text(
                               "Remember Me",
                               style: kInstructionStyle,
@@ -197,14 +198,16 @@ class _SignInState extends State<SignIn> {
                             textStyle: kInstructionStyle,
                           ),
                           onPressed: () async {
-                            try{
+                            try {
                               await _auth.sendPasswordResetEmail(email: email);
-                            }
-                            catch(e){
+                            } catch (e) {
                               print(e);
                             }
                           },
-                          child: const Text('Forgot Password'),
+                          child: const Text(
+                            'Forgot Password',
+                            style: kLinkStyle,
+                          ),
                         ),
                       ],
                     ),
@@ -214,29 +217,102 @@ class _SignInState extends State<SignIn> {
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                    child: MaterialButton(
-                      color: kAccentColor2,
-                      height:40.0,
-                      minWidth: double.infinity,
+                    child: /*ProgressButton(
+                      state: buttonState,
+                      radius: 0,
+                      height: 45.0,
+                      padding: const EdgeInsets.all(5),
+                      progressIndicatorSize: 30.0,
+                      progressIndicatorAlignment: MainAxisAlignment.spaceEvenly,
                       onPressed: () async {
-                        try{
-                          email=_emailController.text;
-                          password=_passwordController.text;
-                          await _auth.signInWithEmailAndPassword(email: email, password: password);
-                          try{
-                            HttpsCallable checkUser=_functions.httpsCallable('checkUser');
-                            final result=await checkUser.call(<String, dynamic>{'email': email,});
-                            print(result.data.toString());
-                            if(result.data.toString()=='user'){
+                        setState(() {
+                          buttonState=ButtonState.loading;
+                        });
+                        try {
+                          email = _emailController.text;
+                          password = _passwordController.text;
+                          await _auth.signInWithEmailAndPassword(
+                              email: email, password: password);
+                          try {
+                            HttpsCallable checkUser =
+                            _functions.httpsCallable('checkUser');
+                            final result =
+                            await checkUser.call(<String, dynamic>{
+                              'email': email,
+                            });
+                            if (result.data.toString() == 'user') {
                               Navigator.pushNamed(context, DashboardLoading.id);
-                            }else{
+                            } else {
                               Navigator.pushNamed(context, RegistrationForm.id);
                             }
-                          }catch(e){
+                          } catch (e) {
+                            setState(() {
+                              buttonState=ButtonState.fail;
+                              sleep(const Duration(seconds: 1));
+                            });
+                          }
+                        } catch (e) {
+                          setState(() {
+                            buttonState=ButtonState.fail;
+                            sleep(const Duration(seconds: 1));
+                          });
+                        }
+                        setState(() {
+                          buttonState=ButtonState.idle;
+                        });
+                      },
+                      stateWidgets: const {
+                        ButtonState.idle: Text(
+                          'Sign in',
+                          style: kButtonTextStyle,
+                        ),
+                        ButtonState.loading: Text(
+                          'Loading',
+                          style: kButtonTextStyle,
+                        ),
+                        ButtonState.fail: Text(
+                          'Failed',
+                          style: kButtonTextStyle,
+                        ),
+                        ButtonState.success: Text(
+                          'Success',
+                          style: kButtonTextStyle,
+                        ),
+                      },
+                      stateColors: const {
+                        ButtonState.idle: kAccentColor1,
+                        ButtonState.loading: kAccentColor2,
+                        ButtonState.fail: kRed,
+                        ButtonState.success: kGreen,
+                      },
+
+                    ),*/
+                    MaterialButton(
+                      color: kAccentColor1,
+                      height: 45.0,
+                      minWidth: double.infinity,
+                      onPressed: () async {
+                        try {
+                          email = _emailController.text;
+                          password = _passwordController.text;
+                          await _auth.signInWithEmailAndPassword(
+                              email: email, password: password);
+                          try {
+                            HttpsCallable checkUser =
+                                _functions.httpsCallable('checkUser');
+                            final result =
+                                await checkUser.call(<String, dynamic>{
+                              'email': email,
+                            });
+                            if (result.data.toString() == 'user') {
+                              Navigator.pushNamed(context, DashboardLoading.id);
+                            } else {
+                              Navigator.pushNamed(context, RegistrationForm.id);
+                            }
+                          } catch (e) {
                             print(e);
                           }
-                        }
-                        catch(e){
+                        } catch (e) {
                           print(e);
                         }
                       },
@@ -265,7 +341,10 @@ class _SignInState extends State<SignIn> {
                           onPressed: () {
                             Navigator.pushNamed(context, SignUp.id);
                           },
-                          child: const Text('Sign up'),
+                          child: const Text(
+                            'Sign up',
+                            style: kLinkStyle,
+                          ),
                         ),
                       ],
                     ),

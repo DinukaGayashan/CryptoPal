@@ -1,4 +1,5 @@
 import 'package:cryptopal/screens/add_prediction.dart';
+import 'package:cryptopal/screens/show_graphs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -8,13 +9,14 @@ import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:glass/glass.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:syncfusion_flutter_charts/charts.dart' as charts;
 import 'package:cryptopal/utility/constants.dart';
 import 'package:cryptopal/utility/widgets.dart';
 import 'package:cryptopal/utility/user_account.dart';
 import 'package:cryptopal/utility/database_data.dart';
 import 'dashboard_loading.dart';
-import 'package:crypto_font_icons/crypto_font_icons.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard(this.currentUser, this.realPriceList, {Key? key}) : super(key: key);
@@ -179,176 +181,22 @@ class _DashboardState extends State<Dashboard> {
                   openWidget: SafeArea(
                 child: glassCard(context, ListView(
                 children: [
-                  openCloseAnimation(context,
-                    closeWidget: Column(
-                      children:[
-                        const Icon(
-                        Icons.add,
+                  FloatingActionButton.extended(
+                    label: const Text('Add Prediction'),
+                    icon: const Icon(Icons.add),
+                    onPressed: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context){
+                        return AddPrediction(currentUser);
+                      }));
+                      /*Navigator.push(context, PageTransition(
+                        child: AddPrediction(currentUser),
+                        type: PageTransitionType.fade,
+                        alignment: Alignment.center,
+                        duration: Duration(milliseconds: 100),
                       ),
-                        FloatingActionButton.extended(
-                          label: const Text('Add Prediction'),
-                          icon: const Icon(Icons.add),
-                            onPressed: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context){
-                                return AddPrediction(currentUser);
-                              }));
-                            },
-                        ),
-                      ],
-                    ),
-                    openWidget: SafeArea(
-                      child: glassCard(context, ListView(
-                        children: <Widget>[
-                          const SizedBox(
-                            height: 10.0,
-                          ),
-                          const Center(
-                            child: Text(
-                              'Add Prediction',
-                              style: kSubSubjectStyle,
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 30.0,
-                          ),
-                          SizedBox(
-                            child: CupertinoButton(
-                              onPressed: () {
-                                showCupertinoModalPopup<void>(
-                                    context: context,
-                                    builder: (BuildContext context) => Container(
-                                      height: 300,
-                                      padding: const EdgeInsets.only(top: 10.0),
-                                      margin: EdgeInsets.only(
-                                        bottom: MediaQuery.of(context).viewInsets.bottom,
-                                      ),
-                                      color: kTransparentColor,
-                                      child: SafeArea(
-                                        top: false,
-                                        child: CupertinoPicker(
-                                          onSelectedItemChanged: (int value) {
-                                            setState(() {
-                                              selectedCrypto=value;
-                                            });
-                                          },
-                                          itemExtent: 32.0,
-                                          children: List<Widget>.generate(cryptocurrencyNames.length, (int index) {
-                                            return Center(
-                                              child: Text(
-                                                cryptocurrencyNames[index]+' ('+cryptocurrencies[index]+')',
-                                                style: kButtonTextStyle,
-                                              ),
-                                            );
-                                          }),
-                                        ),
-                                      ),
-                                    ));
-                              },
-                              child: Text(
-                                cryptocurrencyNames[selectedCrypto],
-                                style: kSubjectStyle,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 20.0,
-                          ),
-                          SizedBox(
-                            height: 100,
-                            child: CupertinoDatePicker(
-                              mode: CupertinoDatePickerMode.date,
-                              initialDateTime: DateTime.now().add(const Duration(days:1)),
-                              minimumDate: DateTime.now(),
-                              onDateTimeChanged: (DateTime value) {
-                                predictionDate=value;
-                              },
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 50.0,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              const Text(
-                                'Closing Price',
-                                style: kInstructionStyle2,
-                              ),
-                              const SizedBox(
-                                width: 10.0,
-                              ),
-                              SizedBox(
-                                width: 160.0,
-                                child: TextFormField(
-                                  textAlign: TextAlign.center,
-                                  keyboardType: const TextInputType.numberWithOptions(),
-                                  style: kDetailsStyle,
-                                  cursorHeight: 25,
-                                  cursorColor: kAccentColor3,
-                                  decoration: const InputDecoration(
-                                    border: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: kAccentColor3,
-                                      ),
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: kAccentColor3,
-                                      ),
-                                    ),
-                                    labelText: 'Enter your prediction',
-                                    labelStyle: kHintStyle,
-                                    floatingLabelStyle: kHintStyle,
-                                  ),
-                                  onChanged: (value){
-                                    predictionPrice=double.parse(value);
-                                  },
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 10.0,
-                              ),
-                              const Text(
-                                'USD',
-                                style: kInstructionStyle2,
-                              ),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 40.0,
-                          ),
-                          MaterialButton(
-                            color: kAccentColor3,
-                            height:40.0,
-                            minWidth: double.infinity,
-                            onPressed: () async {
-                              try{
-                                await _firestore.collection('users').doc(currentUser.user?.uid)
-                                    .collection('predictions')
-                                    .doc(predictionDate.toString().split(' ')[0]+' '+cryptocurrencies[selectedCrypto]+'-USD')
-                                    .set(
-                                    {
-                                      'predictedDate':predictionDate.toString().split(' ')[0],
-                                      'predictedCurrency':cryptocurrencies[selectedCrypto]+'-USD',
-                                      'predictedClosePrice': predictionPrice.toDouble(),
-                                    }
-                                );
-                              }
-                              catch(e){
-                                print(e);
-                              }
-                            },
-                            child: const Text(
-                              'Add Prediction',
-                              style: kButtonTextStyle,
-                            ),
-                          ),
-                        ],
-                      ),
-                      ),
-                    ),
+                      );*/
+                    },
                   ),
-
                 ],
               ),
               ),
@@ -422,89 +270,102 @@ class _DashboardState extends State<Dashboard> {
                 children: [
                   for(int i=0;i<cryptocurrencies.length;i++)
                     openCloseAnimation(context,
-                        closeWidget: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            const SizedBox(width: 10.0,),
-                            Icon(
-                              getIconByName(cryptocurrencies[i]),
-                              //color: kAccentColor1,
-                              size: 30.0,
-                            ),
-                            const SizedBox(width: 10.0,),
-                            SizedBox(
-                              width: 80.0,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    cryptocurrencies[i],
-                                    style: kCardTextStyle,
-                                  ),
-                                  Text(
-                                    cryptocurrencyNames[i],
-                                    style: kCardSmallTextStyle,
-                                  ),
-                                ],
+                        closeWidget: Center(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              const SizedBox(width: 10.0,),
+                              Hero(
+                                tag: cryptocurrencies[i]+'icon',
+                                child: SvgPicture.asset(
+                                  'assets/images/cryptocoin_icons/color/'+cryptocurrencies[i].toLowerCase()+'.svg',
+                                    width: 35.0,
+                                  height: 35.0,
+                                ),
                               ),
-                            ),
-                            const SizedBox(width: 10.0,),
-                            SizedBox(
-                              width: 120.0,
-                              height: 100.0,
-                              child: charts.SfCartesianChart(
-                                primaryXAxis: charts.DateTimeAxis(
-                                  isVisible: false,
+                              const SizedBox(width: 15.0,),
+                              SizedBox(
+                                width: 80.0,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Hero(
+                                      tag: cryptocurrencies[i]+'name',
+                                      child: Text(
+                                        cryptocurrencies[i],
+                                        style: kCardTextStyle,
+                                      ),
+                                    ),
+                                    Text(
+                                      cryptocurrencyNames[i],
+                                      style: kCardSmallTextStyle,
+                                    ),
+                                  ],
                                 ),
-                                primaryYAxis: charts.NumericAxis(
-                                  isVisible: false,
+                              ),
+                              const SizedBox(width: 5.0,),
+                              SizedBox(
+                                width: 120.0,
+                                height: 100.0,
+                                child: charts.SfCartesianChart(
+                                  primaryXAxis: charts.DateTimeAxis(
+                                    isVisible: false,
+                                  ),
+                                  primaryYAxis: charts.NumericAxis(
+                                    isVisible: false,
+                                  ),
+                                  plotAreaBorderWidth: 0,
+                                  series: <charts.ChartSeries>[
+                                    charts.LineSeries<RealPrice, DateTime>(
+                                      dataSource: getRealPrices(currency: cryptocurrencies[i]+'-USD',number: 20),
+                                      xValueMapper: (RealPrice data, _) => DateTime.parse(data.date),
+                                      yValueMapper: (RealPrice data, _) => data.closePrice,
+                                      color: widget.realPriceList[i].priceIncreasePercentage>0?kGreen:kRed,
+                                      //pointColorMapper: (RealPrice data, _) => data.closePrice>data.openPrice?kGreen:kRed,
+                                    ),
+                                  ],
                                 ),
-                                plotAreaBorderWidth: 0,
-                                series: <charts.ChartSeries>[
-                                  charts.LineSeries<RealPrice, DateTime>(
-                                    dataSource: getRealPrices(currency: cryptocurrencies[i]+'-USD',number: 20),
-                                    xValueMapper: (RealPrice data, _) => DateTime.parse(data.date),
-                                    yValueMapper: (RealPrice data, _) => data.closePrice,
+                              ),
+                              const SizedBox(width: 10.0,),
+                              SizedBox(
+                                width: 45.0,
+                                child: Text(
+                                  double.parse((widget.realPriceList[i].priceIncreasePercentage).toStringAsFixed(2)).toString()+'%',
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    fontFamily: 'Bierstadt',
                                     color: widget.realPriceList[i].priceIncreasePercentage>0?kGreen:kRed,
-                                    //pointColorMapper: (RealPrice data, _) => data.closePrice>data.openPrice?kGreen:kRed,
                                   ),
-                                ],
-                              ),
-                            ),
-                            const SizedBox(width: 10.0,),
-                            SizedBox(
-                              width: 45.0,
-                              child: Text(
-                                double.parse((widget.realPriceList[i].priceIncreasePercentage).toStringAsFixed(2)).toString()+'%',
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  fontFamily: 'Bierstadt',
-                                  color: widget.realPriceList[i].priceIncreasePercentage>0?kGreen:kRed,
                                 ),
                               ),
-                            ),
-                            Icon(
-                              widget.realPriceList[i].priceIncreasePercentage>0?Icons.arrow_upward:Icons.arrow_downward,
-                              color: widget.realPriceList[i].priceIncreasePercentage>0?kGreen:kRed,
-                              size: 15,
-                            ),
-                            const SizedBox(width: 10.0,),
-                          ],
+                              Icon(
+                                widget.realPriceList[i].priceIncreasePercentage>0?Icons.arrow_upward:Icons.arrow_downward,
+                                color: widget.realPriceList[i].priceIncreasePercentage>0?kGreen:kRed,
+                                size: 15,
+                              ),
+                              const SizedBox(width: 10.0,),
+                            ],
+                          ),
                         ),
                         openWidget: SafeArea(
-                            child: glassCard(context, ListView(
+                            child: glassCard(context, Column(
                               children: [
-                                Text(
-                                  cryptocurrencyNames[i],
-                                  style: kCardTextStyle,
-                                  textAlign: TextAlign.center,
+                                Hero(
+                                  tag: cryptocurrencies[i]+'name',
+                                  child: Text(
+                                    cryptocurrencyNames[i],
+                                    style: kCardTextStyle,
+                                    textAlign: TextAlign.center,
+                                  ),
                                 ),
                                 const SizedBox(height: 15.0,),
-                                Icon(
-                                  getIconByName(cryptocurrencies[i]),
-                                  //CryptoCoinIcons.getCryptoIcon(cryptocurrencies[i]),
-                                  size: 50.0,
-                                  //color: kTransparentColor,
+                                Hero(
+                                    tag: cryptocurrencies[i]+'icon',
+                                    child: SvgPicture.asset(
+                                      'assets/images/cryptocoin_icons/color/'+cryptocurrencies[i].toLowerCase()+'.svg',
+                                      width: 60.0,
+                                      height: 60.0,
+                                    ),
                                 ),
                                 const SizedBox(height: 25.0,),
                                 Center(
@@ -522,6 +383,7 @@ class _DashboardState extends State<Dashboard> {
                                 ),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
                                       (double.parse((widget.realPriceList[i].priceIncreasePercentage).toStringAsFixed(2))<0?(-double.parse((widget.realPriceList[i].priceIncreasePercentage).toStringAsFixed(2))):double.parse((widget.realPriceList[i].priceIncreasePercentage).toStringAsFixed(2))).toString()+'%',
@@ -534,92 +396,16 @@ class _DashboardState extends State<Dashboard> {
                                     Icon(
                                       widget.realPriceList[i].priceIncreasePercentage>0?Icons.arrow_upward:Icons.arrow_downward,
                                       color: widget.realPriceList[i].priceIncreasePercentage>0?kGreen:kRed,
+                                      size: 20,
                                     ),
                                   ],
                                 ),
                                 const SizedBox(
                                   height: 30.0,
-                                  //child:
-                                      /*CheckboxListTile(
-                                        title: const Text('OHLC graph'),
-                                        value: ohlcCheckBox,
-                                        onChanged: (bool? value) {
-                                          setState(() {
-                                            print(value);
-                                            ohlcCheckBox = value!;
-                                          });
-                                        },
-                                        secondary: const Icon(Icons.graphic_eq),
-                                      ),
-                                      CheckboxListTile(
-                                        title: const Text('Close Price graph'),
-                                        value: closePriceCheckBox,
-                                        onChanged: (bool? value) {
-                                          setState(() {
-                                            print(value);
-                                            closePriceCheckBox = value!;
-                                          });
-                                        },
-                                        secondary: const Icon(Icons.graphic_eq),
-                                      ),
-                                      CheckboxListTile(
-                                        title: const Text('Open Price graph'),
-                                        value: openPriceCheckBox,
-                                        onChanged: (bool? value) {
-                                          setState(() {
-                                            print(value);
-                                            openPriceCheckBox = value!;
-                                          });
-                                        },
-                                      ),*/
-                                      //SizedBox(height: 30.0,),
-                                      /*Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          Checkbox(
-                                              value: ohlcCheckBox,
-                                              onChanged: (bool? value){
-                                                setState(() {
-                                                  ohlcCheckBox = value!;
-                                                });
-                                              }
-                                          ),
-                                          const Text(
-                                            'OHLC',
-                                            style: kCardSmallTextStyle,
-                                          ),
-                                          const SizedBox(width: 30.0,),
-                                          Checkbox(
-                                              value: closePriceCheckBox,
-                                              onChanged: (bool? value){
-                                                setState(() {
-                                                  closePriceCheckBox = value!;
-                                                });
-                                              }
-                                          ),
-                                          const Text(
-                                            'Close',
-                                            style: kCardSmallTextStyle,
-                                          ),
-                                          const SizedBox(width: 30.0,),
-                                          Checkbox(
-                                              value: openPriceCheckBox,
-                                              onChanged: (bool? value){
-                                                setState(() {
-                                                  openPriceCheckBox = value!;
-                                                });
-                                              }
-                                          ),
-                                          const Text(
-                                            'Open',
-                                            style: kCardSmallTextStyle,
-                                          ),
-                                        ],
-                                      ),*/
                                 ),
                                 SizedBox(
                                   width: double.infinity,
-                                  height: 350.0,
+                                  height: MediaQuery.of(context).size.height-370,
                                   child: charts.SfCartesianChart(
                                     title: charts.ChartTitle(
                                       text: 'Close Price Series',
@@ -645,6 +431,7 @@ class _DashboardState extends State<Dashboard> {
                                     ),
                                     series: <charts.ChartSeries>[
                                       charts.LineSeries<RealPrice, DateTime>(
+                                        color: kAccentColor1,
                                         name: cryptocurrencies[i]+' Close Price',
                                         dataSource: getRealPrices(currency: cryptocurrencies[i]+'-USD'),
                                         xValueMapper: (RealPrice data, _) => DateTime.parse(data.date),
@@ -654,78 +441,19 @@ class _DashboardState extends State<Dashboard> {
                                     ],
                                   ),
                                 ),
-                                const SizedBox(height: 20.0,),
-                                SizedBox(
-                                  width: double.infinity,
-                                  height: 350.0,
-                                  child: charts.SfCartesianChart(
-                                    title: charts.ChartTitle(
-                                      text: 'Candle Series',
-                                      textStyle: kCardTextStyle,
-                                    ),
-                                    zoomPanBehavior: charts.ZoomPanBehavior(
-                                      enablePinching: true,
-                                      enablePanning: true,
-                                      enableMouseWheelZooming: true,
-                                      enableDoubleTapZooming: true,
-                                      zoomMode: charts.ZoomMode.xy,
-                                    ),
-                                    primaryXAxis: charts.DateTimeAxis(
-                                    ),
-                                    primaryYAxis: charts.NumericAxis(
-                                    ),
-                                    plotAreaBorderWidth: 1,
-                                    tooltipBehavior: charts.TooltipBehavior(
-                                      enable: true,
-                                    ),
-                                    series: <charts.ChartSeries>[
-                                      charts.CandleSeries<RealPrice, DateTime>(
-                                        name: cryptocurrencies[i]+' Prices',
-                                        dataSource: getRealPrices(currency: cryptocurrencies[i]+'-USD'),
-                                        xValueMapper: (RealPrice data, _) => DateTime.parse(data.date),
-                                        lowValueMapper: (RealPrice data, _) => data.lowestPrice,
-                                        highValueMapper: (RealPrice data, _) => data.highestPrice,
-                                        openValueMapper: (RealPrice data, _) => data.openPrice,
-                                        closeValueMapper: (RealPrice data, _) => data.closePrice,
-                                      ),
-                                    ],
+                                //const SizedBox(height: 10.0,),
+                                TextButton(
+                                  style: TextButton.styleFrom(
+                                    textStyle: kInstructionStyle,
                                   ),
-                                ),
-                                const SizedBox(height: 20.0,),
-                                SizedBox(
-                                  width: double.infinity,
-                                  height: 350.0,
-                                  child: charts.SfCartesianChart(
-                                    title: charts.ChartTitle(
-                                      text: 'Hilo Open Close Series',
-                                      textStyle: kCardTextStyle,
-                                    ),
-                                    zoomPanBehavior: charts.ZoomPanBehavior(
-                                      enablePinching: true,
-                                      enablePanning: true,
-                                      enableMouseWheelZooming: true,
-                                      enableDoubleTapZooming: true,
-                                      zoomMode: charts.ZoomMode.xy,
-                                    ),
-                                    primaryXAxis: charts.DateTimeAxis(
-                                    ),
-                                    primaryYAxis: charts.NumericAxis(
-                                    ),
-                                    plotAreaBorderWidth: 1,
-                                    tooltipBehavior: charts.TooltipBehavior(
-                                      enable: true,
-                                    ),
-                                    series: <charts.ChartSeries>[
-                                      charts.HiloOpenCloseSeries<RealPrice, DateTime>(
-                                        name: cryptocurrencies[i]+' Prices',
-                                        dataSource: getRealPrices(currency: cryptocurrencies[i]+'-USD'),
-                                        xValueMapper: (RealPrice data, _) => DateTime.parse(data.date),
-                                        lowValueMapper: (RealPrice data, _) => data.lowestPrice,
-                                        highValueMapper: (RealPrice data, _) => data.highestPrice,
-                                        openValueMapper: (RealPrice data, _) => data.openPrice,
-                                        closeValueMapper: (RealPrice data, _) => data.closePrice,
-                                      ),
-                                    ],
+                                  onPressed: () {
+                                    Navigator.push(context, MaterialPageRoute(builder: (context){
+                                      return ShowGraphs(widget.realPriceList, i);
+                                    }));
+                                  },
+                                  child: const Text(
+                                    'More Graphs',
+                                    style: kLinkStyle,
                                   ),
                                 ),
                               ],

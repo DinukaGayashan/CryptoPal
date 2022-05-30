@@ -48,7 +48,8 @@ Widget glassCard(BuildContext context, Widget content) {
       ),
     ).asGlass(
       clipBorderRadius: BorderRadius.circular(30),
-      frosted: true,
+      frosted: false,
+      //tileMode:TileMode.clamp,
       //tintColor: kBaseColor1,
     ),
   );
@@ -63,16 +64,10 @@ Widget openCloseAnimation(BuildContext context,
     openElevation: 5.0,
     transitionType: ContainerTransitionType.fade,
     closedBuilder: (context, action) {
-      return StatefulBuilder(builder: (context, setState){
         return closeWidget;
-      }
-      );
     },
     openBuilder: (context, action) {
-      return StatefulBuilder(builder: (context, setState){
         return openWidget;
-      }
-      );
     },
   );
 }

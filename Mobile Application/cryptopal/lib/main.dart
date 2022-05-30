@@ -1,5 +1,6 @@
 import 'package:cryptopal/screens/add_prediction.dart';
 import 'package:cryptopal/screens/welcome.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'utility/constants.dart';
@@ -25,6 +26,12 @@ class CryptoPal extends StatelessWidget {
       theme: ThemeData.dark().copyWith(
         primaryColor: kBaseColor1,
         scaffoldBackgroundColor: kBackgroundColor,
+          cupertinoOverrideTheme: const CupertinoThemeData(
+              textTheme: CupertinoTextThemeData(
+                dateTimePickerTextStyle: kInstructionStyle2,
+                pickerTextStyle: kInstructionStyle2,
+              )
+          )
       ),
       initialRoute: DashboardLoading.id,
       routes: {

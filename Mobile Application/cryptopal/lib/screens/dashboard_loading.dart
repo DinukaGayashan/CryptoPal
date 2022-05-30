@@ -7,7 +7,6 @@ import 'package:cryptopal/utility/user_account.dart';
 import 'package:cryptopal/utility/database_data.dart';
 import 'dashboard.dart';
 
-
 final _functions=FirebaseFunctions.instance;
 
 class DashboardLoading extends StatefulWidget {
@@ -55,7 +54,7 @@ class _DashboardLoadingState extends State<DashboardLoading> {
     loadUser();
 
     return Scaffold(
-      backgroundColor: kAccentColor1,
+      backgroundColor: kBackgroundColor,
       body: SafeArea(
         child: Center(
           child: Padding(
@@ -63,13 +62,13 @@ class _DashboardLoadingState extends State<DashboardLoading> {
             child: Column(
               children: <Widget>[
                 Column(
-                  children: [
+                  children: <Widget>[
                     Hero(
                       tag: 'logo',
                       child: CircleAvatar(
-                        backgroundColor: kAccentColor1,
+                        backgroundColor: Colors.transparent,
                         radius: 100.0,
-                        child: Image.asset('assets/images/CryptoPal-logo-black.png'),
+                        child: Image.asset('assets/images/CryptoPal-logo-white.png'),
                       ),
                     ),
                     const SizedBox(
@@ -103,7 +102,7 @@ class _DashboardLoadingState extends State<DashboardLoading> {
                   width: 50.0,
                   height: 50.0,
                   child: SpinKitFoldingCube(
-                    color: kBaseColor1,
+                    color: kBaseColor2,
                   ),
                 ),
               ],

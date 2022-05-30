@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:crypto_font_icons/crypto_font_icons.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 const List<String> cryptocurrencyNames = <String>[
   "Bitcoin",
@@ -17,32 +17,15 @@ const List<String> cryptocurrencies = <String>[
   "DOGE"
 ];
 
-IconData? getIconByName(String name){
-  if(name=='BTC'){
-    return CryptoFontIcons.BTC;
-  }
-  else if(name=='ETH'){
-    return CryptoFontIcons.ETH;
-  }
-  else if(name=='LTC'){
-    return CryptoFontIcons.LTC;
-  }
-  else if(name=='XRP'){
-    return CryptoFontIcons.XRP;
-  }
-  else if(name=='DOGE'){
-    return CryptoFontIcons.DOGE;
-  }
-  return null;
-}
-
 const kBaseColor1 = Color(0xff000000);
-const kBaseColor2 = Color(0xffffffff);
+const kBaseColor2 = Color(0xffeeeeee);
 const kBackgroundColor = Color(0xff121212);
-const kAccentColor1 = Color(0xffffe699);
-const kAccentColor2 = Color(0xFF0c4d5f);
-const kAccentColor3 = Color(0xff4C4637);
-const kTransparentColor = Color(0xcc4C4637);
+const kAccentColor1 = Color(0xff14efbb);
+const kAccentColor2 = Color(0xffffd369);
+const kAccentColor3 = Color(0xff1d5e7f);
+//const kAccentColor4 = Color(0xff4C4637);
+const kTransparentColor = Color(0x2214efbb);
+//const kTransparentColor2 = Color(0xcc4C4637);
 const kRed = Color(0xffea4f30);
 const kGreen = Color(0xff1fba72);
 const kYellow = Color(0xfff1ae2d);
@@ -51,7 +34,7 @@ const kBlue = Color(0xff008ff7);
 const kAnimationTime = 1500;
 
 const TextStyle kMainTitleStyle = TextStyle(
-  color: kBaseColor1,
+  color: kBaseColor2,
   fontFamily: 'Tenorite',
   fontSize: 50,
 );
@@ -62,29 +45,40 @@ const TextStyle kTitleStyle = TextStyle(
   fontSize: 30,
 );
 
+const TextStyle kBlackTitleStyle = TextStyle(
+  color: kBaseColor1,
+  fontFamily: 'Tenorite',
+  fontSize: 30,
+);
+
 const TextStyle kSubjectStyle = TextStyle(
   fontSize: 25,
   fontFamily: 'Bierstadt',
-  color: kAccentColor2,
+  color: kAccentColor1,
 );
 
 const TextStyle kSubSubjectStyle = TextStyle(
   fontSize: 25,
   fontFamily: 'Bierstadt',
-  color: kBaseColor1,
-  fontWeight: FontWeight.bold,
+  color: kBaseColor2,
 );
 
 const TextStyle kInstructionStyle = TextStyle(
   fontSize: 15,
   fontFamily: 'Bierstadt',
-  color: kBaseColor1,
+  color: kBaseColor2,
 );
 
 const TextStyle kInstructionStyle2 = TextStyle(
   fontSize: 20,
   fontFamily: 'Bierstadt',
-  color: kBaseColor1,
+  color: kBaseColor2,
+);
+
+const TextStyle kLinkStyle = TextStyle(
+  fontSize: 15,
+  fontFamily: 'Bierstadt',
+  color: kAccentColor3,
 );
 
 const TextStyle kHintStyle = TextStyle(
@@ -96,14 +90,13 @@ const TextStyle kHintStyle = TextStyle(
 const TextStyle kButtonTextStyle = TextStyle(
   fontSize: 20,
   fontFamily: 'Bierstadt',
-  color: kBaseColor2,
-  fontWeight: FontWeight.bold,
+  color: kBaseColor1,
 );
 
 const TextStyle kDetailsStyle = TextStyle(
   fontSize: 20,
   fontFamily: 'Bierstadt',
-  color: kAccentColor3,
+  color: kAccentColor1,
 );
 
 const TextStyle kCardTitleStyle = TextStyle(

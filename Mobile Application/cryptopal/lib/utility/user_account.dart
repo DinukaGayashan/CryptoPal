@@ -112,6 +112,9 @@ Future<UserAccount> getActiveUserData() async {
       currentUser.errorVarianceOnCurrencies =
           Map.fromIterables(cryptocurrencies, userErrorVarianceOnCurrencies);
 
+      currentUser.accuracy =
+          100 - (currentUser.error > 0 ? currentUser.error : -currentUser.error);
+
       await _firestore
           .collection('users')
           .doc(currentUser.user?.uid)
@@ -119,6 +122,7 @@ Future<UserAccount> getActiveUserData() async {
           .doc('calculations')
           .set(
         {
+          'accuracy':currentUser.accuracy,
           'error': currentUser.error,
           'errorVariance': currentUser.variance,
           'errorStandardDeviation': currentUser.standardDeviation,
@@ -129,8 +133,6 @@ Future<UserAccount> getActiveUserData() async {
     } catch (e) {
       print(e);
     }
-    currentUser.accuracy =
-        100 - (currentUser.error > 0 ? currentUser.error : -currentUser.error);
   } catch (e) {
     print(e);
   }
