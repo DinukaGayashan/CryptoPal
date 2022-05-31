@@ -159,7 +159,7 @@ class _DashboardState extends State<Dashboard> {
                                           TextSpan(
                                             text: '%',
                                             style: kCardTextStyle,
-                                          )
+                                          ),
                                         ],
                                       ),
                                       ),
@@ -275,13 +275,10 @@ class _DashboardState extends State<Dashboard> {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               const SizedBox(width: 10.0,),
-                              Hero(
-                                tag: cryptocurrencies[i]+'icon',
-                                child: SvgPicture.asset(
-                                  'assets/images/cryptocoin_icons/color/'+cryptocurrencies[i].toLowerCase()+'.svg',
-                                    width: 35.0,
-                                  height: 35.0,
-                                ),
+                              SvgPicture.asset(
+                                'assets/images/cryptocoin_icons/color/'+cryptocurrencies[i].toLowerCase()+'.svg',
+                                  width: 35.0,
+                                height: 35.0,
                               ),
                               const SizedBox(width: 15.0,),
                               SizedBox(
@@ -289,12 +286,9 @@ class _DashboardState extends State<Dashboard> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Hero(
-                                      tag: cryptocurrencies[i]+'name',
-                                      child: Text(
-                                        cryptocurrencies[i],
-                                        style: kCardTextStyle,
-                                      ),
+                                    Text(
+                                      cryptocurrencies[i],
+                                      style: kCardTextStyle,
                                     ),
                                     Text(
                                       cryptocurrencyNames[i],
@@ -327,8 +321,13 @@ class _DashboardState extends State<Dashboard> {
                                 ),
                               ),
                               const SizedBox(width: 10.0,),
+                              Icon(
+                                widget.realPriceList[i].priceIncreasePercentage>0?Icons.arrow_upward:Icons.arrow_downward,
+                                color: widget.realPriceList[i].priceIncreasePercentage>0?kGreen:kRed,
+                                size: 15,
+                              ),
                               SizedBox(
-                                width: 45.0,
+                                width: 60.0,
                                 child: Text(
                                   double.parse((widget.realPriceList[i].priceIncreasePercentage).toStringAsFixed(2)).toString()+'%',
                                   style: TextStyle(
@@ -338,125 +337,113 @@ class _DashboardState extends State<Dashboard> {
                                   ),
                                 ),
                               ),
-                              Icon(
-                                widget.realPriceList[i].priceIncreasePercentage>0?Icons.arrow_upward:Icons.arrow_downward,
-                                color: widget.realPriceList[i].priceIncreasePercentage>0?kGreen:kRed,
-                                size: 15,
-                              ),
-                              const SizedBox(width: 10.0,),
                             ],
                           ),
                         ),
                         openWidget: SafeArea(
-                            child: glassCard(context, Column(
-                              children: [
-                                Hero(
-                                  tag: cryptocurrencies[i]+'name',
-                                  child: Text(
+                            child: glassCard(context, SingleChildScrollView(
+                              child: Column(
+                                children: [
+                                  Text(
                                     cryptocurrencyNames[i],
-                                    style: kCardTextStyle,
+                                    style: kSubSubjectStyle,
                                     textAlign: TextAlign.center,
                                   ),
-                                ),
-                                const SizedBox(height: 15.0,),
-                                Hero(
-                                    tag: cryptocurrencies[i]+'icon',
-                                    child: SvgPicture.asset(
-                                      'assets/images/cryptocoin_icons/color/'+cryptocurrencies[i].toLowerCase()+'.svg',
-                                      width: 60.0,
-                                      height: 60.0,
+                                  const SizedBox(height: 15.0,),
+                                  SvgPicture.asset(
+                                    'assets/images/cryptocoin_icons/color/'+cryptocurrencies[i].toLowerCase()+'.svg',
+                                    width: 60.0,
+                                    height: 60.0,
+                                  ),
+                                  const SizedBox(height: 25.0,),
+                                  Center(
+                                    child: RichText(text: TextSpan(
+                                      text: "\$ "+widget.realPriceList[i].pricesList.last.closePrice.toString()+' ',
+                                      style: kCardNumberStyle,
+                                      children: <TextSpan>[
+                                        TextSpan(
+                                          text: cryptocurrencies[i],
+                                          style: kCardTextStyle,
+                                        ),
+                                      ],
                                     ),
-                                ),
-                                const SizedBox(height: 25.0,),
-                                Center(
-                                  child: RichText(text: TextSpan(
-                                    text: "\$ "+widget.realPriceList[i].pricesList.last.closePrice.toString()+' ',
-                                    style: kCardNumberStyle,
-                                    children: <TextSpan>[
-                                      TextSpan(
-                                        text: cryptocurrencies[i],
-                                        style: kCardTextStyle,
+                                    ),
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        (double.parse((widget.realPriceList[i].priceIncreasePercentage).toStringAsFixed(2))<0?(-double.parse((widget.realPriceList[i].priceIncreasePercentage).toStringAsFixed(2))):double.parse((widget.realPriceList[i].priceIncreasePercentage).toStringAsFixed(2))).toString()+'%',
+                                        style: TextStyle(
+                                          fontSize: 20,
+                                          fontFamily: 'Bierstadt',
+                                          color: widget.realPriceList[i].priceIncreasePercentage>0?kGreen:kRed,
+                                        ),
                                       ),
-                                    ],
-                                  ),
-                                  ),
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      (double.parse((widget.realPriceList[i].priceIncreasePercentage).toStringAsFixed(2))<0?(-double.parse((widget.realPriceList[i].priceIncreasePercentage).toStringAsFixed(2))):double.parse((widget.realPriceList[i].priceIncreasePercentage).toStringAsFixed(2))).toString()+'%',
-                                      style: TextStyle(
-                                        fontSize: 20,
-                                        fontFamily: 'Bierstadt',
+                                      Icon(
+                                        widget.realPriceList[i].priceIncreasePercentage>0?Icons.arrow_upward:Icons.arrow_downward,
                                         color: widget.realPriceList[i].priceIncreasePercentage>0?kGreen:kRed,
-                                      ),
-                                    ),
-                                    Icon(
-                                      widget.realPriceList[i].priceIncreasePercentage>0?Icons.arrow_upward:Icons.arrow_downward,
-                                      color: widget.realPriceList[i].priceIncreasePercentage>0?kGreen:kRed,
-                                      size: 20,
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(
-                                  height: 30.0,
-                                ),
-                                SizedBox(
-                                  width: double.infinity,
-                                  height: MediaQuery.of(context).size.height-370,
-                                  child: charts.SfCartesianChart(
-                                    title: charts.ChartTitle(
-                                      text: 'Close Price Series',
-                                      textStyle: kCardTextStyle,
-                                    ),
-                                    zoomPanBehavior: charts.ZoomPanBehavior(
-                                      enablePinching: true,
-                                      enablePanning: true,
-                                      enableMouseWheelZooming: true,
-                                      enableDoubleTapZooming: true,
-                                      zoomMode: charts.ZoomMode.xy,
-                                    ),
-                                    primaryXAxis: charts.DateTimeAxis(
-                                    ),
-                                    primaryYAxis: charts.NumericAxis(
-                                    ),
-                                    plotAreaBorderWidth: 1,
-                                    crosshairBehavior: charts.CrosshairBehavior(
-                                      enable: true,
-                                    ),
-                                    tooltipBehavior: charts.TooltipBehavior(
-                                      enable: true,
-                                    ),
-                                    series: <charts.ChartSeries>[
-                                      charts.LineSeries<RealPrice, DateTime>(
-                                        color: kAccentColor1,
-                                        name: cryptocurrencies[i]+' Close Price',
-                                        dataSource: getRealPrices(currency: cryptocurrencies[i]+'-USD'),
-                                        xValueMapper: (RealPrice data, _) => DateTime.parse(data.date),
-                                        yValueMapper: (RealPrice data, _) => data.closePrice,
-                                        //pointColorMapper: (RealPrice data, _) => data.closePrice>data.openPrice?kGreen:kRed,
+                                        size: 20,
                                       ),
                                     ],
                                   ),
-                                ),
-                                //const SizedBox(height: 10.0,),
-                                TextButton(
-                                  style: TextButton.styleFrom(
-                                    textStyle: kInstructionStyle,
+                                  const SizedBox(
+                                    height: 30.0,
                                   ),
-                                  onPressed: () {
-                                    Navigator.push(context, MaterialPageRoute(builder: (context){
-                                      return ShowGraphs(widget.realPriceList, i);
-                                    }));
-                                  },
-                                  child: const Text(
-                                    'More Graphs',
-                                    style: kLinkStyle,
+                                  SizedBox(
+                                    width: double.infinity,
+                                    height: MediaQuery.of(context).size.height-370,
+                                    child: charts.SfCartesianChart(
+                                      title: charts.ChartTitle(
+                                        text: 'Close Price',
+                                        textStyle: kCardTextStyle,
+                                      ),
+                                      zoomPanBehavior: charts.ZoomPanBehavior(
+                                        enablePinching: true,
+                                        enablePanning: true,
+                                        enableMouseWheelZooming: true,
+                                        zoomMode: charts.ZoomMode.xy,
+                                      ),
+                                      primaryXAxis: charts.DateTimeAxis(),
+                                      primaryYAxis: charts.NumericAxis(),
+                                      plotAreaBorderWidth: 1,
+                                      enableAxisAnimation: true,
+                                      crosshairBehavior: charts.CrosshairBehavior(
+                                        enable: true,
+                                      ),
+                                      tooltipBehavior: charts.TooltipBehavior(
+                                        enable: true,
+                                      ),
+                                      series: <charts.ChartSeries>[
+                                        charts.LineSeries<RealPrice, DateTime>(
+                                          animationDuration: kAnimationTime.toDouble(),
+                                          color: widget.realPriceList[i].priceIncreasePercentage>0?kGreen:kRed,
+                                          name: cryptocurrencies[i]+' Close Price',
+                                          dataSource: getRealPrices(currency: cryptocurrencies[i]+'-USD'),
+                                          xValueMapper: (RealPrice data, _) => DateTime.parse(data.date),
+                                          yValueMapper: (RealPrice data, _) => data.closePrice,
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              ],
+                                  //const SizedBox(height: 10.0,),
+                                  TextButton(
+                                    style: TextButton.styleFrom(
+                                      textStyle: kInstructionStyle,
+                                    ),
+                                    onPressed: () {
+                                      Navigator.push(context, MaterialPageRoute(builder: (context){
+                                        return ShowGraphs(widget.realPriceList, i);
+                                      }));
+                                    },
+                                    child: const Text(
+                                      'More Graphs',
+                                      style: kLinkStyle,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                             ),
                         ),

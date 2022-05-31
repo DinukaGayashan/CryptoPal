@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:flutter/material.dart';
 import 'package:cryptopal/utility/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -12,7 +13,7 @@ Future<UserAccount> getActiveUserData() async {
   try {
     currentUser.user = _auth.currentUser;
   } catch (e) {
-    print(e.toString());
+    
   }
 
   try {

@@ -57,56 +57,53 @@ class _DashboardLoadingState extends State<DashboardLoading> {
       backgroundColor: kBackgroundColor,
       body: SafeArea(
         child: Center(
-          child: Padding(
-            padding: const EdgeInsets.only(top: 100.0),
-            child: Column(
-              children: <Widget>[
-                Column(
-                  children: <Widget>[
-                    Hero(
-                      tag: 'logo',
-                      child: CircleAvatar(
-                        backgroundColor: Colors.transparent,
-                        radius: 100.0,
-                        child: Image.asset('assets/images/CryptoPal-logo-white.png'),
-                      ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Column(
+                children: <Widget>[
+                  Hero(
+                    tag: 'logo',
+                    child: CircleAvatar(
+                      backgroundColor: Colors.transparent,
+                      radius: 100.0,
+                      child: Image.asset('assets/images/CryptoPal-logo-white.png'),
                     ),
-                    const SizedBox(
-                      height: 50.0,
-                      width: double.infinity,
-                      child: Center(
-                        child: Hero(
-                          tag: 'name',
-                          child: Text(
-                            'CryptoPal',
-                            style: kMainTitleStyle,
-                          ),
+                  ),
+                  const SizedBox(
+                    height: 50.0,
+                    width: double.infinity,
+                    child: Center(
+                      child: Hero(
+                        tag: 'name',
+                        child: Text(
+                          'CryptoPal',
+                          style: kMainTitleStyle,
                         ),
                       ),
                     ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 50.0,
-                  child: Center(
-                    child: Text(
-                      'Advisory platform for cryptocurrency investments',
-                      style:kInstructionStyle,
-                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 50.0,
+                child: Center(
+                  child: Text(
+                    'Advisory platform for cryptocurrency investments',
+                    style:kInstructionStyle,
                   ),
                 ),
-                const SizedBox(
-                  height: 70.0,
+              ),
+              const SizedBox(
+                height: 70.0,
+              ),
+              const SizedBox(
+                child: SpinKitFoldingCube(
+                  size: 50.0,
+                  color: kBaseColor2,
                 ),
-                const SizedBox(
-                  width: 50.0,
-                  height: 50.0,
-                  child: SpinKitFoldingCube(
-                    color: kBaseColor2,
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

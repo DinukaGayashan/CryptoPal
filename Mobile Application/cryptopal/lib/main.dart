@@ -1,4 +1,3 @@
-import 'package:cryptopal/screens/add_prediction.dart';
 import 'package:cryptopal/screens/welcome.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +7,6 @@ import 'screens/sign_up.dart';
 import 'screens/sign_in.dart';
 import 'screens/registration_form.dart';
 import 'screens/dashboard_loading.dart';
-import 'screens/add_prediction.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,15 +22,13 @@ class CryptoPal extends StatelessWidget {
     return MaterialApp(
       title: "CryptoPal",
       theme: ThemeData.dark().copyWith(
-        primaryColor: kBaseColor1,
-        scaffoldBackgroundColor: kBackgroundColor,
+          primaryColor: kBaseColor1,
+          scaffoldBackgroundColor: kBackgroundColor,
           cupertinoOverrideTheme: const CupertinoThemeData(
               textTheme: CupertinoTextThemeData(
-                dateTimePickerTextStyle: kInstructionStyle2,
-                pickerTextStyle: kInstructionStyle2,
-              )
-          )
-      ),
+            dateTimePickerTextStyle: kInstructionStyle2,
+            pickerTextStyle: kInstructionStyle2,
+          ))),
       initialRoute: DashboardLoading.id,
       routes: {
         Welcome.id: (context) => const Welcome(),
@@ -40,7 +36,6 @@ class CryptoPal extends StatelessWidget {
         SignIn.id: (context) => const SignIn(),
         RegistrationForm.id: (context) => const RegistrationForm(),
         DashboardLoading.id: (context) => const DashboardLoading(),
-        //AddPrediction.id: (context) => const AddPrediction(),
       },
     );
   }

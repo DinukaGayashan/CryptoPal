@@ -24,18 +24,17 @@ class AddPrediction extends StatefulWidget {
     );*/
   }*/
 
-  static const String id='AddPrediction';
+  static const String id = 'AddPrediction';
   final UserAccount currentUser;
   @override
   State<AddPrediction> createState() => _AddPredictionState();
 }
 
 class _AddPredictionState extends State<AddPrediction> {
-
-  final _firestore=FirebaseFirestore.instance;
-  late int selectedCrypto=0;
+  final _firestore = FirebaseFirestore.instance;
+  late int selectedCrypto = 0;
   late double predictionPrice;
-  late DateTime predictionDate=DateTime.now().add(const Duration(days:1));
+  late DateTime predictionDate = DateTime.now().add(const Duration(days: 1));
 
   @override
   Widget build(BuildContext context) {
@@ -47,9 +46,11 @@ class _AddPredictionState extends State<AddPrediction> {
       ),*/
       body: SafeArea(
         child: SizedBox(
-            height: MediaQuery.of(context).size.height,
+          height: MediaQuery.of(context).size.height,
           child: SingleChildScrollView(
-            child: glassCard(context, Column(
+            child: glassCard(
+              context,
+              Column(
                 children: <Widget>[
                   const SizedBox(
                     height: 10.0,
@@ -69,33 +70,40 @@ class _AddPredictionState extends State<AddPrediction> {
                         showCupertinoModalPopup<void>(
                             context: context,
                             builder: (BuildContext context) => Container(
-                              height: 300,
-                              padding: const EdgeInsets.only(top: 10.0),
-                              margin: EdgeInsets.only(
-                                bottom: MediaQuery.of(context).viewInsets.bottom,
-                              ),
-                              color: kTransparentColor,
-                              child: SafeArea(
-                                //top: false,
-                                child: CupertinoPicker(
-                                  onSelectedItemChanged: (int value) {
-                                    setState(() {
-                                      selectedCrypto=value;
-                                    });
-                                  },
-                                  diameterRatio: 1.2,
-                                  itemExtent: 32.0,
-                                  children: List<Widget>.generate(cryptocurrencyNames.length, (int index) {
-                                    return Center(
-                                      child: Text(
-                                        cryptocurrencyNames[index]+' ('+cryptocurrencies[index]+')',
-                                        style: kButtonTextStyle,
-                                      ),
-                                    );
-                                  }),
-                                ),
-                              ),
-                            ));
+                                  height: 300,
+                                  padding: const EdgeInsets.only(top: 10.0),
+                                  margin: EdgeInsets.only(
+                                    bottom: MediaQuery.of(context)
+                                        .viewInsets
+                                        .bottom,
+                                  ),
+                                  color: kTransparentColor,
+                                  child: SafeArea(
+                                    //top: false,
+                                    child: CupertinoPicker(
+                                      onSelectedItemChanged: (int value) {
+                                        setState(() {
+                                          selectedCrypto = value;
+                                        });
+                                      },
+                                      diameterRatio: 1.2,
+                                      itemExtent: 32.0,
+                                      children: List<Widget>.generate(
+                                          cryptocurrencyNames.length,
+                                          (int index) {
+                                        return Center(
+                                          child: Text(
+                                            cryptocurrencyNames[index] +
+                                                ' (' +
+                                                cryptocurrencies[index] +
+                                                ')',
+                                            style: kButtonTextStyle,
+                                          ),
+                                        );
+                                      }),
+                                    ),
+                                  ),
+                                ));
                       },
                       child: Text(
                         cryptocurrencyNames[selectedCrypto],
@@ -110,10 +118,11 @@ class _AddPredictionState extends State<AddPrediction> {
                     height: 100,
                     child: CupertinoDatePicker(
                       mode: CupertinoDatePickerMode.date,
-                      initialDateTime: DateTime.now().add(const Duration(days:1)),
+                      initialDateTime:
+                          DateTime.now().add(const Duration(days: 1)),
                       minimumDate: DateTime.now(),
                       onDateTimeChanged: (DateTime value) {
-                        predictionDate=value;
+                        predictionDate = value;
                       },
                     ),
                   ),
@@ -153,8 +162,8 @@ class _AddPredictionState extends State<AddPrediction> {
                             labelStyle: kHintStyle,
                             floatingLabelStyle: kHintStyle,
                           ),
-                          onChanged: (value){
-                            predictionPrice=double.parse(value);
+                          onChanged: (value) {
+                            predictionPrice = double.parse(value);
                           },
                         ),
                       ),
@@ -172,22 +181,26 @@ class _AddPredictionState extends State<AddPrediction> {
                   ),
                   MaterialButton(
                     color: kAccentColor3,
-                    height:40.0,
+                    height: 40.0,
                     minWidth: double.infinity,
                     onPressed: () async {
-                      try{
-                        await _firestore.collection('users').doc(widget.currentUser.user?.uid)
+                      try {
+                        await _firestore
+                            .collection('users')
+                            .doc(widget.currentUser.user?.uid)
                             .collection('predictions')
-                            .doc(predictionDate.toString().split(' ')[0]+' '+cryptocurrencies[selectedCrypto]+'-USD')
-                            .set(
-                            {
-                              'predictedDate':predictionDate.toString().split(' ')[0],
-                              'predictedCurrency':cryptocurrencies[selectedCrypto]+'-USD',
-                              'predictedClosePrice': predictionPrice.toDouble(),
-                            }
-                        );
-                      }
-                      catch(e){
+                            .doc(predictionDate.toString().split(' ')[0] +
+                                ' ' +
+                                cryptocurrencies[selectedCrypto] +
+                                '-USD')
+                            .set({
+                          'predictedDate':
+                              predictionDate.toString().split(' ')[0],
+                          'predictedCurrency':
+                              cryptocurrencies[selectedCrypto] + '-USD',
+                          'predictedClosePrice': predictionPrice.toDouble(),
+                        });
+                      } catch (e) {
                         print(e);
                       }
                       Navigator.pop(context);

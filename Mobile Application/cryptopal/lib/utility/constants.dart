@@ -75,6 +75,12 @@ const TextStyle kInstructionStyle2 = TextStyle(
   color: kBaseColor2,
 );
 
+const TextStyle kInstructionStyle3 = TextStyle(
+  fontSize: 20,
+  fontFamily: 'Bierstadt',
+  color: kBaseColor1,
+);
+
 const TextStyle kLinkStyle = TextStyle(
   fontSize: 15,
   fontFamily: 'Bierstadt',

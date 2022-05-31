@@ -116,7 +116,7 @@ class Welcome extends StatelessWidget {
                           "CryptoPal is an advisory platform for cryptocurrency "
                           "investments that only focused on educational purposes. "
                           "\n\nPlease do not use this as a advisor for financial investment purposes.",
-                          style: kInstructionStyle2,
+                          style: kInstructionStyle3,
                         ),
                         actions: [
                           okButton,
