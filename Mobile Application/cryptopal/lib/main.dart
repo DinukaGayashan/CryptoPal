@@ -22,14 +22,16 @@ class CryptoPal extends StatelessWidget {
     return MaterialApp(
       title: "CryptoPal",
       theme: ThemeData.dark().copyWith(
-          primaryColor: kBaseColor1,
-          scaffoldBackgroundColor: kBackgroundColor,
-          cupertinoOverrideTheme: const CupertinoThemeData(
-              textTheme: CupertinoTextThemeData(
+        primaryColor: kBaseColor1,
+        scaffoldBackgroundColor: kBackgroundColor,
+        cupertinoOverrideTheme: const CupertinoThemeData(
+          textTheme: CupertinoTextThemeData(
             dateTimePickerTextStyle: kInstructionStyle2,
             pickerTextStyle: kInstructionStyle2,
-          ))),
-      initialRoute: DashboardLoading.id,
+          ),
+        ),
+      ),
+      initialRoute: Welcome.id,
       routes: {
         Welcome.id: (context) => const Welcome(),
         SignUp.id: (context) => const SignUp(),

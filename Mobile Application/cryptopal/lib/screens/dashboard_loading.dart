@@ -54,7 +54,7 @@ class _DashboardLoadingState extends State<DashboardLoading> {
     loadUser();
 
     return Scaffold(
-      backgroundColor: kBackgroundColor,
+      backgroundColor: kBaseColor1,
       body: SafeArea(
         child: Center(
           child: Column(

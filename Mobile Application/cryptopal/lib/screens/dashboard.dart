@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cryptopal/screens/add_prediction.dart';
 import 'package:cryptopal/screens/show_graphs.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +32,7 @@ class Dashboard extends StatefulWidget {
 
 class _DashboardState extends State<Dashboard> {
 
-  final _firestore=FirebaseFirestore.instance;
+  //final _firestore=FirebaseFirestore.instance;
   late int selectedCrypto=0;
   late double predictionPrice;
   late DateTime predictionDate=DateTime.now().add(const Duration(days:1));
@@ -63,6 +65,37 @@ class _DashboardState extends State<Dashboard> {
       return realPrices.sublist(realPrices.length-number);
     }
     return realPrices;
+  }
+
+  int getBestCryptocurrency(){
+    double minError=double.infinity;
+    int index=0;
+    for(int i=0;i<cryptocurrencies.length;i++){
+      if(currentUser.errorVarianceOnCurrencies.values.elementAt(i)<minError){
+        minError=currentUser.errorVarianceOnCurrencies.values.elementAt(i);
+        index=i;
+      }
+    }
+    return index;
+  }
+
+  List<Prediction>? getPredictionsOfACurrency({required String currency, bool past=false}){
+    List<Prediction> predictions=<Prediction>[];
+    if(past){
+      for(var p in currentUser.pastPredictions){
+        if((currency+'-USD')==p.predictedCurrency){
+          predictions.add(p);
+        }
+      }
+    }
+    else{
+      for(var p in currentUser.predictions){
+        if((currency+'-USD')==p.predictedCurrency){
+          predictions.add(p);
+        }
+      }
+    }
+    return predictions;
   }
 
   @override
@@ -111,63 +144,243 @@ class _DashboardState extends State<Dashboard> {
               openCloseAnimation(
                   context,
                   closeWidget: glassCard(context, Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      const Text(
-                        'Predictions',
-                        style: kCardTextStyle,
+                      const Padding(
+                        padding:EdgeInsets.all(10),
+                        child: Text(
+                          'Statistics',
+                          style: kCardTitleStyle,
+                        ),
                       ),
-                      SizedBox(
-                        height: 200.0,
-                        width: 200.0,
-                        child: SfRadialGauge(
-                          axes: <RadialAxis>[
-                            RadialAxis(
-                              minimum: 0,
-                              maximum: 100,
-                              showLabels: false,
-                              showTicks: false,
-                              axisLineStyle: const AxisLineStyle(
-                                thickness: 0.2,
-                                cornerStyle: CornerStyle.bothCurve,
-                                color: kBaseColor1,
-                                thicknessUnit: GaugeSizeUnit.factor,
+                      Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            SizedBox(
+                              height:150.0,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  RichText(
+                                    text: TextSpan(
+                                    text: 'Accuracy\n',
+                                    style: kCardSmallTextStyle,
+                                    children: <TextSpan>[
+                                      TextSpan(
+                                        text: currentUser.accuracy.roundToDouble().toString(),
+                                        style: kCardTextStyle2,
+                                      ),
+                                    ],
+                                  ),
+                                  ),
+                                  RichText(
+                                    text: TextSpan(
+                                      text: 'Average Error\n',
+                                      style: kCardSmallTextStyle,
+                                      children: <TextSpan>[
+                                        TextSpan(
+                                          text: currentUser.error.roundToDouble().toString(),
+                                          style: kCardTextStyle2,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  RichText(
+                                    text: TextSpan(
+                                      text: 'Best Currency\n',
+                                      style: kCardSmallTextStyle,
+                                      children: <TextSpan>[
+                                        TextSpan(
+                                          text: cryptocurrencyNames[getBestCryptocurrency()],
+                                          style: kCardTextStyle2,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
                               ),
-                              pointers: <GaugePointer>[
-                                RangePointer(
-                                  animationType: AnimationType.ease,
-                                  enableAnimation: true,
-                                  animationDuration: kAnimationTime.toDouble(),
-                                  value: currentUser.accuracy.roundToDouble(),
-                                  cornerStyle: CornerStyle.bothCurve,
-                                  width: 0.2,
-                                  sizeUnit: GaugeSizeUnit.factor,
-                                ),
-                              ],
-                              annotations: <GaugeAnnotation>[
-                                GaugeAnnotation(
-                                  positionFactor: 0.1,
-                                  angle: 90,
-                                  widget: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: <Widget>[
-                                      RichText(text: TextSpan(
-                                        text: currentUser.accuracy
-                                            .round()
-                                            .toString(),
-                                        style: kCardNumberStyle,
-                                        children: const <TextSpan>[
-                                          TextSpan(
-                                            text: '%',
+                            ),
+                            SizedBox(
+                            height: 200.0,
+                            width: 200.0,
+                            child: SfRadialGauge(
+                              axes: <RadialAxis>[
+                                RadialAxis(
+                                  minimum: 0,
+                                  maximum: 100,
+                                  showLabels: false,
+                                  showTicks: false,
+                                  axisLineStyle: const AxisLineStyle(
+                                    thickness: 0.2,
+                                    cornerStyle: CornerStyle.bothCurve,
+                                    color: kBaseColor1,
+                                    thicknessUnit: GaugeSizeUnit.factor,
+                                  ),
+                                  pointers: <GaugePointer>[
+                                    RangePointer(
+                                      color: currentUser.accuracy>50?kAccentColor1:kAccentColor2,
+                                      animationType: AnimationType.ease,
+                                      enableAnimation: true,
+                                      animationDuration: kAnimationTime.toDouble(),
+                                      value: currentUser.accuracy>0?currentUser.accuracy.roundToDouble():0,
+                                      cornerStyle: CornerStyle.bothCurve,
+                                      width: 0.2,
+                                      sizeUnit: GaugeSizeUnit.factor,
+                                    ),
+                                  ],
+                                  annotations: <GaugeAnnotation>[
+                                    GaugeAnnotation(
+                                      positionFactor: 0.1,
+                                      angle: 90,
+                                      widget: Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: <Widget>[
+                                          RichText(text: TextSpan(
+                                            text: currentUser.accuracy>0?currentUser.accuracy
+                                                .round()
+                                                .toString():'NaN',
+                                            style: kCardNumberStyle,
+                                            children: const <TextSpan>[
+                                              TextSpan(
+                                                text: '%',
+                                                style: kCardTextStyle,
+                                              ),
+                                            ],
+                                          ),
+                                          ),
+                                          const Text(
+                                            'Accuracy',
                                             style: kCardTextStyle,
                                           ),
                                         ],
                                       ),
-                                      ),
-                                      const Text(
-                                        'Accuracy',
-                                        style: kCardTextStyle,
-                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                    ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  ),
+                  openWidget: SafeArea(
+                child: glassCard(context, ListView(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children:<Widget>[
+                      SizedBox(
+                        width: 20.0,
+                        child: IconButton(
+                          icon: const Icon(Icons.arrow_back_ios),
+                          color: kBaseColor2,
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                      ),
+                      const Text(
+                        'Statistics',
+                        style: kSubSubjectStyle,
+                      ),
+                      const SizedBox(
+                        width: 20.0,
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              ),
+        ),
+              ),
+              openCloseAnimation(context,
+                  closeWidget: glassCard(context, Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      const Padding(
+                        padding:EdgeInsets.all(10),
+                        child: Text(
+                          'Predictions',
+                          style: kCardTitleStyle,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            SizedBox(
+                              height:100,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  RichText(
+                                    text: TextSpan(
+                                      text: 'Total Predictions\n',
+                                      style: kCardSmallTextStyle,
+                                      children: <TextSpan>[
+                                        TextSpan(
+                                          text: currentUser.predictions.length.toString(),
+                                          style: kCardTextStyle2,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  RichText(
+                                    text: TextSpan(
+                                      text: 'Past Predictions\n',
+                                      style: kCardSmallTextStyle,
+                                      children: <TextSpan>[
+                                        TextSpan(
+                                          text: currentUser.pastPredictions.length.toString(),
+                                          style: kCardTextStyle2,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Column(
+                              children:<Widget>[
+                                SizedBox(
+                                  height: 70.0,
+                                  child: SfLinearGauge(
+                                    orientation: LinearGaugeOrientation.vertical,
+                                    minimum: 0,
+                                    maximum: 100,
+                                    showLabels: false,
+                                    showTicks: false,
+                                    showAxisTrack: false,
+                                    isMirrored: true,
+                                    barPointers: [
+                                      for(int i=currentUser.pastPredictions.length;i>0 && i>currentUser.pastPredictions.length-10;i--)
+                                        LinearBarPointer(
+                                          enableAnimation: true,
+                                          animationDuration: kAnimationTime,
+                                          value: (currentUser.pastPredictions[i-1].errorPercentage.abs())>=100.0?100.0:(currentUser.pastPredictions[i-1].errorPercentage.abs()),
+                                          color: currentUser.pastPredictions[i-1].errorPercentage>0?kGreen:kRed,
+                                          edgeStyle: LinearEdgeStyle.bothCurve,
+                                          offset: i*10,
+                                          position: LinearElementPosition.outside,
+                                        ),
                                     ],
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 50,
+                                  child: Center(
+                                    child: Text(
+                                      'Past Errors',
+                                      style: kCardSmallTextStyle,
+                                    ),
                                   ),
                                 ),
                               ],
@@ -179,68 +392,178 @@ class _DashboardState extends State<Dashboard> {
                   ),
                   ),
                   openWidget: SafeArea(
-                child: glassCard(context, ListView(
-                children: [
-                  FloatingActionButton.extended(
-                    label: const Text('Add Prediction'),
-                    icon: const Icon(Icons.add),
-                    onPressed: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context){
-                        return AddPrediction(currentUser);
-                      }));
-                      /*Navigator.push(context, PageTransition(
+                    child: glassCard(context, ListView(
+                    children: <Widget>[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          SizedBox(
+                            width: 20.0,
+                            child: IconButton(
+                              icon: const Icon(Icons.arrow_back_ios),
+                              color: kBaseColor2,
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                            ),
+                          ),
+                          const Text(
+                            'Predictions',
+                            style: kSubSubjectStyle,
+                          ),
+                          const SizedBox(
+                            width: 20.0,
+                          ),
+                        ],
+                      ),
+                      Column(
+                        children: <Widget>[
+                          const SizedBox(height: 10.0,),
+
+                          for(int i=0;i<cryptocurrencies.length;i++)
+                            openCloseAnimation(context,
+                              closeWidget: glassCard(context,
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(vertical: 10.0),
+                                    child: Row(
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                        children: <Widget>[
+                                          Column(
+                                            children: <Widget>[
+                                              SvgPicture.asset(
+                                                'assets/images/cryptocoin_icons/color/'+cryptocurrencies[i].toLowerCase()+'.svg',
+                                                width: 40.0,
+                                                height: 40.0,
+                                              ),
+                                              const SizedBox(height: 10,),
+                                              Text(
+                                                cryptocurrencies[i],
+                                                style: kCardTextStyle,
+                                              ),
+                                              Text(
+                                                cryptocurrencyNames[i],
+                                                style: kCardSmallTextStyle,
+                                              ),
+                                            ],
+                                          ),
+                                          const SizedBox(width: 20.0,),
+                                          Column(
+                                            //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: <Widget>[
+                                              RichText(
+                                                text: TextSpan(
+                                                  text: 'Predictions\n',
+                                                  style: kCardSmallTextStyle,
+                                                  children: <TextSpan>[
+                                                    TextSpan(
+                                                      text: getPredictionsOfACurrency(currency: cryptocurrencies[i])?.length.toString(),
+                                                      style: kCardTextStyle2,
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              const SizedBox(height: 5.0,),
+                                              RichText(
+                                                text: TextSpan(
+                                                  text: 'Accuracy\n',
+                                                  style: kCardSmallTextStyle,
+                                                  children: <TextSpan>[
+                                                    TextSpan(
+                                                      text: (currentUser.errorsOnCurrencies[cryptocurrencies[i]]!-(currentUser.errorsOnCurrencies[cryptocurrencies[i]]!>0?100:-100)).abs().roundToDouble().toString(),
+                                                      style: kCardTextStyle2,
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          const SizedBox(width: 10.0,),
+                                          Column(
+                                            //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: <Widget>[
+                                              RichText(
+                                                text: TextSpan(
+                                                  text: 'Past Predictions\n',
+                                                  style: kCardSmallTextStyle,
+                                                  children: <TextSpan>[
+                                                    TextSpan(
+                                                      text: getPredictionsOfACurrency(currency: cryptocurrencies[i], past: true)?.length.toString(),
+                                                      style: kCardTextStyle2,
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              const SizedBox(height: 5.0,),
+                                              RichText(
+                                                text: TextSpan(
+                                                  text: 'Error Deviation\n',
+                                                  style: kCardSmallTextStyle,
+                                                  children: <TextSpan>[
+                                                    TextSpan(
+                                                      text: sqrt(currentUser.errorVarianceOnCurrencies[cryptocurrencies[i]]??0).roundToDouble().toString(),
+                                                      style: kCardTextStyle2,
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                    ),
+                                  ),
+                              ),
+                              openWidget: SafeArea(
+                                child: glassCard(context,
+                                    ListView(
+                                      children: <Widget>[
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: <Widget>[
+                                            SizedBox(
+                                              width: 20.0,
+                                              child: IconButton(
+                                                icon: const Icon(Icons.arrow_back_ios),
+                                                color: kBaseColor2,
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                },
+                                              ),
+                                            ),
+                                            Text(
+                                              cryptocurrencyNames[i]+' Predictions',
+                                              style: kSubSubjectStyle,
+                                            ),
+                                            const SizedBox(
+                                              width: 20.0,
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                ),
+                              ),
+                            ),
+                        ],
+                      ),
+                      FloatingActionButton.extended(
+                        label: const Text('Add Prediction'),
+                        icon: const Icon(Icons.add),
+                        onPressed: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (context){
+                            return AddPrediction(currentUser);
+                          }));
+                          /*Navigator.push(context, PageTransition(
                         child: AddPrediction(currentUser),
                         type: PageTransitionType.fade,
                         alignment: Alignment.center,
                         duration: Duration(milliseconds: 100),
                       ),
                       );*/
-                    },
-                  ),
-                ],
-              ),
-              ),
-        ),
-              ),
-              openCloseAnimation(context,
-                  closeWidget: glassCard(context, Column(
-                    children: <Widget>[
-                      const Text(
-                        'Errors',
-                        style: kCardTextStyle,
+                        },
                       ),
-                      SizedBox(
-                        width: 500.0,
-                        height: 100.0,
-                        child: SfLinearGauge(
-                          orientation: LinearGaugeOrientation.vertical,
-                          minimum: 0,
-                          maximum: 100,
-                          showLabels: false,
-                          showTicks: false,
-                          showAxisTrack: false,
-                          isMirrored: true,
-                          barPointers: [
-                            for(int i=currentUser.pastPredictions.length;i>0 && i>currentUser.pastPredictions.length-10;i--)
-                              LinearBarPointer(
-                                enableAnimation: true,
-                                animationDuration: kAnimationTime,
-                                value: (currentUser.pastPredictions[i-1].errorPercentage<0?(-currentUser.pastPredictions[i-1].errorPercentage):currentUser.pastPredictions[i-1].errorPercentage)>=100.0?100.0:(currentUser.pastPredictions[i-1].errorPercentage<0?(-currentUser.pastPredictions[i-1].errorPercentage):currentUser.pastPredictions[i-1].errorPercentage),
-                                color: currentUser.pastPredictions[i-1].errorPercentage>0?kGreen:kRed,
-                                edgeStyle: LinearEdgeStyle.bothCurve,
-                                offset: i*10,
-                                position: LinearElementPosition.outside,
-                              ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                  ),
-                  openWidget: SafeArea(
-                    child: glassCard(context, ListView(
-                    children: [
-
                     ],
                     ),
                     ),
@@ -267,13 +590,21 @@ class _DashboardState extends State<Dashboard> {
               ),
               ),*/
               glassCard(context, Column(
-                children: [
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  const Padding(
+                    padding:EdgeInsets.all(10),
+                    child: Text(
+                    'Market',
+                    style: kCardTitleStyle,
+                ),
+                  ),
                   for(int i=0;i<cryptocurrencies.length;i++)
                     openCloseAnimation(context,
                         closeWidget: Center(
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
+                            children: <Widget>[
                               const SizedBox(width: 10.0,),
                               SvgPicture.asset(
                                 'assets/images/cryptocoin_icons/color/'+cryptocurrencies[i].toLowerCase()+'.svg',
@@ -285,7 +616,7 @@ class _DashboardState extends State<Dashboard> {
                                 width: 80.0,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
+                                  children: <Widget>[
                                     Text(
                                       cryptocurrencies[i],
                                       style: kCardTextStyle,
@@ -343,13 +674,30 @@ class _DashboardState extends State<Dashboard> {
                         openWidget: SafeArea(
                             child: glassCard(context, SingleChildScrollView(
                               child: Column(
-                                children: [
-                                  Text(
-                                    cryptocurrencyNames[i],
-                                    style: kSubSubjectStyle,
-                                    textAlign: TextAlign.center,
+                                children: <Widget>[
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      SizedBox(
+                                        width: 20.0,
+                                        child: IconButton(
+                                          icon: const Icon(Icons.arrow_back_ios),
+                                          color: kBaseColor2,
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                        ),
+                                      ),
+                                      Text(
+                                        cryptocurrencyNames[i],
+                                        style: kSubSubjectStyle,
+                                      ),
+                                      const SizedBox(
+                                        width: 20.0,
+                                      ),
+                                    ],
                                   ),
-                                  const SizedBox(height: 15.0,),
+                                  const SizedBox(height: 10.0,),
                                   SvgPicture.asset(
                                     'assets/images/cryptocoin_icons/color/'+cryptocurrencies[i].toLowerCase()+'.svg',
                                     width: 60.0,
@@ -372,9 +720,9 @@ class _DashboardState extends State<Dashboard> {
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
+                                    children: <Widget>[
                                       Text(
-                                        (double.parse((widget.realPriceList[i].priceIncreasePercentage).toStringAsFixed(2))<0?(-double.parse((widget.realPriceList[i].priceIncreasePercentage).toStringAsFixed(2))):double.parse((widget.realPriceList[i].priceIncreasePercentage).toStringAsFixed(2))).toString()+'%',
+                                        (double.parse((widget.realPriceList[i].priceIncreasePercentage).toStringAsFixed(2)).abs()).toString()+'%',
                                         style: TextStyle(
                                           fontSize: 20,
                                           fontFamily: 'Bierstadt',
@@ -389,15 +737,15 @@ class _DashboardState extends State<Dashboard> {
                                     ],
                                   ),
                                   const SizedBox(
-                                    height: 30.0,
+                                    height: 20.0,
                                   ),
                                   SizedBox(
                                     width: double.infinity,
-                                    height: MediaQuery.of(context).size.height-370,
+                                    height: MediaQuery.of(context).size.height-380,
                                     child: charts.SfCartesianChart(
                                       title: charts.ChartTitle(
                                         text: 'Close Price',
-                                        textStyle: kCardTextStyle,
+                                        textStyle: kCardSmallTextStyle,
                                       ),
                                       zoomPanBehavior: charts.ZoomPanBehavior(
                                         enablePinching: true,

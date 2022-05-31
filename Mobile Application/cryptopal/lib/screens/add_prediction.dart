@@ -40,26 +40,35 @@ class _AddPredictionState extends State<AddPrediction> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.transparent,
-      /*appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(90.0),
-        child: logoAppBar(context),
-      ),*/
       body: SafeArea(
         child: SizedBox(
           height: MediaQuery.of(context).size.height,
-          child: SingleChildScrollView(
-            child: glassCard(
-              context,
-              Column(
+          child: glassCard(
+            context,
+            SingleChildScrollView(
+              child: Column(
                 children: <Widget>[
-                  const SizedBox(
-                    height: 10.0,
-                  ),
-                  const Center(
-                    child: Text(
-                      'Add Prediction',
-                      style: kCardTextStyle,
-                    ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      SizedBox(
+                        width: 20.0,
+                        child: IconButton(
+                          icon: const Icon(Icons.arrow_back_ios),
+                          color: kBaseColor2,
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                      ),
+                      const Text(
+                        'Add Prediction',
+                        style: kSubSubjectStyle,
+                      ),
+                      const SizedBox(
+                        width: 20.0,
+                      ),
+                    ],
                   ),
                   const SizedBox(
                     height: 30.0,
@@ -77,9 +86,8 @@ class _AddPredictionState extends State<AddPrediction> {
                                         .viewInsets
                                         .bottom,
                                   ),
-                                  color: kTransparentColor,
+                                  color: kTransparentColor2,
                                   child: SafeArea(
-                                    //top: false,
                                     child: CupertinoPicker(
                                       onSelectedItemChanged: (int value) {
                                         setState(() {
@@ -106,13 +114,16 @@ class _AddPredictionState extends State<AddPrediction> {
                                 ));
                       },
                       child: Text(
-                        cryptocurrencyNames[selectedCrypto],
+                        cryptocurrencyNames[selectedCrypto]+
+                            ' (' +
+                            cryptocurrencies[selectedCrypto] +
+                            ')',
                         style: kSubjectStyle,
                       ),
                     ),
                   ),
                   const SizedBox(
-                    height: 20.0,
+                    height: 30.0,
                   ),
                   SizedBox(
                     height: 100,
@@ -180,8 +191,8 @@ class _AddPredictionState extends State<AddPrediction> {
                     height: 80.0,
                   ),
                   MaterialButton(
-                    color: kAccentColor3,
-                    height: 40.0,
+                    color: kAccentColor1,
+                    height: 45.0,
                     minWidth: double.infinity,
                     onPressed: () async {
                       try {
@@ -209,7 +220,7 @@ class _AddPredictionState extends State<AddPrediction> {
                       'Add Prediction',
                       style: kButtonTextStyle,
                     ),
-                  ).asGlass(),
+                  ),
                 ],
               ),
             ),

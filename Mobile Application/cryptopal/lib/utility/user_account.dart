@@ -1,5 +1,4 @@
 import 'dart:math';
-import 'package:flutter/material.dart';
 import 'package:cryptopal/utility/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -13,7 +12,7 @@ Future<UserAccount> getActiveUserData() async {
   try {
     currentUser.user = _auth.currentUser;
   } catch (e) {
-    
+
   }
 
   try {
@@ -26,7 +25,7 @@ Future<UserAccount> getActiveUserData() async {
         .collection('users')
         .doc(currentUser.user?.uid)
         .collection('predictions')
-        .where('errorPercentage', isNull: true)
+        .where('errorPercentage', isEqualTo: null)
         .get();
     for (var i in predictionsWithoutErrorSnap.docs) {
       try {
@@ -119,7 +118,7 @@ Future<UserAccount> getActiveUserData() async {
       await _firestore
           .collection('users')
           .doc(currentUser.user?.uid)
-          .collection('predictions')
+          .collection('statistics')
           .doc('calculations')
           .set(
         {
