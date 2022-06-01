@@ -5,6 +5,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:cryptopal/utility/constants.dart';
 import 'package:cryptopal/utility/user_account.dart';
 import 'package:cryptopal/utility/database_data.dart';
+import 'package:cryptopal/utility/news_data.dart';
 import 'dashboard.dart';
 
 final _functions=FirebaseFunctions.instance;
@@ -21,6 +22,7 @@ class _DashboardLoadingState extends State<DashboardLoading> {
 
   late UserAccount currentUser=UserAccount();
   late List<RealPricesOfACurrency> realPriceList;
+  late List<News> news;
 
   void loadUser() async{
     currentUser=await getActiveUserData();
@@ -33,8 +35,19 @@ class _DashboardLoadingState extends State<DashboardLoading> {
     realPriceList=await getRealPriceData();
   }
 
+  void loadNews() async{
+    try{
+      news = (await getNewsData()) as List<News>;
+      print('pass');
+      print(news[0].title);
+    }
+    catch(e){
+      print('news error '+e.toString());
+    }
+  }
+
   void addPastCryptoData() async{
-    const int numberOfDaysBefore = 5;
+    const int numberOfDaysBefore = 30;
     for(int i=0;i<numberOfDaysBefore;i++){
       print('addPastCryptoData call '+(i+1).toString());
       try{
@@ -50,6 +63,7 @@ class _DashboardLoadingState extends State<DashboardLoading> {
   @override
   Widget build(BuildContext context) {
     //addPastCryptoData();
+    //loadNews();
     loadData();
     loadUser();
 

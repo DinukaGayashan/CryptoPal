@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:cryptopal/screens/add_prediction.dart';
 import 'package:cryptopal/screens/show_graphs.dart';
 import 'package:flutter/material.dart';
@@ -53,6 +52,25 @@ class _DashboardState extends State<Dashboard> {
     return predictions;
   }
 
+  /*List<Prediction>? getPredictionsOfACurrency({required String currency, bool past=false}){
+    List<Prediction> predictions=<Prediction>[];
+    if(past){
+      for(var p in currentUser.pastPredictions){
+        if((currency+'-USD')==p.predictedCurrency){
+          predictions.add(p);
+        }
+      }
+    }
+    else{
+      for(var p in currentUser.predictions){
+        if((currency+'-USD')==p.predictedCurrency){
+          predictions.add(p);
+        }
+      }
+    }
+    return predictions;
+  }*/
+
   List<RealPrice> getRealPrices ({required String currency, int number=0}){
     List<RealPrice> realPrices=[];
     for(var type in widget.realPriceList){
@@ -79,23 +97,21 @@ class _DashboardState extends State<Dashboard> {
     return index;
   }
 
-  List<Prediction>? getPredictionsOfACurrency({required String currency, bool past=false}){
-    List<Prediction> predictions=<Prediction>[];
-    if(past){
-      for(var p in currentUser.pastPredictions){
-        if((currency+'-USD')==p.predictedCurrency){
-          predictions.add(p);
-        }
+  List<ValueOnCurrency> getValuesOnCurrency({required String currency, required String type}){
+    List<ValueOnCurrency> currencyValues=[];
+    Iterable<double> values={};
+    Iterable<String> dates=currentUser.history.keys;
+    if(type=='error'){
+      for(var d in dates){
+        currencyValues.add(ValueOnCurrency(d,currentUser.history[d]?.errorsOnCurrencies[currency]));
       }
     }
-    else{
-      for(var p in currentUser.predictions){
-        if((currency+'-USD')==p.predictedCurrency){
-          predictions.add(p);
-        }
+    else {
+      for(var d in dates){
+        currencyValues.add(ValueOnCurrency(d,currentUser.history[d]?.errorVarianceOnCurrencies[currency]));
       }
     }
-    return predictions;
+    return currencyValues;
   }
 
   @override
@@ -166,23 +182,23 @@ class _DashboardState extends State<Dashboard> {
                                 children: <Widget>[
                                   RichText(
                                     text: TextSpan(
-                                    text: 'Accuracy\n',
-                                    style: kCardSmallTextStyle,
-                                    children: <TextSpan>[
-                                      TextSpan(
-                                        text: currentUser.accuracy.roundToDouble().toString(),
-                                        style: kCardTextStyle2,
-                                      ),
-                                    ],
-                                  ),
-                                  ),
-                                  RichText(
-                                    text: TextSpan(
                                       text: 'Average Error\n',
                                       style: kCardSmallTextStyle,
                                       children: <TextSpan>[
                                         TextSpan(
                                           text: currentUser.error.roundToDouble().toString(),
+                                          style: kCardTextStyle2,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  RichText(
+                                    text: TextSpan(
+                                      text: 'Error Deviation\n',
+                                      style: kCardSmallTextStyle,
+                                      children: <TextSpan>[
+                                        TextSpan(
+                                          text: currentUser.standardDeviation.roundToDouble().toString(),
                                           style: kCardTextStyle2,
                                         ),
                                       ],
@@ -224,7 +240,7 @@ class _DashboardState extends State<Dashboard> {
                                       color: currentUser.accuracy>50?kAccentColor1:kAccentColor2,
                                       animationType: AnimationType.ease,
                                       enableAnimation: true,
-                                      animationDuration: kAnimationTime.toDouble(),
+                                      //animationDuration: kAnimationTime.toDouble(),
                                       value: currentUser.accuracy>0?currentUser.accuracy.roundToDouble():0,
                                       cornerStyle: CornerStyle.bothCurve,
                                       width: 0.2,
@@ -294,6 +310,44 @@ class _DashboardState extends State<Dashboard> {
                       ),
                     ],
                   ),
+                  const SizedBox(height: 30.0,),
+
+
+
+                  const Center(
+                    child: Text(
+                      'Cryptocurrency Prediction Accuracy',
+                      style: kCardSmallTextStyle,
+                    ),
+                  ),
+                  const SizedBox(height: 15.0,),
+                  SfLinearGauge(
+                    minimum: 0,
+                    maximum: 100,
+                    //showLabels: false,
+                    //showTicks: false,
+                    showAxisTrack: false,
+                    isMirrored: true,
+                    barPointers: [
+                      for(int i=0;i<cryptocurrencies.length;i++)
+                        LinearBarPointer(
+                          thickness: 25.0,
+                          enableAnimation: true,
+                          //animationDuration: kAnimationTime,
+                          value: (currentUser.errorsOnCurrencies[cryptocurrencies[i]]!-(currentUser.errorsOnCurrencies[cryptocurrencies[i]]!>0?100:-100)).abs().roundToDouble(),
+                          color: (currentUser.errorsOnCurrencies[cryptocurrencies[i]]!-(currentUser.errorsOnCurrencies[cryptocurrencies[i]]!>0?100:-100)).abs()>50?kGreen:kRed,
+                          edgeStyle: LinearEdgeStyle.bothCurve,
+                          offset: i*30+35,
+                          position: LinearElementPosition.outside,
+                          child: Center(
+                            child: Text(
+                              cryptocurrencies[i]+' '+(currentUser.errorsOnCurrencies[cryptocurrencies[i]]!-(currentUser.errorsOnCurrencies[cryptocurrencies[i]]!>0?100:-100)).abs().roundToDouble().toString()+'%',
+                              style: kCardSmallTextStyle,
+                            ),
+                          ),
+                        ),
+                    ],
+                  ),
                 ],
               ),
               ),
@@ -349,9 +403,11 @@ class _DashboardState extends State<Dashboard> {
                               ),
                             ),
                             Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children:<Widget>[
                                 SizedBox(
                                   height: 70.0,
+                                  width: 150.0,
                                   child: SfLinearGauge(
                                     orientation: LinearGaugeOrientation.vertical,
                                     minimum: 0,
@@ -364,7 +420,7 @@ class _DashboardState extends State<Dashboard> {
                                       for(int i=currentUser.pastPredictions.length;i>0 && i>currentUser.pastPredictions.length-10;i--)
                                         LinearBarPointer(
                                           enableAnimation: true,
-                                          animationDuration: kAnimationTime,
+                                          //animationDuration: kAnimationTime,
                                           value: (currentUser.pastPredictions[i-1].errorPercentage.abs())>=100.0?100.0:(currentUser.pastPredictions[i-1].errorPercentage.abs()),
                                           color: currentUser.pastPredictions[i-1].errorPercentage>0?kGreen:kRed,
                                           edgeStyle: LinearEdgeStyle.bothCurve,
@@ -416,201 +472,589 @@ class _DashboardState extends State<Dashboard> {
                           ),
                         ],
                       ),
-                      Column(
+                      const SizedBox(height: 30.0,),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
-                          const SizedBox(height: 10.0,),
-                          const SizedBox(height: 20.0,),
-                          MaterialButton(
-                            color: kAccentColor1,
-                            height: 45.0,
-                            minWidth: double.infinity,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: const <Widget>[
-                                Icon(
-                                  Icons.add,
-                                  color: kBaseColor1,
-                                ),
-                                SizedBox(width: 10.0,),
-                                Text(
-                                  'Add Prediction',
-                                  style: kButtonTextStyle,
+                          RichText(
+                            text: TextSpan(
+                              text: 'Total Predictions\n',
+                              style: kCardTextStyle,
+                              children: <TextSpan>[
+                                TextSpan(
+                                  text: currentUser.predictions.length.toString(),
+                                  style: kCardTextStyle3,
                                 ),
                               ],
                             ),
-                            onPressed: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context){
-                                return AddPrediction(currentUser);
-                              }));
-                            },
                           ),
-                          const SizedBox(height: 20.0,),
-                          FloatingActionButton.extended(
-                            backgroundColor: kAccentColor1,
-                            label: const Text(
-                              'Add Prediction',
-                              style: kButtonTextStyle,
+                          Tooltip(
+                            message: 'Add Prediction',
+                            child: FloatingActionButton(
+                              backgroundColor: kAccentColor1,
+                              child: const Icon(Icons.add),
+                              onPressed: (){
+                                Navigator.push(context, MaterialPageRoute(builder: (context){
+                                  return AddPrediction(currentUser);
+                                }));
+                              },
                             ),
-                            icon: const Icon(Icons.add),
-                            onPressed: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context){
-                                return AddPrediction(currentUser);
-                              }));
-                            },
                           ),
-                          for(int i=0;i<cryptocurrencies.length;i++)
-                            openCloseAnimation(context,
-                              closeWidget: glassCard(context,
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(vertical: 10.0),
-                                    child: Row(
-                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        ],
+                      ),
+                      const SizedBox(height: 20.0,),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          RichText(
+                            text: TextSpan(
+                              text: 'Past Predictions\n',
+                              style: kCardSmallTextStyle,
+                              children: <TextSpan>[
+                                TextSpan(
+                                  text: currentUser.pastPredictions.length.toString(),
+                                  style: kCardTextStyle2,
+                                ),
+                              ],
+                            ),
+                          ),
+                          RichText(
+                            text: TextSpan(
+                              text: 'Future Predictions\n',
+                              style: kCardSmallTextStyle,
+                              children: <TextSpan>[
+                                TextSpan(
+                                  text: (currentUser.predictions.length-currentUser.pastPredictions.length).toString(),
+                                  style: kCardTextStyle2,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 30.0,),
+                      for(int i=0;i<cryptocurrencies.length;i++)
+                        openCloseAnimation(context,
+                          closeWidget: glassCard(context,
+                              Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 10.0),
+                                child: Row(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                    children: <Widget>[
+                                      Column(
                                         children: <Widget>[
-                                          Column(
-                                            children: <Widget>[
-                                              SvgPicture.asset(
-                                                'assets/images/cryptocoin_icons/color/'+cryptocurrencies[i].toLowerCase()+'.svg',
-                                                width: 40.0,
-                                                height: 40.0,
-                                              ),
-                                              const SizedBox(height: 10,),
-                                              Text(
-                                                cryptocurrencies[i],
-                                                style: kCardTextStyle,
-                                              ),
-                                              Text(
-                                                cryptocurrencyNames[i],
-                                                style: kCardSmallTextStyle,
-                                              ),
-                                            ],
+                                          SvgPicture.asset(
+                                            'assets/images/cryptocoin_icons/color/'+cryptocurrencies[i].toLowerCase()+'.svg',
+                                            width: 40.0,
+                                            height: 40.0,
                                           ),
-                                          const SizedBox(width: 20.0,),
-                                          Column(
-                                            //mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: <Widget>[
-                                              RichText(
-                                                text: TextSpan(
-                                                  text: 'Predictions\n',
-                                                  style: kCardSmallTextStyle,
-                                                  children: <TextSpan>[
-                                                    TextSpan(
-                                                      text: getPredictionsOfACurrency(currency: cryptocurrencies[i])?.length.toString(),
-                                                      style: kCardTextStyle2,
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                              const SizedBox(height: 5.0,),
-                                              RichText(
-                                                text: TextSpan(
-                                                  text: 'Accuracy\n',
-                                                  style: kCardSmallTextStyle,
-                                                  children: <TextSpan>[
-                                                    TextSpan(
-                                                      text: (currentUser.errorsOnCurrencies[cryptocurrencies[i]]!-(currentUser.errorsOnCurrencies[cryptocurrencies[i]]!>0?100:-100)).abs().roundToDouble().toString(),
-                                                      style: kCardTextStyle2,
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ],
+                                          const SizedBox(height: 10,),
+                                          Text(
+                                            cryptocurrencies[i],
+                                            style: kCardTextStyle,
                                           ),
-                                          const SizedBox(width: 10.0,),
-                                          Column(
-                                            //mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: <Widget>[
-                                              RichText(
-                                                text: TextSpan(
-                                                  text: 'Past Predictions\n',
-                                                  style: kCardSmallTextStyle,
-                                                  children: <TextSpan>[
-                                                    TextSpan(
-                                                      text: getPredictionsOfACurrency(currency: cryptocurrencies[i], past: true)?.length.toString(),
-                                                      style: kCardTextStyle2,
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                              const SizedBox(height: 5.0,),
-                                              RichText(
-                                                text: TextSpan(
-                                                  text: 'Error Deviation\n',
-                                                  style: kCardSmallTextStyle,
-                                                  children: <TextSpan>[
-                                                    TextSpan(
-                                                      text: sqrt(currentUser.errorVarianceOnCurrencies[cryptocurrencies[i]]??0).roundToDouble().toString(),
-                                                      style: kCardTextStyle2,
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ],
+                                          Text(
+                                            cryptocurrencyNames[i],
+                                            style: kCardSmallTextStyle,
                                           ),
                                         ],
-                                    ),
-                                  ),
+                                      ),
+                                      const SizedBox(width: 20.0,),
+                                      Column(
+                                        //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          RichText(
+                                            text: TextSpan(
+                                              text: 'Predictions\n',
+                                              style: kCardSmallTextStyle,
+                                              children: <TextSpan>[
+                                                TextSpan(
+                                                  text: getUserPredictions(currency: cryptocurrencies[i]).length.toString(),
+                                                  style: kCardTextStyle2,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          const SizedBox(height: 5.0,),
+                                          RichText(
+                                            text: TextSpan(
+                                              text: 'Accuracy\n',
+                                              style: kCardSmallTextStyle,
+                                              children: <TextSpan>[
+                                                TextSpan(
+                                                  text: (currentUser.errorsOnCurrencies[cryptocurrencies[i]]!-(currentUser.errorsOnCurrencies[cryptocurrencies[i]]!>0?100:-100)).abs().roundToDouble().toString(),
+                                                  style: kCardTextStyle2,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(width: 10.0,),
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          RichText(
+                                            text: TextSpan(
+                                              text: 'Past Predictions\n',
+                                              style: kCardSmallTextStyle,
+                                              children: <TextSpan>[
+                                                TextSpan(
+                                                  text: getUserPredictions(currency: cryptocurrencies[i], past: true).length.toString(),
+                                                  style: kCardTextStyle2,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          const SizedBox(height: 5.0,),
+                                          RichText(
+                                            text: TextSpan(
+                                              text: 'Error Deviation\n',
+                                              style: kCardSmallTextStyle,
+                                              children: <TextSpan>[
+                                                TextSpan(
+                                                  text: sqrt(currentUser.errorVarianceOnCurrencies[cryptocurrencies[i]]??0).roundToDouble().toString(),
+                                                  style: kCardTextStyle2,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                ),
                               ),
-                              openWidget: SafeArea(
-                                child: glassCard(context,
-                                    ListView(
+                          ),
+                          openWidget: SafeArea(
+                            child: glassCard(context,
+                                ListView(
+                                  children: <Widget>[
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: <Widget>[
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: <Widget>[
-                                            SizedBox(
-                                              width: 20.0,
-                                              child: IconButton(
-                                                icon: const Icon(Icons.arrow_back_ios),
-                                                color: kBaseColor2,
-                                                onPressed: () {
-                                                  Navigator.pop(context);
-                                                },
-                                              ),
-                                            ),
-                                            Text(
-                                              cryptocurrencyNames[i]+' Predictions',
-                                              style: kSubSubjectStyle,
-                                            ),
-                                            const SizedBox(
-                                              width: 20.0,
-                                            ),
-                                          ],
+                                        SizedBox(
+                                          width: 20.0,
+                                          child: IconButton(
+                                            icon: const Icon(Icons.arrow_back_ios),
+                                            color: kBaseColor2,
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            },
+                                          ),
+                                        ),
+                                        Text(
+                                          cryptocurrencyNames[i]+' Predictions',
+                                          style: kSubSubjectStyle,
+                                        ),
+                                        const SizedBox(
+                                          width: 20.0,
                                         ),
                                       ],
                                     ),
+                                    const SizedBox(height: 20.0,),
+                                    Center(
+                                      child: RichText(
+                                        text: TextSpan(
+                                          text: 'Prediction Accuracy',
+                                          style: kCardSmallTextStyle,
+                                          children: <TextSpan>[
+                                            TextSpan(
+                                              text: ' '+(currentUser.errorsOnCurrencies[cryptocurrencies[i]]!-(currentUser.errorsOnCurrencies[cryptocurrencies[i]]!>0?100:-100)).abs().roundToDouble().toString()+'%',
+                                              style: kCardTextStyle2,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(height: 10.0,),
+                                    SfLinearGauge(
+                                      minimum: 0,
+                                      maximum: 100,
+                                      showTicks: false,
+                                      showAxisTrack: false,
+                                      isMirrored: true,
+                                      barPointers: [
+                                          LinearBarPointer(
+                                            thickness: 25.0,
+                                            enableAnimation: true,
+                                            //animationDuration: kAnimationTime,
+                                            value: (currentUser.errorsOnCurrencies[cryptocurrencies[i]]!-(currentUser.errorsOnCurrencies[cryptocurrencies[i]]!>0?100:-100)).abs().roundToDouble(),
+                                            color: (currentUser.errorsOnCurrencies[cryptocurrencies[i]]!-(currentUser.errorsOnCurrencies[cryptocurrencies[i]]!>0?100:-100)).abs()>50?kGreen:kRed,
+                                            edgeStyle: LinearEdgeStyle.bothCurve,
+                                            offset: 20,
+                                            position: LinearElementPosition.outside,
+                                          ),
+                                      ],
+                                    ),
+                                    const SizedBox(height: 15.0,),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                      children: <Widget>[
+                                        RichText(
+                                          text: TextSpan(
+                                            text: 'Past Predictions\n',
+                                            style: kCardSmallTextStyle,
+                                            children: <TextSpan>[
+                                              TextSpan(
+                                                text: getUserPredictions(currency: cryptocurrencies[i],past: true).length.toString(),
+                                                style: kCardTextStyle2,
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        RichText(
+                                          text: TextSpan(
+                                            text: 'Future Predictions\n',
+                                            style: kCardSmallTextStyle,
+                                            children: <TextSpan>[
+                                              TextSpan(
+                                                text: (getUserPredictions(currency: cryptocurrencies[i]).length-getUserPredictions(currency: cryptocurrencies[i],past: true).length).toString(),
+                                                style: kCardTextStyle2,
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(height: 10.0,),
+                                    openCloseAnimation(
+                                      context,
+                                      closeWidget: Row(
+                                        mainAxisAlignment: MainAxisAlignment.end,
+                                        children: const [
+                                          Tooltip(
+                                            message: 'Full Screen View',
+                                            child: Icon(
+                                              Icons.fullscreen,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      openWidget: SafeArea(
+                                        child: SizedBox(
+                                          width: MediaQuery.of(context).size.width,
+                                          height: MediaQuery.of(context).size.height,
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(5.0),
+                                            child: Column(
+                                              children: [
+                                                Row(
+                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                  children: [
+                                                    SizedBox(
+                                                      width: 20.0,
+                                                      child: IconButton(
+                                                        icon: const Icon(Icons.arrow_back_ios),
+                                                        color: kBaseColor2,
+                                                        onPressed: () {
+                                                          Navigator.pop(context);
+                                                        },
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      cryptocurrencyNames[i]+' Predictions',
+                                                      style: kSubSubjectStyle,
+                                                    ),
+                                                    const SizedBox(
+                                                      width: 20.0,
+                                                    ),
+                                                  ],
+                                                ),
+                                                SizedBox(
+                                                  width: MediaQuery.of(context).size.width,
+                                                  height: MediaQuery.of(context).size.height-100,
+                                                  child: charts.SfCartesianChart(
+                                                    title: charts.ChartTitle(
+                                                      text: 'Close Price',
+                                                      textStyle: kCardSmallTextStyle,
+                                                    ),
+                                                    legend: charts.Legend(
+                                                      isVisible: true,
+                                                      overflowMode: charts.LegendItemOverflowMode.wrap,
+                                                      position: charts.LegendPosition.bottom,
+                                                    ),
+                                                    zoomPanBehavior: charts.ZoomPanBehavior(
+                                                      enablePinching: true,
+                                                      enablePanning: true,
+                                                      enableMouseWheelZooming: true,
+                                                      zoomMode: charts.ZoomMode.xy,
+                                                    ),
+                                                    primaryXAxis: charts.DateTimeAxis(),
+                                                    primaryYAxis: charts.NumericAxis(),
+                                                    plotAreaBorderWidth: 1,
+                                                    enableAxisAnimation: true,
+                                                    crosshairBehavior: charts.CrosshairBehavior(
+                                                      enable: true,
+                                                    ),
+                                                    tooltipBehavior: charts.TooltipBehavior(
+                                                      enable: true,
+                                                    ),
+                                                    series: <charts.ChartSeries>[
+                                                      charts.LineSeries<RealPrice, DateTime>(
+                                                        //color: widget.realPriceList[i].priceIncreasePercentage>0?kGreen:kRed,
+                                                        name: cryptocurrencies[i]+' Close Price',
+                                                        dataSource: getRealPrices(currency: cryptocurrencies[i]+'-USD'),
+                                                        xValueMapper: (RealPrice data, _) => DateTime.parse(data.date),
+                                                        yValueMapper: (RealPrice data, _) => data.closePrice,
+                                                      ),
+                                                      charts.LineSeries<Prediction, DateTime>(
+                                                        name: cryptocurrencies[i]+' Prediction',
+                                                        dataSource: getUserPredictions(currency: cryptocurrencies[i]),
+                                                        xValueMapper: (Prediction data, _) => data.predictedDateAsDate,
+                                                        yValueMapper: (Prediction data, _) => data.predictedClosePrice,
+                                                        markerSettings: const charts.MarkerSettings(
+                                                          isVisible: true,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: double.infinity,
+                                      child: charts.SfCartesianChart(
+                                        title: charts.ChartTitle(
+                                          text: 'Close Price',
+                                          textStyle: kCardSmallTextStyle,
+                                        ),
+                                        legend: charts.Legend(
+                                          isVisible: true,
+                                          overflowMode: charts.LegendItemOverflowMode.wrap,
+                                          position: charts.LegendPosition.bottom,
+                                        ),
+                                        zoomPanBehavior: charts.ZoomPanBehavior(
+                                          enablePinching: true,
+                                          enablePanning: true,
+                                          enableMouseWheelZooming: true,
+                                          zoomMode: charts.ZoomMode.xy,
+                                        ),
+                                        primaryXAxis: charts.DateTimeAxis(),
+                                        primaryYAxis: charts.NumericAxis(),
+                                        plotAreaBorderWidth: 1,
+                                        enableAxisAnimation: true,
+                                        crosshairBehavior: charts.CrosshairBehavior(
+                                          enable: true,
+                                        ),
+                                        tooltipBehavior: charts.TooltipBehavior(
+                                          enable: true,
+                                        ),
+                                        series: <charts.ChartSeries>[
+                                          charts.LineSeries<RealPrice, DateTime>(
+                                            //color: widget.realPriceList[i].priceIncreasePercentage>0?kGreen:kRed,
+                                            name: cryptocurrencies[i]+' Close Price',
+                                            dataSource: getRealPrices(currency: cryptocurrencies[i]+'-USD'),
+                                            xValueMapper: (RealPrice data, _) => DateTime.parse(data.date),
+                                            yValueMapper: (RealPrice data, _) => data.closePrice,
+                                          ),
+                                          charts.LineSeries<Prediction, DateTime>(
+                                            //color: widget.realPriceList[i].priceIncreasePercentage>0?kGreen:kRed,
+                                            name: cryptocurrencies[i]+' Prediction',
+                                            dataSource: getUserPredictions(currency: cryptocurrencies[i]),
+                                            xValueMapper: (Prediction data, _) => data.predictedDateAsDate,
+                                            yValueMapper: (Prediction data, _) => data.predictedClosePrice,
+                                            markerSettings: const charts.MarkerSettings(
+                                              isVisible: true,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    const SizedBox(height: 20.0,),
+                                    openCloseAnimation(
+                                      context,
+                                      closeWidget: Row(
+                                        mainAxisAlignment: MainAxisAlignment.end,
+                                        children: const [
+                                          Tooltip(
+                                            message: 'Full Screen View',
+                                            child: Icon(
+                                              Icons.fullscreen,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      openWidget: SafeArea(
+                                        child: SizedBox(
+                                          width: MediaQuery.of(context).size.width,
+                                          height: MediaQuery.of(context).size.height,
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(5.0),
+                                            child: Column(
+                                              children: [
+                                                Row(
+                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                  children: [
+                                                    SizedBox(
+                                                      width: 20.0,
+                                                      child: IconButton(
+                                                        icon: const Icon(Icons.arrow_back_ios),
+                                                        color: kBaseColor2,
+                                                        onPressed: () {
+                                                          Navigator.pop(context);
+                                                        },
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      cryptocurrencyNames[i]+' Predictions',
+                                                      style: kSubSubjectStyle,
+                                                    ),
+                                                    const SizedBox(
+                                                      width: 20.0,
+                                                    ),
+                                                  ],
+                                                ),
+                                                SizedBox(
+                                                  width: MediaQuery.of(context).size.width,
+                                                  height: MediaQuery.of(context).size.height-100,
+                                                  child: charts.SfCartesianChart(
+                                                    title: charts.ChartTitle(
+                                                      text: 'Past Prediction Errors',
+                                                      textStyle: kCardSmallTextStyle,
+                                                    ),
+                                                    legend: charts.Legend(
+                                                      isVisible: true,
+                                                      overflowMode: charts.LegendItemOverflowMode.wrap,
+                                                      position: charts.LegendPosition.bottom,
+                                                    ),
+                                                    zoomPanBehavior: charts.ZoomPanBehavior(
+                                                      enablePinching: true,
+                                                      enablePanning: true,
+                                                      enableMouseWheelZooming: true,
+                                                      zoomMode: charts.ZoomMode.xy,
+                                                    ),
+                                                    primaryXAxis: charts.DateTimeAxis(),
+                                                    primaryYAxis: charts.NumericAxis(),
+                                                    plotAreaBorderWidth: 1,
+                                                    enableAxisAnimation: true,
+                                                    crosshairBehavior: charts.CrosshairBehavior(
+                                                      enable: true,
+                                                    ),
+                                                    tooltipBehavior: charts.TooltipBehavior(
+                                                      enable: true,
+                                                    ),
+                                                    series: <charts.ChartSeries>[
+                                                      charts.LineSeries<ValueOnCurrency, DateTime>(
+                                                        name: cryptocurrencies[i]+' Prediction Error',
+                                                        dataSource: getValuesOnCurrency(currency: cryptocurrencies[i], type: 'error'),
+                                                        xValueMapper: (ValueOnCurrency data, _) => DateTime.parse(data.date),
+                                                        yValueMapper: (ValueOnCurrency data, _) => data.value,
+                                                        markerSettings: const charts.MarkerSettings(
+                                                          isVisible: true,
+                                                        ),
+                                                      ),
+                                                      charts.LineSeries<ValueOnCurrency, DateTime>(
+                                                        name: cryptocurrencies[i]+' Prediction Error Deviation',
+                                                        dataSource: getValuesOnCurrency(currency: cryptocurrencies[i], type: 'variance'),
+                                                        xValueMapper: (ValueOnCurrency data, _) => DateTime.parse(data.date),
+                                                        yValueMapper: (ValueOnCurrency data, _) => sqrt(data.value),
+                                                        markerSettings: const charts.MarkerSettings(
+                                                          isVisible: true,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: double.infinity,
+                                      child: charts.SfCartesianChart(
+                                        title: charts.ChartTitle(
+                                          text: 'Past Prediction Errors',
+                                          textStyle: kCardSmallTextStyle,
+                                        ),
+                                        legend: charts.Legend(
+                                          isVisible: true,
+                                          overflowMode: charts.LegendItemOverflowMode.wrap,
+                                          position: charts.LegendPosition.bottom,
+                                        ),
+                                        zoomPanBehavior: charts.ZoomPanBehavior(
+                                          enablePinching: true,
+                                          enablePanning: true,
+                                          enableMouseWheelZooming: true,
+                                          zoomMode: charts.ZoomMode.xy,
+                                        ),
+                                        primaryXAxis: charts.DateTimeAxis(),
+                                        primaryYAxis: charts.NumericAxis(),
+                                        plotAreaBorderWidth: 1,
+                                        enableAxisAnimation: true,
+                                        crosshairBehavior: charts.CrosshairBehavior(
+                                          enable: true,
+                                        ),
+                                        tooltipBehavior: charts.TooltipBehavior(
+                                          enable: true,
+                                        ),
+                                        series: <charts.ChartSeries>[
+                                          charts.LineSeries<ValueOnCurrency, DateTime>(
+                                            name: cryptocurrencies[i]+' Prediction Error',
+                                            dataSource: getValuesOnCurrency(currency: cryptocurrencies[i], type: 'error'),
+                                            xValueMapper: (ValueOnCurrency data, _) => DateTime.parse(data.date),
+                                            yValueMapper: (ValueOnCurrency data, _) => data.value,
+                                            markerSettings: const charts.MarkerSettings(
+                                              isVisible: true,
+                                            ),
+                                          ),
+                                          charts.LineSeries<ValueOnCurrency, DateTime>(
+                                            name: cryptocurrencies[i]+' Prediction Error Deviation',
+                                            dataSource: getValuesOnCurrency(currency: cryptocurrencies[i], type: 'variance'),
+                                            xValueMapper: (ValueOnCurrency data, _) => DateTime.parse(data.date),
+                                            yValueMapper: (ValueOnCurrency data, _) => sqrt(data.value),
+                                            markerSettings: const charts.MarkerSettings(
+                                              isVisible: true,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+
+
+                                  ],
                                 ),
-                              ),
                             ),
-                        ],
+                          ),
+                        ),
+                      const SizedBox(height: 20.0,),
+                      MaterialButton(
+                        color: kAccentColor1,
+                        height: 45.0,
+                        minWidth: double.infinity,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: const <Widget>[
+                            Icon(
+                              Icons.add,
+                              color: kBaseColor1,
+                            ),
+                            SizedBox(width: 10.0,),
+                            Text(
+                              'Add Prediction',
+                              style: kButtonTextStyle,
+                            ),
+                          ],
+                        ),
+                        onPressed: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (context){
+                            return AddPrediction(currentUser);
+                          }));
+                        },
                       ),
+                      const SizedBox(height: 10.0,),
                     ],
                     ),
                     ),
                   ),
               ),
-              /*glassCard(context, Column(
-                children: [
-                  charts.SfCartesianChart(
-                      primaryXAxis: charts.DateTimeAxis(),
-                      series: <charts.ChartSeries>[
-                        charts.LineSeries<Prediction, DateTime>(
-                          markerSettings: const charts.MarkerSettings(
-                            isVisible: true,
-                            color: kBlue,
-                            borderWidth: 0.0,
-                          ),
-                            dataSource: getUserPredictions(currency: 'BTC'),
-                            xValueMapper: (Prediction data, _) => data.predictedDateAsDate,
-                            yValueMapper: (Prediction data, _) => data.predictedClosePrice,
-                        ),
-                      ],
-                  ),
-                ],
-              ),
-              ),*/
               glassCard(context, Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
@@ -787,7 +1231,6 @@ class _DashboardState extends State<Dashboard> {
                                       ),
                                       series: <charts.ChartSeries>[
                                         charts.LineSeries<RealPrice, DateTime>(
-                                          animationDuration: kAnimationTime.toDouble(),
                                           color: widget.realPriceList[i].priceIncreasePercentage>0?kGreen:kRed,
                                           name: cryptocurrencies[i]+' Close Price',
                                           dataSource: getRealPrices(currency: cryptocurrencies[i]+'-USD'),

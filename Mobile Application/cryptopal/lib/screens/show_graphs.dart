@@ -87,8 +87,11 @@ class _ShowGraphsState extends State<ShowGraphs> {
                     closeWidget: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: const [
-                        Icon(
-                          Icons.fullscreen,
+                        Tooltip(
+                          message: 'Full Screen View',
+                          child: Icon(
+                            Icons.fullscreen,
+                          ),
                         ),
                       ],
                     ),
@@ -282,8 +285,11 @@ class _ShowGraphsState extends State<ShowGraphs> {
                     closeWidget: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: const [
-                        Icon(
-                          Icons.fullscreen,
+                        Tooltip(
+                          message: 'Full Screen View',
+                          child: Icon(
+                            Icons.fullscreen,
+                          ),
                         ),
                       ],
                     ),

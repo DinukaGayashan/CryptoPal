@@ -31,7 +31,7 @@ const kGreen = Color(0xff1fba72);
 const kYellow = Color(0xfff1ae2d);
 const kBlue = Color(0xff008ff7);
 
-const kAnimationTime = 2000;
+const kAnimationTime = 1000;
 
 const TextStyle kMainTitleStyle = TextStyle(
   color: kBaseColor2,
@@ -119,6 +119,12 @@ const TextStyle kCardTextStyle = TextStyle(
 
 const TextStyle kCardTextStyle2 = TextStyle(
   fontSize: 20,
+  fontFamily: 'Bierstadt',
+  color: kAccentColor1,
+);
+
+const TextStyle kCardTextStyle3 = TextStyle(
+  fontSize: 50,
   fontFamily: 'Bierstadt',
   color: kAccentColor1,
 );
