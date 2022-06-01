@@ -419,7 +419,45 @@ class _DashboardState extends State<Dashboard> {
                       Column(
                         children: <Widget>[
                           const SizedBox(height: 10.0,),
-
+                          const SizedBox(height: 20.0,),
+                          MaterialButton(
+                            color: kAccentColor1,
+                            height: 45.0,
+                            minWidth: double.infinity,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: const <Widget>[
+                                Icon(
+                                  Icons.add,
+                                  color: kBaseColor1,
+                                ),
+                                SizedBox(width: 10.0,),
+                                Text(
+                                  'Add Prediction',
+                                  style: kButtonTextStyle,
+                                ),
+                              ],
+                            ),
+                            onPressed: (){
+                              Navigator.push(context, MaterialPageRoute(builder: (context){
+                                return AddPrediction(currentUser);
+                              }));
+                            },
+                          ),
+                          const SizedBox(height: 20.0,),
+                          FloatingActionButton.extended(
+                            backgroundColor: kAccentColor1,
+                            label: const Text(
+                              'Add Prediction',
+                              style: kButtonTextStyle,
+                            ),
+                            icon: const Icon(Icons.add),
+                            onPressed: (){
+                              Navigator.push(context, MaterialPageRoute(builder: (context){
+                                return AddPrediction(currentUser);
+                              }));
+                            },
+                          ),
                           for(int i=0;i<cryptocurrencies.length;i++)
                             openCloseAnimation(context,
                               closeWidget: glassCard(context,
@@ -547,22 +585,6 @@ class _DashboardState extends State<Dashboard> {
                               ),
                             ),
                         ],
-                      ),
-                      FloatingActionButton.extended(
-                        label: const Text('Add Prediction'),
-                        icon: const Icon(Icons.add),
-                        onPressed: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (context){
-                            return AddPrediction(currentUser);
-                          }));
-                          /*Navigator.push(context, PageTransition(
-                        child: AddPrediction(currentUser),
-                        type: PageTransitionType.fade,
-                        alignment: Alignment.center,
-                        duration: Duration(milliseconds: 100),
-                      ),
-                      );*/
-                        },
                       ),
                     ],
                     ),

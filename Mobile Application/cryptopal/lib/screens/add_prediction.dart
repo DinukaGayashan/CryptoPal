@@ -39,6 +39,15 @@ class _AddPredictionState extends State<AddPrediction> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton.extended(
+        label: const Text('Add Prediction'),
+        icon: const Icon(Icons.add),
+        onPressed: (){
+          Navigator.push(context, MaterialPageRoute(builder: (context){
+            return AddPrediction(currentUser);
+          }));
+        },
+      ),
       backgroundColor: Colors.transparent,
       body: SafeArea(
         child: SizedBox(

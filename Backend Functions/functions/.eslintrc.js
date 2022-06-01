@@ -11,6 +11,7 @@ module.exports = {
   rules: {
     "require-jsdoc": 0,
     "quotes": ["error", "double"],
+    "linebreak-style": 0,
   },
   parserOptions: {
     ecmaVersion: 2018,

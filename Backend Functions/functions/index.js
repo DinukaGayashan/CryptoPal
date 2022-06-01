@@ -1,7 +1,8 @@
 const functions = require("firebase-functions");
 const admin = require("firebase-admin");
 const https = require("node:https");
-const PolygonAPIKey="dfaoNptLepezfrOyWOBcAshNWt2BtnqQ";
+const keys=require("./keys");
+const PolygonAPIKey=keys.PolygonAPIKey;
 admin.initializeApp(functions.config().firebase);
 
 const cryptocurrencies=["BTC", "ETH", "LTC", "XRP", "DOGE"];
