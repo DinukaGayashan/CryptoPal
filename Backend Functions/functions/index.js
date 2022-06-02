@@ -63,8 +63,7 @@ function addCryptoData(cryptocurrency, year, month, date) {
   });
 }
 
-exports.scheduledAPICall = functions.pubsub.schedule("0 1 * * *")
-    .timeZone("America/New_York")
+exports.scheduledAPICall = functions.pubsub.schedule("every 6 hours")
     .onRun((context) => {
       const ts = Date.now()-timeOfADay;
       const day = new Date(ts);

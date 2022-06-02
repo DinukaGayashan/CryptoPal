@@ -43,7 +43,7 @@ Widget glassCard(BuildContext context, Widget content) {
         side: BorderSide.none,
       ),
       child: Padding(
-        padding: const EdgeInsets.all(20.0),
+        padding: const EdgeInsets.all(15.0),
         child: content,
       ),
     ).asGlass(

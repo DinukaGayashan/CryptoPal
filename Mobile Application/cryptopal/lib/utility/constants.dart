@@ -33,6 +33,8 @@ const kBlue = Color(0xff008ff7);
 
 const kAnimationTime = 1000;
 
+DateTime kMinDayInGraph=DateTime.now().subtract(const Duration(days: 60));
+
 const TextStyle kMainTitleStyle = TextStyle(
   color: kBaseColor2,
   fontFamily: 'Tenorite',

@@ -253,7 +253,7 @@ class _ShowGraphsState extends State<ShowGraphs> {
                           value: _closePriceCheckBox,
                           onChanged: (bool? value) {
                             setState(() {
-                              _closePriceCheckBox = value!;
+                              _closePriceCheckBox = _openPriceCheckBox==true?value!:true;
                             });
                           }),
                       const Text(
@@ -268,7 +268,7 @@ class _ShowGraphsState extends State<ShowGraphs> {
                           value: _openPriceCheckBox,
                           onChanged: (bool? value) {
                             setState(() {
-                              _openPriceCheckBox = value!;
+                              _openPriceCheckBox = _closePriceCheckBox==true?value!:true;
                             });
                           }),
                       const Text(

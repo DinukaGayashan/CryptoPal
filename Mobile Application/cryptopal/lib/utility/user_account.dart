@@ -199,6 +199,12 @@ class Prediction {
       this.predictedClosePrice, this.errorPercentage){
     predictedDateAsDate=DateTime.parse(predictedDate);
   }
+
+  List<Prediction> toList(Prediction x){
+    List<Prediction> list=[];
+    list.add(Prediction(x.predictedDate, x.predictedCurrency, x.predictedClosePrice, x.errorPercentage));
+    return list;
+  }
 }
 
 class UserAccount {
