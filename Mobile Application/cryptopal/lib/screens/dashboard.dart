@@ -90,7 +90,7 @@ class _DashboardState extends State<Dashboard> {
     return x;
   }
 
-  int getBestCryptocurrency(){
+  String getBestCryptocurrency(){
     double minError=double.infinity;
     int index=0;
     for(int i=0;i<cryptocurrencies.length;i++){
@@ -99,12 +99,11 @@ class _DashboardState extends State<Dashboard> {
         index=i;
       }
     }
-    return index;
+    return minError.isNaN?'-':cryptocurrencyNames[index];
   }
 
   List<ValueOnCurrency> getValuesOnCurrency({required String currency, required String type}){
     List<ValueOnCurrency> currencyValues=[];
-    Iterable<double> values={};
     Iterable<String> dates=currentUser.history.keys;
     if(type=='error'){
       for(var d in dates){
@@ -153,8 +152,10 @@ class _DashboardState extends State<Dashboard> {
                     ),
                     const Hero(
                       tag: 'name',
-                      child: Text(
-                        "CryptoPal",
+                      child: DefaultTextStyle(
+                        child: Text(
+                          'CryptoPal',
+                        ),
                         style: kTitleStyle,
                       ),
                     ),
@@ -215,7 +216,7 @@ class _DashboardState extends State<Dashboard> {
                                       style: kCardSmallTextStyle,
                                       children: <TextSpan>[
                                         TextSpan(
-                                          text: cryptocurrencyNames[getBestCryptocurrency()],
+                                          text: getBestCryptocurrency(),
                                           style: kCardTextStyle2,
                                         ),
                                       ],
@@ -455,28 +456,7 @@ class _DashboardState extends State<Dashboard> {
                   openWidget: SafeArea(
                     child: glassCard(context, ListView(
                     children: <Widget>[
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          SizedBox(
-                            width: 20.0,
-                            child: IconButton(
-                              icon: const Icon(Icons.arrow_back_ios),
-                              color: kBaseColor2,
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                            ),
-                          ),
-                          const Text(
-                            'Predictions',
-                            style: kSubSubjectStyle,
-                          ),
-                          const SizedBox(
-                            width: 20.0,
-                          ),
-                        ],
-                      ),
+                      topBar(context, 'Predictions'),
                       const SizedBox(height: 30.0,),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -1493,19 +1473,19 @@ class _DashboardState extends State<Dashboard> {
                                     ),
                                   ),
                                   //const SizedBox(height: 10.0,),
-                                  TextButton(
-                                    style: TextButton.styleFrom(
-                                      textStyle: kInstructionStyle,
+                                  OutlinedButton(
+                                      child: const Text(
+                                        'More Graphs',
+                                        style: kLinkStyle,
+                                      ),
+                                    style: OutlinedButton.styleFrom(
+                                      side: const BorderSide(width: 1, color: kAccentColor3,),
                                     ),
                                     onPressed: () {
                                       Navigator.push(context, MaterialPageRoute(builder: (context){
                                         return ShowGraphs(widget.realPriceList, i);
                                       }));
                                     },
-                                    child: const Text(
-                                      'More Graphs',
-                                      style: kLinkStyle,
-                                    ),
                                   ),
                                 ],
                               ),

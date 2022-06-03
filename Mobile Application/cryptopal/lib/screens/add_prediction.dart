@@ -4,7 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cryptopal/utility/user_account.dart';
 import 'package:cryptopal/utility/constants.dart';
 import 'package:cryptopal/utility/widgets.dart';
-import 'package:glass/glass.dart';
 
 class AddPrediction extends StatefulWidget {
   const AddPrediction(this.currentUser, {Key? key}) : super(key: key);
@@ -190,10 +189,12 @@ class _AddPredictionState extends State<AddPrediction> {
                   const SizedBox(
                     height: 80.0,
                   ),
-                  MaterialButton(
-                    color: kAccentColor1,
-                    height: 45.0,
-                    minWidth: double.infinity,
+              SizedBox(
+                height: 50,
+                width: double.infinity,
+                child: CupertinoButton(
+                  color: kAccentColor1,
+                  borderRadius: const BorderRadius.all(Radius.zero),
                     onPressed: () async {
                       try {
                         await _firestore
@@ -212,7 +213,7 @@ class _AddPredictionState extends State<AddPrediction> {
                           'predictedClosePrice': predictionPrice.toDouble(),
                         });
                       } catch (e) {
-                        print(e);
+                        snackBar(context,message: e.toString(),color: kRed);
                       }
                       Navigator.pop(context);
                     },
@@ -221,6 +222,7 @@ class _AddPredictionState extends State<AddPrediction> {
                       style: kButtonTextStyle,
                     ),
                   ),
+              ),
                 ],
               ),
             ),

@@ -1,4 +1,4 @@
-import 'package:cryptopal/utility/widgets.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cryptopal/utility/constants.dart';
 import 'sign_in.dart';
@@ -17,7 +17,7 @@ class Welcome extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.only(top: 50.0),
+              padding: const EdgeInsets.only(top: 40.0),
               child: Column(
                 children: <Widget>[
                   Column(
@@ -37,8 +37,10 @@ class Welcome extends StatelessWidget {
                         child: Center(
                           child: Hero(
                             tag: 'name',
-                            child: Text(
-                              'CryptoPal',
+                            child: DefaultTextStyle(
+                              child: Text(
+                                'CryptoPal',
+                              ),
                               style: kMainTitleStyle,
                             ),
                           ),
@@ -46,30 +48,69 @@ class Welcome extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(
+                  SizedBox(
                     height: 50.0,
                     child: Center(
-                      child: Text(
-                        'Advisory platform for cryptocurrency investments',
+                        child: GestureDetector(
+                      child: const DefaultTextStyle(
                         style: kInstructionStyle,
+                        child: Text(
+                          'Advisory platform for cryptocurrency investments',
+                          style: kInstructionStyle,
+                        ),
                       ),
-                    ),
+                      onTap: () {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              backgroundColor: kBackgroundColor,
+                              title: const Text(
+                                "CryptoPal",
+                                style: kTitleStyle,
+                              ),
+                              content: const Text(
+                                "CryptoPal is an advisory platform for cryptocurrency "
+                                "investments that only focused on educational purposes. "
+                                "\n\nPlease do not use this application as a advisor for "
+                                "financial investment purposes.",
+                                style: kInstructionStyle,
+                              ),
+                              actions: [
+                                TextButton(
+                                  child: const Text(
+                                    "OK",
+                                    style: kLinkStyle,
+                                  ),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      },
+                    )),
                   ),
                   const SizedBox(
                     height: 30.0,
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                    child: MaterialButton(
-                      color: kAccentColor1,
-                      height:45.0,
-                      minWidth: double.infinity,
-                      onPressed: () {
-                        Navigator.pushNamed(context, SignUp.id);
-                      },
-                      child: const Text(
-                        'Sign up',
-                        style: kButtonTextStyle,
+                    child: SizedBox(
+                      height: 50,
+                      width: double.infinity,
+                      child: CupertinoButton(
+                        color: kAccentColor1,
+                        borderRadius: const BorderRadius.all(Radius.zero),
+                        onPressed: () {
+                          Navigator.pushNamed(context, SignUp.id);
+                        },
+                        child: const Text(
+                          'Sign up',
+                          style: kButtonTextStyle,
+                        ),
                       ),
                     ),
                   ),
@@ -78,58 +119,46 @@ class Welcome extends StatelessWidget {
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                    child: MaterialButton(
-                      color: kAccentColor1,
-                      height:45.0,
-                      minWidth: double.infinity,
-                      onPressed: () {
-                        Navigator.pushNamed(context, SignIn.id);
-                      },
-                      child: const Text(
-                        'Sign in',
-                        style: kButtonTextStyle,
+                    child: SizedBox(
+                      height: 50,
+                      width: double.infinity,
+                      child: CupertinoButton(
+                        color: kAccentColor1,
+                        borderRadius: const BorderRadius.all(Radius.zero),
+                        onPressed: () {
+                          Navigator.pushNamed(context, SignIn.id);
+                        },
+                        child: const Text(
+                          'Sign in',
+                          style: kButtonTextStyle,
+                        ),
                       ),
                     ),
                   ),
                   const SizedBox(
-                    height: 10.0,
+                    height: 60.0,
                   ),
-                  IconButton(
-                    icon: const Icon(
-                      Icons.info_outline,
-                      color: kBaseColor2,
-                    ),
+                  /*OutlinedButton(
                     onPressed: () {
-                      Widget okButton = TextButton(
-                        child: const Text("OK"),
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                      );
-                      AlertDialog alert = AlertDialog(
-                        backgroundColor: kBaseColor2,
-                        title: const Text(
-                          "CryptoPal",
-                          style: kBlackTitleStyle,
-                        ),
-                        content: const Text(
-                          "CryptoPal is an advisory platform for cryptocurrency "
-                          "investments that only focused on educational purposes. "
-                          "\n\nPlease do not use this as a advisor for financial investment purposes.",
-                          style: kInstructionStyle3,
-                        ),
-                        actions: [
-                          okButton,
-                        ],
-                      );
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return alert;
-                        },
-                      );
+                      SystemNavigator.pop();
                     },
-                  ),
+                    child: SizedBox(
+                      width: 70.0,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const <Widget>[
+                          Icon(
+                            Icons.exit_to_app,
+                            color: kBaseColor2,
+                          ),
+                          Text(
+                            ' Exit',
+                            style: kInstructionStyle,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),*/
                 ],
               ),
             ),

@@ -26,7 +26,7 @@ class _DashboardLoadingState extends State<DashboardLoading> {
 
   void loadUser() async{
     currentUser=await getActiveUserData();
-    Navigator.push(context, MaterialPageRoute(builder: (context){
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context){
       return Dashboard(currentUser, realPriceList);
     }));
   }

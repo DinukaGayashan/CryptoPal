@@ -46,29 +46,7 @@ class _ShowGraphsState extends State<ShowGraphs> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      SizedBox(
-                        width: 20.0,
-                        child: IconButton(
-                          icon: const Icon(Icons.arrow_back_ios),
-                          color: kBaseColor2,
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                        ),
-                      ),
-                      Text(
-                        cryptocurrencyNames[widget.coinIndex],
-                        style: kSubSubjectStyle,
-                        textAlign: TextAlign.center,
-                      ),
-                      const SizedBox(
-                        width: 20.0,
-                      ),
-                    ],
-                  ),
+                  topBar(context, cryptocurrencyNames[widget.coinIndex]),
                   const SizedBox(
                     height: 10.0,
                   ),
@@ -103,6 +81,7 @@ class _ShowGraphsState extends State<ShowGraphs> {
                           padding: const EdgeInsets.all(5.0),
                           child: Column(
                             children: [
+                              topBar(context, cryptocurrencyNames[widget.coinIndex]),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
@@ -301,29 +280,7 @@ class _ShowGraphsState extends State<ShowGraphs> {
                           padding: const EdgeInsets.all(5.0),
                           child: Column(
                             children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  SizedBox(
-                                    width: 20.0,
-                                    child: IconButton(
-                                      icon: const Icon(Icons.arrow_back_ios),
-                                      color: kBaseColor2,
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      },
-                                    ),
-                                  ),
-                                  Text(
-                                    cryptocurrencyNames[widget.coinIndex],
-                                    style: kSubSubjectStyle,
-                                    textAlign: TextAlign.center,
-                                  ),
-                                  const SizedBox(
-                                    width: 20.0,
-                                  ),
-                                ],
-                              ),
+                              topBar(context, cryptocurrencyNames[widget.coinIndex]),
                           SizedBox(
                             width: MediaQuery.of(context).size.width,
                             height: MediaQuery.of(context).size.height-100,

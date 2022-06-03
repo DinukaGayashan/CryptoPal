@@ -71,3 +71,47 @@ Widget openCloseAnimation(BuildContext context,
     },
   );
 }
+
+Widget topBar(BuildContext context, String title){
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    crossAxisAlignment: CrossAxisAlignment.center,
+    children: <Widget>[
+      SizedBox(
+        width: 30,
+        child: IconButton(
+          enableFeedback: true,
+            padding: const EdgeInsets.only(left: 15,right: 20,top:15,bottom: 20),
+            icon: const Icon(Icons.arrow_back_ios),
+            color: kBaseColor2,
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+      ),
+      Text(
+        title,
+        style: kSubSubjectStyle,
+      ),
+      const SizedBox(
+        width: 30.0,
+      ),
+    ],
+  );
+}
+
+ScaffoldFeatureController<SnackBar, SnackBarClosedReason> snackBar(BuildContext context,{required message, required color}){
+  return ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(5))),
+      behavior: SnackBarBehavior.floating,
+      content: Text(
+        message,
+        style: kSnackBarStyle,
+        textAlign: TextAlign.center,
+      ),
+      backgroundColor: color,
+    ),
+  );
+}

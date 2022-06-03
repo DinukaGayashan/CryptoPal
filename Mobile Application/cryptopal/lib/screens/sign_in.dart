@@ -1,8 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cryptopal/utility/constants.dart';
 import 'package:cloud_functions/cloud_functions.dart';
+import 'package:cryptopal/utility//widgets.dart';
 import 'sign_up.dart';
 import 'dashboard_loading.dart';
 import 'registration_form.dart';
@@ -29,6 +31,8 @@ class _SignInState extends State<SignIn> {
       var _email = _prefs.getString("email") ?? "";
       var _password = _prefs.getString("password") ?? "";
       var _rememberMe = _prefs.getBool("remember_me") ?? false;
+      email = _email;
+      password = _password;
 
       if (_rememberMe) {
         setState(() {
@@ -38,7 +42,7 @@ class _SignInState extends State<SignIn> {
         _passwordController.text = _password;
       }
     } catch (e) {
-      print(e);
+      rethrow;
     }
   }
 
@@ -58,8 +62,8 @@ class _SignInState extends State<SignIn> {
 
   @override
   void initState() {
-    loadUserEmailPassword();
     super.initState();
+    loadUserEmailPassword();
   }
 
   @override
@@ -88,8 +92,10 @@ class _SignInState extends State<SignIn> {
                     child: Center(
                       child: Hero(
                         tag: 'name',
-                        child: Text(
-                          'CryptoPal',
+                        child: DefaultTextStyle(
+                          child: Text(
+                            'CryptoPal',
+                          ),
                           style: kTitleStyle,
                         ),
                       ),
@@ -148,14 +154,8 @@ class _SignInState extends State<SignIn> {
                       decoration: const InputDecoration(
                         hintText: 'Enter password',
                         contentPadding: EdgeInsets.symmetric(
-                            vertical: 10.0, horizontal: 20.0
-                        ),
-                        border: InputBorder.none,/*OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5),
-                          borderSide: const BorderSide(
-                            width: 0,
-                            style: BorderStyle.none,
-                          ),),*/
+                            vertical: 10.0, horizontal: 20.0),
+                        border: InputBorder.none,
                         fillColor: kTransparentColor,
                         filled: true,
                       ),
@@ -200,8 +200,14 @@ class _SignInState extends State<SignIn> {
                           onPressed: () async {
                             try {
                               await _auth.sendPasswordResetEmail(email: email);
+                              snackBar(context,
+                                  message: 'Password reset email sent to ' +
+                                      email +
+                                      '.',
+                                  color: kGreen);
                             } catch (e) {
-                              print(e);
+                              snackBar(context,
+                                  message: e.toString(), color: kRed);
                             }
                           },
                           child: const Text(
@@ -217,108 +223,46 @@ class _SignInState extends State<SignIn> {
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                    child: /*ProgressButton(
-                      state: buttonState,
-                      radius: 0,
-                      height: 45.0,
-                      padding: const EdgeInsets.all(5),
-                      progressIndicatorSize: 30.0,
-                      progressIndicatorAlignment: MainAxisAlignment.spaceEvenly,
-                      onPressed: () async {
-                        setState(() {
-                          buttonState=ButtonState.loading;
-                        });
-                        try {
-                          email = _emailController.text;
-                          password = _passwordController.text;
-                          await _auth.signInWithEmailAndPassword(
-                              email: email, password: password);
+                    child: SizedBox(
+                      height: 50,
+                      width: double.infinity,
+                      child: CupertinoButton(
+                        color: kAccentColor1,
+                        borderRadius: const BorderRadius.all(Radius.zero),
+                        onPressed: () async {
+                          _handleRememberMe(rememberMeToggle);
                           try {
-                            HttpsCallable checkUser =
-                            _functions.httpsCallable('checkUser');
-                            final result =
-                            await checkUser.call(<String, dynamic>{
-                              'email': email,
-                            });
-                            if (result.data.toString() == 'user') {
-                              Navigator.pushNamed(context, DashboardLoading.id);
-                            } else {
-                              Navigator.pushNamed(context, RegistrationForm.id);
+                            email = _emailController.text;
+                            password = _passwordController.text;
+                            await _auth.signInWithEmailAndPassword(
+                                email: email, password: password);
+                            try {
+                              HttpsCallable checkUser =
+                                  _functions.httpsCallable('checkUser');
+                              final result =
+                                  await checkUser.call(<String, dynamic>{
+                                'email': email,
+                              });
+                              if (result.data.toString() == 'user') {
+                                Navigator.pushReplacementNamed(
+                                    context, DashboardLoading.id);
+                              } else {
+                                Navigator.pushReplacementNamed(
+                                    context, RegistrationForm.id);
+                              }
+                            } catch (e) {
+                              snackBar(context,
+                                  message: e.toString(), color: kRed);
                             }
                           } catch (e) {
-                            setState(() {
-                              buttonState=ButtonState.fail;
-                              sleep(const Duration(seconds: 1));
-                            });
+                            snackBar(context,
+                                message: e.toString(), color: kRed);
                           }
-                        } catch (e) {
-                          setState(() {
-                            buttonState=ButtonState.fail;
-                            sleep(const Duration(seconds: 1));
-                          });
-                        }
-                        setState(() {
-                          buttonState=ButtonState.idle;
-                        });
-                      },
-                      stateWidgets: const {
-                        ButtonState.idle: Text(
+                        },
+                        child: const Text(
                           'Sign in',
                           style: kButtonTextStyle,
                         ),
-                        ButtonState.loading: Text(
-                          'Loading',
-                          style: kButtonTextStyle,
-                        ),
-                        ButtonState.fail: Text(
-                          'Failed',
-                          style: kButtonTextStyle,
-                        ),
-                        ButtonState.success: Text(
-                          'Success',
-                          style: kButtonTextStyle,
-                        ),
-                      },
-                      stateColors: const {
-                        ButtonState.idle: kAccentColor1,
-                        ButtonState.loading: kAccentColor2,
-                        ButtonState.fail: kRed,
-                        ButtonState.success: kGreen,
-                      },
-
-                    ),*/
-                    MaterialButton(
-                      color: kAccentColor1,
-                      height: 45.0,
-                      minWidth: double.infinity,
-                      onPressed: () async {
-                        try {
-                          email = _emailController.text;
-                          password = _passwordController.text;
-                          await _auth.signInWithEmailAndPassword(
-                              email: email, password: password);
-                          try {
-                            HttpsCallable checkUser =
-                                _functions.httpsCallable('checkUser');
-                            final result =
-                                await checkUser.call(<String, dynamic>{
-                              'email': email,
-                            });
-                            if (result.data.toString() == 'user') {
-                              Navigator.pushNamed(context, DashboardLoading.id);
-                            } else {
-                              Navigator.pushNamed(context, RegistrationForm.id);
-                            }
-                          } catch (e) {
-                            print(e);
-                          }
-                        } catch (e) {
-                          print(e);
-                        }
-                      },
-                      child: const Text(
-                        'Sign in',
-                        style: kButtonTextStyle,
                       ),
                     ),
                   ),
@@ -339,7 +283,7 @@ class _SignInState extends State<SignIn> {
                             textStyle: kInstructionStyle,
                           ),
                           onPressed: () {
-                            Navigator.pushNamed(context, SignUp.id);
+                            Navigator.pushReplacementNamed(context, SignUp.id);
                           },
                           child: const Text(
                             'Sign up',

@@ -31,7 +31,7 @@ class CryptoPal extends StatelessWidget {
           ),
         ),
       ),
-      initialRoute: Welcome.id,
+      initialRoute: DashboardLoading.id,
       routes: {
         Welcome.id: (context) => const Welcome(),
         SignUp.id: (context) => const SignUp(),

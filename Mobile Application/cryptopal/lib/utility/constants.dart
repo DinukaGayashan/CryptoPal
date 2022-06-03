@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 const List<String> cryptocurrencyNames = <String>[
   "Bitcoin",
@@ -22,7 +21,7 @@ const kBaseColor2 = Color(0xffeeeeee);
 const kBackgroundColor = Color(0xff121212);
 const kAccentColor1 = Color(0xff14efbb);
 const kAccentColor2 = Color(0xffffd369);
-const kAccentColor3 = Color(0xff1d5e7f);
+const kAccentColor3 = Color(0xff1d708f);
 //const kAccentColor4 = Color(0xff4C4637);
 const kTransparentColor = Color(0x2214efbb);
 const kTransparentColor2 = Color(0xaa14efbb);
@@ -139,6 +138,12 @@ const TextStyle kCardSmallTextStyle = TextStyle(
 
 const TextStyle kCardNumberStyle = TextStyle(
   fontSize: 50,
+  fontFamily: 'Bierstadt',
+  color: kBaseColor2,
+);
+
+const TextStyle kSnackBarStyle = TextStyle(
+  fontSize: 15,
   fontFamily: 'Bierstadt',
   color: kBaseColor2,
 );

@@ -1,3 +1,5 @@
+import 'package:cryptopal/utility/widgets.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cryptopal/utility/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -6,7 +8,6 @@ import 'registration_form.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
-
   static const String id = 'SignUp';
 
   @override
@@ -15,7 +16,7 @@ class SignUp extends StatefulWidget {
 
 class _SignUpState extends State<SignUp> {
   final _auth = FirebaseAuth.instance;
-  late String email, password1, password2;
+  late String email = '', password1 = '', password2 = '';
 
   @override
   Widget build(BuildContext context) {
@@ -46,8 +47,10 @@ class _SignUpState extends State<SignUp> {
                         child: Center(
                           child: Hero(
                             tag: 'name',
-                            child: Text(
-                              'CryptoPal',
+                            child: DefaultTextStyle(
+                              child: Text(
+                                'CryptoPal',
+                              ),
                               style: kTitleStyle,
                             ),
                           ),
@@ -139,30 +142,40 @@ class _SignUpState extends State<SignUp> {
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                        child: MaterialButton(
-                          color: kAccentColor1,
-                          height: 45.0,
-                          minWidth: double.infinity,
-                          onPressed: () async {
-                            if (password1.length < 6) {
-                              print(
-                                  "Password must be at least 6 characters long");
-                            } else if (password1 == password2) {
-                              try {
-                                await _auth.createUserWithEmailAndPassword(
-                                    email: email, password: password1);
-                                Navigator.pushNamed(
-                                    context, RegistrationForm.id);
-                              } catch (e) {
-                                print(e);
+                        child: SizedBox(
+                          height: 50,
+                          width: double.infinity,
+                          child: CupertinoButton(
+                            color: kAccentColor1,
+                            borderRadius: const BorderRadius.all(Radius.zero),
+                            onPressed: () async {
+                              if (password1.length < 6) {
+                                snackBar(context,
+                                    message:
+                                        'Password must contain at least 6 characters.',
+                                    color: kRed);
+                              } else if (password1 == password2) {
+                                try {
+                                  final user = await _auth
+                                      .createUserWithEmailAndPassword(
+                                          email: email, password: password1);
+                                  Navigator.pushReplacementNamed(
+                                      context, RegistrationForm.id);
+                                } catch (e) {
+                                  snackBar(context,
+                                      message: e.toString(), color: kRed);
+                                  //snackBar(context,message: e.toString().split(']').removeLast(),color: kRed);
+                                }
+                              } else {
+                                snackBar(context,
+                                    message: 'Passwords are not similar.',
+                                    color: kRed);
                               }
-                            } else {
-                              print("Not similar passwords");
-                            }
-                          },
-                          child: const Text(
-                            'Sign up',
-                            style: kButtonTextStyle,
+                            },
+                            child: const Text(
+                              'Sign up',
+                              style: kButtonTextStyle,
+                            ),
                           ),
                         ),
                       ),
@@ -183,7 +196,8 @@ class _SignUpState extends State<SignUp> {
                                 textStyle: kInstructionStyle,
                               ),
                               onPressed: () {
-                                Navigator.pushNamed(context, SignIn.id);
+                                Navigator.pushReplacementNamed(
+                                    context, SignIn.id);
                               },
                               child: const Text(
                                 'Sign in',
