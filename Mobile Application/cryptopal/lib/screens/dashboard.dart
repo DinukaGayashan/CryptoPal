@@ -17,13 +17,15 @@ import 'package:cryptopal/utility/constants.dart';
 import 'package:cryptopal/utility/widgets.dart';
 import 'package:cryptopal/utility/user_account.dart';
 import 'package:cryptopal/utility/database_data.dart';
+import 'package:cryptopal/utility/news_data.dart';
 import 'dashboard_loading.dart';
 
 class Dashboard extends StatefulWidget {
-  const Dashboard(this.currentUser, this.realPriceList, {Key? key}) : super(key: key);
+  const Dashboard(this.currentUser, this.realPriceList, this.newsList, {Key? key}) : super(key: key);
   static const String id = 'dashboard';
   final UserAccount currentUser;
   final List<RealPricesOfACurrency> realPriceList;
+  final List<News> newsList;
 
   @override
   State<Dashboard> createState() => _DashboardState();
@@ -54,15 +56,12 @@ class _DashboardState extends State<Dashboard> {
 
   List<Prediction> getUserFuturePredictions ({required String currency}){
     List<Prediction> predictions=[];
-    for(var p in currentUser.predictions){
-      for(var q in currentUser.pastPredictions){
-        if(!(p.predictedDate==q.predictedDate && p.predictedCurrency==q.predictedCurrency)&& p.predictedCurrency==currency){
-          predictions.add(p);
-        }
+    for(var p in currentUser.futurePredictions){
+      if(p.predictedCurrency==currency+'-USD'){
+        predictions.add(p);
       }
     }
-    print(predictions.toSet().toList().length);
-    return predictions.toSet().toList();
+    return predictions;
   }
 
   List<RealPrice> getRealPrices ({required String currency, int number=0}){
@@ -127,14 +126,14 @@ class _DashboardState extends State<Dashboard> {
           preferredSize: const Size.fromHeight(80.0),
           child: logoAppBar(context),
         ),*/
-        body: LiquidPullToRefresh(
+        body: /*LiquidPullToRefresh(
           backgroundColor: Colors.transparent,
           color: kBaseColor2,
           onRefresh: () async {
             Navigator.pushNamedAndRemoveUntil(
                 context, DashboardLoading.id, (route) => false);
           },
-          child: ListView(
+          child: */ListView(
             children: <Widget>[
               SizedBox(
                 height: 70.0,
@@ -739,11 +738,14 @@ class _DashboardState extends State<Dashboard> {
                                                               Column(
                                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                                 children:<Widget>[
-                                                                  Text(
-                                                                    x.predictedDate,
-                                                                    style: kCardTextStyle,
+                                                                  SizedBox(
+                                                                    height:45.0,
+                                                                    child: Text(
+                                                                      x.predictedDate,
+                                                                      style: kCardTextStyle,
+                                                                    ),
                                                                   ),
-                                                                  const SizedBox(height: 28.0,),
+                                                                  //const SizedBox(height: 15.0,),
                                                                   RichText(
                                                                     text: TextSpan(
                                                                       text: 'Error Percentage\n',
@@ -756,11 +758,25 @@ class _DashboardState extends State<Dashboard> {
                                                                       ],
                                                                     ),
                                                                   ),
+                                                                  const SizedBox(height: 10.0,),
+                                                                  RichText(
+                                                                    text: TextSpan(
+                                                                      text: 'Error\n',
+                                                                      style: kCardSmallTextStyle,
+                                                                      children: <TextSpan>[
+                                                                        TextSpan(
+                                                                          text: x.errorValue.roundToDouble().toString(),
+                                                                          style: kCardTextStyle2,
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                  ),
                                                                 ],
                                                               ),
                                                               Column(
                                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                                 children:<Widget>[
+                                                                  const SizedBox(height: 45.0,),
                                                                   RichText(
                                                                     text: TextSpan(
                                                                       text: 'Predicted Price\n',
@@ -1499,7 +1515,7 @@ class _DashboardState extends State<Dashboard> {
             ],
           ),
         ),
-      ),
+      //),
     );
   }
 }

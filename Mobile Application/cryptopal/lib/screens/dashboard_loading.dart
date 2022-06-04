@@ -8,54 +8,48 @@ import 'package:cryptopal/utility/database_data.dart';
 import 'package:cryptopal/utility/news_data.dart';
 import 'dashboard.dart';
 
-final _functions=FirebaseFunctions.instance;
+final _functions = FirebaseFunctions.instance;
 
 class DashboardLoading extends StatefulWidget {
   const DashboardLoading({Key? key}) : super(key: key);
-  static const String id='DashboardLoading';
+  static const String id = 'DashboardLoading';
 
   @override
   State<DashboardLoading> createState() => _DashboardLoadingState();
 }
 
 class _DashboardLoadingState extends State<DashboardLoading> {
-
-  late UserAccount currentUser=UserAccount();
+  late UserAccount currentUser = UserAccount();
   late List<RealPricesOfACurrency> realPriceList;
-  late List<News> news;
+  late List<News> news = [];
 
-  void loadUser() async{
-    currentUser=await getActiveUserData();
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context){
-      return Dashboard(currentUser, realPriceList);
+  void loadUser() async {
+    currentUser = await getActiveUserData();
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
+      return Dashboard(currentUser, realPriceList, news);
     }));
   }
 
-  void loadData() async{
-    realPriceList=await getRealPriceData();
+  void loadData() async {
+    realPriceList = await getRealPriceData();
   }
 
-  void loadNews() async{
-    try{
-      news = (await getNewsData()) as List<News>;
-      print('pass');
-      print(news[0].title);
-    }
-    catch(e){
-      print('news error '+e.toString());
-    }
+  void loadNews() async {
+    news = await getNewsData();
   }
 
-  void addPastCryptoData() async{
+  void addPastCryptoData() async {
     const int numberOfDaysBefore = 32;
-    for(int i=0;i<numberOfDaysBefore;i++){
-      print('addPastCryptoData call '+(i+1).toString());
-      try{
-          HttpsCallable addPastData=_functions.httpsCallable('addPastCryptoData');
-          await addPastData.call(<String, dynamic>{'numberOfDays': 1,'beforeDays':i});
-        }catch(e){
-          print(e);
-        }
+    for (int i = 0; i < numberOfDaysBefore; i++) {
+      print('addPastCryptoData call ' + (i + 1).toString());
+      try {
+        HttpsCallable addPastData =
+            _functions.httpsCallable('addPastCryptoData');
+        await addPastData
+            .call(<String, dynamic>{'numberOfDays': 1, 'beforeDays': i});
+      } catch (e) {
+        print(e);
+      }
       sleep(const Duration(minutes: 1));
     }
   }
@@ -63,7 +57,7 @@ class _DashboardLoadingState extends State<DashboardLoading> {
   @override
   Widget build(BuildContext context) {
     //addPastCryptoData();
-    //loadNews();
+    loadNews();
     loadData();
     loadUser();
 
@@ -81,7 +75,8 @@ class _DashboardLoadingState extends State<DashboardLoading> {
                     child: CircleAvatar(
                       backgroundColor: Colors.transparent,
                       radius: 100.0,
-                      child: Image.asset('assets/images/CryptoPal-logo-white.png'),
+                      child:
+                          Image.asset('assets/images/CryptoPal-logo-white.png'),
                     ),
                   ),
                   const SizedBox(
@@ -104,7 +99,7 @@ class _DashboardLoadingState extends State<DashboardLoading> {
                 child: Center(
                   child: Text(
                     'Advisory platform for cryptocurrency investments',
-                    style:kInstructionStyle,
+                    style: kInstructionStyle,
                   ),
                 ),
               ),

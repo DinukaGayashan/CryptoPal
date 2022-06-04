@@ -35,8 +35,10 @@ Future<UserAccount> getActiveUserData() async {
             .get();
 
         double realPrice = priceSnap.data()!['closePrice'].toDouble();
-        double error =
-            100 * (i.data()['predictedClosePrice'].toDouble() - realPrice) / realPrice;
+        double errorValue =
+            (i.data()['predictedClosePrice'].toDouble() - realPrice);
+        double errorPercentage =
+            100 * errorValue / realPrice;
 
         await _firestore
             .collection('users')
@@ -44,7 +46,8 @@ Future<UserAccount> getActiveUserData() async {
             .collection('predictions')
             .doc(i.id)
             .set({
-          'errorPercentage': error.toDouble(),
+          'errorValue':errorValue.toDouble(),
+          'errorPercentage': errorPercentage.toDouble(),
         }, SetOptions(merge: true));
       } catch (e) {
         print(e);
@@ -59,19 +62,28 @@ Future<UserAccount> getActiveUserData() async {
           .get();
       currentUser.predictions.clear();
       currentUser.pastPredictions.clear();
+      currentUser.futurePredictions.clear();
       for (var i in predictionsSnapshot.docs) {
         if(i.data()['errorPercentage']!=null){
           currentUser.pastPredictions.add(Prediction(
               i.data()['predictedDate'],
               i.data()['predictedCurrency'],
               i.data()['predictedClosePrice'].toDouble(),
+              i.data()['errorValue'].toDouble(),
               i.data()['errorPercentage'].toDouble()));
+        }
+        else{
+          currentUser.futurePredictions.add(Prediction(
+              i.data()['predictedDate'],
+              i.data()['predictedCurrency'],
+              i.data()['predictedClosePrice'].toDouble(),
+              0.0,0.0));
         }
         currentUser.predictions.add(Prediction(
             i.data()['predictedDate'],
             i.data()['predictedCurrency'],
             i.data()['predictedClosePrice'].toDouble(),
-            0.0));
+            0.0,0.0));
       }
     } catch (e) {
       print(e);
@@ -192,17 +204,18 @@ class Prediction {
   late String predictedDate;
   late String predictedCurrency;
   late double predictedClosePrice;
+  late double errorValue;
   late double errorPercentage;
   late DateTime predictedDateAsDate;
 
   Prediction(this.predictedDate, this.predictedCurrency,
-      this.predictedClosePrice, this.errorPercentage){
+      this.predictedClosePrice, this.errorValue,this.errorPercentage){
     predictedDateAsDate=DateTime.parse(predictedDate);
   }
 
   List<Prediction> toList(Prediction x){
     List<Prediction> list=[];
-    list.add(Prediction(x.predictedDate, x.predictedCurrency, x.predictedClosePrice, x.errorPercentage));
+    list.add(Prediction(x.predictedDate, x.predictedCurrency, x.predictedClosePrice,x.errorValue, x.errorPercentage));
     return list;
   }
 }
@@ -210,7 +223,7 @@ class Prediction {
 class UserAccount {
   late User? user;
   late String name, birthday;
-  late List<Prediction> predictions = [], pastPredictions = [];
+  late List<Prediction> predictions = [], pastPredictions = [], futurePredictions = [];
   late double error, variance, standardDeviation, accuracy;
   late Map<String, double> errorsOnCurrencies, errorVarianceOnCurrencies;
   late Map<String, DayHistory> history;
