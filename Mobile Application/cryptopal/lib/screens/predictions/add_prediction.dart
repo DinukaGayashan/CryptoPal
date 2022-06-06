@@ -49,7 +49,7 @@ class _AddPredictionState extends State<AddPrediction> {
                 children: <Widget>[
                   topBar(context, 'Add Prediction',),
                   const SizedBox(
-                    height: 30.0,
+                    height: 20.0,
                   ),
                   SizedBox(
                     child: CupertinoButton(

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:syncfusion_flutter_charts/charts.dart' as charts;
+import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:cryptopal/utility/database_data.dart';
 import 'package:cryptopal/utility/constants.dart';
 import 'package:cryptopal/utility/widgets.dart';
@@ -50,7 +50,7 @@ class _ShowMarketGraphsState extends State<ShowMarketGraphs> {
                   const SizedBox(
                     height: 10.0,
                   ),
-                  SvgPicture.asset(
+                  /*SvgPicture.asset(
                     'assets/images/cryptocoin_icons/color/' +
                         cryptocurrencies[widget.coinIndex].toLowerCase() +
                         '.svg',
@@ -59,7 +59,7 @@ class _ShowMarketGraphsState extends State<ShowMarketGraphs> {
                   ),
                   const SizedBox(
                     height: 20.0,
-                  ),
+                  ),*/
                   openCloseAnimation(
                     context,
                     closeWidget: Row(
@@ -108,33 +108,33 @@ class _ShowMarketGraphsState extends State<ShowMarketGraphs> {
                               SizedBox(
                                 width: MediaQuery.of(context).size.width,
                                 height: MediaQuery.of(context).size.height-100,
-                                child: charts.SfCartesianChart(
-                                  title: charts.ChartTitle(
+                                child: SfCartesianChart(
+                                  title: ChartTitle(
                                     text: 'Open Close Prices',
                                     textStyle: kCardSmallTextStyle,
                                   ),
-                                  zoomPanBehavior: charts.ZoomPanBehavior(
+                                  zoomPanBehavior: ZoomPanBehavior(
                                     enablePinching: true,
                                     enablePanning: true,
                                     enableMouseWheelZooming: true,
-                                    zoomMode: charts.ZoomMode.xy,
+                                    zoomMode: ZoomMode.xy,
                                   ),
-                                  primaryXAxis: charts.DateTimeAxis(),
-                                  primaryYAxis: charts.NumericAxis(),
+                                  primaryXAxis: DateTimeAxis(),
+                                  primaryYAxis: NumericAxis(),
                                   plotAreaBorderWidth: 1,
-                                  tooltipBehavior: charts.TooltipBehavior(
+                                  tooltipBehavior: TooltipBehavior(
                                     enable: true,
                                   ),
-                                  crosshairBehavior: charts.CrosshairBehavior(
+                                  crosshairBehavior: CrosshairBehavior(
                                     enable: true,
                                   ),
-                                  legend: charts.Legend(
+                                  legend: Legend(
                                     isVisible: true,
-                                    overflowMode: charts.LegendItemOverflowMode.wrap,
-                                    position: charts.LegendPosition.bottom,
+                                    overflowMode: LegendItemOverflowMode.wrap,
+                                    position: LegendPosition.bottom,
                                   ),
-                                  series: <charts.ChartSeries>[
-                                    charts.LineSeries<RealPrice, DateTime>(
+                                  series: <ChartSeries>[
+                                    LineSeries<RealPrice, DateTime>(
                                       isVisible: _closePriceCheckBox,
                                       name: cryptocurrencies[widget.coinIndex] +
                                           ' Close Price',
@@ -148,7 +148,7 @@ class _ShowMarketGraphsState extends State<ShowMarketGraphs> {
                                       data.closePrice,
                                       //pointColorMapper: (RealPrice data, _) => data.closePrice>data.openPrice?kGreen:kRed,
                                     ),
-                                    charts.LineSeries<RealPrice, DateTime>(
+                                    LineSeries<RealPrice, DateTime>(
                                       isVisible: _openPriceCheckBox,
                                       name: cryptocurrencies[widget.coinIndex] +
                                           ' Open Price',
@@ -172,33 +172,33 @@ class _ShowMarketGraphsState extends State<ShowMarketGraphs> {
                   ),
                   SizedBox(
                     width: double.infinity,
-                    child: charts.SfCartesianChart(
-                      title: charts.ChartTitle(
+                    child: SfCartesianChart(
+                      title: ChartTitle(
                         text: 'Open Close Prices',
                         textStyle: kCardSmallTextStyle,
                       ),
-                      zoomPanBehavior: charts.ZoomPanBehavior(
+                      zoomPanBehavior: ZoomPanBehavior(
                         enablePinching: true,
                         enablePanning: true,
                         enableMouseWheelZooming: true,
-                        zoomMode: charts.ZoomMode.xy,
+                        zoomMode: ZoomMode.xy,
                       ),
-                      primaryXAxis: charts.DateTimeAxis(),
-                      primaryYAxis: charts.NumericAxis(),
+                      primaryXAxis: DateTimeAxis(),
+                      primaryYAxis: NumericAxis(),
                       plotAreaBorderWidth: 1,
-                      tooltipBehavior: charts.TooltipBehavior(
+                      tooltipBehavior: TooltipBehavior(
                         enable: true,
                       ),
-                      crosshairBehavior: charts.CrosshairBehavior(
+                      crosshairBehavior: CrosshairBehavior(
                         enable: true,
                       ),
-                      legend: charts.Legend(
+                      legend: Legend(
                         isVisible: true,
-                        overflowMode: charts.LegendItemOverflowMode.wrap,
-                        position: charts.LegendPosition.bottom,
+                        overflowMode: LegendItemOverflowMode.wrap,
+                        position: LegendPosition.bottom,
                       ),
-                      series: <charts.ChartSeries>[
-                        charts.LineSeries<RealPrice, DateTime>(
+                      series: <ChartSeries>[
+                        LineSeries<RealPrice, DateTime>(
                           isVisible: _closePriceCheckBox,
                           name: cryptocurrencies[widget.coinIndex] +
                               ' Close Price',
@@ -210,7 +210,7 @@ class _ShowMarketGraphsState extends State<ShowMarketGraphs> {
                           yValueMapper: (RealPrice data, _) => data.closePrice,
                           //pointColorMapper: (RealPrice data, _) => data.closePrice>data.openPrice?kGreen:kRed,
                         ),
-                        charts.LineSeries<RealPrice, DateTime>(
+                        LineSeries<RealPrice, DateTime>(
                           isVisible: _openPriceCheckBox,
                           name: cryptocurrencies[widget.coinIndex] +
                               ' Open Price',
@@ -327,25 +327,25 @@ class _ShowMarketGraphsState extends State<ShowMarketGraphs> {
                           SizedBox(
                             width: MediaQuery.of(context).size.width,
                             height: MediaQuery.of(context).size.height-100,
-                            child: charts.SfCartesianChart(
-                                title: charts.ChartTitle(
+                            child: SfCartesianChart(
+                                title: ChartTitle(
                                   text: 'OHLC Prices',
                                   textStyle: kCardSmallTextStyle,
                                 ),
-                                zoomPanBehavior: charts.ZoomPanBehavior(
+                                zoomPanBehavior: ZoomPanBehavior(
                                   enablePinching: true,
                                   enablePanning: true,
                                   enableMouseWheelZooming: true,
-                                  zoomMode: charts.ZoomMode.xy,
+                                  zoomMode: ZoomMode.xy,
                                 ),
-                                primaryXAxis: charts.DateTimeAxis(),
-                                primaryYAxis: charts.NumericAxis(),
+                                primaryXAxis: DateTimeAxis(),
+                                primaryYAxis: NumericAxis(),
                                 plotAreaBorderWidth: 1,
-                                tooltipBehavior: charts.TooltipBehavior(
+                                tooltipBehavior: TooltipBehavior(
                                   enable: true,
                                 ),
-                                series: <charts.ChartSeries>[
-                                  charts.CandleSeries<RealPrice, DateTime>(
+                                series: <ChartSeries>[
+                                  CandleSeries<RealPrice, DateTime>(
                                     name: cryptocurrencies[widget.coinIndex] +
                                         ' OHLC Prices',
                                     dataSource: getRealPrices(
@@ -375,25 +375,25 @@ class _ShowMarketGraphsState extends State<ShowMarketGraphs> {
                   ),
                   SizedBox(
                     width: double.infinity,
-                    child: charts.SfCartesianChart(
-                      title: charts.ChartTitle(
+                    child: SfCartesianChart(
+                      title: ChartTitle(
                         text: 'OHLC Prices',
                         textStyle: kCardSmallTextStyle,
                       ),
-                      zoomPanBehavior: charts.ZoomPanBehavior(
+                      zoomPanBehavior: ZoomPanBehavior(
                         enablePinching: true,
                         enablePanning: true,
                         enableMouseWheelZooming: true,
-                        zoomMode: charts.ZoomMode.xy,
+                        zoomMode: ZoomMode.xy,
                       ),
-                      primaryXAxis: charts.DateTimeAxis(),
-                      primaryYAxis: charts.NumericAxis(),
+                      primaryXAxis: DateTimeAxis(),
+                      primaryYAxis: NumericAxis(),
                       plotAreaBorderWidth: 1,
-                      tooltipBehavior: charts.TooltipBehavior(
+                      tooltipBehavior: TooltipBehavior(
                         enable: true,
                       ),
-                      series: <charts.ChartSeries>[
-                        charts.CandleSeries<RealPrice, DateTime>(
+                      series: <ChartSeries>[
+                        CandleSeries<RealPrice, DateTime>(
                           name: cryptocurrencies[widget.coinIndex] +
                               ' OHLC Prices',
                           dataSource: getRealPrices(

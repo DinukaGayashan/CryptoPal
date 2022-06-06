@@ -25,6 +25,7 @@ class _DashboardLoadingState extends State<DashboardLoading> {
 
   void loadUser() async {
     currentUser = await getActiveUserData();
+    print('user done');
     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
       return Dashboard(currentUser, realPriceList, news);
     }));
@@ -32,10 +33,12 @@ class _DashboardLoadingState extends State<DashboardLoading> {
 
   void loadData() async {
     realPriceList = await getRealPriceData();
+    print('data done');
   }
 
   void loadNews() async {
     news = await getNewsData();
+    print('news done');
   }
 
   void addPastCryptoData() async {

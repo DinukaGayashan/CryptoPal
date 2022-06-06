@@ -215,7 +215,7 @@ class _CurrencyPredictionsState extends State<CurrencyPredictions> {
 
                   ],
                 ),
-                const SizedBox(height: 30.0,),
+                const SizedBox(height: 20.0,),
                 IconButton(
                   onPressed: (){
                     Navigator.push(context, MaterialPageRoute(builder: (context){
@@ -279,19 +279,6 @@ class _CurrencyPredictionsState extends State<CurrencyPredictions> {
                     ],
                   ),
                 ),
-
-
-            /*Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: const [
-                Tooltip(
-                  message: 'Full Screen View',
-                  child: Icon(
-                    Icons.fullscreen,
-                  ),
-                ),
-              ],
-            ),*/
                 const SizedBox(height: 20.0,),
                 IconButton(
                   onPressed: (){

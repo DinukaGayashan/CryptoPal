@@ -1,6 +1,8 @@
 import 'dart:math';
-import 'package:cryptopal/screens/add_prediction.dart';
-import 'package:cryptopal/screens/show_graphs.dart';
+import 'package:cryptopal/screens/predictions/add_prediction.dart';
+import 'package:cryptopal/screens/predictions/currency_predictions.dart';
+import 'package:cryptopal/screens/market/show_market_graphs.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -126,14 +128,15 @@ class _DashboardState extends State<Dashboard> {
           preferredSize: const Size.fromHeight(80.0),
           child: logoAppBar(context),
         ),*/
-        body: /*LiquidPullToRefresh(
+        body: LiquidPullToRefresh(
           backgroundColor: Colors.transparent,
-          color: kBaseColor2,
+          color: kAccentColor1,
           onRefresh: () async {
             Navigator.pushNamedAndRemoveUntil(
                 context, DashboardLoading.id, (route) => false);
           },
-          child: */ListView(
+          child: ListView(
+          //physics: const AlwaysScrollableScrollPhysics(),
             children: <Widget>[
               SizedBox(
                 height: 70.0,
@@ -293,28 +296,7 @@ class _DashboardState extends State<Dashboard> {
                   openWidget: SafeArea(
                 child: glassCard(context, ListView(
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children:<Widget>[
-                      SizedBox(
-                        width: 20.0,
-                        child: IconButton(
-                          icon: const Icon(Icons.arrow_back_ios),
-                          color: kBaseColor2,
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                        ),
-                      ),
-                      const Text(
-                        'Statistics',
-                        style: kSubSubjectStyle,
-                      ),
-                      const SizedBox(
-                        width: 20.0,
-                      ),
-                    ],
-                  ),
+                  topBar(context, 'Statistics',),
                   const SizedBox(height: 30.0,),
 
 
@@ -508,7 +490,7 @@ class _DashboardState extends State<Dashboard> {
                               style: kCardSmallTextStyle,
                               children: <TextSpan>[
                                 TextSpan(
-                                  text: (currentUser.predictions.length-currentUser.pastPredictions.length).toString(),
+                                  text: (currentUser.futurePredictions.length).toString(),
                                   style: kCardTextStyle2,
                                 ),
                               ],
@@ -518,98 +500,109 @@ class _DashboardState extends State<Dashboard> {
                       ),
                       const SizedBox(height: 30.0,),
                       for(int i=0;i<cryptocurrencies.length;i++)
-                        openCloseAnimation(context,
-                          closeWidget: glassCard(context,
-                              Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 10.0),
-                                child: Row(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                    children: <Widget>[
-                                      Column(
-                                        children: <Widget>[
-                                          SvgPicture.asset(
-                                            'assets/images/cryptocoin_icons/color/'+cryptocurrencies[i].toLowerCase()+'.svg',
-                                            width: 40.0,
-                                            height: 40.0,
-                                          ),
-                                          const SizedBox(height: 10,),
-                                          Text(
-                                            cryptocurrencies[i],
-                                            style: kCardTextStyle,
-                                          ),
-                                          Text(
-                                            cryptocurrencyNames[i],
-                                            style: kCardSmallTextStyle,
-                                          ),
-                                        ],
-                                      ),
-                                      const SizedBox(width: 20.0,),
-                                      Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                          RichText(
-                                            text: TextSpan(
-                                              text: 'Predictions\n',
-                                              style: kCardSmallTextStyle,
-                                              children: <TextSpan>[
-                                                TextSpan(
-                                                  text: getUserPredictions(currency: cryptocurrencies[i]).length.toString(),
-                                                  style: kCardTextStyle2,
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          const SizedBox(height: 5.0,),
-                                          RichText(
-                                            text: TextSpan(
-                                              text: 'Accuracy\n',
-                                              style: kCardSmallTextStyle,
-                                              children: <TextSpan>[
-                                                TextSpan(
-                                                  text: ((currentUser.errorsOnCurrencies[cryptocurrencies[i]]!).abs()>100?0:(currentUser.errorsOnCurrencies[cryptocurrencies[i]]!-(currentUser.errorsOnCurrencies[cryptocurrencies[i]]!>0?100:-100)).abs().roundToDouble()).toString(),
-                                                  style: kCardTextStyle2,
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      const SizedBox(width: 10.0,),
-                                      Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                          RichText(
-                                            text: TextSpan(
-                                              text: 'Past Predictions\n',
-                                              style: kCardSmallTextStyle,
-                                              children: <TextSpan>[
-                                                TextSpan(
-                                                  text: getUserPredictions(currency: cryptocurrencies[i], past: true).length.toString(),
-                                                  style: kCardTextStyle2,
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          const SizedBox(height: 5.0,),
-                                          RichText(
-                                            text: TextSpan(
-                                              text: 'Error Deviation\n',
-                                              style: kCardSmallTextStyle,
-                                              children: <TextSpan>[
-                                                TextSpan(
-                                                  text: sqrt(currentUser.errorVarianceOnCurrencies[cryptocurrencies[i]]??0).roundToDouble().toString(),
-                                                  style: kCardTextStyle2,
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
+                        GestureDetector(
+                      child: glassCard(context,
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10.0),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: <Widget>[
+                          Column(
+                            children: <Widget>[
+                              SvgPicture.asset(
+                                'assets/images/cryptocoin_icons/color/'+cryptocurrencies[i].toLowerCase()+'.svg',
+                                width: 40.0,
+                                height: 40.0,
+                              ),
+                              const SizedBox(height: 10,),
+                              Text(
+                                cryptocurrencies[i],
+                                style: kCardTextStyle,
+                              ),
+                              Text(
+                                cryptocurrencyNames[i],
+                                style: kCardSmallTextStyle,
+                              ),
+                            ],
+                          ),
+                          const SizedBox(width: 20.0,),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              RichText(
+                                text: TextSpan(
+                                  text: 'Predictions\n',
+                                  style: kCardSmallTextStyle,
+                                  children: <TextSpan>[
+                                    TextSpan(
+                                      text: getUserPredictions(currency: cryptocurrencies[i]).length.toString(),
+                                      style: kCardTextStyle2,
+                                    ),
+                                  ],
                                 ),
                               ),
+                              const SizedBox(height: 5.0,),
+                              RichText(
+                                text: TextSpan(
+                                  text: 'Accuracy\n',
+                                  style: kCardSmallTextStyle,
+                                  children: <TextSpan>[
+                                    TextSpan(
+                                      text: ((currentUser.errorsOnCurrencies[cryptocurrencies[i]]!).abs()>100?0:(currentUser.errorsOnCurrencies[cryptocurrencies[i]]!-(currentUser.errorsOnCurrencies[cryptocurrencies[i]]!>0?100:-100)).abs().roundToDouble()).toString(),
+                                      style: kCardTextStyle2,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
                           ),
+                          const SizedBox(width: 10.0,),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              RichText(
+                                text: TextSpan(
+                                  text: 'Past Predictions\n',
+                                  style: kCardSmallTextStyle,
+                                  children: <TextSpan>[
+                                    TextSpan(
+                                      text: getUserPredictions(currency: cryptocurrencies[i], past: true).length.toString(),
+                                      style: kCardTextStyle2,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(height: 5.0,),
+                              RichText(
+                                text: TextSpan(
+                                  text: 'Error Deviation\n',
+                                  style: kCardSmallTextStyle,
+                                  children: <TextSpan>[
+                                    TextSpan(
+                                      text: sqrt(currentUser.errorVarianceOnCurrencies[cryptocurrencies[i]]??0).roundToDouble().toString(),
+                                      style: kCardTextStyle2,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                onTap: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context){
+                    return CurrencyPredictions(currentUser, i, widget.realPriceList,);
+                  }));
+                },
+                  ),
+
+
+
+                        /*openCloseAnimation(context,
+                          closeWidget:
                           openWidget: SafeArea(
                             child: glassCard(context,
                                 ListView(
@@ -1269,7 +1262,7 @@ class _DashboardState extends State<Dashboard> {
                                 ),
                             ),
                           ),
-                        ),
+                        ),*/
                       const SizedBox(height: 20.0,),
                       MaterialButton(
                         color: kAccentColor1,
@@ -1499,7 +1492,7 @@ class _DashboardState extends State<Dashboard> {
                                     ),
                                     onPressed: () {
                                       Navigator.push(context, MaterialPageRoute(builder: (context){
-                                        return ShowGraphs(widget.realPriceList, i);
+                                        return ShowMarketGraphs(widget.realPriceList, i);
                                       }));
                                     },
                                   ),
@@ -1515,7 +1508,7 @@ class _DashboardState extends State<Dashboard> {
             ],
           ),
         ),
-      //),
+      ),
     );
   }
 }

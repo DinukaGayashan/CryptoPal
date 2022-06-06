@@ -1,8 +1,8 @@
-import 'package:cryptopal/screens/welcome.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'utility/constants.dart';
+import 'screens/welcome.dart';
 import 'screens/sign_up.dart';
 import 'screens/sign_in.dart';
 import 'screens/registration_form.dart';

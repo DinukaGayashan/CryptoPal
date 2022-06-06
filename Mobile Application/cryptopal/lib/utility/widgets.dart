@@ -37,7 +37,7 @@ Widget glassCard(BuildContext context, Widget content) {
   return Padding(
     padding: const EdgeInsets.all(6.0),
     child: Card(
-      color: Colors.transparent,
+      color: Colors.white12,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(30.0),
         side: BorderSide.none,
@@ -46,12 +46,12 @@ Widget glassCard(BuildContext context, Widget content) {
         padding: const EdgeInsets.all(15.0),
         child: content,
       ),
-    ).asGlass(
+    )/*.asGlass(
       clipBorderRadius: BorderRadius.circular(30),
       frosted: false,
       //tileMode:TileMode.clamp,
       //tintColor: kBaseColor1,
-    ),
+    ),*/
   );
 }
 
