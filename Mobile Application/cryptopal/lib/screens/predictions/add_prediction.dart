@@ -175,6 +175,8 @@ class _AddPredictionState extends State<AddPrediction> {
                   color: kAccentColor1,
                   borderRadius: const BorderRadius.all(Radius.zero),
                     onPressed: () async {
+                    currentUser.predictions.add(Prediction(predictionDate.toString().split(' ')[0], cryptocurrencies[selectedCrypto] + '-USD', predictionPrice.toDouble(),0,0));
+                    currentUser.futurePredictions.add(Prediction(predictionDate.toString().split(' ')[0], cryptocurrencies[selectedCrypto] + '-USD', predictionPrice.toDouble(),0,0));
                       try {
                         await _firestore
                             .collection('users')

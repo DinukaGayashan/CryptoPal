@@ -216,17 +216,22 @@ class _CurrencyPredictionsState extends State<CurrencyPredictions> {
                   ],
                 ),
                 const SizedBox(height: 20.0,),
-                IconButton(
-                  onPressed: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context){
-                      return CurrencyPredictionsGraph(currentUser, widget.currencyIndex, widget.realPriceList);
-                    }));
-                  },
-                  icon: const Icon(
-                    Icons.fullscreen,
-                  ),
-                  tooltip: 'Full Screen View',
-                  alignment: Alignment.bottomRight,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    IconButton(
+                      onPressed: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context){
+                          return CurrencyPredictionsGraph(currentUser, widget.currencyIndex, widget.realPriceList);
+                        }));
+                      },
+                      icon: const Icon(
+                        Icons.fullscreen,
+                      ),
+                      tooltip: 'Full Screen View',
+                      alignment: Alignment.bottomRight,
+                    ),
+                  ],
                 ),
                 SizedBox(
                   width: double.infinity,
@@ -280,18 +285,24 @@ class _CurrencyPredictionsState extends State<CurrencyPredictions> {
                   ),
                 ),
                 const SizedBox(height: 20.0,),
-                IconButton(
-                  onPressed: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context){
-                      return CurrencyPredictionErrorsGraph(currentUser, widget.currencyIndex);
-                    }));
-                  },
-                  icon: const Icon(
-                    Icons.fullscreen,
-                  ),
-                  tooltip: 'Full Screen View',
-                  alignment: Alignment.topRight,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    IconButton(
+                      onPressed: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context){
+                          return CurrencyPredictionErrorsGraph(currentUser, widget.currencyIndex);
+                        }));
+                      },
+                      icon: const Icon(
+                        Icons.fullscreen,
+                      ),
+                      tooltip: 'Full Screen View',
+                      alignment: Alignment.bottomRight,
+                    ),
+                  ],
                 ),
+
                 SizedBox(
                   width: double.infinity,
                   child: SfCartesianChart(

@@ -91,7 +91,7 @@ Widget topBar(BuildContext context, String title){
       ),
       Text(
         title,
-        style: kSubSubjectStyle,
+        style: kTopBarStyle,
       ),
       const SizedBox(
         width: 30.0,

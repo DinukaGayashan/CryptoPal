@@ -5,19 +5,22 @@ import 'package:cryptopal/utility/database_data.dart';
 import 'package:cryptopal/utility/constants.dart';
 import 'package:cryptopal/utility/widgets.dart';
 
+import 'currency_ohlc_graph.dart';
+import 'currency_open_close_graph.dart';
+
 class ShowMarketGraphs extends StatefulWidget {
-  const ShowMarketGraphs(this.realPriceList, this.coinIndex, {Key? key})
+  const ShowMarketGraphs(this.realPriceList, this.currencyIndex, {Key? key})
       : super(key: key);
-  static const String id = 'ShowGraphs';
+  static const String id = 'ShowMarketGraphs';
   final List<RealPricesOfACurrency> realPriceList;
-  final int coinIndex;
+  final int currencyIndex;
 
   @override
   State<ShowMarketGraphs> createState() => _ShowMarketGraphsState();
 }
 
 class _ShowMarketGraphsState extends State<ShowMarketGraphs> {
-  bool _closePriceCheckBox = true, _openPriceCheckBox = false;
+  bool _showClosePrice = true, _showOpenPrice = false;
 
   List<RealPrice> getRealPrices({required String currency, int number = 0}) {
     List<RealPrice> realPrices = [];
@@ -46,10 +49,8 @@ class _ShowMarketGraphsState extends State<ShowMarketGraphs> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  topBar(context, cryptocurrencyNames[widget.coinIndex]),
-                  const SizedBox(
-                    height: 10.0,
-                  ),
+                  topBar(context, cryptocurrencyNames[widget.currencyIndex]+' ('+cryptocurrencies[widget.currencyIndex]+')'),
+
                   /*SvgPicture.asset(
                     'assets/images/cryptocoin_icons/color/' +
                         cryptocurrencies[widget.coinIndex].toLowerCase() +
@@ -60,7 +61,8 @@ class _ShowMarketGraphsState extends State<ShowMarketGraphs> {
                   const SizedBox(
                     height: 20.0,
                   ),*/
-                  openCloseAnimation(
+
+                  /*openCloseAnimation(
                     context,
                     closeWidget: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
@@ -81,30 +83,8 @@ class _ShowMarketGraphsState extends State<ShowMarketGraphs> {
                           padding: const EdgeInsets.all(5.0),
                           child: Column(
                             children: [
-                              topBar(context, cryptocurrencyNames[widget.coinIndex]),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  SizedBox(
-                                    width: 20.0,
-                                    child: IconButton(
-                                      icon: const Icon(Icons.arrow_back_ios),
-                                      color: kBaseColor2,
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      },
-                                    ),
-                                  ),
-                                  Text(
-                                    cryptocurrencyNames[widget.coinIndex],
-                                    style: kSubSubjectStyle,
-                                    textAlign: TextAlign.center,
-                                  ),
-                                  const SizedBox(
-                                    width: 20.0,
-                                  ),
-                                ],
-                              ),
+                              topBar(context, cryptocurrencyNames[widget.currencyIndex]),
+
                               SizedBox(
                                 width: MediaQuery.of(context).size.width,
                                 height: MediaQuery.of(context).size.height-100,
@@ -136,11 +116,11 @@ class _ShowMarketGraphsState extends State<ShowMarketGraphs> {
                                   series: <ChartSeries>[
                                     LineSeries<RealPrice, DateTime>(
                                       isVisible: _closePriceCheckBox,
-                                      name: cryptocurrencies[widget.coinIndex] +
+                                      name: cryptocurrencies[widget.currencyIndex] +
                                           ' Close Price',
                                       dataSource: getRealPrices(
                                           currency:
-                                          cryptocurrencies[widget.coinIndex] +
+                                          cryptocurrencies[widget.currencyIndex] +
                                               '-USD'),
                                       xValueMapper: (RealPrice data, _) =>
                                           DateTime.parse(data.date),
@@ -150,11 +130,11 @@ class _ShowMarketGraphsState extends State<ShowMarketGraphs> {
                                     ),
                                     LineSeries<RealPrice, DateTime>(
                                       isVisible: _openPriceCheckBox,
-                                      name: cryptocurrencies[widget.coinIndex] +
+                                      name: cryptocurrencies[widget.currencyIndex] +
                                           ' Open Price',
                                       dataSource: getRealPrices(
                                           currency:
-                                          cryptocurrencies[widget.coinIndex] +
+                                          cryptocurrencies[widget.currencyIndex] +
                                               '-USD'),
                                       xValueMapper: (RealPrice data, _) =>
                                           DateTime.parse(data.date),
@@ -169,6 +149,23 @@ class _ShowMarketGraphsState extends State<ShowMarketGraphs> {
                         ),
                       ),
                     ),
+                  ),*/
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      IconButton(
+                        onPressed: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (context){
+                            return CurrencyOpenCloseGraph(widget.currencyIndex, widget.realPriceList, _showClosePrice, _showOpenPrice);
+                          }));
+                        },
+                        icon: const Icon(
+                          Icons.fullscreen,
+                        ),
+                        tooltip: 'Full Screen View',
+                        alignment: Alignment.bottomRight,
+                      ),
+                    ],
                   ),
                   SizedBox(
                     width: double.infinity,
@@ -199,24 +196,24 @@ class _ShowMarketGraphsState extends State<ShowMarketGraphs> {
                       ),
                       series: <ChartSeries>[
                         LineSeries<RealPrice, DateTime>(
-                          isVisible: _closePriceCheckBox,
-                          name: cryptocurrencies[widget.coinIndex] +
+                          isVisible: _showClosePrice,
+                          name: cryptocurrencies[widget.currencyIndex] +
                               ' Close Price',
                           dataSource: getRealPrices(
                               currency:
-                                  cryptocurrencies[widget.coinIndex] + '-USD'),
+                                  cryptocurrencies[widget.currencyIndex] + '-USD'),
                           xValueMapper: (RealPrice data, _) =>
                               DateTime.parse(data.date),
                           yValueMapper: (RealPrice data, _) => data.closePrice,
                           //pointColorMapper: (RealPrice data, _) => data.closePrice>data.openPrice?kGreen:kRed,
                         ),
                         LineSeries<RealPrice, DateTime>(
-                          isVisible: _openPriceCheckBox,
-                          name: cryptocurrencies[widget.coinIndex] +
+                          isVisible: _showOpenPrice,
+                          name: cryptocurrencies[widget.currencyIndex] +
                               ' Open Price',
                           dataSource: getRealPrices(
                               currency:
-                                  cryptocurrencies[widget.coinIndex] + '-USD'),
+                                  cryptocurrencies[widget.currencyIndex] + '-USD'),
                           xValueMapper: (RealPrice data, _) =>
                               DateTime.parse(data.date),
                           yValueMapper: (RealPrice data, _) => data.openPrice,
@@ -229,17 +226,17 @@ class _ShowMarketGraphsState extends State<ShowMarketGraphs> {
                     children: [
                       ElevatedButton(
                         style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(_closePriceCheckBox?kAccentColor3:Colors.transparent),
+                            backgroundColor: MaterialStateProperty.all(_showClosePrice?kAccentColor3:Colors.transparent),
                             ),
                           onPressed: (){
                             setState(() {
-                              if(_closePriceCheckBox){
-                                _closePriceCheckBox = _openPriceCheckBox?false:true;
-                                if(_openPriceCheckBox==false){
+                              if(_showClosePrice){
+                                _showClosePrice = _showOpenPrice?false:true;
+                                if(_showOpenPrice==false){
                                   snackBar(context, message: 'Select at least one graph to display.', color: kYellow);
                                 }
                               }else{
-                                _closePriceCheckBox = true;
+                                _showClosePrice = true;
                               }
                             });
                           },
@@ -253,17 +250,17 @@ class _ShowMarketGraphsState extends State<ShowMarketGraphs> {
                       ),
                       ElevatedButton(
                         style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all(_openPriceCheckBox?kAccentColor3:Colors.transparent),
+                          backgroundColor: MaterialStateProperty.all(_showOpenPrice?kAccentColor3:Colors.transparent),
                         ),
                         onPressed: (){
                           setState(() {
-                            if(_openPriceCheckBox){
-                              _openPriceCheckBox = _closePriceCheckBox?false:true;
-                              if(_closePriceCheckBox==false){
+                            if(_showOpenPrice){
+                              _showOpenPrice = _showClosePrice?false:true;
+                              if(_showClosePrice==false){
                                 snackBar(context, message: 'Select at least one graph to display.', color: kYellow);
                               }
                             }else{
-                              _openPriceCheckBox = true;
+                              _showOpenPrice = true;
                             }
                           });
                         },
@@ -302,7 +299,24 @@ class _ShowMarketGraphsState extends State<ShowMarketGraphs> {
                   const SizedBox(
                     height: 30.0,
                   ),
-                  openCloseAnimation(
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      IconButton(
+                        onPressed: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (context){
+                            return CurrencyOHLCGraph(widget.currencyIndex, widget.realPriceList);
+                          }));
+                        },
+                        icon: const Icon(
+                          Icons.fullscreen,
+                        ),
+                        tooltip: 'Full Screen View',
+                        alignment: Alignment.bottomRight,
+                      ),
+                    ],
+                  ),
+                  /*openCloseAnimation(
                     context,
                     closeWidget: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
@@ -323,7 +337,7 @@ class _ShowMarketGraphsState extends State<ShowMarketGraphs> {
                           padding: const EdgeInsets.all(5.0),
                           child: Column(
                             children: [
-                              topBar(context, cryptocurrencyNames[widget.coinIndex]),
+                              topBar(context, cryptocurrencyNames[widget.currencyIndex]),
                           SizedBox(
                             width: MediaQuery.of(context).size.width,
                             height: MediaQuery.of(context).size.height-100,
@@ -346,11 +360,11 @@ class _ShowMarketGraphsState extends State<ShowMarketGraphs> {
                                 ),
                                 series: <ChartSeries>[
                                   CandleSeries<RealPrice, DateTime>(
-                                    name: cryptocurrencies[widget.coinIndex] +
+                                    name: cryptocurrencies[widget.currencyIndex] +
                                         ' OHLC Prices',
                                     dataSource: getRealPrices(
                                         currency:
-                                            cryptocurrencies[widget.coinIndex] +
+                                            cryptocurrencies[widget.currencyIndex] +
                                                 '-USD'),
                                     xValueMapper: (RealPrice data, _) =>
                                         DateTime.parse(data.date),
@@ -372,7 +386,7 @@ class _ShowMarketGraphsState extends State<ShowMarketGraphs> {
                         ),
                       ),
                     ),
-                  ),
+                  ),*/
                   SizedBox(
                     width: double.infinity,
                     child: SfCartesianChart(
@@ -394,11 +408,11 @@ class _ShowMarketGraphsState extends State<ShowMarketGraphs> {
                       ),
                       series: <ChartSeries>[
                         CandleSeries<RealPrice, DateTime>(
-                          name: cryptocurrencies[widget.coinIndex] +
+                          name: cryptocurrencies[widget.currencyIndex] +
                               ' OHLC Prices',
                           dataSource: getRealPrices(
                               currency:
-                                  cryptocurrencies[widget.coinIndex] + '-USD'),
+                                  cryptocurrencies[widget.currencyIndex] + '-USD'),
                           xValueMapper: (RealPrice data, _) =>
                               DateTime.parse(data.date),
                           lowValueMapper: (RealPrice data, _) =>

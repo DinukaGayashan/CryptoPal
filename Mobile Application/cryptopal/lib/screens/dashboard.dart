@@ -1505,6 +1505,17 @@ class _DashboardState extends State<Dashboard> {
                 ],
               ),
               ),
+              glassCard(context,
+                  Column(
+                    children: [
+                      for(var news in widget.newsList)
+                        Text(
+                          news.title.toString(),
+                        ),
+                    ],
+                  ),
+
+              ),
             ],
           ),
         ),

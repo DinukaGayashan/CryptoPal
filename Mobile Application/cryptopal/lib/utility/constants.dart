@@ -64,6 +64,12 @@ const TextStyle kSubSubjectStyle = TextStyle(
   color: kBaseColor2,
 );
 
+const TextStyle kTopBarStyle = TextStyle(
+  fontSize: 24,
+  fontFamily: 'Bierstadt',
+  color: kBaseColor2,
+);
+
 const TextStyle kInstructionStyle = TextStyle(
   fontSize: 15,
   fontFamily: 'Bierstadt',

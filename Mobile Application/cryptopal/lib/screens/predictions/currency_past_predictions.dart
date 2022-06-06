@@ -4,7 +4,7 @@ import 'package:cryptopal/utility/constants.dart';
 import 'package:cryptopal/utility/widgets.dart';
 import 'package:cryptopal/utility/database_data.dart';
 
-import '../currency_past_predictions_graph.dart';
+import 'package:cryptopal/screens/predictions/currency_past_predictions_graph.dart';
 
 class CurrencyPastPredictions extends StatefulWidget {
   const CurrencyPastPredictions(
