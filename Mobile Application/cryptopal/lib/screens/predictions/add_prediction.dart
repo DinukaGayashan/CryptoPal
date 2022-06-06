@@ -47,28 +47,7 @@ class _AddPredictionState extends State<AddPrediction> {
             SingleChildScrollView(
               child: Column(
                 children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      SizedBox(
-                        width: 20.0,
-                        child: IconButton(
-                          icon: const Icon(Icons.arrow_back_ios),
-                          color: kBaseColor2,
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                        ),
-                      ),
-                      const Text(
-                        'Add Prediction',
-                        style: kSubSubjectStyle,
-                      ),
-                      const SizedBox(
-                        width: 20.0,
-                      ),
-                    ],
-                  ),
+                  topBar(context, 'Add Prediction',),
                   const SizedBox(
                     height: 30.0,
                   ),

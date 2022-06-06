@@ -5,18 +5,18 @@ import 'package:cryptopal/utility/database_data.dart';
 import 'package:cryptopal/utility/constants.dart';
 import 'package:cryptopal/utility/widgets.dart';
 
-class ShowGraphs extends StatefulWidget {
-  const ShowGraphs(this.realPriceList, this.coinIndex, {Key? key})
+class ShowMarketGraphs extends StatefulWidget {
+  const ShowMarketGraphs(this.realPriceList, this.coinIndex, {Key? key})
       : super(key: key);
   static const String id = 'ShowGraphs';
   final List<RealPricesOfACurrency> realPriceList;
   final int coinIndex;
 
   @override
-  State<ShowGraphs> createState() => _ShowGraphsState();
+  State<ShowMarketGraphs> createState() => _ShowMarketGraphsState();
 }
 
-class _ShowGraphsState extends State<ShowGraphs> {
+class _ShowMarketGraphsState extends State<ShowMarketGraphs> {
   bool _closePriceCheckBox = true, _openPriceCheckBox = false;
 
   List<RealPrice> getRealPrices({required String currency, int number = 0}) {
@@ -227,7 +227,52 @@ class _ShowGraphsState extends State<ShowGraphs> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Checkbox(
+                      ElevatedButton(
+                        style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all(_closePriceCheckBox?kAccentColor3:Colors.transparent),
+                            ),
+                          onPressed: (){
+                            setState(() {
+                              if(_closePriceCheckBox){
+                                _closePriceCheckBox = _openPriceCheckBox?false:true;
+                                if(_openPriceCheckBox==false){
+                                  snackBar(context, message: 'Select at least one graph to display.', color: kYellow);
+                                }
+                              }else{
+                                _closePriceCheckBox = true;
+                              }
+                            });
+                          },
+                          child: const Text(
+                            'Close Price',
+                            style: kCardSmallTextStyle,
+                          ),
+                      ),
+                      const SizedBox(
+                        width: 30.0,
+                      ),
+                      ElevatedButton(
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(_openPriceCheckBox?kAccentColor3:Colors.transparent),
+                        ),
+                        onPressed: (){
+                          setState(() {
+                            if(_openPriceCheckBox){
+                              _openPriceCheckBox = _closePriceCheckBox?false:true;
+                              if(_closePriceCheckBox==false){
+                                snackBar(context, message: 'Select at least one graph to display.', color: kYellow);
+                              }
+                            }else{
+                              _openPriceCheckBox = true;
+                            }
+                          });
+                        },
+                        child: const Text(
+                          'Open Price',
+                          style: kCardSmallTextStyle,
+                        ),
+                      ),
+                      /*Checkbox(
                           activeColor: kAccentColor3,
                           value: _closePriceCheckBox,
                           onChanged: (bool? value) {
@@ -238,11 +283,9 @@ class _ShowGraphsState extends State<ShowGraphs> {
                       const Text(
                         'Close Price',
                         style: kCardSmallTextStyle,
-                      ),
-                      const SizedBox(
-                        width: 30.0,
-                      ),
-                      Checkbox(
+                      ),*/
+
+                      /*Checkbox(
                           activeColor: kAccentColor3,
                           value: _openPriceCheckBox,
                           onChanged: (bool? value) {
@@ -253,7 +296,7 @@ class _ShowGraphsState extends State<ShowGraphs> {
                       const Text(
                         'Open Price',
                         style: kCardSmallTextStyle,
-                      ),
+                      ),*/
                     ],
                   ),
                   const SizedBox(
