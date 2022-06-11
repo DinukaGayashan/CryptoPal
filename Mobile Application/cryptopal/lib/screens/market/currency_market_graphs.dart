@@ -8,18 +8,18 @@ import 'package:cryptopal/utility/widgets.dart';
 import 'currency_ohlc_graph.dart';
 import 'currency_open_close_graph.dart';
 
-class ShowMarketGraphs extends StatefulWidget {
-  const ShowMarketGraphs(this.realPriceList, this.currencyIndex, {Key? key})
+class CurrencyMarketGraphs extends StatefulWidget {
+  const CurrencyMarketGraphs(this.realPriceList, this.currencyIndex, {Key? key})
       : super(key: key);
-  static const String id = 'ShowMarketGraphs';
+  static const String id = 'CurrencyMarketGraphs';
   final List<RealPricesOfACurrency> realPriceList;
   final int currencyIndex;
 
   @override
-  State<ShowMarketGraphs> createState() => _ShowMarketGraphsState();
+  State<CurrencyMarketGraphs> createState() => _CurrencyMarketGraphsState();
 }
 
-class _ShowMarketGraphsState extends State<ShowMarketGraphs> {
+class _CurrencyMarketGraphsState extends State<CurrencyMarketGraphs> {
   bool _showClosePrice = true, _showOpenPrice = false;
 
   List<RealPrice> getRealPrices({required String currency, int number = 0}) {

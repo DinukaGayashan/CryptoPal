@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:cloud_functions/cloud_functions.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:cryptopal/utility/constants.dart';
 import 'package:cryptopal/utility/user_account.dart';
@@ -9,6 +10,7 @@ import 'package:cryptopal/utility/news_data.dart';
 import 'dashboard.dart';
 
 final _functions = FirebaseFunctions.instance;
+final _firestore = FirebaseFirestore.instance;
 
 class DashboardLoading extends StatefulWidget {
   const DashboardLoading({Key? key}) : super(key: key);
@@ -42,7 +44,7 @@ class _DashboardLoadingState extends State<DashboardLoading> {
   }
 
   void addPastCryptoData() async {
-    const int numberOfDaysBefore = 32;
+    const int numberOfDaysBefore = 420;
     for (int i = 0; i < numberOfDaysBefore; i++) {
       print('addPastCryptoData call ' + (i + 1).toString());
       try {
@@ -57,10 +59,29 @@ class _DashboardLoadingState extends State<DashboardLoading> {
     }
   }
 
+  void fixDatesOfPastCryptoData() async{
+    final dataSnapshots=await _firestore.collection('realPrices').get();
+    for(var data in dataSnapshots.docs){
+      try{
+        final String dateString=data.data()['date'].toDate().toString().split(' ')[0];
+        await _firestore
+            .collection('realPrices')
+            .doc(data.id)
+            .set({
+          'date':dateString,
+        }, SetOptions(merge: true));
+      }
+      catch(e){
+        //print(e);
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    //addPastCryptoData();
-    loadNews();
+    addPastCryptoData();
+    //fixDatesOfPastCryptoData();
+    //loadNews();
     loadData();
     loadUser();
 
