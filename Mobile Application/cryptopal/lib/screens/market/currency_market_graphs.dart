@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:cryptopal/utility/database_data.dart';
 import 'package:cryptopal/utility/constants.dart';
@@ -180,7 +181,10 @@ class _CurrencyMarketGraphsState extends State<CurrencyMarketGraphs> {
                         enableMouseWheelZooming: true,
                         zoomMode: ZoomMode.xy,
                       ),
-                      primaryXAxis: DateTimeAxis(),
+                      primaryXAxis: DateTimeAxis(
+                        visibleMinimum: kMinDayInExtendedGraph,
+                        dateFormat: DateFormat.yMd(),
+                      ),
                       primaryYAxis: NumericAxis(),
                       plotAreaBorderWidth: 1,
                       tooltipBehavior: TooltipBehavior(
@@ -400,7 +404,10 @@ class _CurrencyMarketGraphsState extends State<CurrencyMarketGraphs> {
                         enableMouseWheelZooming: true,
                         zoomMode: ZoomMode.xy,
                       ),
-                      primaryXAxis: DateTimeAxis(),
+                      primaryXAxis: DateTimeAxis(
+                        visibleMinimum: kMinDayInExtendedGraph,
+                        dateFormat: DateFormat.yMd(),
+                      ),
                       primaryYAxis: NumericAxis(),
                       plotAreaBorderWidth: 1,
                       tooltipBehavior: TooltipBehavior(

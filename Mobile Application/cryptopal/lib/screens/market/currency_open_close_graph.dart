@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:cryptopal/utility/constants.dart';
 import 'package:cryptopal/utility/widgets.dart';
@@ -44,7 +45,10 @@ class CurrencyOpenCloseGraph extends StatelessWidget {
                   enableMouseWheelZooming: true,
                   zoomMode: ZoomMode.xy,
                 ),
-                primaryXAxis: DateTimeAxis(),
+                primaryXAxis: DateTimeAxis(
+                  visibleMinimum: kMinDayInExtendedGraph,
+                  dateFormat: DateFormat.yMd(),
+                ),
                 primaryYAxis: NumericAxis(),
                 plotAreaBorderWidth: 1,
                 tooltipBehavior: TooltipBehavior(

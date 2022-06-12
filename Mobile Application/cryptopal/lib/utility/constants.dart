@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:number_display/number_display.dart';
 
 const List<String> cryptocurrencyNames = <String>[
   "Bitcoin",
@@ -32,7 +33,12 @@ const kBlue = Color(0xff008ff7);
 
 const kAnimationTime = 1000;
 
-DateTime kMinDayInGraph=DateTime.now().subtract(const Duration(days: 60));
+DateTime kMinDayInGraph = DateTime.now().subtract(const Duration(days: 60));
+DateTime kMinDayInExtendedGraph =
+    DateTime.now().subtract(const Duration(days: 200));
+
+final kDashboardPriceDisplay = createDisplay(length: 7);
+final kCurrencyPriceDisplay = createDisplay(length: 10);
 
 const TextStyle kMainTitleStyle = TextStyle(
   color: kBaseColor2,

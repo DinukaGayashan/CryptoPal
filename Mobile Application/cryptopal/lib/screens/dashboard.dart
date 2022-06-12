@@ -3,6 +3,7 @@ import 'package:cryptopal/screens/predictions/add_prediction.dart';
 import 'package:cryptopal/screens/predictions/currency_predictions.dart';
 import 'package:cryptopal/screens/market/currency_market_graphs.dart';
 import 'package:cryptopal/screens/predictions/predictions.dart';
+import 'package:cryptopal/screens/statistics/statistics.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
@@ -167,7 +168,140 @@ class _DashboardState extends State<Dashboard> {
                 ),
               ),
               const SizedBox(height: 20.0,),
-              openCloseAnimation(
+              GestureDetector(
+                child: glassCard(context, Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    const Padding(
+                      padding:EdgeInsets.all(10),
+                      child: Text(
+                        'Statistics',
+                        style: kCardTitleStyle,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          SizedBox(
+                            height:150.0,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                RichText(
+                                  text: TextSpan(
+                                    text: 'Average Error\n',
+                                    style: kCardSmallTextStyle,
+                                    children: <TextSpan>[
+                                      TextSpan(
+                                        text: currentUser.error.roundToDouble().toString(),
+                                        style: kCardTextStyle2,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                RichText(
+                                  text: TextSpan(
+                                    text: 'Error Deviation\n',
+                                    style: kCardSmallTextStyle,
+                                    children: <TextSpan>[
+                                      TextSpan(
+                                        text: currentUser.standardDeviation.roundToDouble().toString(),
+                                        style: kCardTextStyle2,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                RichText(
+                                  text: TextSpan(
+                                    text: 'Best Currency\n',
+                                    style: kCardSmallTextStyle,
+                                    children: <TextSpan>[
+                                      TextSpan(
+                                        text: getBestCryptocurrency(),
+                                        style: kCardTextStyle2,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            height: 200.0,
+                            width: 200.0,
+                            child: SfRadialGauge(
+                              axes: <RadialAxis>[
+                                RadialAxis(
+                                  minimum: 0,
+                                  maximum: 100,
+                                  showLabels: false,
+                                  showTicks: false,
+                                  axisLineStyle: const AxisLineStyle(
+                                    thickness: 0.2,
+                                    cornerStyle: CornerStyle.bothCurve,
+                                    color: kBaseColor1,
+                                    thicknessUnit: GaugeSizeUnit.factor,
+                                  ),
+                                  pointers: <GaugePointer>[
+                                    RangePointer(
+                                      color: kAccentColor1,
+                                      animationType: AnimationType.ease,
+                                      enableAnimation: true,
+                                      //animationDuration: kAnimationTime.toDouble(),
+                                      value: currentUser.accuracy>0?currentUser.accuracy.roundToDouble():0,
+                                      cornerStyle: CornerStyle.bothCurve,
+                                      width: 0.2,
+                                      sizeUnit: GaugeSizeUnit.factor,
+                                    ),
+                                  ],
+                                  annotations: <GaugeAnnotation>[
+                                    GaugeAnnotation(
+                                      positionFactor: 0.1,
+                                      angle: 90,
+                                      widget: Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: <Widget>[
+                                          RichText(text: TextSpan(
+                                            text: currentUser.accuracy>0?currentUser.accuracy
+                                                .round()
+                                                .toString():'NaN',
+                                            style: kCardNumberStyle,
+                                            children: const <TextSpan>[
+                                              TextSpan(
+                                                text: '%',
+                                                style: kCardTextStyle,
+                                              ),
+                                            ],
+                                          ),
+                                          ),
+                                          const Text(
+                                            'Accuracy',
+                                            style: kCardTextStyle,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                ),
+                onTap: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context){
+                    return Statistics(currentUser);
+                  }));
+                },
+              ),
+              /*openCloseAnimation(
                   context,
                   closeWidget: glassCard(context, Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -295,7 +429,7 @@ class _DashboardState extends State<Dashboard> {
                     ],
                   ),
                   ),
-                  openWidget: SafeArea(
+                  /*openWidget: SafeArea(
                 child: glassCard(context, ListView(
                 children: [
                   topBar(context, 'Statistics',),
@@ -340,8 +474,9 @@ class _DashboardState extends State<Dashboard> {
                 ],
               ),
               ),
-        ),
-              ),GestureDetector(
+        ),*/
+              ),*/
+              GestureDetector(
                 child: glassCard(context, Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
@@ -438,7 +573,12 @@ class _DashboardState extends State<Dashboard> {
                 onTap: (){
                   Navigator.push(context, MaterialPageRoute(builder: (context){
                     return Predictions(currentUser, widget.realPriceList);
-                  }));
+                  })).then((_) {
+                    setState(() {
+                      currentUser.predictions;
+                      currentUser.futurePredictions;
+                    });
+                  });
                 },
               ),
 
@@ -499,27 +639,39 @@ class _DashboardState extends State<Dashboard> {
                                     xValueMapper: (RealPrice data, _) => DateTime.parse(data.date),
                                     yValueMapper: (RealPrice data, _) => data.closePrice,
                                     color: widget.realPriceList[i].priceIncreasePercentage>0?kGreen:kRed,
-                                    //pointColorMapper: (RealPrice data, _) => data.closePrice>data.openPrice?kGreen:kRed,
                                   ),
                                 ],
                               ),
                             ),
                             const SizedBox(width: 10.0,),
-                            Icon(
-                              widget.realPriceList[i].priceIncreasePercentage>0?Icons.arrow_upward:Icons.arrow_downward,
-                              color: widget.realPriceList[i].priceIncreasePercentage>0?kGreen:kRed,
-                              size: 15,
-                            ),
-                            SizedBox(
-                              width: 60.0,
-                              child: Text(
-                                double.parse((widget.realPriceList[i].priceIncreasePercentage).toStringAsFixed(2)).toString()+'%',
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  fontFamily: 'Bierstadt',
-                                  color: widget.realPriceList[i].priceIncreasePercentage>0?kGreen:kRed,
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  '\$ '+kDashboardPriceDisplay(widget.realPriceList[i].pricesList.last.closePrice).toString(),
+                                  style: kCardSmallTextStyle,
                                 ),
-                              ),
+                                Row(
+                                  children: [
+                                    Icon(
+                                      widget.realPriceList[i].priceIncreasePercentage>0?Icons.arrow_upward:Icons.arrow_downward,
+                                      color: widget.realPriceList[i].priceIncreasePercentage>0?kGreen:kRed,
+                                      size: 15,
+                                    ),
+                                    SizedBox(
+                                      width: 60.0,
+                                      child: Text(
+                                        double.parse((widget.realPriceList[i].priceIncreasePercentage).toStringAsFixed(2)).toString()+'%',
+                                        style: TextStyle(
+                                          fontSize: 15,
+                                          fontFamily: 'Bierstadt',
+                                          color: widget.realPriceList[i].priceIncreasePercentage>0?kGreen:kRed,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
                             ),
                           ],
                         ),

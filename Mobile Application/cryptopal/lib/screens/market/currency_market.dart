@@ -62,9 +62,8 @@ class _CurrencyMarketState extends State<CurrencyMarket> {
                   child: RichText(
                     text: TextSpan(
                       text: "\$ " +
-                          widget.realPriceList[widget.currencyIndex].pricesList
-                              .last.closePrice
-                              .toStringAsFixed(6) +
+                          kCurrencyPriceDisplay(widget.realPriceList[widget.currencyIndex].pricesList
+                              .last.closePrice) +
                           ' ',
                       style: kCardNumberStyle,
                       children: <TextSpan>[

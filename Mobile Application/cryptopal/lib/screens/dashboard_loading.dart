@@ -35,6 +35,11 @@ class _DashboardLoadingState extends State<DashboardLoading> {
 
   void loadData() async {
     realPriceList = await getRealPriceData();
+    /*print('BTC '+realPriceList[0].pricesList.last.date);
+    print('ETH '+realPriceList[1].pricesList.last.date);
+    print('LTC '+realPriceList[2].pricesList.last.date);
+    print('XRP '+realPriceList[3].pricesList.last.date);
+    print('DOGE '+realPriceList[4].pricesList.last.date);*/
     print('data done');
   }
 
@@ -72,14 +77,14 @@ class _DashboardLoadingState extends State<DashboardLoading> {
         }, SetOptions(merge: true));
       }
       catch(e){
-        //print(e);
+        print(e);
       }
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    addPastCryptoData();
+    //addPastCryptoData();
     //fixDatesOfPastCryptoData();
     //loadNews();
     loadData();
