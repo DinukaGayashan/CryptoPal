@@ -55,7 +55,7 @@ Widget glassCard(BuildContext context, Widget content) {
   );
 }
 
-Widget openCloseAnimation(BuildContext context,
+/*Widget openCloseAnimation(BuildContext context,
     {required Widget closeWidget, required Widget openWidget}) {
   return OpenContainer(
     closedColor: Colors.transparent,
@@ -70,7 +70,7 @@ Widget openCloseAnimation(BuildContext context,
         return openWidget;
     },
   );
-}
+}*/
 
 Widget topBar(BuildContext context, String title){
   return Row(

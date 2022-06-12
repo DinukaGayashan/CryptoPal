@@ -209,7 +209,12 @@ class _CurrencyPredictionsState extends State<CurrencyPredictions> {
               onTap: (){
                 Navigator.push(context, MaterialPageRoute(builder: (context){
                   return CurrencyFuturePredictions(currentUser, widget.currencyIndex, widget.realPriceList);
-                }));
+                })).then((_) {
+                  setState(() {
+                    currentUser.predictions;
+                    currentUser.futurePredictions;
+                  });
+                });
               },
             ),
 

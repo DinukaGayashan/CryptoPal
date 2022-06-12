@@ -530,7 +530,7 @@ class _DashboardState extends State<Dashboard> {
                             children:<Widget>[
                               SizedBox(
                                 height: 70.0,
-                                width: 150.0,
+                                width: 200.0,
                                 child: SfLinearGauge(
                                   orientation: LinearGaugeOrientation.vertical,
                                   minimum: 0,
@@ -557,7 +557,7 @@ class _DashboardState extends State<Dashboard> {
                                 height: 50,
                                 child: Center(
                                   child: Text(
-                                    'Past Errors',
+                                    '             Past Errors',
                                     style: kCardSmallTextStyle,
                                   ),
                                 ),

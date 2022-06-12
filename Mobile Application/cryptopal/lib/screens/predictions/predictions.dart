@@ -48,10 +48,9 @@ class _PredictionsState extends State<Predictions> {
         child: const Icon(Icons.add),
         tooltip: 'Add Prediction',
         onPressed: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) {
-                return AddPrediction(currentUser);
-              })).then((_) {
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
+            return AddPrediction(currentUser);
+          })).then((_) {
             setState(() {
               currentUser.predictions;
               currentUser.futurePredictions;
@@ -285,7 +284,12 @@ class _PredictionsState extends State<Predictions> {
                           i,
                           widget.realPriceList,
                         );
-                      }));
+                      })).then((_) {
+                        setState(() {
+                          currentUser.predictions;
+                          currentUser.futurePredictions;
+                        });
+                      });
                     },
                   ),
                 const SizedBox(

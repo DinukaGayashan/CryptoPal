@@ -50,7 +50,9 @@ class CurrencyPastPredictionsGraph extends StatelessWidget {
                   enableMouseWheelZooming: true,
                   zoomMode: ZoomMode.xy,
                 ),
-                primaryXAxis: DateTimeAxis(),
+                primaryXAxis: DateTimeAxis(
+                  visibleMinimum: kMinDayInGraph,
+                ),
                 primaryYAxis: NumericAxis(),
                 plotAreaBorderWidth: 1,
                 enableAxisAnimation: true,

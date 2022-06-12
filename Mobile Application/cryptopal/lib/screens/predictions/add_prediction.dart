@@ -193,6 +193,7 @@ class _AddPredictionState extends State<AddPrediction> {
                               cryptocurrencies[selectedCrypto] + '-USD',
                           'predictedClosePrice': predictionPrice.toDouble(),
                         });
+                        snackBar(context, message: 'Prediction successfully added.', color: kGreen);
                       } catch (e) {
                         snackBar(context,message: e.toString(),color: kRed);
                       }

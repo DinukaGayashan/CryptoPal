@@ -83,7 +83,7 @@ class _CurrencyPastPredictionsState extends State<CurrencyPastPredictions> {
                       ' Past Predictions',
                 ),
                 const SizedBox(
-                  height: 20.0,
+                  height: 10.0,
                 ),
                 for (var prediction in getUserPredictions(
                     currency: cryptocurrencies[widget.currencyIndex],
