@@ -47,7 +47,10 @@ class _AddPredictionState extends State<AddPrediction> {
             SingleChildScrollView(
               child: Column(
                 children: <Widget>[
-                  topBar(context, 'Add Prediction',),
+                  topBar(
+                    context,
+                    'Add Prediction',
+                  ),
                   const SizedBox(
                     height: 20.0,
                   ),
@@ -92,7 +95,7 @@ class _AddPredictionState extends State<AddPrediction> {
                                 ));
                       },
                       child: Text(
-                        cryptocurrencyNames[selectedCrypto]+
+                        cryptocurrencyNames[selectedCrypto] +
                             ' (' +
                             cryptocurrencies[selectedCrypto] +
                             ')',
@@ -168,43 +171,55 @@ class _AddPredictionState extends State<AddPrediction> {
                   const SizedBox(
                     height: 80.0,
                   ),
-              SizedBox(
-                height: 50,
-                width: double.infinity,
-                child: CupertinoButton(
-                  color: kAccentColor1,
-                  borderRadius: const BorderRadius.all(Radius.circular(8)),
-                    onPressed: () async {
-                    currentUser.predictions.add(Prediction(predictionDate.toString().split(' ')[0], cryptocurrencies[selectedCrypto] + '-USD', predictionPrice.toDouble(),0,0));
-                    currentUser.futurePredictions.add(Prediction(predictionDate.toString().split(' ')[0], cryptocurrencies[selectedCrypto] + '-USD', predictionPrice.toDouble(),0,0));
-                      try {
-                        await _firestore
-                            .collection('users')
-                            .doc(widget.currentUser.user?.uid)
-                            .collection('predictions')
-                            .doc(predictionDate.toString().split(' ')[0] +
-                                ' ' +
-                                cryptocurrencies[selectedCrypto] +
-                                '-USD')
-                            .set({
-                          'predictedDate':
-                              predictionDate.toString().split(' ')[0],
-                          'predictedCurrency':
-                              cryptocurrencies[selectedCrypto] + '-USD',
-                          'predictedClosePrice': predictionPrice.toDouble(),
-                        });
-                        snackBar(context, message: 'Prediction successfully added.', color: kGreen);
-                      } catch (e) {
-                        snackBar(context,message: e.toString(),color: kRed);
-                      }
-                      Navigator.pop(context);
-                    },
-                    child: const Text(
-                      'Add Prediction',
-                      style: kButtonTextStyle,
+                  SizedBox(
+                    height: 50,
+                    width: double.infinity,
+                    child: CupertinoButton(
+                      color: kAccentColor1,
+                      borderRadius: const BorderRadius.all(Radius.circular(8)),
+                      onPressed: () async {
+                        String date = predictionDate.toString().split(' ')[0];
+                        String currency =
+                            cryptocurrencies[selectedCrypto] + '-USD';
+                        double price = predictionPrice.toDouble();
+
+                        currentUser.predictions.removeWhere((item) =>
+                            item.predictedCurrency == currency &&
+                            item.predictedDate == date);
+                        currentUser.futurePredictions.removeWhere((item) =>
+                            item.predictedCurrency == currency &&
+                            item.predictedDate == date);
+
+                        currentUser.predictions
+                            .add(Prediction(date, currency, price, 0, 0));
+                        currentUser.futurePredictions
+                            .add(Prediction(date, currency, price, 0, 0));
+
+                        try {
+                          await _firestore
+                              .collection('users')
+                              .doc(widget.currentUser.user?.uid)
+                              .collection('predictions')
+                              .doc(date + ' ' + currency)
+                              .set({
+                            'predictedDate': date,
+                            'predictedCurrency': currency,
+                            'predictedClosePrice': predictionPrice.toDouble(),
+                          });
+                          snackBar(context,
+                              message: 'Prediction successfully added.',
+                              color: kGreen);
+                        } catch (e) {
+                          snackBar(context, message: e.toString(), color: kRed);
+                        }
+                        Navigator.pop(context);
+                      },
+                      child: const Text(
+                        'Add Prediction',
+                        style: kButtonTextStyle,
+                      ),
                     ),
                   ),
-              ),
                 ],
               ),
             ),

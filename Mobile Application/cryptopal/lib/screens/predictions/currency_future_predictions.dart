@@ -173,6 +173,11 @@ class _CurrencyFuturePredictionsState extends State<CurrencyFuturePredictions> {
                                               currentUser.predictions.removeWhere((item) => item.predictedCurrency== prediction.predictedCurrency && item.predictedDate==prediction.predictedDate);
                                               currentUser.futurePredictions.removeWhere((item) => item.predictedCurrency== prediction.predictedCurrency && item.predictedDate==prediction.predictedDate);
 
+                                              setState(()=>
+                                                getUserFuturePredictions(
+                                                    currency: cryptocurrencies[widget.currencyIndex])
+                                              );
+
                                             try {
                                               await _firestore
                                                   .collection('users')

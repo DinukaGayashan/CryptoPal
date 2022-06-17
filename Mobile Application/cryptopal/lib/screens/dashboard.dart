@@ -38,11 +38,6 @@ class Dashboard extends StatefulWidget {
 
 class _DashboardState extends State<Dashboard> {
 
-  //final _firestore=FirebaseFirestore.instance;
-  late int selectedCrypto=0;
-  late double predictionPrice;
-  late DateTime predictionDate=DateTime.now().add(const Duration(days:1));
-
   List<Prediction> getUserPredictions ({required String currency,bool past=false}){
     List<Prediction> predictions=[];
     List<Prediction> predictionSnap=past?currentUser.pastPredictions:currentUser.predictions;
