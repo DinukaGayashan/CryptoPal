@@ -3,27 +3,22 @@ import 'package:http/http.dart' as http;
 import 'package:cryptopal/auth/secrets.dart';
 
 Future<List<News>> getNewsData() async {
-  const int numberOfNews = 10;
   late List<News> news = [];
 
-  for (int i = 0; i < numberOfNews; i++) {
-    news.add(await getNews(i));
+  final response = await http.get(Uri.parse(
+      'https://newsapi.org/v2/everything?q=cryptocurrency&apiKey='+NewsAPIAPIKey));
+
+  final numberOfNews=jsonDecode(response.body)['articles'].length;
+
+  for(int i=0;i<numberOfNews;i++){
+    try {
+      news.add(News.fromJson(jsonDecode(response.body), i));
+    } catch (e) {
+      print(e);
+      throw Exception(e);
+    }
   }
   return news;
-}
-
-Future<News> getNews(int index) async {
-  final response = await http.get(Uri.parse(
-      'https://newsdata.io/api/1/news?apikey=' +
-          NewsDataAPIKey +
-          '&category=business&q=cryptocurrency&language=en'));
-
-  try {
-    return News.fromJson(jsonDecode(response.body), index);
-  } catch (e) {
-    print(e);
-    throw Exception(e);
-  }
 }
 
 class News {
@@ -34,25 +29,29 @@ class News {
   late String? date;
   late String? imageUrl;
   late String? source;
+  late String? author;
 
   News(
       {this.title,
-      this.link,
-      this.description,
-      this.content,
-      this.date,
-      this.imageUrl,
-      this.source});
+        this.link,
+        this.description,
+        this.content,
+        this.date,
+        this.imageUrl,
+        this.source,
+      this.author});
 
   factory News.fromJson(Map<String, dynamic> json, int index) {
     return News(
-      title: json['results'][index]['title'],
-      link: json['results'][index]['link'],
-      description: json['results'][index]['description'],
-      content: json['results'][index]['content'],
-      date: json['results'][index]['pubDate'],
-      imageUrl: json['results'][index]['image_url'],
-      source: json['results'][index]['source_id'],
+      title: json['articles'][index]['title'],
+      link: json['articles'][index]['url'],
+      description: json['articles'][index]['description'],
+      content: json['articles'][index]['content'],
+      date: json['articles'][index]['publishedAt'],
+      imageUrl: json['articles'][index]['urlToImage'],
+      source: json['articles'][index]['source']['name'],
+      author: json['articles'][index]['author'],
     );
   }
 }
+

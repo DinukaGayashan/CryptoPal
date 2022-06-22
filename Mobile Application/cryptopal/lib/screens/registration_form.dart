@@ -1,3 +1,4 @@
+import 'package:cryptopal/screens/sign_in.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -252,7 +253,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
                                   SetOptions(merge: true),
                                 );
                                 Navigator.pushReplacementNamed(
-                                    context, DashboardLoading.id);
+                                    context, SignIn.id);
                               } catch (e) {
                                 snackBar(context,
                                     message: e.toString(), color: kRed);

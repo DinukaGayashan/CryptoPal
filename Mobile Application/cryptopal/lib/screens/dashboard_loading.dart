@@ -86,7 +86,7 @@ class _DashboardLoadingState extends State<DashboardLoading> {
   Widget build(BuildContext context) {
     //addPastCryptoData();
     //fixDatesOfPastCryptoData();
-    //loadNews();
+    loadNews();
     loadData();
     loadUser();
 
