@@ -64,19 +64,16 @@ class _DashboardLoadingState extends State<DashboardLoading> {
     }
   }
 
-  void fixDatesOfPastCryptoData() async{
-    final dataSnapshots=await _firestore.collection('realPrices').get();
-    for(var data in dataSnapshots.docs){
-      try{
-        final String dateString=data.data()['date'].toDate().toString().split(' ')[0];
-        await _firestore
-            .collection('realPrices')
-            .doc(data.id)
-            .set({
-          'date':dateString,
+  void fixDatesOfPastCryptoData() async {
+    final dataSnapshots = await _firestore.collection('realPrices').get();
+    for (var data in dataSnapshots.docs) {
+      try {
+        final String dateString =
+            data.data()['date'].toDate().toString().split(' ')[0];
+        await _firestore.collection('realPrices').doc(data.id).set({
+          'date': dateString,
         }, SetOptions(merge: true));
-      }
-      catch(e){
+      } catch (e) {
         print(e);
       }
     }

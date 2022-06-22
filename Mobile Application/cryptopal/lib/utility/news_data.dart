@@ -14,8 +14,7 @@ Future<List<News>> getNewsData() async {
     try {
       news.add(News.fromJson(jsonDecode(response.body), i));
     } catch (e) {
-      print(e);
-      throw Exception(e);
+      rethrow;
     }
   }
   return news;
