@@ -6,7 +6,7 @@ import 'package:cryptopal/utility/constants.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:cryptopal/utility//widgets.dart';
 import 'sign_up.dart';
-import 'dashboard_loading.dart';
+import 'package:cryptopal/screens/dashboard/dashboard_loading.dart';
 import 'registration_form.dart';
 
 class SignIn extends StatefulWidget {

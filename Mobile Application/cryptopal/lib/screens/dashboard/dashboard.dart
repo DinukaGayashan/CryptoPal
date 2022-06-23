@@ -1,22 +1,11 @@
-import 'dart:math';
 import 'package:cryptopal/screens/news/news_list_display.dart';
-import 'package:cryptopal/screens/predictions/add_prediction.dart';
-import 'package:cryptopal/screens/predictions/currency_predictions.dart';
-import 'package:cryptopal/screens/market/currency_market_graphs.dart';
 import 'package:cryptopal/screens/predictions/predictions.dart';
 import 'package:cryptopal/screens/statistics/statistics.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:animations/animations.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
-import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
-import 'package:glass/glass.dart';
-import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:syncfusion_flutter_charts/charts.dart' as charts;
 import 'package:cryptopal/utility/constants.dart';
 import 'package:cryptopal/utility/widgets.dart';
@@ -41,33 +30,6 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
-  List<Prediction> getUserPredictions(
-      {required String currency, bool past = false}) {
-    List<Prediction> predictions = [];
-    List<Prediction> predictionSnap =
-        past ? currentUser.pastPredictions : currentUser.predictions;
-    if (currency == 'all') {
-      predictions = predictionSnap;
-    } else {
-      for (var prediction in predictionSnap) {
-        if (prediction.predictedCurrency == currency + '-USD') {
-          predictions.add(prediction);
-        }
-      }
-    }
-    return predictions;
-  }
-
-  List<Prediction> getUserFuturePredictions({required String currency}) {
-    List<Prediction> predictions = [];
-    for (var p in currentUser.futurePredictions) {
-      if (p.predictedCurrency == currency + '-USD') {
-        predictions.add(p);
-      }
-    }
-    return predictions;
-  }
-
   List<RealPrice> getRealPrices({required String currency, int number = 0}) {
     List<RealPrice> realPrices = [];
     for (var type in widget.realPriceList) {
@@ -82,18 +44,6 @@ class _DashboardState extends State<Dashboard> {
     return realPrices;
   }
 
-  RealPrice? getRealPrice({required String currency, required String date}) {
-    final List<RealPrice> priceList =
-        getRealPrices(currency: currency + '-USD');
-    RealPrice x = RealPrice(date, 0, 0, 0, 0);
-    for (var i in priceList) {
-      if (i.date == date) {
-        x = i;
-      }
-    }
-    return x;
-  }
-
   String getBestCryptocurrency() {
     double minError = double.infinity;
     int index = 0;
@@ -105,24 +55,6 @@ class _DashboardState extends State<Dashboard> {
       }
     }
     return minError.isNaN ? '-' : cryptocurrencyNames[index];
-  }
-
-  List<ValueOnCurrency> getValuesOnCurrency(
-      {required String currency, required String type}) {
-    List<ValueOnCurrency> currencyValues = [];
-    Iterable<String> dates = currentUser.history.keys;
-    if (type == 'error') {
-      for (var d in dates) {
-        currencyValues.add(ValueOnCurrency(
-            d, currentUser.history[d]?.errorsOnCurrencies[currency]));
-      }
-    } else {
-      for (var d in dates) {
-        currencyValues.add(ValueOnCurrency(
-            d, currentUser.history[d]?.errorVarianceOnCurrencies[currency]));
-      }
-    }
-    return currencyValues;
   }
 
   @override
@@ -142,7 +74,6 @@ class _DashboardState extends State<Dashboard> {
                 context, DashboardLoading.id, (route) => false);
           },
           child: ListView(
-            //physics: const AlwaysScrollableScrollPhysics(),
             children: <Widget>[
               SizedBox(
                 height: 70.0,
@@ -263,7 +194,6 @@ class _DashboardState extends State<Dashboard> {
                                         color: kAccentColor1,
                                         animationType: AnimationType.ease,
                                         enableAnimation: true,
-                                        //animationDuration: kAnimationTime.toDouble(),
                                         value: currentUser.accuracy > 0
                                             ? currentUser.accuracy
                                                 .roundToDouble()
@@ -402,7 +332,6 @@ class _DashboardState extends State<Dashboard> {
                                           i--)
                                         LinearBarPointer(
                                           enableAnimation: true,
-                                          //animationDuration: kAnimationTime,
                                           value: (currentUser
                                                       .pastPredictions[i - 1]
                                                       .errorPercentage

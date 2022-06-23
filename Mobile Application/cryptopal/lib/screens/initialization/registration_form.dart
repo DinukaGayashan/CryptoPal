@@ -6,7 +6,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cryptopal/utility/constants.dart';
 import 'package:cryptopal/utility/widgets.dart';
 import 'package:intl/intl.dart';
-import 'dashboard_loading.dart';
 import 'welcome.dart';
 
 class RegistrationForm extends StatefulWidget {

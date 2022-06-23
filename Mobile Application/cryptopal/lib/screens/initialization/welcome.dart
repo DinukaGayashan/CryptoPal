@@ -1,15 +1,69 @@
+import 'package:cryptopal/screens/registration_form.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_functions/cloud_functions.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cryptopal/utility/constants.dart';
+import 'package:cryptopal/utility/widgets.dart';
+import 'dashboard/dashboard_loading.dart';
 import 'sign_in.dart';
 import 'sign_up.dart';
 
-class Welcome extends StatelessWidget {
+class Welcome extends StatefulWidget {
   const Welcome({Key? key}) : super(key: key);
   static const String id = 'Welcome';
 
   @override
+  State<Welcome> createState() => _WelcomeState();
+}
+
+class _WelcomeState extends State<Welcome> {
+
+  void trySignIn() async{
+    final _auth = FirebaseAuth.instance;
+    final _functions = FirebaseFunctions.instance;
+
+    try {
+      SharedPreferences _prefs = await SharedPreferences.getInstance();
+      var _email = _prefs.getString("email") ?? "";
+      var _password = _prefs.getString("password") ?? "";
+      var _rememberMe = _prefs.getBool("remember_me") ?? false;
+
+      if(_rememberMe){
+        try {
+          await _auth.signInWithEmailAndPassword(
+              email: _email, password: _password);
+          try {
+            HttpsCallable checkUser =
+            _functions.httpsCallable('checkUser');
+            final result =
+            await checkUser.call(<String, dynamic>{
+              'email': _email,
+            });
+            if (result.data.toString() == 'user') {
+              Navigator.pushReplacementNamed(
+                  context, DashboardLoading.id);
+            } else {
+              Navigator.pushReplacementNamed(
+                  context, RegistrationForm.id);
+            }
+          } catch (e) {
+            rethrow;
+          }
+        } catch (e) {
+          rethrow;
+        }
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
+    trySignIn();
+
     return Scaffold(
       backgroundColor: kBackgroundColor,
       body: SafeArea(
@@ -52,46 +106,46 @@ class Welcome extends StatelessWidget {
                     height: 50.0,
                     child: Center(
                         child: GestureDetector(
-                      child: const DefaultTextStyle(
-                        style: kInstructionStyle,
-                        child: Text(
-                          'Advisory platform for cryptocurrency investments',
-                          style: kInstructionStyle,
-                        ),
-                      ),
-                      onTap: () {
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              backgroundColor: kBackgroundColor,
-                              title: const Text(
-                                "CryptoPal",
-                                style: kTitleStyle,
-                              ),
-                              content: const Text(
-                                "CryptoPal is an advisory platform for cryptocurrency "
-                                "investments that only focused on educational purposes. "
-                                "\n\nPlease do not use this application as a advisor for "
-                                "financial investment purposes.",
-                                style: kInstructionStyle,
-                              ),
-                              actions: [
-                                TextButton(
-                                  child: const Text(
-                                    "OK",
-                                    style: kLinkStyle,
+                          child: const DefaultTextStyle(
+                            style: kInstructionStyle,
+                            child: Text(
+                              'Advisory platform for cryptocurrency investments',
+                              style: kInstructionStyle,
+                            ),
+                          ),
+                          onTap: () {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  backgroundColor: kBackgroundColor,
+                                  title: const Text(
+                                    "CryptoPal",
+                                    style: kTitleStyle,
                                   ),
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                ),
-                              ],
+                                  content: const Text(
+                                    "CryptoPal is an advisory platform for cryptocurrency "
+                                        "investments that only focused on educational purposes. "
+                                        "\n\nPlease do not use this application as a advisor for "
+                                        "financial investment purposes.",
+                                    style: kInstructionStyle,
+                                  ),
+                                  actions: [
+                                    TextButton(
+                                      child: const Text(
+                                        "OK",
+                                        style: kLinkStyle,
+                                      ),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                    ),
+                                  ],
+                                );
+                              },
                             );
                           },
-                        );
-                      },
-                    )),
+                        )),
                   ),
                   const SizedBox(
                     height: 30.0,
