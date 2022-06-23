@@ -111,8 +111,10 @@ class _DashboardLoadingState extends State<DashboardLoading> {
                     child: Center(
                       child: Hero(
                         tag: 'name',
-                        child: Text(
-                          'CryptoPal',
+                        child: DefaultTextStyle(
+                          child: Text(
+                            'CryptoPal',
+                          ),
                           style: kMainTitleStyle,
                         ),
                       ),

@@ -3,8 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cryptopal/utility/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'sign_in.dart';
-import 'registration_form.dart';
+import 'package:cryptopal/screens/initialization/sign_in.dart';
+import 'package:cryptopal/screens/initialization/registration_form.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);

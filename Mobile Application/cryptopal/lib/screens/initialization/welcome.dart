@@ -1,69 +1,15 @@
-import 'package:cryptopal/screens/registration_form.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_functions/cloud_functions.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cryptopal/utility/constants.dart';
-import 'package:cryptopal/utility/widgets.dart';
-import 'dashboard/dashboard_loading.dart';
-import 'sign_in.dart';
-import 'sign_up.dart';
+import 'package:cryptopal/screens/initialization/sign_in.dart';
+import 'package:cryptopal/screens/initialization/sign_up.dart';
 
-class Welcome extends StatefulWidget {
+class Welcome extends StatelessWidget {
   const Welcome({Key? key}) : super(key: key);
   static const String id = 'Welcome';
 
   @override
-  State<Welcome> createState() => _WelcomeState();
-}
-
-class _WelcomeState extends State<Welcome> {
-
-  void trySignIn() async{
-    final _auth = FirebaseAuth.instance;
-    final _functions = FirebaseFunctions.instance;
-
-    try {
-      SharedPreferences _prefs = await SharedPreferences.getInstance();
-      var _email = _prefs.getString("email") ?? "";
-      var _password = _prefs.getString("password") ?? "";
-      var _rememberMe = _prefs.getBool("remember_me") ?? false;
-
-      if(_rememberMe){
-        try {
-          await _auth.signInWithEmailAndPassword(
-              email: _email, password: _password);
-          try {
-            HttpsCallable checkUser =
-            _functions.httpsCallable('checkUser');
-            final result =
-            await checkUser.call(<String, dynamic>{
-              'email': _email,
-            });
-            if (result.data.toString() == 'user') {
-              Navigator.pushReplacementNamed(
-                  context, DashboardLoading.id);
-            } else {
-              Navigator.pushReplacementNamed(
-                  context, RegistrationForm.id);
-            }
-          } catch (e) {
-            rethrow;
-          }
-        } catch (e) {
-          rethrow;
-        }
-      }
-    } catch (e) {
-      rethrow;
-    }
-  }
-
-  @override
   Widget build(BuildContext context) {
-    trySignIn();
-
     return Scaffold(
       backgroundColor: kBackgroundColor,
       body: SafeArea(

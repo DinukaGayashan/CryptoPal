@@ -5,9 +5,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cryptopal/utility/constants.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:cryptopal/utility//widgets.dart';
-import 'sign_up.dart';
+import 'package:cryptopal/screens/initialization/sign_up.dart';
 import 'package:cryptopal/screens/dashboard/dashboard_loading.dart';
-import 'registration_form.dart';
+import 'package:cryptopal/screens/initialization/registration_form.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({Key? key}) : super(key: key);

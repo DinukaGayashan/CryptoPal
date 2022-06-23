@@ -26,7 +26,8 @@ const kAccentColor3 = Color(0xff1d708f);
 //const kAccentColor4 = Color(0xff4C4637);
 const kTransparentColor = Color(0x2214efbb);
 const kTransparentColor2 = Color(0xaa14efbb);
-const kTransparentColor3 = Color(0x99eeeeee);
+const kTransparentColor3 = Color(0xaaeeeeee);
+const kTransparentColor4 = Color(0x99121212);
 const kRed = Color(0xffea4f30);
 const kGreen = Color(0xff1fba72);
 const kYellow = Color(0xfff1ae2d);
@@ -36,7 +37,7 @@ const kAnimationTime = 1000;
 
 DateTime kMinDayInGraph = DateTime.now().subtract(const Duration(days: 60));
 DateTime kMinDayInExtendedGraph =
-    DateTime.now().subtract(const Duration(days: 200));
+    DateTime.now().subtract(const Duration(days: 100));
 
 final kDashboardPriceDisplay = createDisplay(length: 7);
 final kCurrencyPriceDisplay = createDisplay(length: 10);

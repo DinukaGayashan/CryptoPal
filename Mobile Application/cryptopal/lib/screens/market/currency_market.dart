@@ -159,23 +159,17 @@ class _CurrencyMarketState extends State<CurrencyMarket> {
                     ],
                   ),
                 ),
-                OutlinedButton(
+                TextButton(
                   child: const Text(
                     'More Graphs',
                     style: kLinkStyle,
                   ),
-                  style: OutlinedButton.styleFrom(
-                    side: const BorderSide(
-                      width: 1,
-                      color: kAccentColor3,
-                    ),
-                  ),
                   onPressed: () {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) {
-                      return CurrencyMarketGraphs(
-                          widget.realPriceList, widget.currencyIndex);
-                    }));
+                          return CurrencyMarketGraphs(
+                              widget.realPriceList, widget.currencyIndex);
+                        }));
                   },
                 ),
                 const SizedBox(

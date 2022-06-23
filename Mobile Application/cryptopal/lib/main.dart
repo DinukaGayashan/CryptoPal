@@ -1,12 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'utility/constants.dart';
-import 'screens/welcome.dart';
-import 'screens/sign_up.dart';
-import 'screens/sign_in.dart';
-import 'screens/registration_form.dart';
-import 'screens/dashboard_loading.dart';
+import 'package:cryptopal/utility/constants.dart';
+import 'package:cryptopal/screens/initialization/loading.dart';
+import 'package:cryptopal/screens/initialization/welcome.dart';
+import 'package:cryptopal/screens/initialization/sign_up.dart';
+import 'package:cryptopal/screens/initialization/sign_in.dart';
+import 'package:cryptopal/screens/initialization/registration_form.dart';
+import 'package:cryptopal/screens/dashboard/dashboard_loading.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,8 +32,9 @@ class CryptoPal extends StatelessWidget {
           ),
         ),
       ),
-      initialRoute: DashboardLoading.id,
+      initialRoute: Loading.id,
       routes: {
+        Loading.id: (context) => const Loading(),
         Welcome.id: (context) => const Welcome(),
         SignUp.id: (context) => const SignUp(),
         SignIn.id: (context) => const SignIn(),

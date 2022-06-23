@@ -3,6 +3,8 @@ import 'package:cryptopal/screens/predictions/predictions.dart';
 import 'package:cryptopal/screens/statistics/statistics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -12,9 +14,10 @@ import 'package:cryptopal/utility/widgets.dart';
 import 'package:cryptopal/utility/user_account.dart';
 import 'package:cryptopal/utility/database_data.dart';
 import 'package:cryptopal/utility/news_data.dart';
-import 'dashboard_loading.dart';
-import 'market/currency_market.dart';
-import 'news/news_display.dart';
+import 'package:cryptopal/screens/initialization/welcome.dart';
+import 'package:cryptopal/screens/dashboard/dashboard_loading.dart';
+import 'package:cryptopal/screens/market/currency_market.dart';
+import 'package:cryptopal/screens/news/news_display.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard(this.currentUser, this.realPriceList, this.newsList,
@@ -30,6 +33,8 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
+  final _auth = FirebaseAuth.instance;
+
   List<RealPrice> getRealPrices({required String currency, int number = 0}) {
     List<RealPrice> realPrices = [];
     for (var type in widget.realPriceList) {
@@ -62,13 +67,89 @@ class _DashboardState extends State<Dashboard> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.transparent,
-        /*appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(80.0),
-          child: logoAppBar(context),
+        /*appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0.0,
+          toolbarHeight: 80.0,
+          automaticallyImplyLeading: false,
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: <Widget>[
+              Builder(builder: (context){
+                return IconButton(
+                  enableFeedback: true,
+                  padding:
+                  const EdgeInsets.only(left: 15, right: 20, top: 15, bottom: 20),
+                  icon: const Icon(Icons.arrow_back_ios),
+                  color: kBaseColor2,
+                  onPressed: () {
+                    Scaffold.of(context).openDrawer();
+                  },
+                );
+              }
+              ),
+              Hero(
+                tag: 'logo',
+                child: CircleAvatar(
+                  backgroundColor: Colors.transparent,
+                  radius: 25.0,
+                  child: Image.asset('assets/images/CryptoPal-logo-white.png'),
+                ),
+              ),
+              const Hero(
+                tag: 'name',
+                child: Text(
+                  "CryptoPal",
+                  style: kTitleStyle,
+                ),
+              ),
+              //const SizedBox(width: 50,)
+            ],
+          ),
         ),*/
+        drawer: Drawer(
+          backgroundColor: kTransparentColor4,
+          child: ListView(
+
+            children: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  IconButton(
+                    enableFeedback: true,
+                    padding:
+                    const EdgeInsets.only(left: 30, right: 20, top: 30, bottom: 20),
+                    icon: const Icon(Icons.close),
+                    color: kBaseColor2,
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                ],
+              ),
+              DrawerHeader(child: Center(child: Text(currentUser.name,style: kTopBarStyle,))),
+              ListTile(
+                leading: const Icon(Icons.logout_outlined),
+                title: const Text('Sign Out',style: kCardTextStyle,),
+                onTap: (){
+                  _auth.signOut();
+                  SharedPreferences.getInstance().then(
+                        (prefs) {
+                      prefs.setBool("remember_me", false);
+                    },
+                  );
+                  Navigator.pushReplacementNamed(
+                      context, Welcome.id);
+                },
+                horizontalTitleGap: 5,
+              ),
+            ],
+          ),
+        ),
         body: LiquidPullToRefresh(
           backgroundColor: Colors.transparent,
-          color: kAccentColor1,
+          color: kBaseColor2,
           onRefresh: () async {
             Navigator.pushNamedAndRemoveUntil(
                 context, DashboardLoading.id, (route) => false);
@@ -78,27 +159,48 @@ class _DashboardState extends State<Dashboard> {
               SizedBox(
                 height: 70.0,
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: <Widget>[
-                    Hero(
-                      tag: 'logo',
-                      child: CircleAvatar(
-                        backgroundColor: Colors.transparent,
-                        radius: 25.0,
-                        child: Image.asset(
-                            'assets/images/CryptoPal-logo-white.png'),
+                    SizedBox(
+                      width: 80,
+                      child: Builder(builder: (context){
+                        return IconButton(
+                          enableFeedback: true,
+                          icon: const Icon(Icons.keyboard_control),
+                          color: kBaseColor2,
+                          onPressed: () {
+                            Scaffold.of(context).openDrawer();
+                          },
+                        );
+                      }
                       ),
                     ),
-                    const Hero(
-                      tag: 'name',
-                      child: DefaultTextStyle(
-                        child: Text(
-                          'CryptoPal',
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: <Widget>[
+                        Hero(
+                          tag: 'logo',
+                          child: CircleAvatar(
+                            backgroundColor: Colors.transparent,
+                            radius: 25.0,
+                            child: Image.asset(
+                                'assets/images/CryptoPal-logo-white.png'),
+                          ),
                         ),
-                        style: kTitleStyle,
-                      ),
+                        const Hero(
+                          tag: 'name',
+                          child: DefaultTextStyle(
+                            child: Text(
+                              'CryptoPal',
+                            ),
+                            style: kTitleStyle,
+                          ),
+                        ),
+                      ],
                     ),
+                    const SizedBox(width: 80,)
                   ],
                 ),
               ),
