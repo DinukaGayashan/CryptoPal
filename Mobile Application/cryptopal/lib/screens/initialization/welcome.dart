@@ -105,10 +105,10 @@ class Welcome extends StatelessWidget {
                         color: kAccentColor1,
                         borderRadius: const BorderRadius.all(Radius.zero),
                         onPressed: () {
-                          Navigator.pushNamed(context, SignUp.id);
+                          Navigator.pushNamed(context, SignIn.id);
                         },
                         child: const Text(
-                          'Sign up',
+                          'Sign in',
                           style: kButtonTextStyle,
                         ),
                       ),
@@ -126,10 +126,10 @@ class Welcome extends StatelessWidget {
                         color: kAccentColor1,
                         borderRadius: const BorderRadius.all(Radius.zero),
                         onPressed: () {
-                          Navigator.pushNamed(context, SignIn.id);
+                          Navigator.pushNamed(context, SignUp.id);
                         },
                         child: const Text(
-                          'Sign in',
+                          'Sign up',
                           style: kButtonTextStyle,
                         ),
                       ),
@@ -138,27 +138,6 @@ class Welcome extends StatelessWidget {
                   const SizedBox(
                     height: 60.0,
                   ),
-                  /*OutlinedButton(
-                    onPressed: () {
-                      SystemNavigator.pop();
-                    },
-                    child: SizedBox(
-                      width: 70.0,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: const <Widget>[
-                          Icon(
-                            Icons.exit_to_app,
-                            color: kBaseColor2,
-                          ),
-                          Text(
-                            ' Exit',
-                            style: kInstructionStyle,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),*/
                 ],
               ),
             ),

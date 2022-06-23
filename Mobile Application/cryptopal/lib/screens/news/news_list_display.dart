@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:cryptopal/utility/news_data.dart';
 import 'package:cryptopal/utility/constants.dart';
 import 'package:cryptopal/utility/widgets.dart';
-
 import 'news_display.dart';
 
 class NewsListDisplay extends StatefulWidget {

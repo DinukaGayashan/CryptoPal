@@ -1,10 +1,12 @@
+import 'package:cryptopal/screens/dashboard/about_app.dart';
+import 'package:cryptopal/screens/dashboard/privacy_policy.dart';
+import 'package:cryptopal/screens/dashboard/settings.dart';
 import 'package:cryptopal/screens/news/news_list_display.dart';
 import 'package:cryptopal/screens/predictions/predictions.dart';
 import 'package:cryptopal/screens/statistics/statistics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:glass/glass.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -14,10 +16,12 @@ import 'package:cryptopal/utility/widgets.dart';
 import 'package:cryptopal/utility/user_account.dart';
 import 'package:cryptopal/utility/database_data.dart';
 import 'package:cryptopal/utility/news_data.dart';
-import 'package:cryptopal/screens/initialization/welcome.dart';
 import 'package:cryptopal/screens/dashboard/dashboard_loading.dart';
 import 'package:cryptopal/screens/market/currency_market.dart';
 import 'package:cryptopal/screens/news/news_display.dart';
+
+import '../predictions/add_prediction.dart';
+import 'account.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard(this.currentUser, this.realPriceList, this.newsList,
@@ -33,7 +37,6 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
-  final _auth = FirebaseAuth.instance;
 
   List<RealPrice> getRealPrices({required String currency, int number = 0}) {
     List<RealPrice> realPrices = [];
@@ -59,7 +62,7 @@ class _DashboardState extends State<Dashboard> {
         index = i;
       }
     }
-    return minError.isNaN ? '-' : cryptocurrencyNames[index];
+    return minError.isInfinite ? '-' : cryptocurrencyNames[index];
   }
 
   @override
@@ -110,16 +113,16 @@ class _DashboardState extends State<Dashboard> {
         ),*/
         drawer: Drawer(
           backgroundColor: kTransparentColor4,
+          width: MediaQuery.of(context).size.width * 0.72,
           child: ListView(
-
             children: <Widget>[
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   IconButton(
                     enableFeedback: true,
-                    padding:
-                    const EdgeInsets.only(left: 30, right: 20, top: 30, bottom: 20),
+                    padding: const EdgeInsets.only(
+                        left: 30, right: 20, top: 30, bottom: 20),
                     icon: const Icon(Icons.close),
                     color: kBaseColor2,
                     onPressed: () {
@@ -128,28 +131,101 @@ class _DashboardState extends State<Dashboard> {
                   ),
                 ],
               ),
-              DrawerHeader(child: Center(child: Text(currentUser.name,style: kTopBarStyle,))),
+              DrawerHeader(
+                child: Center(
+                  child: RichText(
+                    textAlign: TextAlign.center,
+                    text: TextSpan(
+                      text: currentUser.name + '\n',
+                      style: kCardTitleStyle,
+                      children: <TextSpan>[
+                        TextSpan(
+                          text: currentUser.user?.email.toString(),
+                          style: kTransparentStyle,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
               ListTile(
-                leading: const Icon(Icons.logout_outlined),
-                title: const Text('Sign Out',style: kCardTextStyle,),
-                onTap: (){
-                  _auth.signOut();
-                  SharedPreferences.getInstance().then(
-                        (prefs) {
-                      prefs.setBool("remember_me", false);
-                    },
-                  );
-                  Navigator.pushReplacementNamed(
-                      context, Welcome.id);
+                leading: const Icon(Icons.manage_accounts_rounded),
+                title: const Text(
+                  'Account',
+                  style: kCardTextStyle,
+                ),
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) {
+                        return Account(
+                          currentUser,
+                        );
+                      })).then((_) {
+                    setState(() {
+                      currentUser.name;
+                      currentUser.birthday;
+                    });
+                  });
                 },
-                horizontalTitleGap: 5,
+              ),
+              ListTile(
+                leading: const Icon(Icons.settings),
+                title: const Text(
+                  'Settings',
+                  style: kCardTextStyle,
+                ),
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) {
+                        return Settings(
+                          currentUser,
+                        );
+                      })).then((_) {
+                    setState(() {
+                      currentUser;
+                    });
+                  });
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.lock),
+                title: const Text(
+                  'Privacy Policy',
+                  style: kCardTextStyle,
+                ),
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) {
+                        return const PrivacyPolicy();
+                      }));
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.touch_app),
+                title: const Text(
+                  'About App',
+                  style: kCardTextStyle,
+                ),
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) {
+                        return const AboutApp();
+                      }));
+                },
+              ),
+              ListTile(
+
               ),
             ],
           ),
-        ),
+        ).asGlass(),
         body: LiquidPullToRefresh(
           backgroundColor: Colors.transparent,
-          color: kBaseColor2,
+          color: kTransparentColor3,
           onRefresh: () async {
             Navigator.pushNamedAndRemoveUntil(
                 context, DashboardLoading.id, (route) => false);
@@ -164,7 +240,7 @@ class _DashboardState extends State<Dashboard> {
                   children: <Widget>[
                     SizedBox(
                       width: 80,
-                      child: Builder(builder: (context){
+                      child: Builder(builder: (context) {
                         return IconButton(
                           enableFeedback: true,
                           icon: const Icon(Icons.keyboard_control),
@@ -173,8 +249,7 @@ class _DashboardState extends State<Dashboard> {
                             Scaffold.of(context).openDrawer();
                           },
                         );
-                      }
-                      ),
+                      }),
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -200,7 +275,9 @@ class _DashboardState extends State<Dashboard> {
                         ),
                       ],
                     ),
-                    const SizedBox(width: 80,)
+                    const SizedBox(
+                      width: 80,
+                    )
                   ],
                 ),
               ),
@@ -408,6 +485,33 @@ class _DashboardState extends State<Dashboard> {
                                 ],
                               ),
                             ),
+                            currentUser.pastPredictions.isEmpty?
+                            Column(
+                              children: [
+                                const SizedBox(height: 30,),
+                                SizedBox(
+                                  height: 60,
+                                  width: 120,
+                                  child: FloatingActionButton(
+                                    backgroundColor: kAccentColor1,
+                                    child: const Icon(Icons.add),
+                                    tooltip: 'Add Prediction',
+                                    onPressed: () {
+                                      Navigator.push(context, MaterialPageRoute(builder: (context) {
+                                        return AddPrediction(currentUser);
+                                      })).then((_) {
+                                        setState(() {
+                                          currentUser.predictions;
+                                          currentUser.futurePredictions;
+                                        });
+                                      });
+                                    },
+                                  ),
+                                ),
+                                const SizedBox(height: 30,),
+                              ],
+                            )
+                                :
                             Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
@@ -416,7 +520,7 @@ class _DashboardState extends State<Dashboard> {
                                   width: 200.0,
                                   child: SfLinearGauge(
                                     orientation:
-                                        LinearGaugeOrientation.vertical,
+                                    LinearGaugeOrientation.vertical,
                                     minimum: 0,
                                     maximum: 100,
                                     showLabels: false,
@@ -425,35 +529,35 @@ class _DashboardState extends State<Dashboard> {
                                     isMirrored: true,
                                     barPointers: [
                                       for (int i = currentUser
-                                              .pastPredictions.length;
-                                          i > 0 &&
-                                              i >
-                                                  currentUser.pastPredictions
-                                                          .length -
-                                                      10;
-                                          i--)
+                                          .pastPredictions.length;
+                                      i > 0 &&
+                                          i >
+                                              currentUser.pastPredictions
+                                                  .length -
+                                                  10;
+                                      i--)
                                         LinearBarPointer(
                                           enableAnimation: true,
                                           value: (currentUser
-                                                      .pastPredictions[i - 1]
-                                                      .errorPercentage
-                                                      .abs()) >=
-                                                  100.0
+                                              .pastPredictions[i - 1]
+                                              .errorPercentage
+                                              .abs()) >=
+                                              100.0
                                               ? 100.0
                                               : (currentUser
-                                                  .pastPredictions[i - 1]
-                                                  .errorPercentage
-                                                  .abs()),
+                                              .pastPredictions[i - 1]
+                                              .errorPercentage
+                                              .abs()),
                                           color: currentUser
-                                                      .pastPredictions[i - 1]
-                                                      .errorPercentage >
-                                                  0
+                                              .pastPredictions[i - 1]
+                                              .errorPercentage >
+                                              0
                                               ? kGreen
                                               : kRed,
                                           edgeStyle: LinearEdgeStyle.bothCurve,
                                           offset: i * 10,
                                           position:
-                                              LinearElementPosition.outside,
+                                          LinearElementPosition.outside,
                                         ),
                                     ],
                                   ),

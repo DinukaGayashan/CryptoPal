@@ -25,6 +25,16 @@ Widget glassCard(BuildContext context, Widget content) {
       );
 }
 
+Widget glassBackground(BuildContext context, Widget content) {
+  return Card(
+    color: kBackgroundColor,
+    child: Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 21.0,vertical: 21.0),
+      child: content,
+    ),
+  );
+}
+
 /*Widget openCloseAnimation(BuildContext context,
     {required Widget closeWidget, required Widget openWidget}) {
   return OpenContainer(

@@ -141,7 +141,7 @@ class _CurrencyFuturePredictionsState extends State<CurrencyFuturePredictions> {
                                     return AlertDialog(
                                       backgroundColor: kBackgroundColor,
                                       title: const Text(
-                                        'Delete Prediction',
+                                        'Confirm Prediction Deletion',
                                         style: kInstructionStyle2,
                                       ),
                                       content: Text(

@@ -47,7 +47,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
       body: SafeArea(
         child: SizedBox(
           height: MediaQuery.of(context).size.height,
-          child: glassCard(
+          child: glassBackground(
             context,
             SingleChildScrollView(
               child: Form(
@@ -234,7 +234,6 @@ class _RegistrationFormState extends State<RegistrationForm> {
                       width: double.infinity,
                       child: CupertinoButton(
                         color: kAccentColor1,
-                        borderRadius: const BorderRadius.all(Radius.zero),
                         onPressed: () async {
                           if (user?.emailVerified == true) {
                             if (_formKey.currentState!.validate()) {

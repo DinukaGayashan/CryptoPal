@@ -162,6 +162,12 @@ const TextStyle kSnackBarStyle = TextStyle(
   color: kBaseColor2,
 );
 
+const TextStyle kTransparentStyle = TextStyle(
+  fontSize: 15,
+  fontFamily: 'Bierstadt',
+  color: kTransparentColor3,
+);
+
 const TextStyle kTransparentSmallStyle = TextStyle(
   fontSize: 12,
   fontFamily: 'Bierstadt',
