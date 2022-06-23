@@ -8,21 +8,6 @@ import 'package:cryptopal/utility/widgets.dart';
 class AddPrediction extends StatefulWidget {
   const AddPrediction(this.currentUser, {Key? key}) : super(key: key);
 
-  /*Widget buildPage(BuildContext context, Animation<double> animation,
-      Animation<double> secondaryAnimation) {
-    return SlideTransition(
-      position: Tween(
-          begin: Offset(1.0, 0.0),
-          end: Offset(0.0, 0.0))
-          .animate(animation),
-      child: AddPrediction(currentUser),
-    );
-    /*ScaleTransition(
-      scale: animation,
-      child: AddPrediction(currentUser),
-    );*/
-  }*/
-
   static const String id = 'AddPrediction';
   final UserAccount currentUser;
   @override
@@ -67,7 +52,7 @@ class _AddPredictionState extends State<AddPrediction> {
                                         .viewInsets
                                         .bottom,
                                   ),
-                                  color: kTransparentColor2,
+                                  color: kTransparentColor3,
                                   child: SafeArea(
                                     child: CupertinoPicker(
                                       onSelectedItemChanged: (int value) {
@@ -83,9 +68,8 @@ class _AddPredictionState extends State<AddPrediction> {
                                         return Center(
                                           child: Text(
                                             cryptocurrencyNames[index] +
-                                                ' (' +
-                                                cryptocurrencies[index] +
-                                                ')',
+                                                ' ' +
+                                                cryptocurrencies[index],
                                             style: kButtonTextStyle,
                                           ),
                                         );
@@ -96,9 +80,8 @@ class _AddPredictionState extends State<AddPrediction> {
                       },
                       child: Text(
                         cryptocurrencyNames[selectedCrypto] +
-                            ' (' +
-                            cryptocurrencies[selectedCrypto] +
-                            ')',
+                            ' ' +
+                            cryptocurrencies[selectedCrypto],
                         style: kSubjectStyle,
                       ),
                     ),

@@ -14,6 +14,48 @@ class Statistics extends StatefulWidget {
 }
 
 class _StatisticsState extends State<Statistics> {
+
+  List<ValueOnCurrency> getValuesOnCurrency(
+      {required String currency, required String type}) {
+    List<ValueOnCurrency> currencyValues = [];
+    Iterable<String> dates = currentUser.history.keys;
+    if (type == 'error') {
+      for (var d in dates) {
+        currencyValues.add(ValueOnCurrency(
+            d, currentUser.history[d]?.errorsOnCurrencies[currency]));
+      }
+    } else {
+      for (var d in dates) {
+        currencyValues.add(ValueOnCurrency(
+            d, currentUser.history[d]?.errorVarianceOnCurrencies[currency]));
+      }
+    }
+    return currencyValues;
+  }
+
+  List<ValueOnCurrency> getValuesOnCurrencyNoNaN(
+      {required String currency, required String type}) {
+    List<ValueOnCurrency> currencyValues = [];
+    Iterable<String> dates = currentUser.history.keys;
+    if (type == 'error') {
+      for (var d in dates) {
+        if (!currentUser.history[d]?.errorsOnCurrencies[currency].isNaN) {
+          currencyValues.add(ValueOnCurrency(
+              d, currentUser.history[d]?.errorsOnCurrencies[currency]));
+        }
+      }
+    } else {
+      for (var d in dates) {
+        if (!currentUser
+            .history[d]?.errorVarianceOnCurrencies[currency].isNaN) {
+          currencyValues.add(ValueOnCurrency(
+              d, currentUser.history[d]?.errorVarianceOnCurrencies[currency]));
+        }
+      }
+    }
+    return currencyValues;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,6 +71,10 @@ class _StatisticsState extends State<Statistics> {
                 const SizedBox(
                   height: 10.0,
                 ),
+                RichText(text: TextSpan(
+
+                ),),
+
                 const Center(
                   child: Text(
                     'Cryptocurrency Prediction Accuracy',

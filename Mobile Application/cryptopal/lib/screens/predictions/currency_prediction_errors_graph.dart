@@ -12,17 +12,24 @@ class CurrencyPredictionErrorsGraph extends StatelessWidget {
   final UserAccount currentUser;
   final int currencyIndex;
 
-  List<ValueOnCurrency> getValuesOnCurrency({required String currency, required String type}){
-    List<ValueOnCurrency> currencyValues=[];
-    Iterable<String> dates=currentUser.history.keys;
-    if(type=='error'){
-      for(var d in dates){
-        currencyValues.add(ValueOnCurrency(d,currentUser.history[d]?.errorsOnCurrencies[currency]));
+  List<ValueOnCurrency> getValuesOnCurrencyNoNaN(
+      {required String currency, required String type}) {
+    List<ValueOnCurrency> currencyValues = [];
+    Iterable<String> dates = currentUser.history.keys;
+    if (type == 'error') {
+      for (var d in dates) {
+        if (!currentUser.history[d]?.errorsOnCurrencies[currency].isNaN) {
+          currencyValues.add(ValueOnCurrency(
+              d, currentUser.history[d]?.errorsOnCurrencies[currency]));
+        }
       }
-    }
-    else {
-      for(var d in dates){
-        currencyValues.add(ValueOnCurrency(d,currentUser.history[d]?.errorVarianceOnCurrencies[currency]));
+    } else {
+      for (var d in dates) {
+        if (!currentUser
+            .history[d]?.errorVarianceOnCurrencies[currency].isNaN) {
+          currencyValues.add(ValueOnCurrency(
+              d, currentUser.history[d]?.errorVarianceOnCurrencies[currency]));
+        }
       }
     }
     return currencyValues;
@@ -63,7 +70,7 @@ class CurrencyPredictionErrorsGraph extends StatelessWidget {
                 series: <ChartSeries>[
                   LineSeries<ValueOnCurrency, DateTime>(
                     name: cryptocurrencies[currencyIndex]+' Prediction Error',
-                    dataSource: getValuesOnCurrency(currency: cryptocurrencies[currencyIndex], type: 'error'),
+                    dataSource: getValuesOnCurrencyNoNaN(currency: cryptocurrencies[currencyIndex], type: 'error'),
                     xValueMapper: (ValueOnCurrency data, _) => DateTime.parse(data.date),
                     yValueMapper: (ValueOnCurrency data, _) => data.value.toDouble(),
                     markerSettings: const MarkerSettings(
@@ -72,7 +79,7 @@ class CurrencyPredictionErrorsGraph extends StatelessWidget {
                   ),
                   LineSeries<ValueOnCurrency, DateTime>(
                     name: cryptocurrencies[currencyIndex]+' Prediction Error Deviation',
-                    dataSource: getValuesOnCurrency(currency: cryptocurrencies[currencyIndex], type: 'variance'),
+                    dataSource: getValuesOnCurrencyNoNaN(currency: cryptocurrencies[currencyIndex], type: 'variance'),
                     xValueMapper: (ValueOnCurrency data, _) => DateTime.parse(data.date),
                     yValueMapper: (ValueOnCurrency data, _) => sqrt(data.value).toDouble(),
                     markerSettings: const MarkerSettings(

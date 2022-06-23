@@ -73,7 +73,7 @@ class _SignUpState extends State<SignUp> {
                         height: 20.0,
                       ),
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                        padding: const EdgeInsets.symmetric(horizontal: 15.0),
                         child: TextField(
                           style: kInstructionStyle,
                           keyboardType: TextInputType.emailAddress,
@@ -95,7 +95,7 @@ class _SignUpState extends State<SignUp> {
                         height: 10.0,
                       ),
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                        padding: const EdgeInsets.symmetric(horizontal: 15.0),
                         child: TextField(
                           style: kInstructionStyle,
                           keyboardType: TextInputType.visiblePassword,
@@ -118,7 +118,7 @@ class _SignUpState extends State<SignUp> {
                         height: 9.0,
                       ),
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                        padding: const EdgeInsets.symmetric(horizontal: 15.0),
                         child: TextField(
                           style: kInstructionStyle,
                           keyboardType: TextInputType.visiblePassword,
@@ -141,13 +141,13 @@ class _SignUpState extends State<SignUp> {
                         height: 20.0,
                       ),
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                        padding: const EdgeInsets.symmetric(horizontal: 15.0),
                         child: SizedBox(
                           height: 50,
                           width: double.infinity,
                           child: CupertinoButton(
                             color: kAccentColor1,
-                            borderRadius: const BorderRadius.all(Radius.zero),
+                            borderRadius: const BorderRadius.all(Radius.circular(5)),
                             onPressed: () async {
                               if (password1.length < 6) {
                                 snackBar(context,

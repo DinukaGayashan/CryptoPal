@@ -188,7 +188,7 @@ class _CurrencyPastPredictionsState extends State<CurrencyPastPredictions> {
                     ),
                     onTap: (){
                       Navigator.push(context, MaterialPageRoute(builder: (context){
-                        return CurrencyPastPredictionsGraph(currentUser, widget.currencyIndex, widget.realPriceList, prediction);
+                        return CurrencyPastPredictionsGraph(widget.currencyIndex, widget.realPriceList, prediction);
                       }));
                     },
                   ),

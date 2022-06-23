@@ -6,10 +6,8 @@ import 'package:cryptopal/utility/widgets.dart';
 import 'package:cryptopal/utility/database_data.dart';
 
 class CurrencyPastPredictionsGraph extends StatelessWidget {
-  const CurrencyPastPredictionsGraph(this.currentUser, this.currencyIndex, this.realPriceList, this.prediction, {Key? key}) : super(key: key);
+  const CurrencyPastPredictionsGraph(this.currencyIndex, this.realPriceList, this.prediction, {Key? key}) : super(key: key);
 
-  static const String id = 'CurrencyPastPredictionsGraph';
-  final UserAccount currentUser;
   final int currencyIndex;
   final Prediction prediction;
   final List<RealPricesOfACurrency> realPriceList;

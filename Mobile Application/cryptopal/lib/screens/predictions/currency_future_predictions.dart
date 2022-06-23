@@ -5,6 +5,8 @@ import 'package:cryptopal/utility/constants.dart';
 import 'package:cryptopal/utility/widgets.dart';
 import 'package:cryptopal/utility/database_data.dart';
 
+import 'currency_future_predictions_graph.dart';
+
 class CurrencyFuturePredictions extends StatefulWidget {
   const CurrencyFuturePredictions(
       this.currentUser, this.currencyIndex, this.realPriceList,
@@ -99,113 +101,121 @@ class _CurrencyFuturePredictionsState extends State<CurrencyFuturePredictions> {
                 ),
                 for (var prediction in getUserFuturePredictions(
                     currency: cryptocurrencies[widget.currencyIndex]))
-                  glassCard(
-                    context,
-                    GestureDetector(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 10, horizontal: 20),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                SizedBox(
-                                  height: 45.0,
-                                  child: Text(
-                                    prediction.predictedDate,
-                                    style: kCardTextStyle,
+                  GestureDetector(
+                    child: glassCard(
+                      context,
+                      GestureDetector(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 10, horizontal: 20),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  SizedBox(
+                                    height: 45.0,
+                                    child: Text(
+                                      prediction.predictedDate,
+                                      style: kCardTextStyle,
+                                    ),
                                   ),
-                                ),
-                                RichText(
-                                  text: TextSpan(
-                                    text: 'Predicted Price\n',
-                                    style: kCardSmallTextStyle,
-                                    children: <TextSpan>[
-                                      TextSpan(
-                                        text: prediction.predictedClosePrice.toString(),
-                                        style: kCardTextStyle2,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                            IconButton(
-                              highlightColor: kRed,
-                              onPressed: (){
-                                showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return AlertDialog(
-                                      backgroundColor: kBackgroundColor,
-                                      title: const Text(
-                                        'Confirm Prediction Deletion',
-                                        style: kInstructionStyle2,
-                                      ),
-                                      content: Text(
-                                        "Do you want to delete the prediction?\n"
-                                            "\nPredicted currency: "+prediction.predictedCurrency+
-                                            "\nPredicted date: "+prediction.predictedDate+
-                                            "\nPredicted close price: \$ "+prediction.predictedClosePrice.toString()+
-                                        "\n\nThis cannot be undone.",
-                                        style: kInstructionStyle,
-                                      ),
-                                      actions: [
-                                        TextButton(
-                                          child: const Text(
-                                            "Cancel",
-                                            style: kLinkStyle,
-                                          ),
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
-                                          },
+                                  RichText(
+                                    text: TextSpan(
+                                      text: 'Predicted Price\n',
+                                      style: kCardSmallTextStyle,
+                                      children: <TextSpan>[
+                                        TextSpan(
+                                          text: prediction.predictedClosePrice.toString(),
+                                          style: kCardTextStyle2,
                                         ),
-                                        TextButton(
-                                          child: const Text(
-                                            "Delete",
-                                            style: kLinkStyle,
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              IconButton(
+                                highlightColor: kRed,
+                                onPressed: (){
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        backgroundColor: kBackgroundColor,
+                                        title: const Text(
+                                          'Confirm Prediction Deletion',
+                                          style: kInstructionStyle2,
+                                        ),
+                                        content: Text(
+                                          "Do you want to delete the following prediction?\n"
+                                              "\nPredicted currency: "+prediction.predictedCurrency+
+                                              "\nPredicted date: "+prediction.predictedDate+
+                                              "\nPredicted close price: \$ "+prediction.predictedClosePrice.toString()+
+                                              "\n\nThis cannot be undone.",
+                                          style: kInstructionStyle,
+                                        ),
+                                        actions: [
+                                          TextButton(
+                                            child: const Text(
+                                              "Cancel",
+                                              style: kLinkStyle,
+                                            ),
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
                                           ),
-                                          onPressed: () async {
-                                            Navigator.of(context).pop();
+                                          TextButton(
+                                            child: const Text(
+                                              "Delete",
+                                              style: kLinkStyle,
+                                            ),
+                                            onPressed: () async {
+                                              Navigator.of(context).pop();
 
                                               currentUser.predictions.removeWhere((item) => item.predictedCurrency== prediction.predictedCurrency && item.predictedDate==prediction.predictedDate);
                                               currentUser.futurePredictions.removeWhere((item) => item.predictedCurrency== prediction.predictedCurrency && item.predictedDate==prediction.predictedDate);
 
                                               setState(()=>
-                                                getUserFuturePredictions(
-                                                    currency: cryptocurrencies[widget.currencyIndex])
+                                                  getUserFuturePredictions(
+                                                      currency: cryptocurrencies[widget.currencyIndex])
                                               );
 
-                                            try {
-                                              await _firestore
-                                                  .collection('users')
-                                                  .doc(widget.currentUser.user?.uid)
-                                                  .collection('predictions')
-                                                  .doc(prediction.predictedDate.toString().split(' ')[0] +
-                                                  ' ' +
-                                                  prediction.predictedCurrency)
-                                                  .delete();
-                                              snackBar(context, message: 'Prediction successfully deleted.', color: kGreen);
-                                            } catch (e) {
-                                              snackBar(context,message: e.toString(),color: kRed);
-                                            }
-                                          },
-                                        ),
-                                      ],
-                                    );
-                                  },
-                                );
-                              },
-                              icon: const Icon(Icons.delete_forever),
-                              color: kRed,
-                              tooltip: 'Delete Prediction',
-                            ),
-                          ],
+                                              try {
+                                                await _firestore
+                                                    .collection('users')
+                                                    .doc(widget.currentUser.user?.uid)
+                                                    .collection('predictions')
+                                                    .doc(prediction.predictedDate.toString().split(' ')[0] +
+                                                    ' ' +
+                                                    prediction.predictedCurrency)
+                                                    .delete();
+                                                snackBar(context, message: 'Prediction successfully deleted.', color: kGreen);
+                                              } catch (e) {
+                                                snackBar(context,message: e.toString(),color: kRed);
+                                              }
+                                            },
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                },
+                                icon: const Icon(Icons.delete_forever),
+                                color: kRed,
+                                tooltip: 'Delete Prediction',
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
+                    onTap: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context){
+                        return CurrencyFuturePredictionsGraph(widget.currencyIndex, widget.realPriceList, prediction);
+                      }));
+                    },
+
                   ),
               ],
             ),

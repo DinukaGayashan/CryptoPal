@@ -425,6 +425,9 @@ class _DashboardState extends State<Dashboard> {
                   ),
                 ),
                 onTap: () {
+                  currentUser.pastPredictions.isEmpty?
+                      snackBar(context, message: 'No data to display.\nStatistics are calculated after the prediction date.', color: kYellow)
+                      :
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
                     return Statistics(currentUser);
                   }));

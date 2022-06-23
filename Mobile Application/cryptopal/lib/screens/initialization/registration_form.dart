@@ -61,7 +61,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
                     const Center(
                       child: Text(
                         'Registration Form',
-                        style: kSubSubjectStyle,
+                        style: kTopBarStyle,
                       ),
                     ),
                     const SizedBox(
@@ -234,6 +234,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
                       width: double.infinity,
                       child: CupertinoButton(
                         color: kAccentColor1,
+                        borderRadius: const BorderRadius.all(Radius.circular(5)),
                         onPressed: () async {
                           if (user?.emailVerified == true) {
                             if (_formKey.currentState!.validate()) {

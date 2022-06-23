@@ -118,7 +118,7 @@ class _SignInState extends State<SignIn> {
                     height: 20.0,
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
                     child: TextField(
                       controller: _emailController,
                       onChanged: (value) {
@@ -141,7 +141,7 @@ class _SignInState extends State<SignIn> {
                     height: 10.0,
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
                     child: TextField(
                       controller: _passwordController,
                       onChanged: (value) {
@@ -165,7 +165,7 @@ class _SignInState extends State<SignIn> {
                     height: 10.0,
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
@@ -222,13 +222,13 @@ class _SignInState extends State<SignIn> {
                     height: 10.0,
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
                     child: SizedBox(
                       height: 50,
                       width: double.infinity,
                       child: CupertinoButton(
                         color: kAccentColor1,
-                        borderRadius: const BorderRadius.all(Radius.zero),
+                        borderRadius: const BorderRadius.all(Radius.circular(5)),
                         onPressed: () async {
                           _handleRememberMe(rememberMeToggle);
                           try {

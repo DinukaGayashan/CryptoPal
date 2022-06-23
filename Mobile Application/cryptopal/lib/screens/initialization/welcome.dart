@@ -97,13 +97,13 @@ class Welcome extends StatelessWidget {
                     height: 30.0,
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
                     child: SizedBox(
                       height: 50,
                       width: double.infinity,
                       child: CupertinoButton(
                         color: kAccentColor1,
-                        borderRadius: const BorderRadius.all(Radius.zero),
+                        borderRadius: const BorderRadius.all(Radius.circular(5)),
                         onPressed: () {
                           Navigator.pushNamed(context, SignIn.id);
                         },
@@ -118,13 +118,13 @@ class Welcome extends StatelessWidget {
                     height: 10.0,
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
                     child: SizedBox(
                       height: 50,
                       width: double.infinity,
                       child: CupertinoButton(
                         color: kAccentColor1,
-                        borderRadius: const BorderRadius.all(Radius.zero),
+                        borderRadius: const BorderRadius.all(Radius.circular(5)),
                         onPressed: () {
                           Navigator.pushNamed(context, SignUp.id);
                         },

@@ -279,12 +279,12 @@ class _PredictionsState extends State<Predictions> {
                     onTap: () {
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) {
-                        return CurrencyPredictions(
-                          currentUser,
-                          i,
-                          widget.realPriceList,
-                        );
-                      })).then((_) {
+                            return CurrencyPredictions(
+                              currentUser,
+                              i,
+                              widget.realPriceList,
+                            );
+                          })).then((_) {
                         setState(() {
                           currentUser.predictions;
                           currentUser.futurePredictions;
