@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:cryptopal/utility/user_account.dart';
 import 'package:cryptopal/utility/constants.dart';
@@ -86,25 +85,6 @@ class _PredictionsState extends State<Predictions> {
                     ],
                   ),
                 ),
-                /*Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-
-                    Tooltip(
-                      message: 'Add Prediction',
-                      child: FloatingActionButton(
-                        backgroundColor: kAccentColor1,
-                        child: const Icon(Icons.add),
-                        onPressed: () {
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (context) {
-                            return AddPrediction(currentUser);
-                          }));
-                        },
-                      ),
-                    ),
-                  ],
-                ),*/
                 const SizedBox(
                   height: 20.0,
                 ),
@@ -203,22 +183,7 @@ class _PredictionsState extends State<Predictions> {
                                     style: kCardSmallTextStyle,
                                     children: <TextSpan>[
                                       TextSpan(
-                                        text: ((currentUser.errorsOnCurrencies[
-                                                            cryptocurrencies[
-                                                                i]]!)
-                                                        .abs() >
-                                                    100
-                                                ? 0
-                                                : (currentUser.errorsOnCurrencies[
-                                                            cryptocurrencies[
-                                                                i]]! -
-                                                        (currentUser.errorsOnCurrencies[
-                                                                    cryptocurrencies[
-                                                                        i]]! >
-                                                                0
-                                                            ? 100
-                                                            : -100))
-                                                    .abs()
+                                        text: ((currentUser.errorStandardDeviationOnCurrencies[cryptocurrencies[i]]!) > 100?0:100-(currentUser.errorStandardDeviationOnCurrencies[cryptocurrencies[i]]!)
                                                     .roundToDouble())
                                             .toString(),
                                         style: kCardTextStyle2,
@@ -255,12 +220,12 @@ class _PredictionsState extends State<Predictions> {
                                 ),
                                 RichText(
                                   text: TextSpan(
-                                    text: 'Error Deviation\n',
+                                    text: 'Average Error\n',
                                     style: kCardSmallTextStyle,
                                     children: <TextSpan>[
                                       TextSpan(
-                                        text: sqrt(currentUser
-                                                        .errorVarianceOnCurrencies[
+                                        text: (currentUser
+                                                        .errorsOnCurrencies[
                                                     cryptocurrencies[i]] ??
                                                 0)
                                             .roundToDouble()

@@ -148,22 +148,8 @@ class _CurrencyPredictionsState extends State<CurrencyPredictions> {
                       children: <TextSpan>[
                         TextSpan(
                           text: ' ' +
-                              ((currentUser.errorsOnCurrencies[cryptocurrencies[
-                                                  widget.currencyIndex]]!)
-                                              .abs() >
-                                          100
-                                      ? 0
-                                      : (currentUser.errorsOnCurrencies[
-                                                  cryptocurrencies[
-                                                      widget.currencyIndex]]! -
-                                              (currentUser.errorsOnCurrencies[
-                                                          cryptocurrencies[widget
-                                                              .currencyIndex]]! >
-                                                      0
-                                                  ? 100
-                                                  : -100))
-                                          .abs())
-                                  .roundToDouble()
+                              ((currentUser.errorStandardDeviationOnCurrencies[cryptocurrencies[widget.currencyIndex]]!) > 100?0:100-(currentUser.errorStandardDeviationOnCurrencies[cryptocurrencies[widget.currencyIndex]]!)
+                                  .roundToDouble())
                                   .toString() +
                               '%',
                           style: kCardTextStyle2,
@@ -191,39 +177,9 @@ class _CurrencyPredictionsState extends State<CurrencyPredictions> {
                             thickness: 25.0,
                             enableAnimation: true,
                             //animationDuration: kAnimationTime,
-                            value: (currentUser.errorsOnCurrencies[
-                                            cryptocurrencies[
-                                                widget.currencyIndex]]!)
-                                        .abs() >
-                                    100
-                                ? 0
-                                : (currentUser.errorsOnCurrencies[
-                                            cryptocurrencies[
-                                                widget.currencyIndex]]! -
-                                        (currentUser.errorsOnCurrencies[
-                                                    cryptocurrencies[widget
-                                                        .currencyIndex]]! >
-                                                0
-                                            ? 100
-                                            : -100))
-                                    .abs()
-                                    .roundToDouble(),
-                            color: ((currentUser.errorsOnCurrencies[
-                                                    cryptocurrencies[
-                                                        widget.currencyIndex]]!)
-                                                .abs() >
-                                            100
-                                        ? 0
-                                        : (currentUser.errorsOnCurrencies[
-                                                    cryptocurrencies[widget
-                                                        .currencyIndex]]! -
-                                                (currentUser.errorsOnCurrencies[
-                                                            cryptocurrencies[widget
-                                                                .currencyIndex]]! >
-                                                        0
-                                                    ? 100
-                                                    : -100))
-                                            .abs()) >
+                            value: (currentUser.errorStandardDeviationOnCurrencies[cryptocurrencies[widget.currencyIndex]]!) > 100?0:100-(currentUser.errorStandardDeviationOnCurrencies[cryptocurrencies[widget.currencyIndex]]!).roundToDouble(),
+                            color: ((currentUser.errorStandardDeviationOnCurrencies[cryptocurrencies[widget.currencyIndex]]!) > 100?0:100-(currentUser.errorStandardDeviationOnCurrencies[cryptocurrencies[widget.currencyIndex]]!)
+                                .roundToDouble()) >
                                     50
                                 ? kGreen
                                 : kRed,

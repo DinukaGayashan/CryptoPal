@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:cryptopal/utility/user_account.dart';
 import 'package:cryptopal/utility/constants.dart';
@@ -102,13 +103,28 @@ class _CurrencyPastPredictionsState extends State<CurrencyPastPredictions> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 SizedBox(
-                                  height: 45.0,
+                                  height: 50.0,
                                   child: Text(
                                     prediction.predictedDate,
                                     style: kCardTextStyle,
                                   ),
                                 ),
-                                //const SizedBox(height: 15.0,),
+                                RichText(
+                                  text: TextSpan(
+                                    text: 'Accuracy\n',
+                                    style: kCardSmallTextStyle,
+                                    children: <TextSpan>[
+                                      TextSpan(
+                                        text: (100-sqrt(prediction.errorPercentage*prediction.errorPercentage))
+                                            .roundToDouble().toString()+'%',
+                                        style: kCardTextStyle2,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 10.0,
+                                ),
                                 RichText(
                                   text: TextSpan(
                                     text: 'Error Percentage\n',
@@ -123,38 +139,18 @@ class _CurrencyPastPredictionsState extends State<CurrencyPastPredictions> {
                                     ],
                                   ),
                                 ),
-                                const SizedBox(
-                                  height: 10.0,
-                                ),
-                                RichText(
-                                  text: TextSpan(
-                                    text: 'Error\n',
-                                    style: kCardSmallTextStyle,
-                                    children: <TextSpan>[
-                                      TextSpan(
-                                        text: prediction.errorValue
-                                            .roundToDouble()
-                                            .toString(),
-                                        style: kCardTextStyle2,
-                                      ),
-                                    ],
-                                  ),
-                                ),
                               ],
                             ),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                const SizedBox(
-                                  height: 45.0,
-                                ),
                                 RichText(
                                   text: TextSpan(
                                     text: 'Predicted Price\n',
                                     style: kCardSmallTextStyle,
                                     children: <TextSpan>[
                                       TextSpan(
-                                        text: prediction.predictedClosePrice.toString(),
+                                        text: kCurrencyPriceDisplay(prediction.predictedClosePrice),
                                         style: kCardTextStyle2,
                                       ),
                                     ],
@@ -169,12 +165,26 @@ class _CurrencyPastPredictionsState extends State<CurrencyPastPredictions> {
                                     style: kCardSmallTextStyle,
                                     children: <TextSpan>[
                                       TextSpan(
-                                        text: getRealPrice(
+                                        text: kCurrencyPriceDisplay(getRealPrice(
                                             currency: cryptocurrencies[
                                             widget.currencyIndex],
                                             date: prediction.predictedDate)
-                                            ?.closePrice
-                                            .toString(),
+                                            ?.closePrice),
+                                        style: kCardTextStyle2,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 10.0,
+                                ),
+                                RichText(
+                                  text: TextSpan(
+                                    text: 'Error\n',
+                                    style: kCardSmallTextStyle,
+                                    children: <TextSpan>[
+                                      TextSpan(
+                                        text: kCurrencyPriceDisplay(prediction.errorValue),
                                         style: kCardTextStyle2,
                                       ),
                                     ],

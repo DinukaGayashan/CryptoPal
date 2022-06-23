@@ -76,7 +76,7 @@ class _DashboardState extends State<Dashboard> {
           toolbarHeight: 80.0,
           automaticallyImplyLeading: false,
           title: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.end,
             children: <Widget>[
               Builder(builder: (context){
@@ -92,22 +92,26 @@ class _DashboardState extends State<Dashboard> {
                 );
               }
               ),
-              Hero(
-                tag: 'logo',
-                child: CircleAvatar(
-                  backgroundColor: Colors.transparent,
-                  radius: 25.0,
-                  child: Image.asset('assets/images/CryptoPal-logo-white.png'),
-                ),
+              Row(
+                children: [
+                  Hero(
+                    tag: 'logo',
+                    child: CircleAvatar(
+                      backgroundColor: Colors.transparent,
+                      radius: 25.0,
+                      child: Image.asset('assets/images/CryptoPal-logo-white.png'),
+                    ),
+                  ),
+                  const Hero(
+                    tag: 'name',
+                    child: Text(
+                      "CryptoPal",
+                      style: kTitleStyle,
+                    ),
+                  ),
+                ],
               ),
-              const Hero(
-                tag: 'name',
-                child: Text(
-                  "CryptoPal",
-                  style: kTitleStyle,
-                ),
-              ),
-              //const SizedBox(width: 50,)
+              const SizedBox(width: 50,)
             ],
           ),
         ),*/
@@ -425,9 +429,6 @@ class _DashboardState extends State<Dashboard> {
                   ),
                 ),
                 onTap: () {
-                  currentUser.pastPredictions.isEmpty?
-                      snackBar(context, message: 'No data to display.\nStatistics are calculated after the prediction date.', color: kYellow)
-                      :
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
                     return Statistics(currentUser);
                   }));

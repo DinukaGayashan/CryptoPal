@@ -14,6 +14,21 @@ class Statistics extends StatefulWidget {
 }
 
 class _StatisticsState extends State<Statistics> {
+  late List<String> currenciesWithPastPredictions=[];
+  late List<String> currenciesWithPredictions=[];
+
+  void getStatisticData(){
+    currenciesWithPastPredictions.clear();
+    currenciesWithPredictions.clear();
+    for(var c in cryptocurrencies){
+      if(getUserPredictions(currency: c, past:true).isNotEmpty){
+        currenciesWithPastPredictions.add(c);
+      }
+      if(getUserPredictions(currency: c, past:false).isNotEmpty){
+        currenciesWithPredictions.add(c);
+      }
+    }
+  }
 
   List<ValueOnCurrency> getValuesOnCurrency(
       {required String currency, required String type}) {
@@ -56,8 +71,27 @@ class _StatisticsState extends State<Statistics> {
     return currencyValues;
   }
 
+  List<Prediction> getUserPredictions(
+      {required String currency, bool past = false}) {
+    List<Prediction> predictions = [];
+    List<Prediction> predictionSnap =
+    past ? currentUser.pastPredictions : currentUser.predictions;
+    if (currency == 'all') {
+      predictions = predictionSnap;
+    } else {
+      for (var prediction in predictionSnap) {
+        if (prediction.predictedCurrency == currency + '-USD') {
+          predictions.add(prediction);
+        }
+      }
+    }
+    return predictions;
+  }
+
   @override
   Widget build(BuildContext context) {
+    getStatisticData();
+
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: SafeArea(
@@ -71,10 +105,18 @@ class _StatisticsState extends State<Statistics> {
                 const SizedBox(
                   height: 10.0,
                 ),
-                RichText(text: TextSpan(
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(currentUser.history.length.toString(),style: kCardTextStyle3,),
+                    const SizedBox(width: 2,),
+                    const Text('Total\nActive\nDays',style: kCardSmallTextStyle,),
+                  ],
+                ),
 
-                ),),
-
+                const SizedBox(
+                  height: 30.0,
+                ),
                 const Center(
                   child: Text(
                     'Cryptocurrency Prediction Accuracy',
@@ -82,6 +124,8 @@ class _StatisticsState extends State<Statistics> {
                   ),
                 ),
                 const SizedBox(height: 15.0,),
+                currentUser.pastPredictions.isEmpty?
+                    const SizedBox():
                 SfLinearGauge(
                   minimum: 0,
                   maximum: 100,
@@ -90,19 +134,21 @@ class _StatisticsState extends State<Statistics> {
                   showAxisTrack: false,
                   isMirrored: true,
                   barPointers: [
-                    for(int i=0;i<cryptocurrencies.length;i++)
+                    for(int i=0;i<currenciesWithPastPredictions.length;i++)
                       LinearBarPointer(
                         thickness: 25.0,
                         enableAnimation: true,
-                        //animationDuration: kAnimationTime,
-                        value: (currentUser.errorsOnCurrencies[cryptocurrencies[i]]!).abs()>100?0:(currentUser.errorsOnCurrencies[cryptocurrencies[i]]!-(currentUser.errorsOnCurrencies[cryptocurrencies[i]]!>0?100:-100)).abs().roundToDouble(),
-                        color: ((currentUser.errorsOnCurrencies[cryptocurrencies[i]]!).abs()>100?0:(currentUser.errorsOnCurrencies[cryptocurrencies[i]]!-(currentUser.errorsOnCurrencies[cryptocurrencies[i]]!>0?100:-100)).abs())>50?kGreen:kRed,
+                        value: ((currentUser.errorStandardDeviationOnCurrencies[cryptocurrencies[i]]!) > 100?0:100-(currentUser.errorStandardDeviationOnCurrencies[cryptocurrencies[i]]!)
+                            .roundToDouble()),
+                        color: ((currentUser.errorStandardDeviationOnCurrencies[cryptocurrencies[i]]!) > 100?0:100-(currentUser.errorStandardDeviationOnCurrencies[cryptocurrencies[i]]!)
+                            .roundToDouble())>50?kGreen:kRed,
                         edgeStyle: LinearEdgeStyle.bothCurve,
                         offset: i*30+35,
                         position: LinearElementPosition.outside,
                         child: Center(
                           child: Text(
-                            cryptocurrencies[i]+' '+((currentUser.errorsOnCurrencies[cryptocurrencies[i]]!).abs()>100?0:(currentUser.errorsOnCurrencies[cryptocurrencies[i]]!-(currentUser.errorsOnCurrencies[cryptocurrencies[i]]!>0?100:-100)).abs().roundToDouble()).toString()+'%',
+                            currenciesWithPastPredictions[i]+' '+((currentUser.errorStandardDeviationOnCurrencies[cryptocurrencies[i]]!) > 100?0:100-(currentUser.errorStandardDeviationOnCurrencies[cryptocurrencies[i]]!)
+                                .roundToDouble()).toString()+'%',
                             style: kCardSmallTextStyle,
                           ),
                         ),

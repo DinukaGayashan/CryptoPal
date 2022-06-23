@@ -112,21 +112,27 @@ Future<UserAccount> getActiveUserData() async {
         }
       }
 
+      List<double> userErrorStandardDeviationOnCurrencies =
+      List<double>.filled(cryptocurrencies.length, 0);
+
       currentUser.error = userError / predictionCount;
       currentUser.variance = userErrorVariance / predictionCount;
       currentUser.standardDeviation = sqrt(currentUser.variance);
       for (int x = 0; x < cryptocurrencies.length; x++) {
         userErrorsOnCurrencies[x] /= userPredictionsOnCurrencies[x];
         userErrorVarianceOnCurrencies[x] /= userPredictionsOnCurrencies[x];
+        userErrorStandardDeviationOnCurrencies[x]=sqrt(userErrorVarianceOnCurrencies[x]);
       }
 
       currentUser.errorsOnCurrencies =
           Map.fromIterables(cryptocurrencies, userErrorsOnCurrencies);
       currentUser.errorVarianceOnCurrencies =
           Map.fromIterables(cryptocurrencies, userErrorVarianceOnCurrencies);
+      currentUser.errorStandardDeviationOnCurrencies=
+          Map.fromIterables(cryptocurrencies, userErrorStandardDeviationOnCurrencies);
 
       currentUser.accuracy =
-          100 - (currentUser.error > 0 ? currentUser.error : -currentUser.error);
+          100 - currentUser.standardDeviation;
 
       await _firestore
           .collection('users')
@@ -141,6 +147,7 @@ Future<UserAccount> getActiveUserData() async {
           'errorStandardDeviation': currentUser.standardDeviation,
           'errorsOnCurrencies': currentUser.errorsOnCurrencies,
           'errorVarianceOnCurrencies': currentUser.errorVarianceOnCurrencies,
+          'errorStandardVariationOnCurrencies': currentUser.errorStandardDeviationOnCurrencies,
         },
       );
 
@@ -225,6 +232,6 @@ class UserAccount {
   late String name, birthday;
   late List<Prediction> predictions = [], pastPredictions = [], futurePredictions = [];
   late double error, variance, standardDeviation, accuracy;
-  late Map<String, double> errorsOnCurrencies, errorVarianceOnCurrencies;
+  late Map<String, double> errorsOnCurrencies, errorVarianceOnCurrencies,errorStandardDeviationOnCurrencies;
   late Map<String, DayHistory> history;
 }
