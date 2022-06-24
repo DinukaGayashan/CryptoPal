@@ -1,3 +1,5 @@
+import 'package:cryptopal/screens/predictions/future_predictions.dart';
+import 'package:cryptopal/screens/predictions/past_predictions.dart';
 import 'package:flutter/material.dart';
 import 'package:cryptopal/utility/user_account.dart';
 import 'package:cryptopal/utility/constants.dart';
@@ -12,7 +14,6 @@ class Predictions extends StatefulWidget {
   const Predictions(this.currentUser, this.realPriceList, {Key? key})
       : super(key: key);
 
-  static const String id = 'Predictions';
   final UserAccount currentUser;
   final List<RealPricesOfACurrency> realPriceList;
 
@@ -30,7 +31,7 @@ class _PredictionsState extends State<Predictions> {
       predictions = predictionSnap;
     } else {
       for (var prediction in predictionSnap) {
-        if (prediction.predictedCurrency == currency + '-USD') {
+        if (prediction.predictionCurrency == currency + '-USD') {
           predictions.add(prediction);
         }
       }
@@ -91,30 +92,78 @@ class _PredictionsState extends State<Predictions> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
-                    RichText(
-                      text: TextSpan(
-                        text: 'Past Predictions\n',
-                        style: kCardSmallTextStyle,
-                        children: <TextSpan>[
-                          TextSpan(
-                            text: currentUser.pastPredictions.length.toString(),
-                            style: kCardTextStyle2,
+                    GestureDetector(
+                      child: Container(
+                        width: 150,
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: kTransparentColor,
                           ),
-                        ],
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Center(
+                            child: RichText(
+                              text: TextSpan(
+                                text: 'Past Predictions\n',
+                                style: kCardSmallTextStyle,
+                                children: <TextSpan>[
+                                  TextSpan(
+                                    text: currentUser.pastPredictions.length.toString(),
+                                    style: kCardTextStyle2,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
                       ),
+                      onTap: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                              return PastPredictions(currentUser,
+                                  widget.realPriceList);
+                            }));
+                      },
                     ),
-                    RichText(
-                      text: TextSpan(
-                        text: 'Future Predictions\n',
-                        style: kCardSmallTextStyle,
-                        children: <TextSpan>[
-                          TextSpan(
-                            text: (currentUser.futurePredictions.length)
-                                .toString(),
-                            style: kCardTextStyle2,
+                    GestureDetector(
+                      child: Container(
+                        width: 150,
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: kTransparentColor,
                           ),
-                        ],
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Center(
+                            child: RichText(
+                              text: TextSpan(
+                                text: 'Future Predictions\n',
+                                style: kCardSmallTextStyle,
+                                children: <TextSpan>[
+                                  TextSpan(
+                                    text: (currentUser.futurePredictions.length)
+                                        .toString(),
+                                    style: kCardTextStyle2,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
                       ),
+                      onTap: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                              return FuturePredictions(currentUser, widget.realPriceList);
+                            })).then((_) {
+                          setState(() {
+                            currentUser.predictions;
+                            currentUser.futurePredictions;
+                          });
+                        });
+                      },
                     ),
                   ],
                 ),

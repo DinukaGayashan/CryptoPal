@@ -8,7 +8,6 @@ import 'package:cryptopal/utility/widgets.dart';
 class AddPrediction extends StatefulWidget {
   const AddPrediction(this.currentUser, {Key? key}) : super(key: key);
 
-  static const String id = 'AddPrediction';
   final UserAccount currentUser;
   @override
   State<AddPrediction> createState() => _AddPredictionState();
@@ -16,6 +15,7 @@ class AddPrediction extends StatefulWidget {
 
 class _AddPredictionState extends State<AddPrediction> {
   final _firestore = FirebaseFirestore.instance;
+  final String today=DateTime.now().toString().split(' ')[0];
   late int selectedCrypto = 0;
   late double predictionPrice;
   late DateTime predictionDate = DateTime.now().add(const Duration(days: 1));
@@ -167,16 +167,16 @@ class _AddPredictionState extends State<AddPrediction> {
                         double price = predictionPrice.toDouble();
 
                         currentUser.predictions.removeWhere((item) =>
-                            item.predictedCurrency == currency &&
-                            item.predictedDate == date);
+                            item.predictionCurrency == currency &&
+                            item.predictionDate == date);
                         currentUser.futurePredictions.removeWhere((item) =>
-                            item.predictedCurrency == currency &&
-                            item.predictedDate == date);
+                            item.predictionCurrency == currency &&
+                            item.predictionDate == date);
 
                         currentUser.predictions
-                            .add(Prediction(date, currency, price, 0, 0));
+                            .add(Prediction(today, date, currency, price, 0, 0));
                         currentUser.futurePredictions
-                            .add(Prediction(date, currency, price, 0, 0));
+                            .add(Prediction(today, date, currency, price, 0, 0));
 
                         try {
                           await _firestore
@@ -185,9 +185,10 @@ class _AddPredictionState extends State<AddPrediction> {
                               .collection('predictions')
                               .doc(date + ' ' + currency)
                               .set({
-                            'predictedDate': date,
-                            'predictedCurrency': currency,
-                            'predictedClosePrice': predictionPrice.toDouble(),
+                            'predictedDate':today,
+                            'predictionDate': date,
+                            'predictionCurrency': currency,
+                            'predictionClosePrice': predictionPrice.toDouble(),
                           });
                           snackBar(context,
                               message: 'Prediction successfully added.',

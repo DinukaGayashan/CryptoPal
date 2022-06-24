@@ -21,7 +21,7 @@ class CurrencyPredictionsGraph extends StatelessWidget {
     }
     else{
       for(var prediction in predictionSnap){
-        if(prediction.predictedCurrency==currency+'-USD'){
+        if(prediction.predictionCurrency==currency+'-USD'){
           predictions.add(prediction);
         }
       }
@@ -88,8 +88,8 @@ class CurrencyPredictionsGraph extends StatelessWidget {
                    LineSeries<Prediction, DateTime>(
                      name: cryptocurrencies[currencyIndex]+' Prediction',
                      dataSource: getUserPredictions(currency: cryptocurrencies[currencyIndex]),
-                     xValueMapper: (Prediction data, _) => data.predictedDateAsDate,
-                     yValueMapper: (Prediction data, _) => data.predictedClosePrice,
+                     xValueMapper: (Prediction data, _) => data.predictionDateAsDate,
+                     yValueMapper: (Prediction data, _) => data.predictionClosePrice,
                      markerSettings: const MarkerSettings(
                        isVisible: true,
                      ),

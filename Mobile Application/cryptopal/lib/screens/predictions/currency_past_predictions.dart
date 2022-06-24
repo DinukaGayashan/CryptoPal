@@ -13,7 +13,6 @@ class CurrencyPastPredictions extends StatefulWidget {
       {Key? key})
       : super(key: key);
 
-  static const String id = 'CurrencyPastPredictions';
   final UserAccount currentUser;
   final int currencyIndex;
   final List<RealPricesOfACurrency> realPriceList;
@@ -33,7 +32,7 @@ class _CurrencyPastPredictionsState extends State<CurrencyPastPredictions> {
       predictions = predictionSnap;
     } else {
       for (var prediction in predictionSnap) {
-        if (prediction.predictedCurrency == currency + '-USD') {
+        if (prediction.predictionCurrency == currency + '-USD') {
           predictions.add(prediction);
         }
       }
@@ -103,11 +102,26 @@ class _CurrencyPastPredictionsState extends State<CurrencyPastPredictions> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 SizedBox(
-                                  height: 50.0,
+                                  height: 40,
                                   child: Text(
-                                    prediction.predictedDate,
+                                    prediction.predictionDate,
                                     style: kCardTextStyle,
                                   ),
+                                ),
+                                RichText(
+                                  text: TextSpan(
+                                    text: 'Predicted Date\n',
+                                    style: kCardSmallTextStyle,
+                                    children: <TextSpan>[
+                                      TextSpan(
+                                        text: prediction.predictedDate,
+                                        style: kCardTextStyle2,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 10.0,
                                 ),
                                 RichText(
                                   text: TextSpan(
@@ -116,7 +130,7 @@ class _CurrencyPastPredictionsState extends State<CurrencyPastPredictions> {
                                     children: <TextSpan>[
                                       TextSpan(
                                         text: (100-sqrt(prediction.errorPercentage*prediction.errorPercentage))
-                                            .roundToDouble().toString()+'%',
+                                            .roundToDouble().toString(),
                                         style: kCardTextStyle2,
                                       ),
                                     ],
@@ -144,13 +158,14 @@ class _CurrencyPastPredictionsState extends State<CurrencyPastPredictions> {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
+                                const SizedBox(height: 40,),
                                 RichText(
                                   text: TextSpan(
                                     text: 'Predicted Price\n',
                                     style: kCardSmallTextStyle,
                                     children: <TextSpan>[
                                       TextSpan(
-                                        text: kCurrencyPriceDisplay(prediction.predictedClosePrice),
+                                        text: kCurrencyPriceDisplay(prediction.predictionClosePrice),
                                         style: kCardTextStyle2,
                                       ),
                                     ],
@@ -158,8 +173,7 @@ class _CurrencyPastPredictionsState extends State<CurrencyPastPredictions> {
                                 ),
                                 const SizedBox(
                                   height: 10.0,
-                                ),
-                                RichText(
+                                ),RichText(
                                   text: TextSpan(
                                     text: 'Actual Price\n',
                                     style: kCardSmallTextStyle,
@@ -168,7 +182,7 @@ class _CurrencyPastPredictionsState extends State<CurrencyPastPredictions> {
                                         text: kCurrencyPriceDisplay(getRealPrice(
                                             currency: cryptocurrencies[
                                             widget.currencyIndex],
-                                            date: prediction.predictedDate)
+                                            date: prediction.predictionDate)
                                             ?.closePrice),
                                         style: kCardTextStyle2,
                                       ),

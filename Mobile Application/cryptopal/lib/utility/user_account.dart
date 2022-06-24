@@ -31,12 +31,12 @@ Future<UserAccount> getActiveUserData() async {
     for (var i in predictionsWithoutErrorSnap.docs) {
       try {
         final priceSnap = await _firestore.collection('realPrices')
-            .doc(i.data()['predictedDate']+' '+i.data()['predictedCurrency'])
+            .doc(i.data()['predictionDate']+' '+i.data()['predictionCurrency'])
             .get();
 
         double realPrice = priceSnap.data()!['closePrice'].toDouble();
         double errorValue =
-            (i.data()['predictedClosePrice'].toDouble() - realPrice);
+            (i.data()['predictionClosePrice'].toDouble() - realPrice);
         double errorPercentage =
             100 * errorValue / realPrice;
 
@@ -67,22 +67,25 @@ Future<UserAccount> getActiveUserData() async {
         if(i.data()['errorPercentage']!=null){
           currentUser.pastPredictions.add(Prediction(
               i.data()['predictedDate'],
-              i.data()['predictedCurrency'],
-              i.data()['predictedClosePrice'].toDouble(),
+              i.data()['predictionDate'],
+              i.data()['predictionCurrency'],
+              i.data()['predictionClosePrice'].toDouble(),
               i.data()['errorValue'].toDouble(),
               i.data()['errorPercentage'].toDouble()));
         }
         else{
           currentUser.futurePredictions.add(Prediction(
               i.data()['predictedDate'],
-              i.data()['predictedCurrency'],
-              i.data()['predictedClosePrice'].toDouble(),
+              i.data()['predictionDate'],
+              i.data()['predictionCurrency'],
+              i.data()['predictionClosePrice'].toDouble(),
               0.0,0.0));
         }
         currentUser.predictions.add(Prediction(
             i.data()['predictedDate'],
-            i.data()['predictedCurrency'],
-            i.data()['predictedClosePrice'].toDouble(),
+            i.data()['predictionDate'],
+            i.data()['predictionCurrency'],
+            i.data()['predictionClosePrice'].toDouble(),
             0.0,0.0));
       }
     } catch (e) {
@@ -102,7 +105,7 @@ Future<UserAccount> getActiveUserData() async {
         userError += i.errorPercentage;
         userErrorVariance += (i.errorPercentage * i.errorPercentage);
         for (int x = 0; x < cryptocurrencies.length; x++) {
-          if (i.predictedCurrency == (cryptocurrencies[x] + "-USD")) {
+          if (i.predictionCurrency == (cryptocurrencies[x] + "-USD")) {
             userErrorsOnCurrencies[x] += (i.errorPercentage);
             userErrorVarianceOnCurrencies[x] +=
                 (i.errorPercentage * i.errorPercentage);
@@ -147,7 +150,7 @@ Future<UserAccount> getActiveUserData() async {
           'errorStandardDeviation': currentUser.standardDeviation,
           'errorsOnCurrencies': currentUser.errorsOnCurrencies,
           'errorVarianceOnCurrencies': currentUser.errorVarianceOnCurrencies,
-          'errorStandardVariationOnCurrencies': currentUser.errorStandardDeviationOnCurrencies,
+          'errorStandardDeviationOnCurrencies': currentUser.errorStandardDeviationOnCurrencies,
         },
       );
 
@@ -209,20 +212,21 @@ class DayHistory{
 
 class Prediction {
   late String predictedDate;
-  late String predictedCurrency;
-  late double predictedClosePrice;
+  late String predictionDate;
+  late String predictionCurrency;
+  late double predictionClosePrice;
   late double errorValue;
   late double errorPercentage;
-  late DateTime predictedDateAsDate;
+  late DateTime predictionDateAsDate;
 
-  Prediction(this.predictedDate, this.predictedCurrency,
-      this.predictedClosePrice, this.errorValue,this.errorPercentage){
-    predictedDateAsDate=DateTime.parse(predictedDate);
+  Prediction(this.predictedDate, this.predictionDate, this.predictionCurrency,
+      this.predictionClosePrice, this.errorValue,this.errorPercentage){
+    predictionDateAsDate=DateTime.parse(predictionDate);
   }
 
   List<Prediction> toList(Prediction x){
     List<Prediction> list=[];
-    list.add(Prediction(x.predictedDate, x.predictedCurrency, x.predictedClosePrice,x.errorValue, x.errorPercentage));
+    list.add(Prediction(x.predictedDate, x.predictionDate, x.predictionCurrency, x.predictionClosePrice,x.errorValue, x.errorPercentage));
     return list;
   }
 }

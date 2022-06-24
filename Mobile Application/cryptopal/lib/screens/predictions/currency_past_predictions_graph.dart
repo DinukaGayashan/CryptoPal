@@ -70,8 +70,8 @@ class CurrencyPastPredictionsGraph extends StatelessWidget {
                   LineSeries<Prediction, DateTime>(
                     name: cryptocurrencies[currencyIndex]+' Prediction',
                     dataSource: prediction.toList(prediction),
-                    xValueMapper: (Prediction data, _) => data.predictedDateAsDate,
-                    yValueMapper: (Prediction data, _) => data.predictedClosePrice,
+                    xValueMapper: (Prediction data, _) => data.predictionDateAsDate,
+                    yValueMapper: (Prediction data, _) => data.predictionClosePrice,
                     markerSettings: const MarkerSettings(
                       isVisible: true,
                     ),

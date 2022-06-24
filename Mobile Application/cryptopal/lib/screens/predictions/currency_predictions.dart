@@ -37,7 +37,7 @@ class _CurrencyPredictionsState extends State<CurrencyPredictions> {
       predictions = predictionSnap;
     } else {
       for (var prediction in predictionSnap) {
-        if (prediction.predictedCurrency == currency + '-USD') {
+        if (prediction.predictionCurrency == currency + '-USD') {
           predictions.add(prediction);
         }
       }
@@ -48,7 +48,7 @@ class _CurrencyPredictionsState extends State<CurrencyPredictions> {
   List<Prediction> getUserFuturePredictions({required String currency}) {
     List<Prediction> predictions = [];
     for (var p in currentUser.futurePredictions) {
-      if (p.predictedCurrency == currency + '-USD') {
+      if (p.predictionCurrency == currency + '-USD') {
         predictions.add(p);
       }
     }
@@ -353,9 +353,9 @@ class _CurrencyPredictionsState extends State<CurrencyPredictions> {
                         dataSource: getUserPredictions(
                             currency: cryptocurrencies[widget.currencyIndex]),
                         xValueMapper: (Prediction data, _) =>
-                            data.predictedDateAsDate,
+                            data.predictionDateAsDate,
                         yValueMapper: (Prediction data, _) =>
-                            data.predictedClosePrice,
+                            data.predictionClosePrice,
                         markerSettings: const MarkerSettings(
                           isVisible: true,
                         ),

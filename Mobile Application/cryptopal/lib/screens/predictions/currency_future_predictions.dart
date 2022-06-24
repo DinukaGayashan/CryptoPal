@@ -13,7 +13,6 @@ class CurrencyFuturePredictions extends StatefulWidget {
       {Key? key})
       : super(key: key);
 
-  static const String id = 'CurrencyPastPredictions';
   final UserAccount currentUser;
   final int currencyIndex;
   final List<RealPricesOfACurrency> realPriceList;
@@ -36,7 +35,7 @@ class _CurrencyFuturePredictionsState extends State<CurrencyFuturePredictions> {
       predictions = predictionSnap;
     } else {
       for (var prediction in predictionSnap) {
-        if (prediction.predictedCurrency == currency + '-USD') {
+        if (prediction.predictionCurrency == currency + '-USD') {
           predictions.add(prediction);
         }
       }
@@ -47,7 +46,7 @@ class _CurrencyFuturePredictionsState extends State<CurrencyFuturePredictions> {
   List<Prediction> getUserFuturePredictions({required String currency}) {
     List<Prediction> predictions = [];
     for (var p in currentUser.futurePredictions) {
-      if (p.predictedCurrency == currency + '-USD') {
+      if (p.predictionCurrency == currency + '-USD') {
         predictions.add(p);
       }
     }
@@ -104,109 +103,127 @@ class _CurrencyFuturePredictionsState extends State<CurrencyFuturePredictions> {
                   GestureDetector(
                     child: glassCard(
                       context,
-                      GestureDetector(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 10, horizontal: 20),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  SizedBox(
-                                    height: 45.0,
-                                    child: Text(
-                                      prediction.predictedDate,
-                                      style: kCardTextStyle,
-                                    ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10, horizontal: 20),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                SizedBox(
+                                  height: 45.0,
+                                  child: Text(
+                                    prediction.predictionDate,
+                                    style: kCardTextStyle,
                                   ),
-                                  RichText(
-                                    text: TextSpan(
-                                      text: 'Predicted Price\n',
-                                      style: kCardSmallTextStyle,
-                                      children: <TextSpan>[
-                                        TextSpan(
-                                          text: prediction.predictedClosePrice.toString(),
-                                          style: kCardTextStyle2,
-                                        ),
-                                      ],
-                                    ),
+                                ),
+                                IconButton(
+                                  highlightColor: kRed,
+                                  onPressed: (){
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          backgroundColor: kBackgroundColor,
+                                          title: const Text(
+                                            'Confirm Prediction Deletion',
+                                            style: kInstructionStyle2,
+                                          ),
+                                          content: Text(
+                                            "Do you want to delete the prediction made on "+prediction.predictedDate+"?\n"
+                                                "\nPrediction currency: "+prediction.predictionCurrency+
+                                                "\nPrediction date: "+prediction.predictionDate+
+                                                "\nPrediction close price: \$ "+prediction.predictionClosePrice.toString()+
+                                                "\n\nThis cannot be undone.",
+                                            style: kInstructionStyle,
+                                          ),
+                                          actions: [
+                                            TextButton(
+                                              child: const Text(
+                                                "Cancel",
+                                                style: kLinkStyle,
+                                              ),
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                            ),
+                                            TextButton(
+                                              child: const Text(
+                                                "Delete",
+                                                style: kLinkStyle,
+                                              ),
+                                              onPressed: () async {
+                                                Navigator.of(context).pop();
+
+                                                currentUser.predictions.removeWhere((item) => item.predictionCurrency== prediction.predictionCurrency && item.predictionDate==prediction.predictionDate);
+                                                currentUser.futurePredictions.removeWhere((item) => item.predictionCurrency== prediction.predictionCurrency && item.predictionDate==prediction.predictionDate);
+
+                                                setState(()=>
+                                                    getUserFuturePredictions(
+                                                        currency: cryptocurrencies[widget.currencyIndex])
+                                                );
+
+                                                try {
+                                                  await _firestore
+                                                      .collection('users')
+                                                      .doc(widget.currentUser.user?.uid)
+                                                      .collection('predictions')
+                                                      .doc(prediction.predictionDate.toString().split(' ')[0] +
+                                                      ' ' +
+                                                      prediction.predictionCurrency)
+                                                      .delete();
+                                                  snackBar(context, message: 'Prediction successfully deleted.', color: kGreen);
+                                                } catch (e) {
+                                                  snackBar(context,message: e.toString(),color: kRed);
+                                                }
+                                              },
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
+                                  },
+                                  icon: const Icon(Icons.delete_forever),
+                                  color: kRed,
+                                  tooltip: 'Delete Prediction',
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 10,),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                RichText(
+                                  text: TextSpan(
+                                    text: 'Predicted Date\n',
+                                    style: kCardSmallTextStyle,
+                                    children: <TextSpan>[
+                                      TextSpan(
+                                        text: prediction.predictedDate,
+                                        style: kCardTextStyle2,
+                                      ),
+                                    ],
                                   ),
-                                ],
-                              ),
-                              IconButton(
-                                highlightColor: kRed,
-                                onPressed: (){
-                                  showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        backgroundColor: kBackgroundColor,
-                                        title: const Text(
-                                          'Confirm Prediction Deletion',
-                                          style: kInstructionStyle2,
-                                        ),
-                                        content: Text(
-                                          "Do you want to delete the following prediction?\n"
-                                              "\nPredicted currency: "+prediction.predictedCurrency+
-                                              "\nPredicted date: "+prediction.predictedDate+
-                                              "\nPredicted close price: \$ "+prediction.predictedClosePrice.toString()+
-                                              "\n\nThis cannot be undone.",
-                                          style: kInstructionStyle,
-                                        ),
-                                        actions: [
-                                          TextButton(
-                                            child: const Text(
-                                              "Cancel",
-                                              style: kLinkStyle,
-                                            ),
-                                            onPressed: () {
-                                              Navigator.of(context).pop();
-                                            },
-                                          ),
-                                          TextButton(
-                                            child: const Text(
-                                              "Delete",
-                                              style: kLinkStyle,
-                                            ),
-                                            onPressed: () async {
-                                              Navigator.of(context).pop();
-
-                                              currentUser.predictions.removeWhere((item) => item.predictedCurrency== prediction.predictedCurrency && item.predictedDate==prediction.predictedDate);
-                                              currentUser.futurePredictions.removeWhere((item) => item.predictedCurrency== prediction.predictedCurrency && item.predictedDate==prediction.predictedDate);
-
-                                              setState(()=>
-                                                  getUserFuturePredictions(
-                                                      currency: cryptocurrencies[widget.currencyIndex])
-                                              );
-
-                                              try {
-                                                await _firestore
-                                                    .collection('users')
-                                                    .doc(widget.currentUser.user?.uid)
-                                                    .collection('predictions')
-                                                    .doc(prediction.predictedDate.toString().split(' ')[0] +
-                                                    ' ' +
-                                                    prediction.predictedCurrency)
-                                                    .delete();
-                                                snackBar(context, message: 'Prediction successfully deleted.', color: kGreen);
-                                              } catch (e) {
-                                                snackBar(context,message: e.toString(),color: kRed);
-                                              }
-                                            },
-                                          ),
-                                        ],
-                                      );
-                                    },
-                                  );
-                                },
-                                icon: const Icon(Icons.delete_forever),
-                                color: kRed,
-                                tooltip: 'Delete Prediction',
-                              ),
-                            ],
-                          ),
+                                ),
+                                const SizedBox(width: 20,),
+                                RichText(
+                                  text: TextSpan(
+                                    text: 'Prediction Price\n',
+                                    style: kCardSmallTextStyle,
+                                    children: <TextSpan>[
+                                      TextSpan(
+                                        text: prediction.predictionClosePrice.toString(),
+                                        style: kCardTextStyle2,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
                       ),
                     ),

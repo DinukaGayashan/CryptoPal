@@ -27,7 +27,7 @@ class Dashboard extends StatefulWidget {
   const Dashboard(this.currentUser, this.realPriceList, this.newsList,
       {Key? key})
       : super(key: key);
-  static const String id = 'dashboard';
+
   final UserAccount currentUser;
   final List<RealPricesOfACurrency> realPriceList;
   final List<News> newsList;
@@ -64,6 +64,9 @@ class _DashboardState extends State<Dashboard> {
     }
     return minError.isInfinite ? '-' : cryptocurrencyNames[index];
   }
+
+  List<T> pickRandomItemsAsList<T>(List<T> items, int count) =>
+      (items.toList()..shuffle()).take(count).toList();
 
   @override
   Widget build(BuildContext context) {
@@ -315,11 +318,11 @@ class _DashboardState extends State<Dashboard> {
                                 children: <Widget>[
                                   RichText(
                                     text: TextSpan(
-                                      text: 'Average Error\n',
+                                      text: 'Error Deviation\n',
                                       style: kCardSmallTextStyle,
                                       children: <TextSpan>[
                                         TextSpan(
-                                          text: currentUser.error
+                                          text: currentUser.standardDeviation
                                               .roundToDouble()
                                               .toString(),
                                           style: kCardTextStyle2,
@@ -329,11 +332,11 @@ class _DashboardState extends State<Dashboard> {
                                   ),
                                   RichText(
                                     text: TextSpan(
-                                      text: 'Error Deviation\n',
+                                      text: 'Average Error\n',
                                       style: kCardSmallTextStyle,
                                       children: <TextSpan>[
                                         TextSpan(
-                                          text: currentUser.standardDeviation
+                                          text: currentUser.error
                                               .roundToDouble()
                                               .toString(),
                                           style: kCardTextStyle2,
@@ -757,7 +760,7 @@ class _DashboardState extends State<Dashboard> {
                       padding: const EdgeInsets.all(10.0),
                       child: Column(
                         children: [
-                          for (var news in widget.newsList.getRange(0, 5))
+                          for (var news in pickRandomItemsAsList(widget.newsList, 5))
                             GestureDetector(
                               child: SizedBox(
                                 height: 100,

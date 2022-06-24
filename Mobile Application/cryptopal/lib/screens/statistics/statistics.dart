@@ -6,7 +6,6 @@ import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 class Statistics extends StatefulWidget {
   const Statistics(this.currentUser, {Key? key}) : super(key: key);
-  static const String id = 'Statistics';
   final UserAccount currentUser;
 
   @override
@@ -80,12 +79,19 @@ class _StatisticsState extends State<Statistics> {
       predictions = predictionSnap;
     } else {
       for (var prediction in predictionSnap) {
-        if (prediction.predictedCurrency == currency + '-USD') {
+        if (prediction.predictionCurrency == currency + '-USD') {
           predictions.add(prediction);
         }
       }
     }
     return predictions;
+  }
+
+  void getPredictionsOnDays(){
+    List<List<Prediction>> predictions;
+    for(var d=0;d<currentUser.history.length;d++){
+      
+    }
   }
 
   @override
@@ -105,18 +111,27 @@ class _StatisticsState extends State<Statistics> {
                 const SizedBox(
                   height: 10.0,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(currentUser.history.length.toString(),style: kCardTextStyle3,),
-                    const SizedBox(width: 2,),
-                    const Text('Total\nActive\nDays',style: kCardSmallTextStyle,),
-                  ],
+                GestureDetector(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(currentUser.history.length.toString(),style: kCardTextStyle3,),
+                      const SizedBox(width: 5,),
+                      const Text('Total\nActive\nDays',style: kCardSmallTextStyle,),
+                      const SizedBox(width: 50,),
+                      const Text('Total\nPredictions',style: kCardSmallTextStyle,textAlign: TextAlign.right,),
+                      const SizedBox(width: 5,),
+                      Text(currentUser.predictions.length.toString(),style: kCardTextStyle3,),
+                    ],
+                  ),
+
                 ),
 
                 const SizedBox(
                   height: 30.0,
                 ),
+                currentUser.pastPredictions.isEmpty?
+                const SizedBox():
                 const Center(
                   child: Text(
                     'Cryptocurrency Prediction Accuracy',
