@@ -1,3 +1,4 @@
+import 'package:cryptopal/screens/statistics/predictions_on_days.dart';
 import 'package:flutter/material.dart';
 import 'package:cryptopal/utility/user_account.dart';
 import 'package:cryptopal/utility/constants.dart';
@@ -15,6 +16,7 @@ class Statistics extends StatefulWidget {
 class _StatisticsState extends State<Statistics> {
   late List<String> currenciesWithPastPredictions=[];
   late List<String> currenciesWithPredictions=[];
+  late Map<String,List<Prediction>> predictionsOnDays={};
 
   void getStatisticData(){
     currenciesWithPastPredictions.clear();
@@ -26,6 +28,16 @@ class _StatisticsState extends State<Statistics> {
       if(getUserPredictions(currency: c, past:false).isNotEmpty){
         currenciesWithPredictions.add(c);
       }
+    }
+
+    for(int d=0;d<currentUser.history.keys.length;d++){
+      List<Prediction> predictions=[];
+      for(var p in currentUser.predictions){
+        if(currentUser.history.keys.elementAt(d)==p.predictedDate){
+          predictions.add(p);
+        }
+      }
+      predictionsOnDays[currentUser.history.keys.elementAt(d)]=predictions;
     }
   }
 
@@ -87,13 +99,6 @@ class _StatisticsState extends State<Statistics> {
     return predictions;
   }
 
-  void getPredictionsOnDays(){
-    List<List<Prediction>> predictions;
-    for(var d=0;d<currentUser.history.length;d++){
-      
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     getStatisticData();
@@ -124,7 +129,12 @@ class _StatisticsState extends State<Statistics> {
                       Text(currentUser.predictions.length.toString(),style: kCardTextStyle3,),
                     ],
                   ),
-
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                          return PredictionsOnDays(predictionsOnDays);
+                        }));
+                  },
                 ),
 
                 const SizedBox(
@@ -153,16 +163,16 @@ class _StatisticsState extends State<Statistics> {
                       LinearBarPointer(
                         thickness: 25.0,
                         enableAnimation: true,
-                        value: ((currentUser.errorStandardDeviationOnCurrencies[cryptocurrencies[i]]!) > 100?0:100-(currentUser.errorStandardDeviationOnCurrencies[cryptocurrencies[i]]!)
+                        value: ((currentUser.errorStandardDeviationOnCurrencies[currenciesWithPastPredictions[i]]!) > 100?0:100-(currentUser.errorStandardDeviationOnCurrencies[currenciesWithPastPredictions[i]]!)
                             .roundToDouble()),
-                        color: ((currentUser.errorStandardDeviationOnCurrencies[cryptocurrencies[i]]!) > 100?0:100-(currentUser.errorStandardDeviationOnCurrencies[cryptocurrencies[i]]!)
+                        color: ((currentUser.errorStandardDeviationOnCurrencies[currenciesWithPastPredictions[i]]!) > 100?0:100-(currentUser.errorStandardDeviationOnCurrencies[currenciesWithPastPredictions[i]]!)
                             .roundToDouble())>50?kGreen:kRed,
                         edgeStyle: LinearEdgeStyle.bothCurve,
                         offset: i*30+35,
                         position: LinearElementPosition.outside,
                         child: Center(
                           child: Text(
-                            currenciesWithPastPredictions[i]+' '+((currentUser.errorStandardDeviationOnCurrencies[cryptocurrencies[i]]!) > 100?0:100-(currentUser.errorStandardDeviationOnCurrencies[cryptocurrencies[i]]!)
+                            currenciesWithPastPredictions[i]+' '+((currentUser.errorStandardDeviationOnCurrencies[currenciesWithPastPredictions[i]]!) > 100?0:100-(currentUser.errorStandardDeviationOnCurrencies[currenciesWithPastPredictions[i]]!)
                                 .roundToDouble()).toString()+'%',
                             style: kCardSmallTextStyle,
                           ),

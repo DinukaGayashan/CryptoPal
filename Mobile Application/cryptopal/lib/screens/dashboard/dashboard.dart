@@ -120,7 +120,7 @@ class _DashboardState extends State<Dashboard> {
         ),*/
         drawer: Drawer(
           backgroundColor: kTransparentColor4,
-          width: MediaQuery.of(context).size.width * 0.72,
+          width: MediaQuery.of(context).size.width * 0.75,
           child: ListView(
             children: <Widget>[
               Row(

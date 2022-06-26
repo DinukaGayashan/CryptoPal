@@ -116,7 +116,7 @@ class _CurrencyMarketState extends State<CurrencyMarket> {
                 ),
                 SizedBox(
                   width: double.infinity,
-                  height: MediaQuery.of(context).size.height - 380,
+                  height: MediaQuery.of(context).size.height - 400,
                   child: SfCartesianChart(
                     title: ChartTitle(
                       text: 'Close Price',

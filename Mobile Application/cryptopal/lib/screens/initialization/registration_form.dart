@@ -23,12 +23,46 @@ class _RegistrationFormState extends State<RegistrationForm> {
   late String name;
   late DateTime birthday;
   late final User? user;
+  bool emailVerified=false;
 
   void getUser() {
     try {
       user = _auth.currentUser;
     } catch (e) {
       rethrow;
+    }
+  }
+
+  Future checkEmailVerification() async {
+    User? user=_auth.currentUser;
+    await user?.reload();
+    if(user?.emailVerified==true){
+      if (_formKey.currentState!.validate()) {
+        try {
+          await _firestore
+              .collection('users')
+              .doc(user?.uid)
+              .set(
+            {
+              'email': user?.email,
+              'name': name,
+              'birthday': DateFormat('yyyy-MM-dd')
+                  .format(birthday),
+            },
+            SetOptions(merge: true),
+          );
+          Navigator.pushReplacementNamed(
+              context, SignIn.id);
+        } catch (e) {
+          snackBar(context,
+              message: e.toString(), color: kRed);
+        }
+      }
+    } else {
+      snackBar(context,
+          message:
+          'Please verify your email to continue.',
+          color: kRed);
     }
   }
 
@@ -236,34 +270,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
                         color: kAccentColor1,
                         borderRadius: const BorderRadius.all(Radius.circular(5)),
                         onPressed: () async {
-                          if (user?.emailVerified == true) {
-                            if (_formKey.currentState!.validate()) {
-                              try {
-                                await _firestore
-                                    .collection('users')
-                                    .doc(user?.uid)
-                                    .set(
-                                  {
-                                    'email': user?.email,
-                                    'name': name,
-                                    'birthday': DateFormat('yyyy-MM-dd')
-                                        .format(birthday),
-                                  },
-                                  SetOptions(merge: true),
-                                );
-                                Navigator.pushReplacementNamed(
-                                    context, SignIn.id);
-                              } catch (e) {
-                                snackBar(context,
-                                    message: e.toString(), color: kRed);
-                              }
-                            }
-                          } else {
-                            snackBar(context,
-                                message:
-                                    'Please verify your email to continue.',
-                                color: kRed);
-                          }
+                          await checkEmailVerification();
                         },
                         child: const Text(
                           'Submit',

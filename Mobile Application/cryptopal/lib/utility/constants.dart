@@ -38,6 +38,8 @@ const kAnimationTime = 1000;
 DateTime kMinDayInGraph = DateTime.now().subtract(const Duration(days: 60));
 DateTime kMinDayInExtendedGraph =
     DateTime.now().subtract(const Duration(days: 100));
+DateTime kMinDayInSmallGraph =
+DateTime.now().subtract(const Duration(days: 10));
 
 final kDashboardPriceDisplay = createDisplay(length: 7);
 final kCurrencyPriceDisplay = createDisplay(length: 10);

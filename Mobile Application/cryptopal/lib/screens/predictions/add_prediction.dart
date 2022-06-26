@@ -40,6 +40,30 @@ class _AddPredictionState extends State<AddPrediction> {
                     height: 20.0,
                   ),
                   SizedBox(
+                    height: 100,
+                    child: CupertinoPicker(
+                      onSelectedItemChanged: (int value) {
+                        setState(() {
+                          selectedCrypto = value;
+                        });
+                      },
+                      diameterRatio: 1.2,
+                      itemExtent: 32.0,
+                      children: List<Widget>.generate(
+                          cryptocurrencyNames.length,
+                              (int index) {
+                            return Center(
+                              child: Text(
+                                cryptocurrencyNames[index] +
+                                    ' ' +
+                                    cryptocurrencies[index],
+                                style: kSubjectStyle,
+                              ),
+                            );
+                          }),
+                    ),
+                  ),
+                  /*SizedBox(
                     child: CupertinoButton(
                       onPressed: () {
                         showCupertinoModalPopup<void>(
@@ -52,7 +76,7 @@ class _AddPredictionState extends State<AddPrediction> {
                                         .viewInsets
                                         .bottom,
                                   ),
-                                  color: kTransparentColor3,
+                                  color: kTransparentColor4,
                                   child: SafeArea(
                                     child: CupertinoPicker(
                                       onSelectedItemChanged: (int value) {
@@ -70,7 +94,7 @@ class _AddPredictionState extends State<AddPrediction> {
                                             cryptocurrencyNames[index] +
                                                 ' ' +
                                                 cryptocurrencies[index],
-                                            style: kButtonTextStyle,
+                                            style: kCardTextStyle,
                                           ),
                                         );
                                       }),
@@ -85,9 +109,9 @@ class _AddPredictionState extends State<AddPrediction> {
                         style: kSubjectStyle,
                       ),
                     ),
-                  ),
+                  ),*/
                   const SizedBox(
-                    height: 30.0,
+                    height: 40.0,
                   ),
                   SizedBox(
                     height: 100,
