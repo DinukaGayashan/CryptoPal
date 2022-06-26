@@ -49,7 +49,7 @@ class _PredictionsState extends State<Predictions> {
         tooltip: 'Add Prediction',
         onPressed: () {
           Navigator.push(context, MaterialPageRoute(builder: (context) {
-            return AddPrediction(currentUser);
+            return AddPrediction(currentUser,widget.realPriceList);
           })).then((_) {
             setState(() {
               currentUser.predictions;

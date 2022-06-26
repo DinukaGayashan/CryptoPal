@@ -120,7 +120,7 @@ class _DashboardState extends State<Dashboard> {
         ),*/
         drawer: Drawer(
           backgroundColor: kTransparentColor4,
-          width: MediaQuery.of(context).size.width * 0.75,
+          width: MediaQuery.of(context).size.width * 0.72,
           child: ListView(
             children: <Widget>[
               Row(
@@ -505,7 +505,7 @@ class _DashboardState extends State<Dashboard> {
                                     tooltip: 'Add Prediction',
                                     onPressed: () {
                                       Navigator.push(context, MaterialPageRoute(builder: (context) {
-                                        return AddPrediction(currentUser);
+                                        return AddPrediction(currentUser,widget.realPriceList);
                                       })).then((_) {
                                         setState(() {
                                           currentUser.predictions;

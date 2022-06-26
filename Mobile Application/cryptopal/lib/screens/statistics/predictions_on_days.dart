@@ -20,7 +20,7 @@ class _PredictionsOnDaysState extends State<PredictionsOnDays> {
 
   List<GraphData> getPredictionCountOnDays(){
     List<GraphData> count=[];
-    for(var d in widget.predictionsOnDays.keys){
+    for(var d in dates){
       count.add(GraphData(date: DateTime.parse(d), count: widget.predictionsOnDays[d]?.length));
     }
     return count;
@@ -59,8 +59,8 @@ class _PredictionsOnDaysState extends State<PredictionsOnDays> {
                     ),
                     primaryXAxis: DateTimeAxis(
                       visibleMinimum: kMinDayInSmallGraph,
+
                     ),
-                    primaryYAxis:NumericAxis (),
                     plotAreaBorderWidth: 1,
                     enableAxisAnimation: true,
                     crosshairBehavior: CrosshairBehavior(

@@ -4,11 +4,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cryptopal/utility/user_account.dart';
 import 'package:cryptopal/utility/constants.dart';
 import 'package:cryptopal/utility/widgets.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
+
+import 'package:cryptopal/utility/database_data.dart';
 
 class AddPrediction extends StatefulWidget {
-  const AddPrediction(this.currentUser, {Key? key}) : super(key: key);
+  const AddPrediction(this.currentUser, this.realPriceList,{Key? key}) : super(key: key);
 
   final UserAccount currentUser;
+  final List<RealPricesOfACurrency> realPriceList;
   @override
   State<AddPrediction> createState() => _AddPredictionState();
 }
@@ -19,6 +23,20 @@ class _AddPredictionState extends State<AddPrediction> {
   late int selectedCrypto = 0;
   late double predictionPrice;
   late DateTime predictionDate = DateTime.now().add(const Duration(days: 1));
+
+  List<RealPrice> getRealPrices({required String currency, int number = 0}) {
+    List<RealPrice> realPrices = [];
+    for (var type in widget.realPriceList) {
+      if (type.currency == currency) {
+        realPrices = type.pricesList;
+        break;
+      }
+    }
+    if (number != 0 && realPrices.length > number) {
+      return realPrices.sublist(realPrices.length - number);
+    }
+    return realPrices;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +55,7 @@ class _AddPredictionState extends State<AddPrediction> {
                     'Add Prediction',
                   ),
                   const SizedBox(
-                    height: 20.0,
+                    height: 10.0,
                   ),
                   SizedBox(
                     height: 100,
@@ -54,8 +72,6 @@ class _AddPredictionState extends State<AddPrediction> {
                               (int index) {
                             return Center(
                               child: Text(
-                                cryptocurrencyNames[index] +
-                                    ' ' +
                                     cryptocurrencies[index],
                                 style: kSubjectStyle,
                               ),
@@ -111,7 +127,7 @@ class _AddPredictionState extends State<AddPrediction> {
                     ),
                   ),*/
                   const SizedBox(
-                    height: 40.0,
+                    height: 20.0,
                   ),
                   SizedBox(
                     height: 100,
@@ -126,7 +142,71 @@ class _AddPredictionState extends State<AddPrediction> {
                     ),
                   ),
                   const SizedBox(
-                    height: 50.0,
+                    height:30.0,
+                  ),
+                  SizedBox(
+                    width: double.infinity,
+                    height: 200,
+                    child: SfCartesianChart(
+                      title: ChartTitle(
+                        text: cryptocurrencies[selectedCrypto]+' Close Price',
+                        textStyle: kCardSmallTextStyle,
+                      ),
+                      zoomPanBehavior: ZoomPanBehavior(
+                        enablePinching: true,
+                        enablePanning: true,
+                        enableMouseWheelZooming: true,
+                        zoomMode: ZoomMode.xy,
+                      ),
+                      primaryXAxis: DateTimeAxis(
+                        visibleMinimum: kMinDayInGraph,
+                      ),
+                      primaryYAxis: NumericAxis(),
+                      plotAreaBorderWidth: 1,
+                      enableAxisAnimation: true,
+                      crosshairBehavior: CrosshairBehavior(
+                        enable: true,
+                      ),
+                      tooltipBehavior: TooltipBehavior(
+                        enable: true,
+                      ),
+                      series: <ChartSeries>[
+                        LineSeries<RealPrice, DateTime>(
+                          color: widget.realPriceList[selectedCrypto]
+                              .priceIncreasePercentage >
+                              0
+                              ? kGreen
+                              : kRed,
+                          name: cryptocurrencies[selectedCrypto] +
+                              ' Close Price',
+                          dataSource: getRealPrices(
+                              currency: cryptocurrencies[selectedCrypto] +
+                                  '-USD'),
+                          xValueMapper: (RealPrice data, _) =>
+                              DateTime.parse(data.date),
+                          yValueMapper: (RealPrice data, _) => data.closePrice,
+                        ),
+                      ],
+                    ),
+                  ),
+                  RichText(
+                    text: TextSpan(
+                      text: cryptocurrencies[selectedCrypto]+' close price on '+widget.realPriceList.last.pricesList.last.date+': ',
+                      style: kCardSmallTextStyle,
+                      children: <TextSpan>[
+                        TextSpan(
+                          text: widget.realPriceList[selectedCrypto].pricesList.last.closePrice.toString(),
+                          style: kCardTextStyle2,
+                        ),
+                        const TextSpan(
+                          text: ' USD',
+                          style: kCardSmallTextStyle,
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
+                    height:30.0,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -176,7 +256,7 @@ class _AddPredictionState extends State<AddPrediction> {
                     ],
                   ),
                   const SizedBox(
-                    height: 80.0,
+                    height: 40.0,
                   ),
                   SizedBox(
                     height: 50,
