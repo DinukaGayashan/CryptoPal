@@ -125,12 +125,11 @@ class _CurrencyPastPredictionsState extends State<CurrencyPastPredictions> {
                                 ),
                                 RichText(
                                   text: TextSpan(
-                                    text: 'Accuracy\n',
+                                    text: 'Price when predicted\n',
                                     style: kCardSmallTextStyle,
                                     children: <TextSpan>[
                                       TextSpan(
-                                        text: (100-sqrt(prediction.errorPercentage*prediction.errorPercentage))
-                                            .roundToDouble().toString(),
+                                        text: kCurrencyPriceDisplay(getRealPrice(currency: prediction.predictionCurrency.split('-')[0], date: prediction.predictedDate)?.closePrice),
                                         style: kCardTextStyle2,
                                       ),
                                     ],
@@ -141,13 +140,12 @@ class _CurrencyPastPredictionsState extends State<CurrencyPastPredictions> {
                                 ),
                                 RichText(
                                   text: TextSpan(
-                                    text: 'Error Percentage\n',
+                                    text: 'Accuracy\n',
                                     style: kCardSmallTextStyle,
                                     children: <TextSpan>[
                                       TextSpan(
-                                        text: prediction.errorPercentage
-                                            .roundToDouble()
-                                            .toString(),
+                                        text: (100-sqrt(prediction.errorPercentage*prediction.errorPercentage))
+                                            .roundToDouble().toString(),
                                         style: kCardTextStyle2,
                                       ),
                                     ],

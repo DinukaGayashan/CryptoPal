@@ -6,9 +6,12 @@ import 'package:cryptopal/utility/widgets.dart';
 import 'package:cryptopal/utility/user_account.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
+import 'package:cryptopal/utility/database_data.dart';
+
 class PredictionsOnDays extends StatefulWidget {
-  const PredictionsOnDays(this.predictionsOnDays, {Key? key}) : super(key: key);
+  const PredictionsOnDays(this.predictionsOnDays, this.realPriceList, {Key? key}) : super(key: key);
   final Map<String,List<Prediction>> predictionsOnDays;
+  final List<RealPricesOfACurrency> realPriceList;
 
   @override
   State<PredictionsOnDays> createState() => _PredictionsOnDaysState();
@@ -32,6 +35,42 @@ class _PredictionsOnDaysState extends State<PredictionsOnDays> {
     dates=dates.reversed.toList();
   }
 
+  int getCryptocurrencyIndex(String predictionCurrency){
+    int i=0;
+    for(i=0;i<cryptocurrencies.length;i++){
+      if(cryptocurrencies[i]==predictionCurrency.split('-')[0]){
+        break;
+      }
+    }
+    return i;
+  }
+
+  List<RealPrice> getRealPrices({required String currency, int number = 0}) {
+    List<RealPrice> realPrices = [];
+    for (var type in widget.realPriceList) {
+      if (type.currency == currency) {
+        realPrices = type.pricesList;
+        break;
+      }
+    }
+    if (number != 0 && realPrices.length > number) {
+      return realPrices.sublist(realPrices.length - number);
+    }
+    return realPrices;
+  }
+  
+  RealPrice? getRealPrice({required String currency, required String date}) {
+    final List<RealPrice> priceList =
+    getRealPrices(currency: currency + '-USD');
+    RealPrice x = RealPrice(date, 0, 0, 0, 0);
+    for (var i in priceList) {
+      if (i.date == date) {
+        x = i;
+      }
+    }
+    return x;
+  }
+
   @override
   Widget build(BuildContext context) {
     getHistoryDates();
@@ -50,6 +89,7 @@ class _PredictionsOnDaysState extends State<PredictionsOnDays> {
                   height: 10.0,
                 ),
                 SizedBox(
+                  height: 250,
                   child: SfCartesianChart(
                     zoomPanBehavior: ZoomPanBehavior(
                       enablePinching: true,
@@ -118,7 +158,7 @@ class _PredictionsOnDaysState extends State<PredictionsOnDays> {
                             ),
                             RichText(
                               text: TextSpan(
-                                text: 'Predicted Price\n',
+                                text: 'Prediction Price\n',
                                 style: kCardSmallTextStyle,
                                 children: <TextSpan>[
                                   TextSpan(

@@ -69,7 +69,7 @@ class _CurrencyFuturePredictionsState extends State<CurrencyFuturePredictions> {
 
   RealPrice? getRealPrice({required String currency, required String date}) {
     final List<RealPrice> priceList =
-        getRealPrices(currency: currency + '-USD');
+    getRealPrices(currency: currency + '-USD');
     RealPrice x = RealPrice(date, 0, 0, 0, 0);
     for (var i in priceList) {
       if (i.date == date) {
@@ -216,6 +216,37 @@ class _CurrencyFuturePredictionsState extends State<CurrencyFuturePredictions> {
                                     children: <TextSpan>[
                                       TextSpan(
                                         text: prediction.predictionClosePrice.toString(),
+                                        style: kCardTextStyle2,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 10,),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                RichText(
+                                  text: TextSpan(
+                                    text: 'Price when predicted\n',
+                                    style: kCardSmallTextStyle,
+                                    children: <TextSpan>[
+                                      TextSpan(
+                                        text: kCurrencyPriceDisplay(getRealPrice(currency: prediction.predictionCurrency.split('-')[0], date: prediction.predictedDate)?.closePrice),
+                                        style: kCardTextStyle2,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                const SizedBox(width: 20,),
+                                RichText(
+                                  text: TextSpan(
+                                    text: 'Prediction Time\n',
+                                    style: kCardSmallTextStyle,
+                                    children: <TextSpan>[
+                                      TextSpan(
+                                        text: DateTime.parse(prediction.predictionDate).difference(DateTime.parse(prediction.predictedDate)).inDays.toString(),
                                         style: kCardTextStyle2,
                                       ),
                                     ],

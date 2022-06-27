@@ -5,9 +5,12 @@ import 'package:cryptopal/utility/constants.dart';
 import 'package:cryptopal/utility/widgets.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
+import 'package:cryptopal/utility/database_data.dart';
+
 class Statistics extends StatefulWidget {
-  const Statistics(this.currentUser, {Key? key}) : super(key: key);
+  const Statistics(this.currentUser, this.realPriceList ,{Key? key}) : super(key: key);
   final UserAccount currentUser;
+  final List<RealPricesOfACurrency> realPriceList;
 
   @override
   State<Statistics> createState() => _StatisticsState();
@@ -39,6 +42,16 @@ class _StatisticsState extends State<Statistics> {
       }
       predictionsOnDays[currentUser.history.keys.elementAt(d)]=predictions;
     }
+  }
+
+  int getCryptocurrencyIndex(String predictionCurrency){
+    int i=0;
+    for(i=0;i<cryptocurrencies.length;i++){
+      if(cryptocurrencies[i]==predictionCurrency.split('-')[0]){
+        break;
+      }
+    }
+    return i;
   }
 
   List<ValueOnCurrency> getValuesOnCurrency(
@@ -132,7 +145,7 @@ class _StatisticsState extends State<Statistics> {
                   onTap: () {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) {
-                          return PredictionsOnDays(predictionsOnDays);
+                          return PredictionsOnDays(predictionsOnDays,widget.realPriceList);
                         }));
                   },
                 ),
@@ -180,6 +193,8 @@ class _StatisticsState extends State<Statistics> {
                       ),
                   ],
                 ),
+
+                
               ],
             ),
           ),
