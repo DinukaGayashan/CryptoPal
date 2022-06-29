@@ -110,7 +110,7 @@ class _CurrencyPastPredictionsState extends State<CurrencyPastPredictions> {
                                 ),
                                 RichText(
                                   text: TextSpan(
-                                    text: 'Predicted Date\n',
+                                    text: 'Predicted On\n',
                                     style: kCardSmallTextStyle,
                                     children: <TextSpan>[
                                       TextSpan(
@@ -159,7 +159,7 @@ class _CurrencyPastPredictionsState extends State<CurrencyPastPredictions> {
                                 const SizedBox(height: 40,),
                                 RichText(
                                   text: TextSpan(
-                                    text: 'Predicted Price\n',
+                                    text: 'Prediction Price\n',
                                     style: kCardSmallTextStyle,
                                     children: <TextSpan>[
                                       TextSpan(

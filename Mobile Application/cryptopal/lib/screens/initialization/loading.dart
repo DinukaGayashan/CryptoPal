@@ -105,10 +105,15 @@ class _LoadingState extends State<Loading> {
               const SizedBox(
                 height: 50.0,
                 child: Center(
-                  child: Text(
-                    'Advisory platform for cryptocurrency investments',
-                    style: kInstructionStyle,
-                  ),
+                  child: Hero(
+                    tag: 'description',
+                    child: DefaultTextStyle(
+                      style: kInstructionStyle,
+                    child: Text(
+                      'Advisory platform for cryptocurrency investments',
+
+                    ),
+                  ),),
                 ),
               ),
               const SizedBox(

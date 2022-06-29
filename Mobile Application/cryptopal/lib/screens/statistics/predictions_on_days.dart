@@ -118,7 +118,7 @@ class _PredictionsOnDaysState extends State<PredictionsOnDays> {
                   ),
                 ),
                 const SizedBox(height: 30,),
-                SizedBox(height: 60,
+                SizedBox(height: 80,
                 child: CupertinoPicker(
                   onSelectedItemChanged: (int value) {
                     setState(() {
@@ -139,7 +139,7 @@ class _PredictionsOnDaysState extends State<PredictionsOnDays> {
                       }),
                 ),
                 ),
-                const SizedBox(height: 10,),
+                const SizedBox(height: 15,),
                 for(var prediction in widget.predictionsOnDays[selectedDate]!)
                   GestureDetector(
                     child: glassCard(

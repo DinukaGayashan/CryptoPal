@@ -191,7 +191,7 @@ class _AddPredictionState extends State<AddPrediction> {
                   ),
                   RichText(
                     text: TextSpan(
-                      text: cryptocurrencies[selectedCrypto]+' close price on '+widget.realPriceList.last.pricesList.last.date+': ',
+                      text: cryptocurrencies[selectedCrypto]+' close price on '+widget.realPriceList.last.pricesList.last.date+' ',
                       style: kCardSmallTextStyle,
                       children: <TextSpan>[
                         TextSpan(
@@ -265,42 +265,48 @@ class _AddPredictionState extends State<AddPrediction> {
                       color: kAccentColor1,
                       borderRadius: const BorderRadius.all(Radius.circular(8)),
                       onPressed: () async {
-                        String date = predictionDate.toString().split(' ')[0];
-                        String currency =
-                            cryptocurrencies[selectedCrypto] + '-USD';
-                        double price = predictionPrice.toDouble();
+                        if(predictionPrice>=0){
+                          String date = predictionDate.toString().split(' ')[0];
+                          String currency =
+                              cryptocurrencies[selectedCrypto] + '-USD';
+                          double price = predictionPrice.toDouble();
 
-                        currentUser.predictions.removeWhere((item) =>
-                            item.predictionCurrency == currency &&
-                            item.predictionDate == date);
-                        currentUser.futurePredictions.removeWhere((item) =>
-                            item.predictionCurrency == currency &&
-                            item.predictionDate == date);
+                          currentUser.predictions.removeWhere((item) =>
+                          item.predictionCurrency == currency &&
+                              item.predictionDate == date);
+                          currentUser.futurePredictions.removeWhere((item) =>
+                          item.predictionCurrency == currency &&
+                              item.predictionDate == date);
 
-                        currentUser.predictions
-                            .add(Prediction(today, date, currency, price, 0, 0));
-                        currentUser.futurePredictions
-                            .add(Prediction(today, date, currency, price, 0, 0));
+                          currentUser.predictions
+                              .add(Prediction(today, date, currency, price, 0, 0));
+                          currentUser.futurePredictions
+                              .add(Prediction(today, date, currency, price, 0, 0));
 
-                        try {
-                          await _firestore
-                              .collection('users')
-                              .doc(widget.currentUser.user?.uid)
-                              .collection('predictions')
-                              .doc(date + ' ' + currency)
-                              .set({
-                            'predictedDate':today,
-                            'predictionDate': date,
-                            'predictionCurrency': currency,
-                            'predictionClosePrice': predictionPrice.toDouble(),
-                          });
+                          try {
+                            await _firestore
+                                .collection('users')
+                                .doc(widget.currentUser.user?.uid)
+                                .collection('predictions')
+                                .doc(date + ' ' + currency)
+                                .set({
+                              'predictedDate':today,
+                              'predictionDate': date,
+                              'predictionCurrency': currency,
+                              'predictionClosePrice': price,
+                            });
+                            snackBar(context,
+                                message: 'Prediction successfully added.',
+                                color: kGreen);
+                            Navigator.pop(context);
+                          } catch (e) {
+                            snackBar(context, message: e.toString(), color: kRed);
+                          }
+                        }else{
                           snackBar(context,
-                              message: 'Prediction successfully added.',
-                              color: kGreen);
-                        } catch (e) {
-                          snackBar(context, message: e.toString(), color: kRed);
+                              message: 'Prediction price cannot be negative.',
+                              color: kRed);
                         }
-                        Navigator.pop(context);
                       },
                       child: const Text(
                         'Add Prediction',

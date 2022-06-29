@@ -324,7 +324,7 @@ class _DashboardState extends State<Dashboard> {
                                         TextSpan(
                                           text: currentUser.standardDeviation
                                               .roundToDouble()
-                                              .toString(),
+                                              .toString()+'%',
                                           style: kCardTextStyle2,
                                         ),
                                       ],
@@ -338,7 +338,7 @@ class _DashboardState extends State<Dashboard> {
                                         TextSpan(
                                           text: currentUser.error
                                               .roundToDouble()
-                                              .toString(),
+                                              .toString()+'%',
                                           style: kCardTextStyle2,
                                         ),
                                       ],
@@ -523,60 +523,58 @@ class _DashboardState extends State<Dashboard> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
                                 SizedBox(
-                                  height: 70.0,
+                                  height: 90.0,
                                   width: 200.0,
-                                  child: SfLinearGauge(
-                                    orientation:
-                                    LinearGaugeOrientation.vertical,
-                                    minimum: 0,
-                                    maximum: 100,
-                                    showLabels: false,
-                                    showTicks: false,
-                                    showAxisTrack: false,
-                                    isMirrored: true,
-                                    barPointers: [
-                                      for (int i = currentUser
-                                          .pastPredictions.length;
-                                      i > 0 &&
-                                          i >
-                                              currentUser.pastPredictions
-                                                  .length -
-                                                  10;
-                                      i--)
-                                        LinearBarPointer(
-                                          enableAnimation: true,
-                                          value: (currentUser
-                                              .pastPredictions[i - 1]
-                                              .errorPercentage
-                                              .abs()) >=
-                                              100.0
-                                              ? 100.0
-                                              : (currentUser
-                                              .pastPredictions[i - 1]
-                                              .errorPercentage
-                                              .abs()),
-                                          color: currentUser
-                                              .pastPredictions[i - 1]
-                                              .errorPercentage >
-                                              0
-                                              ? kGreen
-                                              : kRed,
-                                          edgeStyle: LinearEdgeStyle.bothCurve,
-                                          offset: i * 10,
-                                          position:
-                                          LinearElementPosition.outside,
-                                        ),
-                                    ],
+                                  child: Tooltip(
+                                    message:'Past Errors',
+                                    triggerMode: TooltipTriggerMode.tap,
+                                    child: SfLinearGauge(
+                                      orientation:
+                                      LinearGaugeOrientation.vertical,
+                                      minimum: 0,
+                                      maximum: 100,
+                                      showLabels: false,
+                                      showTicks: false,
+                                      showAxisTrack: false,
+                                      isMirrored: true,
+                                      barPointers: [
+                                        for (int i = currentUser
+                                            .pastPredictions.length;
+                                        i > 0 &&
+                                            i >
+                                                currentUser.pastPredictions
+                                                    .length -
+                                                    10;
+                                        i--)
+                                          LinearBarPointer(
+                                            enableAnimation: true,
+                                            value: (currentUser
+                                                .pastPredictions[i - 1]
+                                                .errorPercentage
+                                                .abs()) >=
+                                                100.0
+                                                ? 100.0
+                                                : (currentUser
+                                                .pastPredictions[i - 1]
+                                                .errorPercentage
+                                                .abs()),
+                                            color: currentUser
+                                                .pastPredictions[i - 1]
+                                                .errorPercentage >
+                                                0
+                                                ? kGreen
+                                                : kRed,
+                                            edgeStyle: LinearEdgeStyle.bothCurve,
+                                            offset: i * 10,
+                                            position:
+                                            LinearElementPosition.outside,
+                                          ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                                 const SizedBox(
-                                  height: 50,
-                                  child: Center(
-                                    child: Text(
-                                      '             Past Errors',
-                                      style: kCardSmallTextStyle,
-                                    ),
-                                  ),
+                                  height: 30,
                                 ),
                               ],
                             ),
@@ -762,43 +760,41 @@ class _DashboardState extends State<Dashboard> {
                         children: [
                           for (var news in pickRandomItemsAsList(widget.newsList, 5))
                             GestureDetector(
-                              child: SizedBox(
-                                height: 100,
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    SizedBox(
-                                      height: 70,
-                                      width: 96,
-                                      child: Image.network(
-                                        news.imageUrl.toString(),
-                                      ),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SizedBox(
+                                    height: 70,
+                                    width: 96,
+                                    child: Image.network(
+                                      news.imageUrl.toString(),
                                     ),
-                                    const SizedBox(
-                                      width: 10,
+                                  ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  Flexible(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          news.source.toString(),
+                                          style: kTransparentSmallStyle,
+                                        ),
+                                        Text(
+                                          news.title.toString(),
+                                          style: kCardSmallTextStyle,
+                                        ),
+                                        Text(
+                                          news.date.toString().split('T')[0],
+                                          style: kTransparentSmallStyle,
+                                        ),
+                                        const SizedBox(height: 20,),
+                                      ],
                                     ),
-                                    Flexible(
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            news.source.toString(),
-                                            style: kTransparentSmallStyle,
-                                          ),
-                                          Text(
-                                            news.title.toString(),
-                                            style: kCardSmallTextStyle,
-                                          ),
-                                          Text(
-                                            news.date.toString().split('T')[0],
-                                            style: kTransparentSmallStyle,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
                               onTap: () {
                                 Navigator.push(context,

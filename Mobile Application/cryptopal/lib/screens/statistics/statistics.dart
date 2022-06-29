@@ -135,11 +135,11 @@ class _StatisticsState extends State<Statistics> {
                     children: [
                       Text(currentUser.history.length.toString(),style: kCardTextStyle3,),
                       const SizedBox(width: 5,),
-                      const Text('Total\nActive\nDays',style: kCardSmallTextStyle,),
+                      const Text('Total\nActive Days',style: kCardSmallTextStyle,),
                       const SizedBox(width: 50,),
-                      const Text('Total\nPredictions',style: kCardSmallTextStyle,textAlign: TextAlign.right,),
-                      const SizedBox(width: 5,),
                       Text(currentUser.predictions.length.toString(),style: kCardTextStyle3,),
+                      const SizedBox(width: 5,),
+                      const Text('Total\nPredictions',style: kCardSmallTextStyle,),
                     ],
                   ),
                   onTap: () {
@@ -193,7 +193,31 @@ class _StatisticsState extends State<Statistics> {
                       ),
                   ],
                 ),
-
+                const SizedBox(height: 20,),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(currentUser.accuracy.round().toString()+'%',style: kCardTextStyle3,),
+                    const SizedBox(width: 5,),
+                    const Text('Average\nAccuracy',style: kCardSmallTextStyle,),
+                    const SizedBox(width: 40,),
+                    Text(currentUser.error.round().toString()+'%',style: kCardTextStyle3,),
+                    const SizedBox(width: 5,),
+                    const Text('Average\nError',style: kCardSmallTextStyle,),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(currentUser.accuracy.round().toString()+'%',style: kCardTextStyle3,),
+                    const SizedBox(width: 5,),
+                    const Text('Average\nAccuracy',style: kCardSmallTextStyle,),
+                    const SizedBox(width: 40,),
+                    Text(currentUser.error.round().toString()+'%',style: kCardTextStyle3,),
+                    const SizedBox(width: 5,),
+                    const Text('Average\nError',style: kCardSmallTextStyle,),
+                  ],
+                ),
                 
               ],
             ),

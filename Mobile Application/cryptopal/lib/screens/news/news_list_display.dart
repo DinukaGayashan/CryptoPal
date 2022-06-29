@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cryptopal/utility/news_data.dart';
 import 'package:cryptopal/utility/constants.dart';
@@ -22,16 +23,15 @@ class _NewsListDisplayState extends State<NewsListDisplay> {
           height: MediaQuery.of(context).size.height,
           child: glassCard(
             context,
-            ListView(
-              children: <Widget>[
-                topBar(context, 'News'),
-                const SizedBox(
-                  height: 10.0,
-                ),
-                for (var news in widget.newsList)
-                  GestureDetector(
-                    child: SizedBox(
-                      height: 110,
+            CupertinoScrollbar(
+              child: ListView(
+                children: <Widget>[
+                  topBar(context, 'News'),
+                  const SizedBox(
+                    height: 10.0,
+                  ),
+                  for (var news in widget.newsList)
+                    GestureDetector(
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -61,20 +61,21 @@ class _NewsListDisplayState extends State<NewsListDisplay> {
                                   news.date.toString().split('T')[0],
                                   style: kTransparentSmallStyle,
                                 ),
+                                const SizedBox(height: 20,),
                               ],
                             ),
                           ),
                         ],
                       ),
+                      onTap: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                          return NewsDisplay(news);
+                        }));
+                      },
                     ),
-                    onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) {
-                        return NewsDisplay(news);
-                      }));
-                    },
-                  ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
