@@ -1,4 +1,8 @@
+import 'dart:math';
+
 import 'package:cryptopal/screens/statistics/currency_prediction_statistics.dart';
+import 'package:cryptopal/screens/statistics/prediction_accuracy_graph.dart';
+import 'package:cryptopal/screens/statistics/prediction_error_graph.dart';
 import 'package:cryptopal/screens/statistics/predictions_on_days.dart';
 import 'package:flutter/material.dart';
 import 'package:cryptopal/utility/user_account.dart';
@@ -60,45 +64,81 @@ class _StatisticsState extends State<Statistics> {
     return i;
   }
 
-  List<ValueOnCurrency> getValuesOnCurrency(
+  List<GraphData> getValuesOnCurrency(
       {required String currency, required String type}) {
-    List<ValueOnCurrency> currencyValues = [];
+    List<GraphData> currencyValues = [];
     Iterable<String> dates = currentUser.history.keys;
     if (type == 'error') {
       for (var d in dates) {
-        currencyValues.add(ValueOnCurrency(
-            d, currentUser.history[d]?.errorsOnCurrencies[currency]));
+        currencyValues.add(GraphData(
+            valueOne:d, valueTwo:currentUser.history[d]?.errorsOnCurrencies[currency]));
       }
     } else {
       for (var d in dates) {
-        currencyValues.add(ValueOnCurrency(
-            d, currentUser.history[d]?.errorVarianceOnCurrencies[currency]));
+        currencyValues.add(GraphData(
+            valueOne:d, valueTwo:currentUser.history[d]?.errorVarianceOnCurrencies[currency]));
       }
     }
     return currencyValues;
   }
 
-  List<ValueOnCurrency> getValuesOnCurrencyNoNaN(
+  List<GraphData> getValuesOnCurrencyNoNaN(
       {required String currency, required String type}) {
-    List<ValueOnCurrency> currencyValues = [];
+    List<GraphData> currencyValues = [];
     Iterable<String> dates = currentUser.history.keys;
     if (type == 'error') {
       for (var d in dates) {
         if (!currentUser.history[d]?.errorsOnCurrencies[currency].isNaN) {
-          currencyValues.add(ValueOnCurrency(
-              d, currentUser.history[d]?.errorsOnCurrencies[currency]));
+          currencyValues.add(GraphData(
+              valueOne:d, valueTwo:currentUser.history[d]?.errorsOnCurrencies[currency]));
         }
       }
     } else {
       for (var d in dates) {
         if (!currentUser
             .history[d]?.errorVarianceOnCurrencies[currency].isNaN) {
-          currencyValues.add(ValueOnCurrency(
-              d, currentUser.history[d]?.errorVarianceOnCurrencies[currency]));
+          currencyValues.add(GraphData(
+              valueOne:d, valueTwo:currentUser.history[d]?.errorVarianceOnCurrencies[currency]));
         }
       }
     }
     return currencyValues;
+  }
+
+  List<GraphData> getAccuracyHistoryNoNaN() {
+    List<GraphData> accuracyValues = [];
+    Iterable<String> dates = currentUser.history.keys;
+    for (var d in dates) {
+      if (currentUser.history[d]?.accuracy.isNaN!=true) {
+        accuracyValues.add(GraphData(
+            valueOne:d, valueTwo:currentUser.history[d]?.accuracy));
+      }
+    }
+    return accuracyValues;
+  }
+
+  List<GraphData> getErrorHistoryNoNaN() {
+    List<GraphData> errorValues = [];
+    Iterable<String> dates = currentUser.history.keys;
+    for (var d in dates) {
+      if (currentUser.history[d]?.error.isNaN!=true) {
+        errorValues.add(GraphData(
+            valueOne:d, valueTwo:currentUser.history[d]?.error));
+      }
+    }
+    return errorValues;
+  }
+
+  List<GraphData> getStandardDeviationHistoryNoNaN() {
+    List<GraphData> standardDeviationValues = [];
+    Iterable<String> dates = currentUser.history.keys;
+    for (var d in dates) {
+      if (currentUser.history[d]?.standardDeviation.isNaN!=true) {
+        standardDeviationValues.add(GraphData(
+            valueOne:d, valueTwo:currentUser.history[d]?.standardDeviation));
+      }
+    }
+    return standardDeviationValues;
   }
 
   List<Prediction> getUserPredictions(
@@ -133,7 +173,7 @@ class _StatisticsState extends State<Statistics> {
               children: <Widget>[
                 topBar(context, 'Statistics'),
                 const SizedBox(
-                  height: 10.0,
+                  height: 20.0,
                 ),
                 GestureDetector(
                   child: Row(
@@ -141,11 +181,35 @@ class _StatisticsState extends State<Statistics> {
                     children: [
                       Text(currentUser.history.length.toString(),style: kCardTextStyle3,),
                       const SizedBox(width: 5,),
-                      const Text('Total\nActive Days',style: kCardSmallTextStyle,),
+                      RichText(
+                        text: const TextSpan(
+                          text: 'Total\n',
+                          style: kCardSmallTextStyle,
+                          children: <TextSpan>[
+                            TextSpan(
+                              text: 'Active Days',
+                              style: kCardTextStyle,
+                            ),
+                          ],
+                        ),
+                      ),
+                      //const Text('Total\nActive Days',style: kCardSmallTextStyle,),
                       const SizedBox(width: 50,),
                       Text(currentUser.predictions.length.toString(),style: kCardTextStyle3,),
                       const SizedBox(width: 5,),
-                      const Text('Total\nPredictions',style: kCardSmallTextStyle,),
+                      RichText(
+                        text: const TextSpan(
+                          text: 'Total\n',
+                          style: kCardSmallTextStyle,
+                          children: <TextSpan>[
+                            TextSpan(
+                              text: 'Predictions',
+                              style: kCardTextStyle,
+                            ),
+                          ],
+                        ),
+                      ),
+                      //const Text('Total\nPredictions',style: kCardSmallTextStyle,),
                     ],
                   ),
                   onTap: () {
@@ -155,36 +219,11 @@ class _StatisticsState extends State<Statistics> {
                         }));
                   },
                 ),
-                /*const SizedBox(
-                  height: 20.0,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(currentUser.accuracy.round().toString()+'%',style: kCardTextStyle3,),
-                    const SizedBox(width: 5,),
-                    const Text('Average\nAccuracy',style: kCardSmallTextStyle,),
-                    const SizedBox(width: 40,),
-                    Text(currentUser.error.round().toString()+'%',style: kCardTextStyle3,),
-                    const SizedBox(width: 5,),
-                    const Text('Average\nError',style: kCardSmallTextStyle,),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(currentUser.errorStandardDeviation.round().toString()+'%',style: kCardTextStyle2,),
-                    const SizedBox(width: 5,),
-                    const Text('Error Deviation',style: kCardSmallTextStyle,),
-                    const SizedBox(width: 50,),
-                    Text(currentUser.errorVariance.round().toString()+'%',style: kCardTextStyle2,),
-                    const SizedBox(width: 5,),
-                    const Text('Error Variance',style: kCardSmallTextStyle,),
-                  ],
-                ),*/
                 const SizedBox(
-                  height: 30.0,
+                  height: 50.0,
                 ),
+                currentUser.pastPredictions.isEmpty?
+                const SizedBox():
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
@@ -213,7 +252,7 @@ class _StatisticsState extends State<Statistics> {
                         showAxisTrack: false,
                         barPointers: [
                           LinearBarPointer(
-                            thickness: 25.0,
+                            thickness: 15.0,
                             enableAnimation: true,
                             value: currentUser.accuracy,
                             color: kGreen,
@@ -229,6 +268,8 @@ class _StatisticsState extends State<Statistics> {
                 const SizedBox(
                   height: 10.0,
                 ),
+                currentUser.pastPredictions.isEmpty?
+                const SizedBox():
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
@@ -258,7 +299,7 @@ class _StatisticsState extends State<Statistics> {
                         isAxisInversed: true,
                         barPointers: [
                           LinearBarPointer(
-                            thickness: 25.0,
+                            thickness: 15.0,
                             enableAnimation: true,
                             value: currentUser.errorStandardDeviation,
                             color: kRed,
@@ -274,6 +315,8 @@ class _StatisticsState extends State<Statistics> {
                 const SizedBox(
                   height: 20.0,
                 ),
+                currentUser.pastPredictions.isEmpty?
+                const SizedBox():
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
@@ -294,20 +337,18 @@ class _StatisticsState extends State<Statistics> {
                     ),
                     SizedBox(
                       width: MediaQuery.of(context).size.width-210,
-                      height: 80,
+                      height: 65,
                       child: charts.SfCartesianChart(
                         plotAreaBorderWidth: 0,
                         primaryYAxis: charts.NumericAxis(
                           maximum: 50,
                           minimum: -50,
-                          //isVisible: false,
                         ),
                           primaryXAxis: charts.CategoryAxis(
                             isVisible: false,
                           ),
                         series: <charts.ChartSeries>[
                           charts.BarSeries<GraphData, String>(
-                            name: 'Number of predictions',
                             color:kRed,
                             borderRadius: BorderRadius.circular(20),
                             dataSource: errorForGraph,
@@ -320,15 +361,159 @@ class _StatisticsState extends State<Statistics> {
                     SizedBox(width:60,child: Text(currentUser.error.roundToDouble().toString()+'%',style: kCardTextStyle,textAlign: TextAlign.right,)),
                   ],
                 ),
-
-
-
                 const SizedBox(height: 40,),
+                currentUser.pastPredictions.isEmpty?
+                const SizedBox():
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                              return PredictionAccuracyGraph(
+                                  currentUser);
+                            }));
+                      },
+                      icon: const Icon(
+                        Icons.fullscreen,
+                      ),
+                      tooltip: 'Full Screen View',
+                      alignment: Alignment.bottomRight,
+                    ),
+                  ],
+                ),
+                currentUser.pastPredictions.isEmpty?
+                const SizedBox():
+                SizedBox(
+                  width: double.infinity,
+                  child: charts.SfCartesianChart(
+                    title: charts.ChartTitle(
+                      text: 'Price Prediction Accuracy',
+                      textStyle: kCardSmallTextStyle,
+                    ),
+                    legend: charts.Legend(
+                      isVisible: true,
+                      overflowMode: charts.LegendItemOverflowMode.wrap,
+                      position: charts.LegendPosition.bottom,
+                    ),
+                    zoomPanBehavior: charts.ZoomPanBehavior(
+                      enablePinching: true,
+                      enablePanning: true,
+                      enableMouseWheelZooming: true,
+                      zoomMode: charts.ZoomMode.xy,
+                    ),
+                    primaryXAxis: charts.DateTimeAxis(),
+                    primaryYAxis: charts.NumericAxis(),
+                    plotAreaBorderWidth: 1,
+                    enableAxisAnimation: true,
+                    crosshairBehavior: charts.CrosshairBehavior(
+                      enable: true,
+                    ),
+                    tooltipBehavior: charts.TooltipBehavior(
+                      enable: true,
+                    ),
+                    series: <charts.ChartSeries>[
+                      charts.SplineSeries<GraphData, DateTime>(
+                        name: 'Price Prediction Accuracy',
+                        dataSource: getAccuracyHistoryNoNaN(),
+                        xValueMapper: (GraphData data, _) =>
+                            DateTime.parse(data.valueOne),
+                        yValueMapper: (GraphData data, _) =>
+                        data.valueTwo,
+                        markerSettings: const charts.MarkerSettings(
+                          isVisible: true,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 20,),
+                currentUser.pastPredictions.isEmpty?
+                const SizedBox():
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                              return PredictionErrorGraph(
+                                  currentUser);
+                            }));
+                      },
+                      icon: const Icon(
+                        Icons.fullscreen,
+                      ),
+                      tooltip: 'Full Screen View',
+                      alignment: Alignment.bottomRight,
+                    ),
+                  ],
+                ),
+                currentUser.pastPredictions.isEmpty?
+                const SizedBox():
+                SizedBox(
+                  width: double.infinity,
+                  child: charts.SfCartesianChart(
+                    title: charts.ChartTitle(
+                      text: 'Price Prediction Errors',
+                      textStyle: kCardSmallTextStyle,
+                    ),
+                    legend: charts.Legend(
+                      isVisible: true,
+                      overflowMode: charts.LegendItemOverflowMode.wrap,
+                      position: charts.LegendPosition.bottom,
+                    ),
+                    zoomPanBehavior: charts.ZoomPanBehavior(
+                      enablePinching: true,
+                      enablePanning: true,
+                      enableMouseWheelZooming: true,
+                      zoomMode: charts.ZoomMode.xy,
+                    ),
+                    primaryXAxis: charts.DateTimeAxis(),
+                    primaryYAxis: charts.NumericAxis(),
+                    plotAreaBorderWidth: 1,
+                    enableAxisAnimation: true,
+                    crosshairBehavior: charts.CrosshairBehavior(
+                      enable: true,
+                    ),
+                    tooltipBehavior: charts.TooltipBehavior(
+                      enable: true,
+                    ),
+                    series: <charts.ChartSeries>[
+                      charts.SplineSeries<GraphData, DateTime>(
+                        name: 'Price Prediction Error',
+                        dataSource: getErrorHistoryNoNaN(),
+                        xValueMapper: (GraphData data, _) =>
+                            DateTime.parse(data.valueOne),
+                        yValueMapper: (GraphData data, _) =>
+                        data.valueTwo,
+                        markerSettings: const charts.MarkerSettings(
+                          isVisible: true,
+                        ),
+                      ),
+                      charts.SplineSeries<GraphData, DateTime>(
+                        name: 'Price Prediction Error Deviation',
+                        dataSource: getStandardDeviationHistoryNoNaN(),
+                        xValueMapper: (GraphData data, _) =>
+                            DateTime.parse(data.valueOne),
+                        yValueMapper: (GraphData data, _) =>
+                        data.valueTwo,
+                        markerSettings: const charts.MarkerSettings(
+                          isVisible: true,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
+
+                const SizedBox(height: 50,),
                 currentUser.pastPredictions.isEmpty?
                 const SizedBox():
                 const Center(
                   child: Text(
-                    'Cryptocurrency Price Prediction Accuracy',
+                    'Price Prediction Accuracy of Cryptocurrencies',
                     style: kCardSmallTextStyle,
                   ),
                 ),
@@ -364,6 +549,7 @@ class _StatisticsState extends State<Statistics> {
                       ),
                   ],
                 ),
+                const SizedBox(height: 10.0,),
                 for (int i = 0; i < currenciesWithPastPredictions.length; i++)
                   GestureDetector(
                     child: glassCardFullScreen(
@@ -496,7 +682,11 @@ class _StatisticsState extends State<Statistics> {
                       });
                     },
                   ),
-                
+                currentUser.pastPredictions.isEmpty?
+                const Text('Statistics will be displayed when a prediction is completed.',style: kInstructionStyle,textAlign: TextAlign.center,):
+                const SizedBox(
+                  height: 80.0,
+                ),
               ],
             ),
           ),

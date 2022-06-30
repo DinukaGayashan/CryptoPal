@@ -8,6 +8,7 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 import '../predictions/currency_predictions_graph.dart';
+import 'currency_prediction_accuracy_graph.dart';
 import 'currency_prediction_errors_graph.dart';
 
 class CurrencyPredictionStatistics extends StatefulWidget {
@@ -78,41 +79,41 @@ class _CurrencyPredictionStatisticsState extends State<CurrencyPredictionStatist
     return x;
   }
 
-  List<ValueOnCurrency> getValuesOnCurrency(
+  List<GraphData> getValuesOnCurrency(
       {required String currency, required String type}) {
-    List<ValueOnCurrency> currencyValues = [];
+    List<GraphData> currencyValues = [];
     Iterable<String> dates = currentUser.history.keys;
     if (type == 'error') {
       for (var d in dates) {
-        currencyValues.add(ValueOnCurrency(
-            d, currentUser.history[d]?.errorsOnCurrencies[currency]));
+        currencyValues.add(GraphData(
+            valueOne:d, valueTwo:currentUser.history[d]?.errorsOnCurrencies[currency]));
       }
     } else {
       for (var d in dates) {
-        currencyValues.add(ValueOnCurrency(
-            d, currentUser.history[d]?.errorVarianceOnCurrencies[currency]));
+        currencyValues.add(GraphData(
+            valueOne:d, valueTwo:currentUser.history[d]?.errorVarianceOnCurrencies[currency]));
       }
     }
     return currencyValues;
   }
 
-  List<ValueOnCurrency> getValuesOnCurrencyNoNaN(
+  List<GraphData> getValuesOnCurrencyNoNaN(
       {required String currency, required String type}) {
-    List<ValueOnCurrency> currencyValues = [];
+    List<GraphData> currencyValues = [];
     Iterable<String> dates = currentUser.history.keys;
     if (type == 'error') {
       for (var d in dates) {
         if (!currentUser.history[d]?.errorsOnCurrencies[currency].isNaN) {
-          currencyValues.add(ValueOnCurrency(
-              d, currentUser.history[d]?.errorsOnCurrencies[currency]));
+          currencyValues.add(GraphData(
+              valueOne:d, valueTwo:currentUser.history[d]?.errorsOnCurrencies[currency]));
         }
       }
     } else {
       for (var d in dates) {
         if (!currentUser
             .history[d]?.errorVarianceOnCurrencies[currency].isNaN) {
-          currencyValues.add(ValueOnCurrency(
-              d, currentUser.history[d]?.errorVarianceOnCurrencies[currency]));
+          currencyValues.add(GraphData(
+              valueOne:d, valueTwo:currentUser.history[d]?.errorVarianceOnCurrencies[currency]));
         }
       }
     }
@@ -262,8 +263,6 @@ class _CurrencyPredictionStatisticsState extends State<CurrencyPredictionStatist
                 const SizedBox(
                   height: 20.0,
                 ),
-                Column(
-                  children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
@@ -271,7 +270,7 @@ class _CurrencyPredictionStatisticsState extends State<CurrencyPredictionStatist
                           onPressed: () {
                             Navigator.push(context,
                                 MaterialPageRoute(builder: (context) {
-                                  return CurrencyPredictionErrorsGraph(
+                                  return CurrencyPredictionAccuracyGraph(
                                       currentUser, widget.currencyIndex);
                                 }));
                           },
@@ -287,7 +286,7 @@ class _CurrencyPredictionStatisticsState extends State<CurrencyPredictionStatist
                       width: double.infinity,
                       child: SfCartesianChart(
                         title: ChartTitle(
-                          text: 'Past Prediction Errors',
+                          text: 'Prediction Accuracy',
                           textStyle: kCardSmallTextStyle,
                         ),
                         legend: Legend(
@@ -312,32 +311,17 @@ class _CurrencyPredictionStatisticsState extends State<CurrencyPredictionStatist
                           enable: true,
                         ),
                         series: <ChartSeries>[
-                          SplineSeries<ValueOnCurrency, DateTime>(
+                          SplineSeries<GraphData, DateTime>(
                             name: cryptocurrencies[widget.currencyIndex] +
-                                ' Prediction Error',
+                                ' Prediction Accuracy',
                             dataSource: getValuesOnCurrencyNoNaN(
                                 currency: cryptocurrencies[
                                 widget.currencyIndex],
-                                type: 'error'),
-                            xValueMapper: (ValueOnCurrency data, _) =>
-                                DateTime.parse(data.date),
-                            yValueMapper: (ValueOnCurrency data, _) =>
-                                data.value.toDouble(),
-                            markerSettings: const MarkerSettings(
-                              isVisible: true,
-                            ),
-                          ),
-                          SplineSeries<ValueOnCurrency, DateTime>(
-                            name: cryptocurrencies[widget.currencyIndex] +
-                                ' Prediction Error Deviation',
-                            dataSource: getValuesOnCurrencyNoNaN(
-                                currency: cryptocurrencies[
-                                widget.currencyIndex],
-                                type: 'variance'),
-                            xValueMapper: (ValueOnCurrency data, _) =>
-                                DateTime.parse(data.date),
-                            yValueMapper: (ValueOnCurrency data, _) =>
-                                sqrt(data.value.toDouble()),
+                            type: 'variance'),
+                            xValueMapper: (GraphData data, _) =>
+                                DateTime.parse(data.valueOne),
+                            yValueMapper: (GraphData data, _) =>
+                                data.valueTwo>1000?0:100-sqrt(data.valueTwo),
                             markerSettings: const MarkerSettings(
                               isVisible: true,
                             ),
@@ -345,10 +329,92 @@ class _CurrencyPredictionStatisticsState extends State<CurrencyPredictionStatist
                         ],
                       ),
                     ),
+                const SizedBox(
+                  height: 20.0,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                              return CurrencyPredictionErrorsGraph(
+                                  currentUser, widget.currencyIndex);
+                            }));
+                      },
+                      icon: const Icon(
+                        Icons.fullscreen,
+                      ),
+                      tooltip: 'Full Screen View',
+                      alignment: Alignment.bottomRight,
+                    ),
                   ],
                 ),
-              ],
-            ),
+                SizedBox(
+                  width: double.infinity,
+                  child: SfCartesianChart(
+                    title: ChartTitle(
+                      text: 'Past Prediction Errors',
+                      textStyle: kCardSmallTextStyle,
+                    ),
+                    legend: Legend(
+                      isVisible: true,
+                      overflowMode: LegendItemOverflowMode.wrap,
+                      position: LegendPosition.bottom,
+                    ),
+                    zoomPanBehavior: ZoomPanBehavior(
+                      enablePinching: true,
+                      enablePanning: true,
+                      enableMouseWheelZooming: true,
+                      zoomMode: ZoomMode.xy,
+                    ),
+                    primaryXAxis: DateTimeAxis(),
+                    primaryYAxis: NumericAxis(),
+                    plotAreaBorderWidth: 1,
+                    enableAxisAnimation: true,
+                    crosshairBehavior: CrosshairBehavior(
+                      enable: true,
+                    ),
+                    tooltipBehavior: TooltipBehavior(
+                      enable: true,
+                    ),
+                    series: <ChartSeries>[
+                      SplineSeries<GraphData, DateTime>(
+                        name: cryptocurrencies[widget.currencyIndex] +
+                            ' Prediction Error',
+                        dataSource: getValuesOnCurrencyNoNaN(
+                            currency: cryptocurrencies[
+                            widget.currencyIndex],
+                            type: 'error'),
+                        xValueMapper: (GraphData data, _) =>
+                            DateTime.parse(data.valueOne),
+                        yValueMapper: (GraphData data, _) =>
+                            data.valueTwo.toDouble(),
+                        markerSettings: const MarkerSettings(
+                          isVisible: true,
+                        ),
+                      ),
+                      SplineSeries<GraphData, DateTime>(
+                        name: cryptocurrencies[widget.currencyIndex] +
+                            ' Prediction Error Deviation',
+                        dataSource: getValuesOnCurrencyNoNaN(
+                            currency: cryptocurrencies[
+                            widget.currencyIndex],
+                            type: 'variance'),
+                        xValueMapper: (GraphData data, _) =>
+                            DateTime.parse(data.valueOne),
+                        yValueMapper: (GraphData data, _) =>
+                            sqrt(data.valueTwo.toDouble()),
+                        markerSettings: const MarkerSettings(
+                          isVisible: true,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                  ],
+                ),
           ),
         ),
       ),

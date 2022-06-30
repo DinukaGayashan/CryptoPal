@@ -196,13 +196,6 @@ Future<UserAccount> getActiveUserData() async {
   return currentUser;
 }
 
-class ValueOnCurrency{
-  late String date;
-  late double value;
-
-  ValueOnCurrency(this.date,this.value);
-}
-
 class DayHistory{
   late double accuracy, error, variance, standardDeviation;
   late Map<String, dynamic> errorsOnCurrencies, errorVarianceOnCurrencies;
