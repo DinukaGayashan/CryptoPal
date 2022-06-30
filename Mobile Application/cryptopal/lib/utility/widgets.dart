@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:glass/glass.dart';
-import 'package:cryptopal/screens/dashboard/dashboard.dart';
 import 'constants.dart';
 
-Widget glassCard(BuildContext context, Widget content) {
+Widget glassCardFullScreen(BuildContext context, Widget content) {
   return Padding(
-      padding: const EdgeInsets.all(6.0),
+      padding: const EdgeInsets.all(4.0),
       child: Card(
         color: Colors.white12,
         shape: RoundedRectangleBorder(
@@ -22,7 +21,7 @@ Widget glassCard(BuildContext context, Widget content) {
       //tileMode:TileMode.clamp,
       //tintColor: kBaseColor1,
     ),*/
-      );
+  );
 }
 
 Widget glassBackground(BuildContext context, Widget content) {

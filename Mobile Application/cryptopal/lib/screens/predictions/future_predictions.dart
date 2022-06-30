@@ -68,7 +68,7 @@ class _FuturePredictionsState extends State<FuturePredictions> {
       body: SafeArea(
         child: SizedBox(
           height: MediaQuery.of(context).size.height,
-          child: glassCard(
+          child: glassCardFullScreen(
             context,
             ListView(
               children: <Widget>[
@@ -81,7 +81,7 @@ class _FuturePredictionsState extends State<FuturePredictions> {
                 ),
                 for(var prediction in currentUser.futurePredictions)
                   GestureDetector(
-                    child: glassCard(
+                    child: glassCardFullScreen(
                       context,
                       Padding(
                         padding: const EdgeInsets.symmetric(

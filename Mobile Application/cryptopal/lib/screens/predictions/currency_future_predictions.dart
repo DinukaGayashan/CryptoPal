@@ -86,7 +86,7 @@ class _CurrencyFuturePredictionsState extends State<CurrencyFuturePredictions> {
       body: SafeArea(
         child: SizedBox(
           height: MediaQuery.of(context).size.height,
-          child: glassCard(
+          child: glassCardFullScreen(
             context,
             ListView(
               children: <Widget>[
@@ -101,7 +101,7 @@ class _CurrencyFuturePredictionsState extends State<CurrencyFuturePredictions> {
                 for (var prediction in getUserFuturePredictions(
                     currency: cryptocurrencies[widget.currencyIndex]))
                   GestureDetector(
-                    child: glassCard(
+                    child: glassCardFullScreen(
                       context,
                       Padding(
                         padding: const EdgeInsets.symmetric(

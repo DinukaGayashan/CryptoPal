@@ -119,8 +119,8 @@ Future<UserAccount> getActiveUserData() async {
       List<double>.filled(cryptocurrencies.length, 0);
 
       currentUser.error = userError / predictionCount;
-      currentUser.variance = userErrorVariance / predictionCount;
-      currentUser.standardDeviation = sqrt(currentUser.variance);
+      currentUser.errorVariance = userErrorVariance / predictionCount;
+      currentUser.errorStandardDeviation = sqrt(currentUser.errorVariance);
       for (int x = 0; x < cryptocurrencies.length; x++) {
         userErrorsOnCurrencies[x] /= userPredictionsOnCurrencies[x];
         userErrorVarianceOnCurrencies[x] /= userPredictionsOnCurrencies[x];
@@ -135,7 +135,7 @@ Future<UserAccount> getActiveUserData() async {
           Map.fromIterables(cryptocurrencies, userErrorStandardDeviationOnCurrencies);
 
       currentUser.accuracy =
-          100 - currentUser.standardDeviation;
+          100 - currentUser.errorStandardDeviation;
 
       await _firestore
           .collection('users')
@@ -146,8 +146,8 @@ Future<UserAccount> getActiveUserData() async {
         {
           'accuracy':currentUser.accuracy,
           'error': currentUser.error,
-          'errorVariance': currentUser.variance,
-          'errorStandardDeviation': currentUser.standardDeviation,
+          'errorVariance': currentUser.errorVariance,
+          'errorStandardDeviation': currentUser.errorStandardDeviation,
           'errorsOnCurrencies': currentUser.errorsOnCurrencies,
           'errorVarianceOnCurrencies': currentUser.errorVarianceOnCurrencies,
           'errorStandardDeviationOnCurrencies': currentUser.errorStandardDeviationOnCurrencies,
@@ -163,8 +163,8 @@ Future<UserAccount> getActiveUserData() async {
           {
             'accuracyHistory':{today:currentUser.accuracy},
             'errorHistory': {today:currentUser.error},
-            'errorVarianceHistory': {today:currentUser.variance},
-            'errorStandardDeviationHistory': {today:currentUser.standardDeviation},
+            'errorVarianceHistory': {today:currentUser.errorVariance},
+            'errorStandardDeviationHistory': {today:currentUser.errorStandardDeviation},
             'errorsOnCurrenciesHistory': {today:currentUser.errorsOnCurrencies},
             'errorVarianceOnCurrenciesHistory': {today:currentUser.errorVarianceOnCurrencies},
           }, SetOptions(merge: true));
@@ -235,7 +235,7 @@ class UserAccount {
   late User? user;
   late String name, birthday;
   late List<Prediction> predictions = [], pastPredictions = [], futurePredictions = [];
-  late double error, variance, standardDeviation, accuracy;
+  late double error, errorVariance, errorStandardDeviation, accuracy;
   late Map<String, double> errorsOnCurrencies, errorVarianceOnCurrencies,errorStandardDeviationOnCurrencies;
   late Map<String, DayHistory> history;
 }

@@ -292,7 +292,7 @@ class _DashboardState extends State<Dashboard> {
                 height: 20.0,
               ),
               GestureDetector(
-                child: glassCard(
+                child: glassCardFullScreen(
                   context,
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -322,7 +322,7 @@ class _DashboardState extends State<Dashboard> {
                                       style: kCardSmallTextStyle,
                                       children: <TextSpan>[
                                         TextSpan(
-                                          text: currentUser.standardDeviation
+                                          text: currentUser.errorStandardDeviation
                                               .roundToDouble()
                                               .toString()+'%',
                                           style: kCardTextStyle2,
@@ -438,7 +438,7 @@ class _DashboardState extends State<Dashboard> {
                 },
               ),
               GestureDetector(
-                child: glassCard(
+                child: glassCardFullScreen(
                   context,
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -595,7 +595,7 @@ class _DashboardState extends State<Dashboard> {
                   });
                 },
               ),
-              glassCard(
+              glassCardFullScreen(
                 context,
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -742,7 +742,7 @@ class _DashboardState extends State<Dashboard> {
                   ],
                 ),
               ),
-              glassCard(
+              glassCardFullScreen(
                 context,
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

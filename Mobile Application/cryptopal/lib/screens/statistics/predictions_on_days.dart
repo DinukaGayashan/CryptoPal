@@ -24,7 +24,7 @@ class _PredictionsOnDaysState extends State<PredictionsOnDays> {
   List<GraphData> getPredictionCountOnDays(){
     List<GraphData> count=[];
     for(var d in dates){
-      count.add(GraphData(date: DateTime.parse(d), count: widget.predictionsOnDays[d]?.length));
+      count.add(GraphData(valueOne: DateTime.parse(d), valueTwo: widget.predictionsOnDays[d]?.length));
     }
     return count;
   }
@@ -80,7 +80,7 @@ class _PredictionsOnDaysState extends State<PredictionsOnDays> {
       body: SafeArea(
         child: SizedBox(
           height: MediaQuery.of(context).size.height,
-          child: glassCard(
+          child: glassCardFullScreen(
             context,
             ListView(
               children: <Widget>[
@@ -99,8 +99,8 @@ class _PredictionsOnDaysState extends State<PredictionsOnDays> {
                     ),
                     primaryXAxis: DateTimeAxis(
                       visibleMinimum: kMinDayInSmallGraph,
-
                     ),
+
                     plotAreaBorderWidth: 1,
                     enableAxisAnimation: true,
                     crosshairBehavior: CrosshairBehavior(
@@ -109,11 +109,11 @@ class _PredictionsOnDaysState extends State<PredictionsOnDays> {
                       series: <ChartSeries>[
                         ColumnSeries<GraphData, DateTime>(
                           name: 'Number of predictions',
+                            color:kAccentColor1,
                             dataSource: getPredictionCountOnDays(),
-                            xValueMapper: (GraphData data, _) => data.date,
-                            yValueMapper: (GraphData data, _) => data.count,
+                            xValueMapper: (GraphData data, _) => data.valueOne,
+                            yValueMapper: (GraphData data, _) => data.valueTwo,
                         ),
-
                       ],
                   ),
                 ),
@@ -142,7 +142,7 @@ class _PredictionsOnDaysState extends State<PredictionsOnDays> {
                 const SizedBox(height: 15,),
                 for(var prediction in widget.predictionsOnDays[selectedDate]!)
                   GestureDetector(
-                    child: glassCard(
+                    child: glassCardFullScreen(
                       context,
                       Padding(
                         padding: const EdgeInsets.symmetric(
@@ -181,11 +181,4 @@ class _PredictionsOnDaysState extends State<PredictionsOnDays> {
       ),
     );
   }
-}
-
-class GraphData{
-  late DateTime date;
-  late int? count;
-
-  GraphData({required this.date,required this.count});
 }

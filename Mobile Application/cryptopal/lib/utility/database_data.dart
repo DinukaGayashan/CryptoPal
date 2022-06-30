@@ -35,6 +35,13 @@ Future<List<RealPricesOfACurrency>> getRealPriceData() async {
   return allPricesLists;
 }
 
+class GraphData{
+  late dynamic valueOne;
+  late dynamic valueTwo;
+
+  GraphData({required this.valueOne,required this.valueTwo});
+}
+
 class RealPricesOfACurrency {
   late String currency;
   late double priceIncreasePercentage=0;

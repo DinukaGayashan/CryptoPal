@@ -45,7 +45,7 @@ class _AddPredictionState extends State<AddPrediction> {
       body: SafeArea(
         child: SizedBox(
           height: MediaQuery.of(context).size.height,
-          child: glassCard(
+          child: glassCardFullScreen(
             context,
             SingleChildScrollView(
               child: Column(

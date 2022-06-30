@@ -46,7 +46,7 @@ class CurrencyPredictionsGraph extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: glassCard(context,
+      child: glassCardFullScreen(context,
          Column(
            children: [
              topBar(context, cryptocurrencyNames[currencyIndex]+' Predictions'),

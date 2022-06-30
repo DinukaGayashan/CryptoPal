@@ -21,7 +21,7 @@ class _NewsListDisplayState extends State<NewsListDisplay> {
       body: SafeArea(
         child: SizedBox(
           height: MediaQuery.of(context).size.height,
-          child: glassCard(
+          child: glassCardFullScreen(
             context,
             CupertinoScrollbar(
               child: ListView(
