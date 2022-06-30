@@ -8,7 +8,6 @@ import 'package:cryptopal/utility/widgets.dart';
 class CurrencyPredictionErrorsGraph extends StatelessWidget {
   const CurrencyPredictionErrorsGraph(this.currentUser, this.currencyIndex, {Key? key}) : super(key: key);
 
-  static const String id = 'CurrencyPredictionErrorsGraph';
   final UserAccount currentUser;
   final int currencyIndex;
 
@@ -68,7 +67,7 @@ class CurrencyPredictionErrorsGraph extends StatelessWidget {
                   enable: true,
                 ),
                 series: <ChartSeries>[
-                  LineSeries<ValueOnCurrency, DateTime>(
+                  SplineSeries<ValueOnCurrency, DateTime>(
                     name: cryptocurrencies[currencyIndex]+' Prediction Error',
                     dataSource: getValuesOnCurrencyNoNaN(currency: cryptocurrencies[currencyIndex], type: 'error'),
                     xValueMapper: (ValueOnCurrency data, _) => DateTime.parse(data.date),
@@ -77,7 +76,7 @@ class CurrencyPredictionErrorsGraph extends StatelessWidget {
                       isVisible: true,
                     ),
                   ),
-                  LineSeries<ValueOnCurrency, DateTime>(
+                  SplineSeries<ValueOnCurrency, DateTime>(
                     name: cryptocurrencies[currencyIndex]+' Prediction Error Deviation',
                     dataSource: getValuesOnCurrencyNoNaN(currency: cryptocurrencies[currencyIndex], type: 'variance'),
                     xValueMapper: (ValueOnCurrency data, _) => DateTime.parse(data.date),

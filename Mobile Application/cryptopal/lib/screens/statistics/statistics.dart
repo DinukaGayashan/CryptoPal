@@ -1,3 +1,4 @@
+import 'package:cryptopal/screens/statistics/currency_prediction_statistics.dart';
 import 'package:cryptopal/screens/statistics/predictions_on_days.dart';
 import 'package:flutter/material.dart';
 import 'package:cryptopal/utility/user_account.dart';
@@ -479,6 +480,21 @@ class _StatisticsState extends State<Statistics> {
                         ),
                       ),
                     ),
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                            return CurrencyPredictionStatistics(
+                              currentUser,
+                              getCryptocurrencyIndex(currenciesWithPastPredictions[i]),
+                              widget.realPriceList,
+                            );
+                          })).then((_) {
+                        setState(() {
+                          currentUser.predictions;
+                          currentUser.futurePredictions;
+                        });
+                      });
+                    },
                   ),
                 
               ],

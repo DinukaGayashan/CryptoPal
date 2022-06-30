@@ -10,7 +10,6 @@ import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'currency_future_predictions.dart';
 import 'currency_past_predictions.dart';
 import 'currency_predictions_graph.dart';
-import 'currency_prediction_errors_graph.dart';
 
 class CurrencyPredictions extends StatefulWidget {
   const CurrencyPredictions(
@@ -366,96 +365,6 @@ class _CurrencyPredictionsState extends State<CurrencyPredictions> {
                 const SizedBox(
                   height: 20.0,
                 ),
-                getUserPredictions(
-                            currency: cryptocurrencies[widget.currencyIndex],
-                            past: true)
-                        .isEmpty
-                    ? const SizedBox()
-                    : Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              IconButton(
-                                onPressed: () {
-                                  Navigator.push(context,
-                                      MaterialPageRoute(builder: (context) {
-                                    return CurrencyPredictionErrorsGraph(
-                                        currentUser, widget.currencyIndex);
-                                  }));
-                                },
-                                icon: const Icon(
-                                  Icons.fullscreen,
-                                ),
-                                tooltip: 'Full Screen View',
-                                alignment: Alignment.bottomRight,
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            width: double.infinity,
-                            child: SfCartesianChart(
-                              title: ChartTitle(
-                                text: 'Past Prediction Errors',
-                                textStyle: kCardSmallTextStyle,
-                              ),
-                              legend: Legend(
-                                isVisible: true,
-                                overflowMode: LegendItemOverflowMode.wrap,
-                                position: LegendPosition.bottom,
-                              ),
-                              zoomPanBehavior: ZoomPanBehavior(
-                                enablePinching: true,
-                                enablePanning: true,
-                                enableMouseWheelZooming: true,
-                                zoomMode: ZoomMode.xy,
-                              ),
-                              primaryXAxis: DateTimeAxis(),
-                              primaryYAxis: NumericAxis(),
-                              plotAreaBorderWidth: 1,
-                              enableAxisAnimation: true,
-                              crosshairBehavior: CrosshairBehavior(
-                                enable: true,
-                              ),
-                              tooltipBehavior: TooltipBehavior(
-                                enable: true,
-                              ),
-                              series: <ChartSeries>[
-                                LineSeries<ValueOnCurrency, DateTime>(
-                                  name: cryptocurrencies[widget.currencyIndex] +
-                                      ' Prediction Error',
-                                  dataSource: getValuesOnCurrencyNoNaN(
-                                      currency: cryptocurrencies[
-                                          widget.currencyIndex],
-                                      type: 'error'),
-                                  xValueMapper: (ValueOnCurrency data, _) =>
-                                      DateTime.parse(data.date),
-                                  yValueMapper: (ValueOnCurrency data, _) =>
-                                      data.value.toDouble(),
-                                  markerSettings: const MarkerSettings(
-                                    isVisible: true,
-                                  ),
-                                ),
-                                LineSeries<ValueOnCurrency, DateTime>(
-                                  name: cryptocurrencies[widget.currencyIndex] +
-                                      ' Prediction Error Deviation',
-                                  dataSource: getValuesOnCurrency(
-                                      currency: cryptocurrencies[
-                                          widget.currencyIndex],
-                                      type: 'variance'),
-                                  xValueMapper: (ValueOnCurrency data, _) =>
-                                      DateTime.parse(data.date),
-                                  yValueMapper: (ValueOnCurrency data, _) =>
-                                      sqrt(data.value.toDouble()),
-                                  markerSettings: const MarkerSettings(
-                                    isVisible: true,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
               ],
             ),
           ),
