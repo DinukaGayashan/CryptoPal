@@ -44,7 +44,7 @@ class _CurrencyMarketGraphsState extends State<CurrencyMarketGraphs> {
       body: SafeArea(
         child: SizedBox(
           height: MediaQuery.of(context).size.height,
-          child: glassCardFullScreen(
+          child: glassCard(
             context,
             SingleChildScrollView(
               child: Column(

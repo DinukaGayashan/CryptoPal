@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cryptopal/utility/user_account.dart';
 import 'package:cryptopal/utility/constants.dart';
@@ -8,21 +9,17 @@ import 'package:cryptopal/utility/database_data.dart';
 import 'currency_future_predictions_graph.dart';
 
 class FuturePredictions extends StatefulWidget {
-  const FuturePredictions(
-      this.currentUser, this.realPriceList,
-      {Key? key})
+  const FuturePredictions(this.currentUser, this.realPriceList, {Key? key})
       : super(key: key);
 
   final UserAccount currentUser;
   final List<RealPricesOfACurrency> realPriceList;
 
   @override
-  State<FuturePredictions> createState() =>
-      _FuturePredictionsState();
+  State<FuturePredictions> createState() => _FuturePredictionsState();
 }
 
 class _FuturePredictionsState extends State<FuturePredictions> {
-
   final _firestore = FirebaseFirestore.instance;
 
   List<RealPrice> getRealPrices({required String currency, int number = 0}) {
@@ -41,7 +38,7 @@ class _FuturePredictionsState extends State<FuturePredictions> {
 
   RealPrice? getRealPrice({required String currency, required String date}) {
     final List<RealPrice> priceList =
-    getRealPrices(currency: currency + '-USD');
+        getRealPrices(currency: currency + '-USD');
     RealPrice x = RealPrice(date, 0, 0, 0, 0);
     for (var i in priceList) {
       if (i.date == date) {
@@ -51,10 +48,10 @@ class _FuturePredictionsState extends State<FuturePredictions> {
     return x;
   }
 
-  int getCryptocurrencyIndex(String predictionCurrency){
-    int i=0;
-    for(i=0;i<cryptocurrencies.length;i++){
-      if(cryptocurrencies[i]==predictionCurrency.split('-')[0]){
+  int getCryptocurrencyIndex(String predictionCurrency) {
+    int i = 0;
+    for (i = 0; i < cryptocurrencies.length; i++) {
+      if (cryptocurrencies[i] == predictionCurrency.split('-')[0]) {
         break;
       }
     }
@@ -68,20 +65,20 @@ class _FuturePredictionsState extends State<FuturePredictions> {
       body: SafeArea(
         child: SizedBox(
           height: MediaQuery.of(context).size.height,
-          child: glassCardFullScreen(
+          child: glassCard(
             context,
             ListView(
               children: <Widget>[
                 topBar(
                   context,
-                      'Future Predictions',
+                  'Future Predictions',
                 ),
                 const SizedBox(
                   height: 10.0,
                 ),
-                for(var prediction in currentUser.futurePredictions)
+                for (var prediction in currentUser.futurePredictions)
                   GestureDetector(
-                    child: glassCardFullScreen(
+                    child: glassCard(
                       context,
                       Padding(
                         padding: const EdgeInsets.symmetric(
@@ -96,27 +93,34 @@ class _FuturePredictionsState extends State<FuturePredictions> {
                                 SizedBox(
                                   height: 60.0,
                                   child: Text(
-                                    prediction.predictionDate+'\n'+prediction.predictionCurrency,
+                                    prediction.predictionDate +
+                                        '\n' +
+                                        prediction.predictionCurrency,
                                     style: kCardTextStyle,
                                   ),
                                 ),
                                 IconButton(
                                   highlightColor: kRed,
-                                  onPressed: (){
+                                  onPressed: () {
                                     showDialog(
                                       context: context,
                                       builder: (BuildContext context) {
-                                        return AlertDialog(
-                                          backgroundColor: kBackgroundColor,
+                                        return CupertinoAlertDialog(
                                           title: const Text(
-                                            'Confirm Prediction Deletion',
+                                            'Confirm Prediction Deletion\n',
                                             style: kInstructionStyle2,
                                           ),
                                           content: Text(
-                                            "Do you want to delete the prediction made on "+prediction.predictedDate+"?\n"
-                                                "\nPrediction currency: "+prediction.predictionCurrency+
-                                                "\nPrediction date: "+prediction.predictionDate+
-                                                "\nPrediction close price: \$ "+prediction.predictionClosePrice.toString()+
+                                            "Do you want to delete the prediction made on " +
+                                                prediction.predictedDate +
+                                                "?\n"
+                                                    "\nPrediction currency: " +
+                                                prediction.predictionCurrency +
+                                                "\nPrediction date: " +
+                                                prediction.predictionDate +
+                                                "\nPrediction close price: \$ " +
+                                                prediction.predictionClosePrice
+                                                    .toString() +
                                                 "\n\nThis cannot be undone.",
                                             style: kInstructionStyle,
                                           ),
@@ -137,9 +141,23 @@ class _FuturePredictionsState extends State<FuturePredictions> {
                                               ),
                                               onPressed: () async {
                                                 Navigator.of(context).pop();
-                                                currentUser.predictions.removeWhere((item) => item.predictionCurrency== prediction.predictionCurrency && item.predictionDate==prediction.predictionDate);
-                                                currentUser.futurePredictions.removeWhere((item) => item.predictionCurrency== prediction.predictionCurrency && item.predictionDate==prediction.predictionDate);
-                                                setState((){
+                                                currentUser.predictions
+                                                    .removeWhere((item) =>
+                                                        item.predictionCurrency ==
+                                                            prediction
+                                                                .predictionCurrency &&
+                                                        item.predictionDate ==
+                                                            prediction
+                                                                .predictionDate);
+                                                currentUser.futurePredictions
+                                                    .removeWhere((item) =>
+                                                        item.predictionCurrency ==
+                                                            prediction
+                                                                .predictionCurrency &&
+                                                        item.predictionDate ==
+                                                            prediction
+                                                                .predictionDate);
+                                                setState(() {
                                                   currentUser.futurePredictions;
                                                   currentUser.predictions;
                                                 });
@@ -147,15 +165,25 @@ class _FuturePredictionsState extends State<FuturePredictions> {
                                                 try {
                                                   await _firestore
                                                       .collection('users')
-                                                      .doc(widget.currentUser.user?.uid)
+                                                      .doc(widget.currentUser
+                                                          .user?.uid)
                                                       .collection('predictions')
-                                                      .doc(prediction.predictionDate.toString().split(' ')[0] +
-                                                      ' ' +
-                                                      prediction.predictionCurrency)
+                                                      .doc(prediction
+                                                              .predictionDate
+                                                              .toString()
+                                                              .split(' ')[0] +
+                                                          ' ' +
+                                                          prediction
+                                                              .predictionCurrency)
                                                       .delete();
-                                                  snackBar(context, message: 'Prediction successfully deleted.', color: kGreen);
+                                                  snackBar(context,
+                                                      message:
+                                                          'Prediction successfully deleted.',
+                                                      color: kGreen);
                                                 } catch (e) {
-                                                  snackBar(context,message: e.toString(),color: kRed);
+                                                  snackBar(context,
+                                                      message: e.toString(),
+                                                      color: kRed);
                                                 }
                                               },
                                             ),
@@ -170,7 +198,9 @@ class _FuturePredictionsState extends State<FuturePredictions> {
                                 ),
                               ],
                             ),
-                            const SizedBox(height: 10,),
+                            const SizedBox(
+                              height: 10,
+                            ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
@@ -186,14 +216,17 @@ class _FuturePredictionsState extends State<FuturePredictions> {
                                     ],
                                   ),
                                 ),
-                                const SizedBox(width: 20,),
+                                const SizedBox(
+                                  width: 20,
+                                ),
                                 RichText(
                                   text: TextSpan(
                                     text: 'Prediction Price\n',
                                     style: kCardSmallTextStyle,
                                     children: <TextSpan>[
                                       TextSpan(
-                                        text: prediction.predictionClosePrice.toString(),
+                                        text: prediction.predictionClosePrice
+                                            .toString(),
                                         style: kCardTextStyle2,
                                       ),
                                     ],
@@ -205,9 +238,14 @@ class _FuturePredictionsState extends State<FuturePredictions> {
                         ),
                       ),
                     ),
-                    onTap: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context){
-                        return CurrencyFuturePredictionsGraph(getCryptocurrencyIndex(prediction.predictionCurrency), widget.realPriceList, prediction);
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return CurrencyFuturePredictionsGraph(
+                            getCryptocurrencyIndex(
+                                prediction.predictionCurrency),
+                            widget.realPriceList,
+                            prediction);
                       }));
                     },
                   ),

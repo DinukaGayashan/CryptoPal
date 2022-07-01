@@ -40,7 +40,7 @@ class _CurrencyMarketState extends State<CurrencyMarket> {
       body: SafeArea(
         child: SizedBox(
           height: MediaQuery.of(context).size.height,
-          child: glassCardFullScreen(
+          child: glassCard(
             context,
             ListView(
               children: <Widget>[

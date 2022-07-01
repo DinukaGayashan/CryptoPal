@@ -22,7 +22,7 @@ class _NewsDisplayState extends State<NewsDisplay> {
       body: SafeArea(
         child: SizedBox(
           height: MediaQuery.of(context).size.height,
-          child: glassCardFullScreen(
+          child: glassCard(
             context,
             Column(
               children: <Widget>[

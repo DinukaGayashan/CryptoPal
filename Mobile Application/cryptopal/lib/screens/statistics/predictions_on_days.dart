@@ -80,7 +80,7 @@ class _PredictionsOnDaysState extends State<PredictionsOnDays> {
       body: SafeArea(
         child: SizedBox(
           height: MediaQuery.of(context).size.height,
-          child: glassCardFullScreen(
+          child: glassCard(
             context,
             ListView(
               children: <Widget>[
@@ -142,7 +142,7 @@ class _PredictionsOnDaysState extends State<PredictionsOnDays> {
                 const SizedBox(height: 15,),
                 for(var prediction in widget.predictionsOnDays[selectedDate]!)
                   GestureDetector(
-                    child: glassCardFullScreen(
+                    child: glassCard(
                       context,
                       Padding(
                         padding: const EdgeInsets.symmetric(

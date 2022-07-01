@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:glass/glass.dart';
 import 'constants.dart';
 
-Widget glassCardFullScreen(BuildContext context, Widget content) {
+Widget glassCard(BuildContext context, Widget content) {
   return Padding(
       padding: const EdgeInsets.all(4.0),
       child: Card(

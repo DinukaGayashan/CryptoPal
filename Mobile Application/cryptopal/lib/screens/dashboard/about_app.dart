@@ -58,16 +58,11 @@ class AboutApp extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SizedBox(
-                  height: 50.0,
-                  child: Center(
-                    child:  Text(
-                     about,
-                      style: kInstructionStyle,
-                    ),
-                  ),
+                const Text(
+                   about,
+                    style: kInstructionStyle,
                 ),
-                const FaIcon(FontAwesomeIcons.gamepad),
+                const FaIcon(FontAwesomeIcons.instagram),
 
 
               ],

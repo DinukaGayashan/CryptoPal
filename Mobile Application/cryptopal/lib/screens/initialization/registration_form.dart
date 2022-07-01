@@ -206,10 +206,9 @@ class _RegistrationFormState extends State<RegistrationForm> {
                               showDialog(
                                 context: context,
                                 builder: (BuildContext context) {
-                                  return AlertDialog(
-                                    backgroundColor: kBackgroundColor,
+                                  return CupertinoAlertDialog(
                                     title: const Text(
-                                      "Delete User Account",
+                                      "Delete User Account\n",
                                       style: kSubSubjectStyle,
                                     ),
                                     content: Text(

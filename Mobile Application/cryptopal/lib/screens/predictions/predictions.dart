@@ -62,7 +62,7 @@ class _PredictionsState extends State<Predictions> {
       body: SafeArea(
         child: SizedBox(
           height: MediaQuery.of(context).size.height,
-          child: glassCardFullScreen(
+          child: glassCard(
             context,
             ListView(
               children: <Widget>[
@@ -172,7 +172,7 @@ class _PredictionsState extends State<Predictions> {
                 ),
                 for (int i = 0; i < cryptocurrencies.length; i++)
                   GestureDetector(
-                    child: glassCardFullScreen(
+                    child: glassCard(
                       context,
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 10.0),

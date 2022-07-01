@@ -65,7 +65,7 @@ class _PastPredictionsState extends State<PastPredictions> {
       body: SafeArea(
         child: SizedBox(
           height: MediaQuery.of(context).size.height,
-          child: glassCardFullScreen(
+          child: glassCard(
             context,
             ListView(
               children: <Widget>[
@@ -79,7 +79,7 @@ class _PastPredictionsState extends State<PastPredictions> {
                 for (var prediction in currentUser.pastPredictions
                     .reversed)
                   GestureDetector(
-                    child: glassCardFullScreen(
+                    child: glassCard(
                       context,
                       Padding(
                         padding: const EdgeInsets.symmetric(

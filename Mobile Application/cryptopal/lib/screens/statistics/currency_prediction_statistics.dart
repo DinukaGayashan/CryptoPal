@@ -127,7 +127,7 @@ class _CurrencyPredictionStatisticsState extends State<CurrencyPredictionStatist
       body: SafeArea(
         child: SizedBox(
           height: MediaQuery.of(context).size.height,
-          child: glassCardFullScreen(
+          child: glassCard(
             context,
             ListView(
               children: <Widget>[

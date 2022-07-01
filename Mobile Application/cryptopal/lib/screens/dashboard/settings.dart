@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cryptopal/utility/constants.dart';
@@ -45,10 +46,9 @@ class _SettingsState extends State<Settings> {
                     showDialog(
                       context: context,
                       builder: (BuildContext context) {
-                        return AlertDialog(
-                          backgroundColor: kBackgroundColor,
+                        return CupertinoAlertDialog(
                           title: const Text(
-                            'Confirm Sign Out',
+                            'Confirm Sign Out\n',
                             style: kInstructionStyle2,
                           ),
                           content: const Text(

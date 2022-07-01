@@ -167,7 +167,7 @@ class _StatisticsState extends State<Statistics> {
       body: SafeArea(
         child: SizedBox(
           height: MediaQuery.of(context).size.height,
-          child: glassCardFullScreen(
+          child: glassCard(
             context,
             ListView(
               children: <Widget>[
@@ -552,7 +552,7 @@ class _StatisticsState extends State<Statistics> {
                 const SizedBox(height: 10.0,),
                 for (int i = 0; i < currenciesWithPastPredictions.length; i++)
                   GestureDetector(
-                    child: glassCardFullScreen(
+                    child: glassCard(
                       context,
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 10.0),

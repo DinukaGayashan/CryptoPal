@@ -63,10 +63,9 @@ class Welcome extends StatelessWidget {
                             showDialog(
                               context: context,
                               builder: (BuildContext context) {
-                                return AlertDialog(
-                                  backgroundColor: kBackgroundColor,
+                                return CupertinoAlertDialog(
                                   title: const Text(
-                                    "CryptoPal",
+                                    "CryptoPal\n",
                                     style: kTitleStyle,
                                   ),
                                   content: const Text(

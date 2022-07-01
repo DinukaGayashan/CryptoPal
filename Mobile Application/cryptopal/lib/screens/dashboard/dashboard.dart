@@ -239,7 +239,7 @@ class _DashboardState extends State<Dashboard> {
         ).asGlass(),
         body: LiquidPullToRefresh(
           backgroundColor: Colors.transparent,
-          color: kTransparentColor3,
+          color: kTransparentColor2,
           onRefresh: () async {
             Navigator.pushNamedAndRemoveUntil(
                 context, DashboardLoading.id, (route) => false);
@@ -299,7 +299,7 @@ class _DashboardState extends State<Dashboard> {
                 height: 20.0,
               ),
               GestureDetector(
-                child: glassCardFullScreen(
+                child: glassCard(
                   context,
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -445,7 +445,7 @@ class _DashboardState extends State<Dashboard> {
                 },
               ),
               GestureDetector(
-                child: glassCardFullScreen(
+                child: glassCard(
                   context,
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -602,7 +602,7 @@ class _DashboardState extends State<Dashboard> {
                   });
                 },
               ),
-              glassCardFullScreen(
+              glassCard(
                 context,
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -749,7 +749,7 @@ class _DashboardState extends State<Dashboard> {
                   ],
                 ),
               ),
-              glassCardFullScreen(
+              glassCard(
                 context,
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

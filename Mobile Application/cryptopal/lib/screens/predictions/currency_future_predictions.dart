@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cryptopal/utility/user_account.dart';
 import 'package:cryptopal/utility/constants.dart';
@@ -86,7 +87,7 @@ class _CurrencyFuturePredictionsState extends State<CurrencyFuturePredictions> {
       body: SafeArea(
         child: SizedBox(
           height: MediaQuery.of(context).size.height,
-          child: glassCardFullScreen(
+          child: glassCard(
             context,
             ListView(
               children: <Widget>[
@@ -101,7 +102,7 @@ class _CurrencyFuturePredictionsState extends State<CurrencyFuturePredictions> {
                 for (var prediction in getUserFuturePredictions(
                     currency: cryptocurrencies[widget.currencyIndex]))
                   GestureDetector(
-                    child: glassCardFullScreen(
+                    child: glassCard(
                       context,
                       Padding(
                         padding: const EdgeInsets.symmetric(
@@ -126,10 +127,9 @@ class _CurrencyFuturePredictionsState extends State<CurrencyFuturePredictions> {
                                     showDialog(
                                       context: context,
                                       builder: (BuildContext context) {
-                                        return AlertDialog(
-                                          backgroundColor: kBackgroundColor,
+                                        return CupertinoAlertDialog(
                                           title: const Text(
-                                            'Confirm Prediction Deletion',
+                                            'Confirm Prediction Deletion\n',
                                             style: kInstructionStyle2,
                                           ),
                                           content: Text(

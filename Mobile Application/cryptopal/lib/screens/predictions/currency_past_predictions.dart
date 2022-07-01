@@ -73,7 +73,7 @@ class _CurrencyPastPredictionsState extends State<CurrencyPastPredictions> {
       body: SafeArea(
         child: SizedBox(
           height: MediaQuery.of(context).size.height,
-          child: glassCardFullScreen(
+          child: glassCard(
             context,
             ListView(
               children: <Widget>[
@@ -90,7 +90,7 @@ class _CurrencyPastPredictionsState extends State<CurrencyPastPredictions> {
                     past: true)
                     .reversed)
                   GestureDetector(
-                    child: glassCardFullScreen(
+                    child: glassCard(
                       context,
                       Padding(
                         padding: const EdgeInsets.symmetric(
