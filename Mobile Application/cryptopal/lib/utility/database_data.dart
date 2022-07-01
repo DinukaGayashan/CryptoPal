@@ -1,9 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cryptopal/utility/constants.dart';
+import 'dart:async';
+
+import 'package:flutter/widgets.dart';
+import 'package:path/path.dart';
+import 'package:sqflite/sqflite.dart';
 
 final _firestore = FirebaseFirestore.instance;
 
 Future<List<RealPricesOfACurrency>> getRealPriceData() async {
+
   List<RealPricesOfACurrency> allPricesLists =
       List<RealPricesOfACurrency>.filled(
           cryptocurrencies.length, RealPricesOfACurrency(''));

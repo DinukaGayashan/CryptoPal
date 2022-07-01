@@ -17,6 +17,11 @@ const List<String> cryptocurrencies = <String>[
   "DOGE"
 ];
 
+const String about="CryptoPal is an advisory platform for cryptocurrency "
+    "investments that only focused on educational purposes. "
+    "\n\nPlease do not use this application as a advisor for "
+    "financial investment purposes.";
+
 const kBaseColor1 = Color(0xff000000);
 const kBaseColor2 = Color(0xffeeeeee);
 const kBackgroundColor = Color(0xff121212);

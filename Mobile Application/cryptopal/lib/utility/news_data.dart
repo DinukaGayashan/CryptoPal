@@ -17,6 +17,7 @@ Future<List<News>> getNewsData() async {
       rethrow;
     }
   }
+  news.sort((a, b) => b.date.toString().compareTo(a.date.toString()));
   return news;
 }
 

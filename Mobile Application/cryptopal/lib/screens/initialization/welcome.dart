@@ -70,10 +70,7 @@ class Welcome extends StatelessWidget {
                                     style: kTitleStyle,
                                   ),
                                   content: const Text(
-                                    "CryptoPal is an advisory platform for cryptocurrency "
-                                        "investments that only focused on educational purposes. "
-                                        "\n\nPlease do not use this application as a advisor for "
-                                        "financial investment purposes.",
+                                    about,
                                     style: kInstructionStyle,
                                   ),
                                   actions: [
@@ -91,7 +88,7 @@ class Welcome extends StatelessWidget {
                               },
                             );
                           },
-                        )),
+                        ),),
                   ),
                   const SizedBox(
                     height: 30.0,

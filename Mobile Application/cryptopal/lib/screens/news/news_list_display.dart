@@ -61,7 +61,7 @@ class _NewsListDisplayState extends State<NewsListDisplay> {
                                   news.date.toString().split('T')[0],
                                   style: kTransparentSmallStyle,
                                 ),
-                                const SizedBox(height: 20,),
+                                const SizedBox(height: 30,),
                               ],
                             ),
                           ),

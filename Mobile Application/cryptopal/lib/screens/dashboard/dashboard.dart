@@ -211,6 +211,16 @@ class _DashboardState extends State<Dashboard> {
                 },
               ),
               ListTile(
+                leading: const Icon(Icons.help),
+                title: const Text(
+                  'Help',
+                  style: kCardTextStyle,
+                ),
+                onTap: () {
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
                 leading: const Icon(Icons.touch_app),
                 title: const Text(
                   'About App',
@@ -223,9 +233,6 @@ class _DashboardState extends State<Dashboard> {
                         return const AboutApp();
                       }));
                 },
-              ),
-              ListTile(
-
               ),
             ],
           ),
@@ -790,7 +797,7 @@ class _DashboardState extends State<Dashboard> {
                                           news.date.toString().split('T')[0],
                                           style: kTransparentSmallStyle,
                                         ),
-                                        const SizedBox(height: 20,),
+                                        const SizedBox(height:30,),
                                       ],
                                     ),
                                   ),

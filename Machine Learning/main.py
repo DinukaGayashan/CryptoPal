@@ -13,7 +13,7 @@ from keras.models import Sequential
 crypto_currency = 'BTC'
 against_currency = 'USD'
 
-start=dt.datetime(2012,1,1)
+start=dt.datetime(2016,1,1)
 end=dt.datetime.now()
 
 data=web.DataReader(f'{crypto_currency}-{against_currency}','yahoo',start,end)
