@@ -139,7 +139,7 @@ class _AccountState extends State<Account> {
                             .now()}.png';
                         File capturedFile = File(fullPath);
                         await capturedFile.writeAsBytes(pngBytes!);
-                        
+
                         await GallerySaver.saveImage(capturedFile.path);
                         await Share.share('CryptoPal User Card of ${currentUser.name} @${DateTime
                             .now()}');
