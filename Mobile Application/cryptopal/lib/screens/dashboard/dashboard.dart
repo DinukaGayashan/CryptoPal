@@ -281,10 +281,10 @@ class _DashboardState extends State<Dashboard> {
                         const Hero(
                           tag: 'name',
                           child: DefaultTextStyle(
+                            style: kTitleStyle,
                             child: Text(
                               'CryptoPal',
                             ),
-                            style: kTitleStyle,
                           ),
                         ),
                       ],

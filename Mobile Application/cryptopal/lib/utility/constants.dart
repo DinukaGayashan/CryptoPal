@@ -34,6 +34,7 @@ const kRed = Color(0xffea4f30);
 const kGreen = Color(0xff1fba72);
 const kYellow = Color(0xfff1ae2d);
 const kBlue = Color(0xff008ff7);
+const Map<int, Color> kUserColorMap={1:Colors.green,2:Colors.red};
 
 const kAnimationTime = 1000;
 
@@ -62,6 +63,12 @@ const TextStyle kBlackTitleStyle = TextStyle(
   color: kBaseColor1,
   fontFamily: 'Tenorite',
   fontSize: 30,
+);
+
+const TextStyle kSmallBlackTitleStyle = TextStyle(
+  color: kBaseColor1,
+  fontFamily: 'Tenorite',
+  fontSize: 20,
 );
 
 const TextStyle kSubjectStyle = TextStyle(

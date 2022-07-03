@@ -57,7 +57,7 @@ class _AccountState extends State<Account> {
                     builder: (key){
                       key1=key;
                       return Card(
-                        color: Colors.green,
+                        color: kRed,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30.0),
                           side: BorderSide.none,
@@ -65,29 +65,34 @@ class _AccountState extends State<Account> {
                         child: Padding(
                           padding: const EdgeInsets.all(00),
                           child: SizedBox(
-                            height: 200,
+                            height: 220,
                             child: Stack(
                               children: [
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: const [
-                                    Text(
-                                      '65',
-                                      textAlign: TextAlign.right,
-                                      style: TextStyle(
-                                        fontSize:300,
-                                        fontFamily: 'Bierstadt',
-                                        color: kTransparentColor5,
-                                      ),
+                                SizedBox(
+                                  width:double.infinity,
+                                  child: RichText(
+                                    textAlign: TextAlign.right,
+                                    text: TextSpan(
+                                      text: '\n\n',
+                                      style: kCardTitleStyle,
+                                      children: <TextSpan>[
+                                        TextSpan(
+                                          text: currentUser.score.toString(),
+                                          style: const TextStyle(
+                                            fontSize:200,
+                                            fontFamily: 'Bierstadt',
+                                            color: kTransparentColor5,
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                  ],
+                                  ),
                                 ),
                                 Center(
                                   child: RichText(
                                     textAlign: TextAlign.center,
                                     text: TextSpan(
-                                      text: currentUser.name + '\n',
+                                      text: '${currentUser.name}\n',
                                       style: kCardTitleStyle,
                                       children: <TextSpan>[
                                         TextSpan(
@@ -95,11 +100,31 @@ class _AccountState extends State<Account> {
                                           style: kCardTextStyle,
                                         ),
                                         TextSpan(
-                                          text:'\nJoined '+joinedDate,
+                                          text:'\nJoined $joinedDate',
                                           style: kTransparentStyle,
                                         ),
                                       ],
                                     ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 40,
+                                  child:Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: <Widget>[
+                                      const SizedBox(width: 10,),
+                                      CircleAvatar(
+                                        backgroundColor: Colors.transparent,
+                                        radius: 15.0,
+                                        child: Image.asset(
+                                            'assets/images/CryptoPal-logo-black.png'),
+                                      ),
+                                      const Text(
+                                          'CryptoPal',
+                                          style: kSmallBlackTitleStyle,
+                                        ),
+                                    ],
                                   ),
                                 ),
                               ],
@@ -114,13 +139,37 @@ class _AccountState extends State<Account> {
                       );
                     }
                 ),
-                const SizedBox(
-                  height: 10.0,
-                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    IconButton(
+                      tooltip:'Download User Card',
+                      icon: const Icon(
+                        Icons.download,
+                        size: 20,
+                        color: kTransparentColor3,
+                      ),
+                      onPressed: () async {
+                        try{
+                          RenderRepaintBoundary boundary= key1.currentContext?.findRenderObject()  as RenderRepaintBoundary;
+                          final image=await boundary.toImage(pixelRatio:3);
+                          final bytes=await image.toByteData(format: ui.ImageByteFormat.png);
+                          final pngBytes=bytes?.buffer.asUint8List();
+
+                          final String dir = (await getApplicationDocumentsDirectory()).path;
+                          final String fullPath = '$dir/CryptoPal_${currentUser.name}_User_Card@${DateTime
+                              .now()}.png';
+                          File capturedFile = File(fullPath);
+                          await capturedFile.writeAsBytes(pngBytes!);
+                          await GallerySaver.saveImage(capturedFile.path);
+
+                          snackBar(context, message: 'User Card saved to Gallery.', color: kGreen);
+                        }catch(e){
+                          snackBar(context, message: e.toString(), color: kRed);
+                        }
+                      },
+                    ),
                     IconButton(
                       tooltip:'Share User Card',
                       icon: const Icon(
@@ -139,8 +188,6 @@ class _AccountState extends State<Account> {
                             .now()}.png';
                         File capturedFile = File(fullPath);
                         await capturedFile.writeAsBytes(pngBytes!);
-
-                        await GallerySaver.saveImage(capturedFile.path);
                         await Share.share('CryptoPal User Card of ${currentUser.name} @${DateTime
                             .now()}');
                       },

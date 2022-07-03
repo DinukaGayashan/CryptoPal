@@ -190,6 +190,15 @@ Future<UserAccount> getActiveUserData() async {
     } catch (e) {
       print(e);
     }
+
+    currentUser.score=0;
+    for(var p in currentUser.pastPredictions){
+      currentUser.score+=10;
+      currentUser.score+=100-p.errorPercentage.toInt();
+      currentUser.score+=(DateTime.parse(p.predictedDate).difference(DateTime.parse(p.predictionDate))).inDays*10;
+    }
+    currentUser.score=currentUser.score~/10;
+
   } catch (e) {
     print(e);
   }
@@ -227,6 +236,7 @@ class Prediction {
 class UserAccount {
   late User? user;
   late String name, birthday;
+  late int score;
   late List<Prediction> predictions = [], pastPredictions = [], futurePredictions = [];
   late double error, errorVariance, errorStandardDeviation, accuracy;
   late Map<String, double> errorsOnCurrencies, errorVarianceOnCurrencies,errorStandardDeviationOnCurrencies;
