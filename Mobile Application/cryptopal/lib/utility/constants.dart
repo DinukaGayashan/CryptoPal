@@ -34,7 +34,9 @@ const kRed = Color(0xffea4f30);
 const kGreen = Color(0xff1fba72);
 const kYellow = Color(0xfff1ae2d);
 const kBlue = Color(0xff008ff7);
-const Map<int, Color> kUserColorMap={1:Colors.green,2:Colors.red};
+const kGraphColor1= Color(0xff8aaeee);
+const kGraphColor2= Color(0xffe8a09a);
+const Map<int, Color> kUserColorMap={0:Colors.lightBlue,1:Colors.blue,2:Colors.lightGreen,3:Colors.green,4:Colors.yellow,5:Colors.orange,6:Colors.redAccent,7:Colors.red};
 
 const kAnimationTime = 1000;
 
@@ -46,6 +48,7 @@ DateTime.now().subtract(const Duration(days: 10));
 
 final kDashboardPriceDisplay = createDisplay(length: 7);
 final kCurrencyPriceDisplay = createDisplay(length: 10);
+final kUserScoreDisplay = createDisplay(length:4);
 
 const TextStyle kMainTitleStyle = TextStyle(
   color: kBaseColor2,

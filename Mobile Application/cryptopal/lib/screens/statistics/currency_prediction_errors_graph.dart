@@ -69,18 +69,38 @@ class CurrencyPredictionErrorsGraph extends StatelessWidget {
                   enable: true,
                 ),
                 series: <ChartSeries>[
-                  SplineSeries<GraphData, DateTime>(
+                  ScatterSeries<GraphData, DateTime>(
                     name: cryptocurrencies[currencyIndex]+' Prediction Error',
+                    color: kGraphColor1,
                     dataSource: getValuesOnCurrencyNoNaN(currency: cryptocurrencies[currencyIndex], type: 'error'),
+                    trendlines:<Trendline>[
+                      Trendline(
+                        name: 'Trendline',
+                        color: kGraphColor1,
+                        type: TrendlineType.polynomial,
+                      )
+                    ],
                     xValueMapper: (GraphData data, _) => DateTime.parse(data.valueOne),
                     yValueMapper: (GraphData data, _) => data.valueTwo.toDouble(),
                     markerSettings: const MarkerSettings(
                       isVisible: true,
                     ),
                   ),
-                  SplineSeries<GraphData, DateTime>(
-                    name: cryptocurrencies[currencyIndex]+' Prediction Error Deviation',
-                    dataSource: getValuesOnCurrencyNoNaN(currency: cryptocurrencies[currencyIndex], type: 'variance'),
+                  ScatterSeries<GraphData, DateTime>(
+                    name: cryptocurrencies[currencyIndex] +
+                        ' Prediction Error Deviation',
+                    color: kGraphColor2,
+                    dataSource: getValuesOnCurrencyNoNaN(
+                        currency: cryptocurrencies[
+                        currencyIndex],
+                        type: 'variance'),
+                    trendlines:<Trendline>[
+                      Trendline(
+                        name: 'Trendline',
+                        color: kGraphColor2,
+                        type: TrendlineType.polynomial,
+                      )
+                    ],
                     xValueMapper: (GraphData data, _) => DateTime.parse(data.valueOne),
                     yValueMapper: (GraphData data, _) => sqrt(data.valueTwo).toDouble(),
                     markerSettings: const MarkerSettings(

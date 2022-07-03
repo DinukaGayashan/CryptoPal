@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:cryptopal/screens/statistics/currency_prediction_statistics.dart';
 import 'package:cryptopal/screens/statistics/prediction_accuracy_graph.dart';
 import 'package:cryptopal/screens/statistics/prediction_error_graph.dart';
@@ -309,7 +307,7 @@ class _StatisticsState extends State<Statistics> {
                         ],
                       ),
                     ),
-                    SizedBox(width:60,child: Text(currentUser.errorStandardDeviation.roundToDouble().toString()+'%',style: kCardTextStyle,textAlign: TextAlign.right,)),
+                    SizedBox(width:60,child: Text('${currentUser.errorStandardDeviation.roundToDouble()}%',style: kCardTextStyle,textAlign: TextAlign.right,)),
                   ],
                 ),
                 const SizedBox(
@@ -358,7 +356,7 @@ class _StatisticsState extends State<Statistics> {
                         ],
                     ),
                     ),
-                    SizedBox(width:60,child: Text(currentUser.error.roundToDouble().toString()+'%',style: kCardTextStyle,textAlign: TextAlign.right,)),
+                    SizedBox(width:60,child: Text('${currentUser.error.roundToDouble()}%',style: kCardTextStyle,textAlign: TextAlign.right,)),
                   ],
                 ),
                 const SizedBox(height: 40,),
@@ -414,9 +412,17 @@ class _StatisticsState extends State<Statistics> {
                       enable: true,
                     ),
                     series: <charts.ChartSeries>[
-                      charts.SplineSeries<GraphData, DateTime>(
+                      charts.ScatterSeries<GraphData, DateTime>(
                         name: 'Price Prediction Accuracy',
+                        color: kGraphColor1,
                         dataSource: getAccuracyHistoryNoNaN(),
+                        trendlines:<charts.Trendline>[
+                          charts.Trendline(
+                            name: 'Trendline',
+                            color: kGraphColor1,
+                            type: charts.TrendlineType.polynomial,
+                          )
+                        ],
                         xValueMapper: (GraphData data, _) =>
                             DateTime.parse(data.valueOne),
                         yValueMapper: (GraphData data, _) =>
@@ -481,9 +487,17 @@ class _StatisticsState extends State<Statistics> {
                       enable: true,
                     ),
                     series: <charts.ChartSeries>[
-                      charts.SplineSeries<GraphData, DateTime>(
+                      charts.ScatterSeries<GraphData, DateTime>(
                         name: 'Price Prediction Error',
+                        color:kGraphColor1,
                         dataSource: getErrorHistoryNoNaN(),
+                        trendlines:<charts.Trendline>[
+                          charts.Trendline(
+                            name: 'Trendline',
+                            color: kGraphColor1,
+                            type: charts.TrendlineType.polynomial,
+                          )
+                        ],
                         xValueMapper: (GraphData data, _) =>
                             DateTime.parse(data.valueOne),
                         yValueMapper: (GraphData data, _) =>
@@ -492,9 +506,17 @@ class _StatisticsState extends State<Statistics> {
                           isVisible: true,
                         ),
                       ),
-                      charts.SplineSeries<GraphData, DateTime>(
+                      charts.ScatterSeries<GraphData, DateTime>(
                         name: 'Price Prediction Error Deviation',
+                        color: kGraphColor2,
                         dataSource: getStandardDeviationHistoryNoNaN(),
+                        trendlines:<charts.Trendline>[
+                          charts.Trendline(
+                            name: 'Trendline',
+                            color: kGraphColor2,
+                            type: charts.TrendlineType.polynomial,
+                          )
+                        ],
                         xValueMapper: (GraphData data, _) =>
                             DateTime.parse(data.valueOne),
                         yValueMapper: (GraphData data, _) =>

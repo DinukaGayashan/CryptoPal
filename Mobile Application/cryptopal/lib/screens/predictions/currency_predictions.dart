@@ -298,6 +298,7 @@ class _CurrencyPredictionsState extends State<CurrencyPredictions> {
                       LineSeries<RealPrice, DateTime>(
                         name: cryptocurrencies[widget.currencyIndex] +
                             ' Close Price',
+                        color: kGraphColor1,
                         dataSource: getRealPrices(
                             currency: cryptocurrencies[widget.currencyIndex] +
                                 '-USD'),
@@ -308,6 +309,7 @@ class _CurrencyPredictionsState extends State<CurrencyPredictions> {
                       LineSeries<Prediction, DateTime>(
                         name: cryptocurrencies[widget.currencyIndex] +
                             ' Prediction',
+                        color: kGraphColor2,
                         dataSource: getUserPredictions(
                             currency: cryptocurrencies[widget.currencyIndex]),
                         xValueMapper: (Prediction data, _) =>

@@ -69,13 +69,20 @@ class CurrencyPredictionAccuracyGraph extends StatelessWidget {
                   enable: true,
                 ),
                 series: <ChartSeries>[
-                  SplineSeries<GraphData, DateTime>(
-                    name: cryptocurrencies[currencyIndex] +
-                        ' Prediction Accuracy',
+                  ScatterSeries<GraphData, DateTime>(
+                    name: '${cryptocurrencies[currencyIndex]} Prediction Accuracy',
+                    color: kGraphColor1,
                     dataSource: getValuesOnCurrencyNoNaN(
                         currency: cryptocurrencies[
                         currencyIndex],
                         type: 'variance'),
+                    trendlines:<Trendline>[
+                      Trendline(
+                        name: 'Trendline',
+                        color: kGraphColor1,
+                        type: TrendlineType.polynomial,
+                      )
+                    ],
                     xValueMapper: (GraphData data, _) =>
                         DateTime.parse(data.valueOne),
                     yValueMapper: (GraphData data, _) =>

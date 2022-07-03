@@ -57,9 +57,17 @@ class PredictionAccuracyGraph extends StatelessWidget {
                   enable: true,
                 ),
                 series: <ChartSeries>[
-                  SplineSeries<GraphData, DateTime>(
+                  ScatterSeries<GraphData, DateTime>(
                     name: 'Price Prediction Accuracy',
+                    color:kGraphColor1,
                     dataSource: getAccuracyHistoryNoNaN(),
+                    trendlines:<Trendline>[
+                      Trendline(
+                        name: 'Trendline',
+                        color: kGraphColor1,
+                        type: TrendlineType.polynomial,
+                      )
+                    ],
                     xValueMapper: (GraphData data, _) =>
                         DateTime.parse(data.valueOne),
                     yValueMapper: (GraphData data, _) =>

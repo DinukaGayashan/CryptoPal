@@ -30,15 +30,17 @@ class _AccountState extends State<Account> {
   final _firestore = FirebaseFirestore.instance;
   late String newName,joinedDate='';
   late int profileLevel;
-  late GlobalKey key1;
-
+  late Color kUserColor;
+  late GlobalKey userCardKey;
 
   @override
   Widget build(BuildContext context) {
 
+    currentUser.score=550;
     final dates=currentUser.history.keys.toList();
     dates.sort();
     joinedDate=dates.first;
+    kUserColor=Color.alphaBlend(kUserColorMap[currentUser.score~/100]?.withAlpha(255-currentUser.score) as Color, kUserColorMap[currentUser.score~/100+1]?.withAlpha(currentUser.score) as Color).withOpacity(currentUser.score>100?1:currentUser.score/100);
 
     return Scaffold(
       backgroundColor: Colors.transparent,
@@ -55,9 +57,9 @@ class _AccountState extends State<Account> {
                 ),
                 WidgetToImage(
                     builder: (key){
-                      key1=key;
+                      userCardKey=key;
                       return Card(
-                        color: kRed,
+                        color: kUserColor,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30.0),
                           side: BorderSide.none,
@@ -73,13 +75,15 @@ class _AccountState extends State<Account> {
                                   child: RichText(
                                     textAlign: TextAlign.right,
                                     text: TextSpan(
-                                      text: '\n\n',
-                                      style: kCardTitleStyle,
+                                      text: '\n',
+                                      style: const TextStyle(
+                                        fontSize:85,
+                                      ),
                                       children: <TextSpan>[
                                         TextSpan(
-                                          text: currentUser.score.toString(),
+                                          text: kUserScoreDisplay(currentUser.score),
                                           style: const TextStyle(
-                                            fontSize:200,
+                                            fontSize:160,
                                             fontFamily: 'Bierstadt',
                                             color: kTransparentColor5,
                                           ),
@@ -134,8 +138,7 @@ class _AccountState extends State<Account> {
                       ).asGlass(
                         clipBorderRadius: BorderRadius.circular(30),
                         frosted: true,
-                        //tileMode:TileMode.clamp,
-                        //tintColor: kBaseColor1,
+                        tintColor: kUserColor,
                       );
                     }
                 ),
@@ -152,8 +155,8 @@ class _AccountState extends State<Account> {
                       ),
                       onPressed: () async {
                         try{
-                          RenderRepaintBoundary boundary= key1.currentContext?.findRenderObject()  as RenderRepaintBoundary;
-                          final image=await boundary.toImage(pixelRatio:3);
+                          RenderRepaintBoundary boundary= userCardKey.currentContext?.findRenderObject()  as RenderRepaintBoundary;
+                          final image=await boundary.toImage(pixelRatio:10);
                           final bytes=await image.toByteData(format: ui.ImageByteFormat.png);
                           final pngBytes=bytes?.buffer.asUint8List();
 
@@ -178,7 +181,7 @@ class _AccountState extends State<Account> {
                         color: kTransparentColor3,
                       ),
                       onPressed: () async {
-                        RenderRepaintBoundary boundary= key1.currentContext?.findRenderObject()  as RenderRepaintBoundary;
+                        RenderRepaintBoundary boundary= userCardKey.currentContext?.findRenderObject()  as RenderRepaintBoundary;
                         final image=await boundary.toImage(pixelRatio:3);
                         final bytes=await image.toByteData(format: ui.ImageByteFormat.png);
                         final pngBytes=bytes?.buffer.asUint8List();

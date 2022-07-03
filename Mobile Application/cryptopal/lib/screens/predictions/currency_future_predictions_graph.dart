@@ -63,12 +63,14 @@ class CurrencyFuturePredictionsGraph extends StatelessWidget {
                 series: <ChartSeries>[
                   LineSeries<RealPrice, DateTime>(
                     name: cryptocurrencies[currencyIndex]+' Close Price',
+                    color: kGraphColor1,
                     dataSource: getRealPrices(currency: cryptocurrencies[currencyIndex]+'-USD'),
                     xValueMapper: (RealPrice data, _) => DateTime.parse(data.date),
                     yValueMapper: (RealPrice data, _) => data.closePrice,
                   ),
                   LineSeries<Prediction, DateTime>(
                     name: cryptocurrencies[currencyIndex]+' Prediction',
+                    color: kGraphColor2,
                     dataSource: prediction.toList(prediction),
                     xValueMapper: (Prediction data, _) => data.predictionDateAsDate,
                     yValueMapper: (Prediction data, _) => data.predictionClosePrice,

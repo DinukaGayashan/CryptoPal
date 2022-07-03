@@ -69,9 +69,17 @@ class PredictionErrorGraph extends StatelessWidget {
                   enable: true,
                 ),
                 series: <ChartSeries>[
-                  SplineSeries<GraphData, DateTime>(
+                  ScatterSeries<GraphData, DateTime>(
                     name: 'Price Prediction Error',
+                    color:kGraphColor1,
                     dataSource: getErrorHistoryNoNaN(),
+                    trendlines:<Trendline>[
+                      Trendline(
+                        name: 'Trendline',
+                        color: kGraphColor1,
+                        type: TrendlineType.polynomial,
+                      )
+                    ],
                     xValueMapper: (GraphData data, _) =>
                         DateTime.parse(data.valueOne),
                     yValueMapper: (GraphData data, _) =>
@@ -80,9 +88,17 @@ class PredictionErrorGraph extends StatelessWidget {
                       isVisible: true,
                     ),
                   ),
-                  SplineSeries<GraphData, DateTime>(
+                  ScatterSeries<GraphData, DateTime>(
                     name: 'Price Prediction Error Deviation',
+                    color: kGraphColor2,
                     dataSource: getStandardDeviationHistoryNoNaN(),
+                    trendlines:<Trendline>[
+                      Trendline(
+                        name: 'Trendline',
+                        color: kGraphColor2,
+                        type: TrendlineType.polynomial,
+                      )
+                    ],
                     xValueMapper: (GraphData data, _) =>
                         DateTime.parse(data.valueOne),
                     yValueMapper: (GraphData data, _) =>

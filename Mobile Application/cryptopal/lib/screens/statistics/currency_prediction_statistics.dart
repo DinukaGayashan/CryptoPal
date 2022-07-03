@@ -237,6 +237,7 @@ class _CurrencyPredictionStatisticsState extends State<CurrencyPredictionStatist
                       LineSeries<RealPrice, DateTime>(
                         name: cryptocurrencies[widget.currencyIndex] +
                             ' Close Price',
+                        color: kGraphColor1,
                         dataSource: getRealPrices(
                             currency: cryptocurrencies[widget.currencyIndex] +
                                 '-USD'),
@@ -247,6 +248,7 @@ class _CurrencyPredictionStatisticsState extends State<CurrencyPredictionStatist
                       LineSeries<Prediction, DateTime>(
                         name: cryptocurrencies[widget.currencyIndex] +
                             ' Prediction',
+                        color: kGraphColor2,
                         dataSource: getUserPredictions(
                             currency: cryptocurrencies[widget.currencyIndex]),
                         xValueMapper: (Prediction data, _) =>
@@ -311,13 +313,20 @@ class _CurrencyPredictionStatisticsState extends State<CurrencyPredictionStatist
                           enable: true,
                         ),
                         series: <ChartSeries>[
-                          SplineSeries<GraphData, DateTime>(
-                            name: cryptocurrencies[widget.currencyIndex] +
-                                ' Prediction Accuracy',
+                          ScatterSeries<GraphData, DateTime>(
+                            name: '${cryptocurrencies[widget.currencyIndex]} Prediction Accuracy',
+                            color: kGraphColor1,
                             dataSource: getValuesOnCurrencyNoNaN(
                                 currency: cryptocurrencies[
                                 widget.currencyIndex],
                             type: 'variance'),
+                            trendlines:<Trendline>[
+                              Trendline(
+                                name: 'Trendline',
+                                color: kGraphColor1,
+                                type: TrendlineType.polynomial,
+                              )
+                            ],
                             xValueMapper: (GraphData data, _) =>
                                 DateTime.parse(data.valueOne),
                             yValueMapper: (GraphData data, _) =>
@@ -380,13 +389,21 @@ class _CurrencyPredictionStatisticsState extends State<CurrencyPredictionStatist
                       enable: true,
                     ),
                     series: <ChartSeries>[
-                      SplineSeries<GraphData, DateTime>(
+                      ScatterSeries<GraphData, DateTime>(
                         name: cryptocurrencies[widget.currencyIndex] +
                             ' Prediction Error',
+                        color: kGraphColor1,
                         dataSource: getValuesOnCurrencyNoNaN(
                             currency: cryptocurrencies[
                             widget.currencyIndex],
                             type: 'error'),
+                        trendlines:<Trendline>[
+                          Trendline(
+                            name: 'Trendline',
+                            color: kGraphColor1,
+                            type: TrendlineType.polynomial,
+                          )
+                        ],
                         xValueMapper: (GraphData data, _) =>
                             DateTime.parse(data.valueOne),
                         yValueMapper: (GraphData data, _) =>
@@ -395,13 +412,21 @@ class _CurrencyPredictionStatisticsState extends State<CurrencyPredictionStatist
                           isVisible: true,
                         ),
                       ),
-                      SplineSeries<GraphData, DateTime>(
+                      ScatterSeries<GraphData, DateTime>(
                         name: cryptocurrencies[widget.currencyIndex] +
                             ' Prediction Error Deviation',
+                        color: kGraphColor2,
                         dataSource: getValuesOnCurrencyNoNaN(
                             currency: cryptocurrencies[
                             widget.currencyIndex],
                             type: 'variance'),
+                        trendlines:<Trendline>[
+                          Trendline(
+                            name: 'Trendline',
+                            color: kGraphColor2,
+                            type: TrendlineType.polynomial,
+                          )
+                        ],
                         xValueMapper: (GraphData data, _) =>
                             DateTime.parse(data.valueOne),
                         yValueMapper: (GraphData data, _) =>

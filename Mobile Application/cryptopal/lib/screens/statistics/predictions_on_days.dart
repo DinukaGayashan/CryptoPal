@@ -18,7 +18,7 @@ class PredictionsOnDays extends StatefulWidget {
 }
 
 class _PredictionsOnDaysState extends State<PredictionsOnDays> {
-  late String selectedDate=widget.predictionsOnDays.keys.first;
+  late String selectedDate=DateTime.now().toString().split(' ')[0];
   late List<String> dates;
 
   List<GraphData> getPredictionCountOnDays(){
@@ -109,7 +109,7 @@ class _PredictionsOnDaysState extends State<PredictionsOnDays> {
                       series: <ChartSeries>[
                         ColumnSeries<GraphData, DateTime>(
                           name: 'Number of predictions',
-                            color:kAccentColor1,
+                            color:kGraphColor1,
                             dataSource: getPredictionCountOnDays(),
                             xValueMapper: (GraphData data, _) => data.valueOne,
                             yValueMapper: (GraphData data, _) => data.valueTwo,

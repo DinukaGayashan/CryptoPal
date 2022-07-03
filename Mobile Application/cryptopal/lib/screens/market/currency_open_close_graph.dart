@@ -67,6 +67,7 @@ class CurrencyOpenCloseGraph extends StatelessWidget {
                     isVisible: showClose,
                     name: cryptocurrencies[currencyIndex] +
                         ' Close Price',
+                    color: kGraphColor1,
                     dataSource: getRealPrices(
                         currency:
                         cryptocurrencies[currencyIndex] +
@@ -81,6 +82,7 @@ class CurrencyOpenCloseGraph extends StatelessWidget {
                     isVisible: showOpen,
                     name: cryptocurrencies[currencyIndex] +
                         ' Open Price',
+                    color: kGraphColor2,
                     dataSource: getRealPrices(
                         currency:
                         cryptocurrencies[currencyIndex] +

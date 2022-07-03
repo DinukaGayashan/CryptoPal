@@ -153,10 +153,9 @@ class _AddPredictionState extends State<AddPrediction> {
                         textStyle: kCardSmallTextStyle,
                       ),
                       zoomPanBehavior: ZoomPanBehavior(
-                        enablePinching: true,
                         enablePanning: true,
                         enableMouseWheelZooming: true,
-                        zoomMode: ZoomMode.xy,
+                        zoomMode: ZoomMode.x,
                       ),
                       primaryXAxis: DateTimeAxis(
                         visibleMinimum: kMinDayInGraph,
