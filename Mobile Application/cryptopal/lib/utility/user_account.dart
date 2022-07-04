@@ -13,7 +13,7 @@ Future<UserAccount> getActiveUserData() async {
   try {
     currentUser.user = _auth.currentUser;
   } catch (e) {
-
+    rethrow;
   }
 
   try {
@@ -26,29 +26,32 @@ Future<UserAccount> getActiveUserData() async {
         .collection('users')
         .doc(currentUser.user?.uid)
         .collection('predictions')
-        .where('errorPercentage', isEqualTo: null)
+        .where('errorValue',isNull: true)
         .get();
+
     for (var i in predictionsWithoutErrorSnap.docs) {
       try {
         final priceSnap = await _firestore.collection('realPrices')
             .doc(i.data()['predictionDate']+' '+i.data()['predictionCurrency'])
             .get();
 
-        double realPrice = priceSnap.data()!['closePrice'].toDouble();
-        double errorValue =
-            (i.data()['predictionClosePrice'].toDouble() - realPrice);
-        double errorPercentage =
-            100 * errorValue / realPrice;
+        if(priceSnap.exists){
+          double realPrice = priceSnap.data()!['closePrice'].toDouble();
+          double errorValue =
+          (i.data()['predictionClosePrice'].toDouble() - realPrice);
+          double errorPercentage =
+              100 * errorValue / realPrice;
 
-        await _firestore
-            .collection('users')
-            .doc(currentUser.user?.uid)
-            .collection('predictions')
-            .doc(i.id)
-            .set({
-          'errorValue':errorValue.toDouble(),
-          'errorPercentage': errorPercentage.toDouble(),
-        }, SetOptions(merge: true));
+          await _firestore
+              .collection('users')
+              .doc(currentUser.user?.uid)
+              .collection('predictions')
+              .doc(i.id)
+              .set({
+            'errorValue':errorValue.toDouble(),
+            'errorPercentage': errorPercentage.toDouble(),
+          }, SetOptions(merge: true));
+        }
       } catch (e) {
         print(e);
       }
@@ -59,12 +62,13 @@ Future<UserAccount> getActiveUserData() async {
           .collection('users')
           .doc(currentUser.user?.uid)
           .collection('predictions')
+          .where('predictedDate',isNull: false)
           .get();
       currentUser.predictions.clear();
       currentUser.pastPredictions.clear();
       currentUser.futurePredictions.clear();
       for (var i in predictionsSnapshot.docs) {
-        if(i.data()['errorPercentage']!=null){
+        if(i.data().containsKey('errorPercentage')){
           currentUser.pastPredictions.add(Prediction(
               i.data()['predictedDate'],
               i.data()['predictionDate'],
@@ -194,9 +198,10 @@ Future<UserAccount> getActiveUserData() async {
     currentUser.score=0;
     for(var p in currentUser.pastPredictions){
       currentUser.score+=10;
-      currentUser.score+=100-p.errorPercentage.toInt();
+      currentUser.score+=100-(p.errorPercentage.abs()>100?100:p.errorPercentage.abs()).toInt();
       currentUser.score+=(DateTime.parse(p.predictedDate).difference(DateTime.parse(p.predictionDate))).inDays*10;
     }
+    currentUser.score+=currentUser.accuracy.toInt();
     currentUser.score=currentUser.score~/10;
 
   } catch (e) {

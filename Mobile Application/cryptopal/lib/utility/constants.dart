@@ -34,9 +34,9 @@ const kRed = Color(0xffea4f30);
 const kGreen = Color(0xff1fba72);
 const kYellow = Color(0xfff1ae2d);
 const kBlue = Color(0xff008ff7);
-const kGraphColor1= Color(0xff8aaeee);
-const kGraphColor2= Color(0xffe8a09a);
-const Map<int, Color> kUserColorMap={0:Colors.lightBlue,1:Colors.blue,2:Colors.lightGreen,3:Colors.green,4:Colors.yellow,5:Colors.orange,6:Colors.redAccent,7:Colors.red};
+const kGraphColor1= Color(0xff1bbfd0);
+const kGraphColor2= Color(0xffdd636b);
+const List<Color> kUserColorMap=[kBackgroundColor,Colors.blue,Colors.green,Colors.orange,Colors.red,Colors.red,Colors.red,Colors.red];
 
 const kAnimationTime = 1000;
 

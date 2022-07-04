@@ -25,27 +25,29 @@ class _DashboardLoadingState extends State<DashboardLoading> {
   late List<RealPricesOfACurrency> realPriceList;
   late List<News> news = [];
 
+  void loadDashboard(){
+
+  }
+
   void loadUser() async {
+    Stopwatch stopwatch = new Stopwatch()..start();
     currentUser = await getActiveUserData();
-    print('user done');
+    print('user done in ${stopwatch.elapsed}');
     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
       return Dashboard(currentUser, realPriceList, news);
     }));
   }
 
   void loadData() async {
+    Stopwatch stopwatch = new Stopwatch()..start();
     realPriceList = await getRealPriceData();
-    /*print('BTC '+realPriceList[0].pricesList.last.date);
-    print('ETH '+realPriceList[1].pricesList.last.date);
-    print('LTC '+realPriceList[2].pricesList.last.date);
-    print('XRP '+realPriceList[3].pricesList.last.date);
-    print('DOGE '+realPriceList[4].pricesList.last.date);*/
-    print('data done');
+    print('data done in ${stopwatch.elapsed}');
   }
 
   void loadNews() async {
+    Stopwatch stopwatch = new Stopwatch()..start();
     news = await getNewsData();
-    print('news done');
+    print('news done in ${stopwatch.elapsed}');
   }
 
   void addPastCryptoData() async {

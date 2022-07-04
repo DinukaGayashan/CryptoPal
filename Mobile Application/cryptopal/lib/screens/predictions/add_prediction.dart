@@ -287,12 +287,13 @@ class _AddPredictionState extends State<AddPrediction> {
                                 .collection('users')
                                 .doc(widget.currentUser.user?.uid)
                                 .collection('predictions')
-                                .doc(date + ' ' + currency)
+                                .doc('$date $currency')
                                 .set({
                               'predictedDate':today,
                               'predictionDate': date,
                               'predictionCurrency': currency,
                               'predictionClosePrice': price,
+                              'errorValue':null,
                             });
                             snackBar(context,
                                 message: 'Prediction successfully added.',

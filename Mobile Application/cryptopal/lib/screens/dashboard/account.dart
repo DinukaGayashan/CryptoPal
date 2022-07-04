@@ -16,7 +16,6 @@ import 'package:flutter/rendering.dart';
 import 'dart:ui' as ui;
 import 'dart:io';
 
-
 class Account extends StatefulWidget {
   const Account(this.currentUser, {Key? key}) : super(key: key);
   final UserAccount currentUser;
@@ -36,11 +35,12 @@ class _AccountState extends State<Account> {
   @override
   Widget build(BuildContext context) {
 
-    currentUser.score=550;
     final dates=currentUser.history.keys.toList();
     dates.sort();
     joinedDate=dates.first;
-    kUserColor=Color.alphaBlend(kUserColorMap[currentUser.score~/100]?.withAlpha(255-currentUser.score) as Color, kUserColorMap[currentUser.score~/100+1]?.withAlpha(currentUser.score) as Color).withOpacity(currentUser.score>100?1:currentUser.score/100);
+    int userGroup=currentUser.score~/100;
+    int userLevelInGroup=currentUser.score%(userGroup==0?100:userGroup*100);
+    kUserColor=Color.alphaBlend(kUserColorMap[userGroup+1].withAlpha(userLevelInGroup), kUserColorMap[userGroup].withAlpha(255-userLevelInGroup));
 
     return Scaffold(
       backgroundColor: Colors.transparent,
