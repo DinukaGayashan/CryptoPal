@@ -25,35 +25,10 @@ class _DashboardLoadingState extends State<DashboardLoading> {
   late List<RealPricesOfACurrency> realPriceList;
   late List<News> news = [];
 
-  void loadDashboard(){
-
-  }
-
-  void loadUser() async {
-    Stopwatch stopwatch = new Stopwatch()..start();
-    currentUser = await getActiveUserData();
-    print('user done in ${stopwatch.elapsed}');
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-      return Dashboard(currentUser, realPriceList, news);
-    }));
-  }
-
-  void loadData() async {
-    Stopwatch stopwatch = new Stopwatch()..start();
-    realPriceList = await getRealPriceData();
-    print('data done in ${stopwatch.elapsed}');
-  }
-
-  void loadNews() async {
-    Stopwatch stopwatch = new Stopwatch()..start();
-    news = await getNewsData();
-    print('news done in ${stopwatch.elapsed}');
-  }
-
   void addPastCryptoData() async {
     const int numberOfDaysBefore = 420;
     for (int i = 0; i < numberOfDaysBefore; i++) {
-      print('addPastCryptoData call ' + (i + 1).toString());
+      print('addPastCryptoData call ${i + 1}');
       try {
         HttpsCallable addPastData =
             _functions.httpsCallable('addPastCryptoData');
@@ -81,13 +56,38 @@ class _DashboardLoadingState extends State<DashboardLoading> {
     }
   }
 
+  void continueToDashboard() async{
+    Stopwatch stopwatchx = Stopwatch()..start();
+
+    Stopwatch stopwatch = Stopwatch()..start();
+    news = await getNewsData();
+    stopwatch.stop();
+    print('news done in ${stopwatch.elapsed}');
+
+    stopwatch.reset();
+    stopwatch.start();
+    realPriceList = await getRealPriceData();
+    stopwatch.stop();
+    print('data done in ${stopwatch.elapsed}');
+
+    stopwatch.reset();
+    stopwatch.start();
+    currentUser = await getActiveUserData();
+    stopwatch.stop();
+    print('user done in ${stopwatch.elapsed}');
+
+    stopwatchx.stop();
+    print('loading done in ${stopwatchx.elapsed}');
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
+      return Dashboard(currentUser, realPriceList, news);
+    }));
+  }
+
   @override
   Widget build(BuildContext context) {
     //addPastCryptoData();
     //fixDatesOfPastCryptoData();
-    loadNews();
-    loadData();
-    loadUser();
+    continueToDashboard();
 
     return Scaffold(
       backgroundColor: kBaseColor1,
@@ -114,10 +114,10 @@ class _DashboardLoadingState extends State<DashboardLoading> {
                       child: Hero(
                         tag: 'name',
                         child: DefaultTextStyle(
+                          style: kMainTitleStyle,
                           child: Text(
                             'CryptoPal',
                           ),
-                          style: kMainTitleStyle,
                         ),
                       ),
                     ),

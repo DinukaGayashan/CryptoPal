@@ -192,7 +192,7 @@ class _StatisticsState extends State<Statistics> {
                         ),
                       ),
                       //const Text('Total\nActive Days',style: kCardSmallTextStyle,),
-                      const SizedBox(width: 50,),
+                      const SizedBox(width: 30,),
                       Text(currentUser.predictions.length.toString(),style: kCardTextStyle3,),
                       const SizedBox(width: 5,),
                       RichText(
