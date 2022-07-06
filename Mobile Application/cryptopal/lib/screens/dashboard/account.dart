@@ -11,7 +11,6 @@ import 'package:cryptopal/utility/user_account.dart';
 import 'package:cryptopal/screens/initialization/welcome.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:gallery_saver/gallery_saver.dart';
 import 'package:flutter/rendering.dart';
 import 'dart:ui' as ui;
 import 'dart:io';
@@ -146,7 +145,7 @@ class _AccountState extends State<Account> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    IconButton(
+                    /*IconButton(
                       tooltip:'Download User Card',
                       icon: const Icon(
                         Icons.download,
@@ -172,7 +171,7 @@ class _AccountState extends State<Account> {
                           snackBar(context, message: e.toString(), color: kRed);
                         }
                       },
-                    ),
+                    ),*/
                     IconButton(
                       tooltip:'Share User Card',
                       icon: const Icon(

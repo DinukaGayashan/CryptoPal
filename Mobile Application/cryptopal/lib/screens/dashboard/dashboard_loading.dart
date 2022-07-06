@@ -1,4 +1,6 @@
+import 'dart:async';
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -78,6 +80,7 @@ class _DashboardLoadingState extends State<DashboardLoading> {
 
     stopwatchx.stop();
     print('loading done in ${stopwatchx.elapsed}');
+
     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
       return Dashboard(currentUser, realPriceList, news);
     }));
@@ -142,9 +145,12 @@ class _DashboardLoadingState extends State<DashboardLoading> {
                 height: 70.0,
               ),
               const SizedBox(
-                child: SpinKitFoldingCube(
-                  size: 50.0,
-                  color: kBaseColor2,
+                child: Hero(
+                  tag: 'loading',
+                  child: SpinKitFoldingCube(
+                    size: 50.0,
+                    color: kBaseColor2,
+                  ),
                 ),
               ),
             ],
