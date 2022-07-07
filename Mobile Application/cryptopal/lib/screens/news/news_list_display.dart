@@ -36,7 +36,7 @@ class _NewsListDisplayState extends State<NewsListDisplay> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           SizedBox(
-                            height: 70,
+                            height: 60,
                             width: 96,
                             child: Image.network(
                               news.imageUrl.toString(),
@@ -61,7 +61,7 @@ class _NewsListDisplayState extends State<NewsListDisplay> {
                                   news.date.toString().split('T')[0],
                                   style: kTransparentSmallStyle,
                                 ),
-                                const SizedBox(height: 30,),
+                                const SizedBox(height: 35,),
                               ],
                             ),
                           ),

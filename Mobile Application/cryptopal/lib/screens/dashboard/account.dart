@@ -100,11 +100,11 @@ class _AccountState extends State<Account> {
                                       children: <TextSpan>[
                                         TextSpan(
                                           text: currentUser.user?.email.toString(),
-                                          style: kCardTextStyle,
+                                          style: kCardSmallTextStyle,
                                         ),
                                         TextSpan(
                                           text:'\nJoined $joinedDate',
-                                          style: kTransparentStyle,
+                                          style: kTransparentSmallStyle,
                                         ),
                                       ],
                                     ),
@@ -190,7 +190,7 @@ class _AccountState extends State<Account> {
                             .now()}.png';
                         File capturedFile = File(fullPath);
                         await capturedFile.writeAsBytes(pngBytes!);
-                        await Share.share('CryptoPal User Card of ${currentUser.name} @${DateTime
+                        await Share.shareFiles([fullPath],text:'CryptoPal User Card of ${currentUser.name} @${DateTime
                             .now()}');
                       },
                     ),

@@ -45,7 +45,6 @@ dependencies:
   glass: ^1.0.1+1
   flutter_svg: ^1.1.0
   webview_flutter: ^3.0.4
-  font_awesome_flutter: ^10.1.0
   share_plus: ^4.0.10
   path_provider: ^2.0.11
 

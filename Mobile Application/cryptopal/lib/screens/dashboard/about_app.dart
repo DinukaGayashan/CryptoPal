@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cryptopal/utility/constants.dart';
 import 'package:cryptopal/utility/widgets.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class AboutApp extends StatelessWidget {
   const AboutApp({Key? key}) : super(key: key);
@@ -62,7 +61,6 @@ class AboutApp extends StatelessWidget {
                    about,
                     style: kInstructionStyle,
                 ),
-                const FaIcon(FontAwesomeIcons.instagram),
 
 
               ],

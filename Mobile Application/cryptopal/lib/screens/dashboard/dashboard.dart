@@ -797,7 +797,7 @@ class _DashboardState extends State<Dashboard> {
                                           news.date.toString().split('T')[0],
                                           style: kTransparentSmallStyle,
                                         ),
-                                        const SizedBox(height:30,),
+                                        const SizedBox(height:40,),
                                       ],
                                     ),
                                   ),
