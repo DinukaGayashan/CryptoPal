@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "firebase-functions": "^3.22.0",
     "https": "^1.0.0"
   }
 }

@@ -76,21 +76,22 @@ exports.scheduledAPICall = functions.pubsub.schedule("every 6 hours")
       addAllCryptoData(year, monthString, dateString);
     });
 
-exports.addPastCryptoData = functions.https.onCall(async (data, context) => {
-  const numberOfDays = data.numberOfDays;
-  const beforeDays = data.beforeDays;
-  let ts = Date.now() -(beforeDays*timeOfADay);
-  for (let i=0; i<numberOfDays; i++) {
-    ts = ts - timeOfADay;
-    const day = new Date(ts);
-    const date = day.getDate();
-    const month = day.getMonth() + 1;
-    const year = day.getFullYear();
-    const monthString = month < 10 ? "0" + month : month;
-    const dateString = date < 10 ? "0" + date : date;
-    addAllCryptoData(year, monthString, dateString);
-    if (numberOfDays>1) {
-      await delay(numberOfCryptocurrencies*11*1000);
-    }
-  }
-});
+exports.addPastCryptoData = functions.https
+    .onCall(async (data, context) => {
+      const numberOfDays = data.numberOfDays;
+      const beforeDays = data.beforeDays;
+      let ts = Date.now() -(beforeDays*timeOfADay);
+      for (let i=0; i<numberOfDays; i++) {
+        ts = ts - timeOfADay;
+        const day = new Date(ts);
+        const date = day.getDate();
+        const month = day.getMonth() + 1;
+        const year = day.getFullYear();
+        const monthString = month < 10 ? "0" + month : month;
+        const dateString = date < 10 ? "0" + date : date;
+        addAllCryptoData(year, monthString, dateString);
+        if (numberOfDays>1) {
+          await delay(numberOfCryptocurrencies*11*1000);
+        }
+      }
+    });
