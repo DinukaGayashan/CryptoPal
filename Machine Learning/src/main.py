@@ -1,4 +1,5 @@
-import time
+import math
+import datetime
 
 import firebase_admin
 from firebase_admin import credentials
@@ -34,9 +35,9 @@ app.add_middleware(
 
 @app.get("/")
 def root(currencyType, currentDate):
-    time.sleep(70)
-    print('completed')
-    #runML(currencyType, currentDate)
+    # time.sleep(70)
+    # print('completed')
+    runML(currencyType, currentDate)
     return {"message": "completed"}
 
 
