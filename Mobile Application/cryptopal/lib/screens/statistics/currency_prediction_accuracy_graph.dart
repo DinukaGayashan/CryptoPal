@@ -5,7 +5,7 @@ import 'package:cryptopal/utility/user_account.dart';
 import 'package:cryptopal/utility/constants.dart';
 import 'package:cryptopal/utility/widgets.dart';
 
-import '../../utility/database_data.dart';
+import '../../utility/real_price_data.dart';
 
 class CurrencyPredictionAccuracyGraph extends StatelessWidget {
   const CurrencyPredictionAccuracyGraph(this.currentUser, this.currencyIndex, {Key? key}) : super(key: key);

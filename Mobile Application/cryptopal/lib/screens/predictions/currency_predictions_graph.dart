@@ -3,7 +3,7 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:cryptopal/utility/user_account.dart';
 import 'package:cryptopal/utility/constants.dart';
 import 'package:cryptopal/utility/widgets.dart';
-import 'package:cryptopal/utility/database_data.dart';
+import 'package:cryptopal/utility/real_price_data.dart';
 
 class CurrencyPredictionsGraph extends StatelessWidget {
   const CurrencyPredictionsGraph(this.currentUser, this.currencyIndex, this.realPriceList, {Key? key}) : super(key: key);

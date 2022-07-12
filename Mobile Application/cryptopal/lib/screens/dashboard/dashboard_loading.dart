@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +6,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:cryptopal/utility/constants.dart';
 import 'package:cryptopal/utility/user_account.dart';
-import 'package:cryptopal/utility/database_data.dart';
+import 'package:cryptopal/utility/real_price_data.dart';
+import 'package:cryptopal/utility/ml_prediction_data.dart';
 import 'package:cryptopal/utility/news_data.dart';
 import 'dashboard.dart';
 
@@ -25,7 +25,8 @@ class DashboardLoading extends StatefulWidget {
 class _DashboardLoadingState extends State<DashboardLoading> {
   late UserAccount currentUser = UserAccount();
   late List<RealPricesOfACurrency> realPriceList;
-  late List<News> news = [];
+  late List<MLPredictionPricesOfACurrency> mlPredictionPriceList;
+  late List<News> newsList = [];
 
   void addPastCryptoData() async {
     const int numberOfDaysBefore = 420;
@@ -62,7 +63,7 @@ class _DashboardLoadingState extends State<DashboardLoading> {
     Stopwatch stopwatchx = Stopwatch()..start();
 
     Stopwatch stopwatch = Stopwatch()..start();
-    news = await getNewsData();
+    newsList = await getNewsData();
     stopwatch.stop();
     print('news done in ${stopwatch.elapsed}');
 
@@ -70,7 +71,15 @@ class _DashboardLoadingState extends State<DashboardLoading> {
     stopwatch.start();
     realPriceList = await getRealPriceData();
     stopwatch.stop();
-    print('data done in ${stopwatch.elapsed}');
+    print('real data done in ${stopwatch.elapsed}');
+
+    stopwatch.reset();
+    stopwatch.start();
+    mlPredictionPriceList=await getMLPredictionPriceData();
+    stopwatch.stop();
+    print(mlPredictionPriceList[0].pricesList.length
+        .toString());
+    print('ml data done in ${stopwatch.elapsed}');
 
     stopwatch.reset();
     stopwatch.start();
@@ -82,7 +91,7 @@ class _DashboardLoadingState extends State<DashboardLoading> {
     print('loading done in ${stopwatchx.elapsed}');
 
     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-      return Dashboard(currentUser, realPriceList, news);
+      return Dashboard(currentUser, realPriceList, mlPredictionPriceList, newsList);
     }));
   }
 

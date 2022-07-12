@@ -14,22 +14,24 @@ import 'package:syncfusion_flutter_charts/charts.dart' as charts;
 import 'package:cryptopal/utility/constants.dart';
 import 'package:cryptopal/utility/widgets.dart';
 import 'package:cryptopal/utility/user_account.dart';
-import 'package:cryptopal/utility/database_data.dart';
+import 'package:cryptopal/utility/real_price_data.dart';
 import 'package:cryptopal/utility/news_data.dart';
 import 'package:cryptopal/screens/dashboard/dashboard_loading.dart';
 import 'package:cryptopal/screens/market/currency_market.dart';
 import 'package:cryptopal/screens/news/news_display.dart';
 
+import '../../utility/ml_prediction_data.dart';
 import '../predictions/add_prediction.dart';
 import 'account.dart';
 
 class Dashboard extends StatefulWidget {
-  const Dashboard(this.currentUser, this.realPriceList, this.newsList,
+  const Dashboard(this.currentUser, this.realPriceList, this.mlPredictionPriceList, this.newsList,
       {Key? key})
       : super(key: key);
 
   final UserAccount currentUser;
   final List<RealPricesOfACurrency> realPriceList;
+  final List<MLPredictionPricesOfACurrency> mlPredictionPriceList;
   final List<News> newsList;
 
   @override
@@ -600,6 +602,67 @@ class _DashboardState extends State<Dashboard> {
                       currentUser.futurePredictions;
                     });
                   });
+                },
+              ),
+              GestureDetector(
+                child: glassCard(
+                  context,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      const Padding(
+                        padding: EdgeInsets.all(10),
+                        child: Text(
+                          'Future Predictions',
+                          style: kCardTitleStyle,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            SizedBox(
+                              height: 100,
+                              child: Column(
+                                mainAxisAlignment:
+                                MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  RichText(
+                                    text: TextSpan(
+                                      text: 'Future Predictions\n',
+                                      style: kCardSmallTextStyle,
+                                      children: <TextSpan>[
+                                        TextSpan(
+                                          text: widget.mlPredictionPriceList[0].pricesList.length
+                                              .toString(),
+                                          style: kCardTextStyle2,
+                                        ),
+                                        TextSpan(
+                                          text: widget.mlPredictionPriceList[0].errorValue
+                                              .toString(),
+                                          style: kCardTextStyle2,
+                                        ),
+                                        TextSpan(
+                                          text: widget.mlPredictionPriceList[0].errorPercentage
+                                              .toString(),
+                                          style: kCardTextStyle2,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                onTap: () {
+
                 },
               ),
               glassCard(

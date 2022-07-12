@@ -9,7 +9,7 @@ import 'package:cryptopal/utility/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:syncfusion_flutter_charts/charts.dart' as charts;
-import 'package:cryptopal/utility/database_data.dart';
+import 'package:cryptopal/utility/real_price_data.dart';
 
 class Statistics extends StatefulWidget {
   const Statistics(this.currentUser, this.realPriceList ,{Key? key}) : super(key: key);

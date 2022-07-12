@@ -27,7 +27,6 @@ Future<List<RealPricesOfACurrency>> getRealPriceData() async {
   }
 
   try {
-
     List<Future> queries=[];
     for(int i=0;i<cryptocurrencies.length;i++){
       queries.add(getPricesOfACurrency(cryptocurrencies[i]));
@@ -35,6 +34,7 @@ Future<List<RealPricesOfACurrency>> getRealPriceData() async {
     final results=await Future.wait(queries);
     for(int i=0;i<cryptocurrencies.length;i++){
       allPricesLists[i].pricesList=results[i];
+      allPricesLists[i].calculatePriceIncreasePercentage();
     }
 
 /*
@@ -51,22 +51,15 @@ Future<List<RealPricesOfACurrency>> getRealPriceData() async {
           break;
         }
       }
-    }*/
+    }
 
     for (int i = 0; i < cryptocurrencies.length; i++) {
       allPricesLists[i].calculatePriceIncreasePercentage();
-    }
+    }*/
   } catch (e) {
     print(e);
   }
   return allPricesLists;
-}
-
-class GraphData{
-  late dynamic valueOne;
-  late dynamic valueTwo;
-
-  GraphData({required this.valueOne,required this.valueTwo});
 }
 
 class RealPricesOfACurrency {
@@ -86,11 +79,15 @@ class RealPricesOfACurrency {
 
 class RealPrice {
   late String date;
-  late double openPrice;
-  late double closePrice;
-  late double highestPrice;
-  late double lowestPrice;
+  late double openPrice, closePrice, highestPrice, lowestPrice;
 
   RealPrice(this.date, this.openPrice, this.closePrice, this.highestPrice,
       this.lowestPrice);
+}
+
+class GraphData{
+  late dynamic valueOne;
+  late dynamic valueTwo;
+
+  GraphData({required this.valueOne,required this.valueTwo});
 }

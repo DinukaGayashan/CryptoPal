@@ -6,7 +6,7 @@ import 'package:cryptopal/utility/constants.dart';
 import 'package:cryptopal/utility/widgets.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-import 'package:cryptopal/utility/database_data.dart';
+import 'package:cryptopal/utility/real_price_data.dart';
 
 class AddPrediction extends StatefulWidget {
   const AddPrediction(this.currentUser, this.realPriceList,{Key? key}) : super(key: key);
