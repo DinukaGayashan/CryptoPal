@@ -77,8 +77,6 @@ class _DashboardLoadingState extends State<DashboardLoading> {
     stopwatch.start();
     mlPredictionPriceList=await getMLPredictionPriceData();
     stopwatch.stop();
-    print(mlPredictionPriceList[0].pricesList.length
-        .toString());
     print('ml data done in ${stopwatch.elapsed}');
 
     stopwatch.reset();
