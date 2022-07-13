@@ -1,4 +1,3 @@
-import math
 import datetime
 import time
 from statistics import mean
@@ -9,8 +8,7 @@ from firebase_admin import firestore
 
 import pandas as pd
 import numpy as np
-from sklearn.metrics import mean_squared_error
-
+# from sklearn.metrics import mean_squared_error
 from sklearn.preprocessing import MinMaxScaler
 
 from tensorflow.python.keras.models import Sequential
@@ -95,7 +93,7 @@ def run_ml(currency, date):
     predicted_train_data = scaler_train_df.inverse_transform(predicted_train_data.reshape(-1, 1))
     train_actual = scaler_train_df.inverse_transform(train_y.reshape(-1, 1))
 
-    rmse_lstm_train = math.sqrt(mean_squared_error(train_actual, predicted_train_data))
+    rmse_lstm_train = np.sqrt(((train_actual - predicted_train_data) ** 2).mean())
 
     train_x_last_look_back = train_x[train_x.shape[0] - look_back_period:]
 
