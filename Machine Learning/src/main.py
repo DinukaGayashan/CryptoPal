@@ -8,7 +8,6 @@ from firebase_admin import firestore
 
 import pandas as pd
 import numpy as np
-# from sklearn.metrics import mean_squared_error
 from sklearn.preprocessing import MinMaxScaler
 
 from tensorflow.python.keras.models import Sequential
