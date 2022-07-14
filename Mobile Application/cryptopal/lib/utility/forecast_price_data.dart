@@ -33,8 +33,8 @@ Future<List<MLPredictionPricesOfACurrency>> getMLPredictionPriceData() async {
       try{
         final errorDoc = await _firestore.collection('mlPredictions').doc('predictions').collection('predictionErrors')
             .doc('${cryptocurrencies[i]}-USD').get();
-        rsmes.add(errorDoc.data()?['rmse'].toDouble());
-        rsmePercentages.add(errorDoc.data()?['rmsePercentage'].toDouble());
+        rsmes.add(errorDoc.data()?['rsme'].toDouble());
+        rsmePercentages.add(errorDoc.data()?['rsmePercentage'].toDouble());
       }catch(e){
         rethrow;
       }
