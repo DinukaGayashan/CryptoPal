@@ -1,4 +1,3 @@
-Machine Learning\.idea
-Machine Learning\venv
-Machine Learning\src\serviceAccountKey.json
-Machine Learning\src\__pycache__
+.idea
+venv
+src\__pycache__

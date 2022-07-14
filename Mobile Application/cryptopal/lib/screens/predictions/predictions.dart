@@ -45,7 +45,6 @@ class _PredictionsState extends State<Predictions> {
       backgroundColor: Colors.transparent,
       floatingActionButton: FloatingActionButton(
         backgroundColor: kAccentColor1,
-        child: const Icon(Icons.add),
         tooltip: 'Add Prediction',
         onPressed: () {
           Navigator.push(context, MaterialPageRoute(builder: (context) {
@@ -57,6 +56,7 @@ class _PredictionsState extends State<Predictions> {
             });
           });
         },
+        child: const Icon(Icons.add,color: kTransparentColor4,),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       body: SafeArea(

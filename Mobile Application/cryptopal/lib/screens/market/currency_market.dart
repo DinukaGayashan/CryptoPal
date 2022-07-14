@@ -42,7 +42,7 @@ class _CurrencyMarketState extends State<CurrencyMarket> {
           height: MediaQuery.of(context).size.height,
           child: glassCard(
             context,
-            ListView(
+            Column(
               children: <Widget>[
                 topBar(context, cryptocurrencyNames[widget.currencyIndex]),
                 const SizedBox(
@@ -116,7 +116,7 @@ class _CurrencyMarketState extends State<CurrencyMarket> {
                 ),
                 SizedBox(
                   width: double.infinity,
-                  height: MediaQuery.of(context).size.height - 400,
+                  height: MediaQuery.of(context).size.height - 300,
                   child: SfCartesianChart(
                     title: ChartTitle(
                       text: 'Close Price',

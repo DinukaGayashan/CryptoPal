@@ -4,31 +4,32 @@ import 'constants.dart';
 
 Widget glassCard(BuildContext context, Widget content) {
   return Padding(
-      padding: const EdgeInsets.all(4.0),
-      child: Card(
-        color: Colors.white12,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30.0),
-          side: BorderSide.none,
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(15.0),
-          child: content,
-        ),
-      ) /*.asGlass(
+    padding: const EdgeInsets.all(5.0),
+    child: Container(
+      decoration: BoxDecoration(
+        color: kCardColor,
+        borderRadius: BorderRadius.circular(30),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(18.0),
+        child: content,
+      ),
+    ).asGlass(
       clipBorderRadius: BorderRadius.circular(30),
+      tintColor: kTransparentColor4,
       frosted: false,
-      //tileMode:TileMode.clamp,
-      //tintColor: kBaseColor1,
-    ),*/
+    ),
   );
 }
 
 Widget glassBackground(BuildContext context, Widget content) {
-  return Card(
-    color: kBackgroundColor,
+  return Container(
+    decoration: BoxDecoration(
+      color: kBackgroundColor,
+      borderRadius: BorderRadius.circular(10),
+    ),
     child: Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 21.0,vertical: 21.0),
+      padding: const EdgeInsets.symmetric(horizontal: 21.0, vertical: 21.0),
       child: content,
     ),
   );

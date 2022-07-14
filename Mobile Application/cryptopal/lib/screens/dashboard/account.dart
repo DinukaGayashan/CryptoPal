@@ -136,7 +136,7 @@ class _AccountState extends State<Account> {
                         ),
                       ).asGlass(
                         clipBorderRadius: BorderRadius.circular(30),
-                        frosted: true,
+                        frosted: false,
                         tintColor: kUserColor,
                       );
                     }

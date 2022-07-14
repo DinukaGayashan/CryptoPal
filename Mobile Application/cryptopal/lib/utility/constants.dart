@@ -22,6 +22,7 @@ const String about="CryptoPal is an advisory platform for cryptocurrency investm
 const kBaseColor1 = Color(0xff000000);
 const kBaseColor2 = Color(0xffeeeeee);
 const kBackgroundColor = Color(0xff121212);
+const kCardColor = Color(0x88202020);
 const kAccentColor1 = Color(0xff14efbb);
 const kAccentColor2 = Color(0xffffd369);
 const kAccentColor3 = Color(0xff1d708f);

@@ -120,12 +120,9 @@ class _LoadingState extends State<Loading> {
                 height: 70.0,
               ),
               const SizedBox(
-                child: Hero(
-                  tag: 'loading',
-                  child: SpinKitFoldingCube(
-                    size: 50.0,
-                    color: kBaseColor2,
-                  ),
+                child: SpinKitFoldingCube(
+                  size: 50.0,
+                  color: kBaseColor2,
                 ),
               ),
             ],

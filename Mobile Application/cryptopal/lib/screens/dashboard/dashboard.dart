@@ -166,7 +166,7 @@ class _DashboardState extends State<Dashboard> {
                 onTap: () {
                   Navigator.pop(context);
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) {
+                      CupertinoPageRoute(builder: (context) {
                         return Account(
                           currentUser,
                         );
@@ -178,7 +178,7 @@ class _DashboardState extends State<Dashboard> {
                   });
                 },
               ),
-              ListTile(
+              /*ListTile(
                 leading: const Icon(Icons.settings),
                 title: const Text(
                   'Settings',
@@ -187,7 +187,7 @@ class _DashboardState extends State<Dashboard> {
                 onTap: () {
                   Navigator.pop(context);
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) {
+                      CupertinoPageRoute(builder: (context) {
                         return Settings(
                           currentUser,
                         );
@@ -197,7 +197,7 @@ class _DashboardState extends State<Dashboard> {
                     });
                   });
                 },
-              ),
+              ),*/
               ListTile(
                 leading: const Icon(Icons.lock),
                 title: const Text(
@@ -207,7 +207,7 @@ class _DashboardState extends State<Dashboard> {
                 onTap: () {
                   Navigator.pop(context);
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) {
+                      CupertinoPageRoute(builder: (context) {
                         return const PrivacyPolicy();
                       }));
                 },
@@ -231,7 +231,7 @@ class _DashboardState extends State<Dashboard> {
                 onTap: () {
                   Navigator.pop(context);
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) {
+                      CupertinoPageRoute(builder: (context) {
                         return const AboutApp();
                       }));
                 },
@@ -510,7 +510,6 @@ class _DashboardState extends State<Dashboard> {
                                   width: 120,
                                   child: FloatingActionButton(
                                     backgroundColor: kAccentColor1,
-                                    child: const Icon(Icons.add),
                                     tooltip: 'Add Prediction',
                                     onPressed: () {
                                       Navigator.push(context, MaterialPageRoute(builder: (context) {
@@ -522,6 +521,7 @@ class _DashboardState extends State<Dashboard> {
                                         });
                                       });
                                     },
+                                    child: const Icon(Icons.add,color: kTransparentColor4,),
                                   ),
                                 ),
                                 const SizedBox(height: 30,),

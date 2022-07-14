@@ -23,6 +23,7 @@ class CryptoPal extends StatelessWidget {
     return MaterialApp(
       title: "CryptoPal",
       theme: ThemeData.dark().copyWith(
+        useMaterial3: true,
         primaryColor: kBaseColor1,
         scaffoldBackgroundColor: kBackgroundColor,
         cupertinoOverrideTheme: const CupertinoThemeData(
