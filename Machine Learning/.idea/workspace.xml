@@ -2,7 +2,30 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ebfc644f-90d4-4cdf-b2f0-91b8f2fcbe9c" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../Mobile Application/cryptopal/lib/screens/forecasts/forecasts.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Mobile Application/cryptopal/lib/screens/dashboard/about_app.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Mobile Application/cryptopal/lib/screens/dashboard/about_app.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Mobile Application/cryptopal/lib/screens/dashboard/account.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Mobile Application/cryptopal/lib/screens/dashboard/account.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Mobile Application/cryptopal/lib/screens/dashboard/dashboard.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Mobile Application/cryptopal/lib/screens/dashboard/dashboard.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Mobile Application/cryptopal/lib/screens/dashboard/privacy_policy.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Mobile Application/cryptopal/lib/screens/dashboard/privacy_policy.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Mobile Application/cryptopal/lib/screens/dashboard/settings.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Mobile Application/cryptopal/lib/screens/market/currency_market.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Mobile Application/cryptopal/lib/screens/market/currency_market.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Mobile Application/cryptopal/lib/screens/market/currency_market_graphs.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Mobile Application/cryptopal/lib/screens/market/currency_market_graphs.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Mobile Application/cryptopal/lib/screens/news/news_list_display.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Mobile Application/cryptopal/lib/screens/news/news_list_display.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Mobile Application/cryptopal/lib/screens/predictions/add_prediction.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Mobile Application/cryptopal/lib/screens/predictions/add_prediction.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Mobile Application/cryptopal/lib/screens/predictions/currency_future_predictions.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Mobile Application/cryptopal/lib/screens/predictions/currency_future_predictions.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Mobile Application/cryptopal/lib/screens/predictions/currency_past_predictions.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Mobile Application/cryptopal/lib/screens/predictions/currency_past_predictions.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Mobile Application/cryptopal/lib/screens/predictions/currency_predictions.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Mobile Application/cryptopal/lib/screens/predictions/currency_predictions.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Mobile Application/cryptopal/lib/screens/predictions/future_predictions.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Mobile Application/cryptopal/lib/screens/predictions/future_predictions.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Mobile Application/cryptopal/lib/screens/predictions/past_predictions.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Mobile Application/cryptopal/lib/screens/predictions/past_predictions.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Mobile Application/cryptopal/lib/screens/predictions/predictions.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Mobile Application/cryptopal/lib/screens/predictions/predictions.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Mobile Application/cryptopal/lib/screens/statistics/currency_prediction_statistics.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Mobile Application/cryptopal/lib/screens/statistics/currency_prediction_statistics.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Mobile Application/cryptopal/lib/screens/statistics/predictions_on_days.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Mobile Application/cryptopal/lib/screens/statistics/predictions_on_days.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Mobile Application/cryptopal/lib/screens/statistics/statistics.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Mobile Application/cryptopal/lib/screens/statistics/statistics.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Mobile Application/cryptopal/lib/utility/constants.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Mobile Application/cryptopal/lib/utility/constants.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Mobile Application/cryptopal/lib/utility/ml_prediction_data.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Mobile Application/cryptopal/lib/utility/ml_prediction_data.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Mobile Application/cryptopal/lib/utility/widgets.dart" beforeDir="false" afterPath="$PROJECT_DIR$/../Mobile Application/cryptopal/lib/utility/widgets.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

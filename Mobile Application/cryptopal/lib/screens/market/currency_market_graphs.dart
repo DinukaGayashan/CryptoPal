@@ -152,7 +152,7 @@ class _CurrencyMarketGraphsState extends State<CurrencyMarketGraphs> {
                           ),
                       ),
                       const SizedBox(
-                        width: 30.0,
+                        width: 20.0,
                       ),
                       ElevatedButton(
                         style: ButtonStyle(
@@ -178,7 +178,7 @@ class _CurrencyMarketGraphsState extends State<CurrencyMarketGraphs> {
                     ],
                   ),
                   const SizedBox(
-                    height: 30.0,
+                    height: 10.0,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
@@ -240,6 +240,9 @@ class _CurrencyMarketGraphsState extends State<CurrencyMarketGraphs> {
                         ),
                       ],
                     ),
+                  ),
+                  const SizedBox(
+                    height: 30,
                   ),
                 ],
               ),

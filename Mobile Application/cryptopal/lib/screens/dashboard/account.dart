@@ -345,6 +345,9 @@ class _AccountState extends State<Account> {
                   },
                 ),
 
+                const SizedBox(
+                  height: 30,
+                ),
               ],
             ),
 

@@ -173,7 +173,9 @@ class _PredictionsOnDaysState extends State<PredictionsOnDays> {
                       ),
                     ),
                   ),
-                const SizedBox(height: 100,),
+                const SizedBox(
+                  height: 30,
+                ),
               ],
             ),
           ),

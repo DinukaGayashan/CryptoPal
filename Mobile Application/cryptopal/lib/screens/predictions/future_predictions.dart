@@ -249,6 +249,9 @@ class _FuturePredictionsState extends State<FuturePredictions> {
                       }));
                     },
                   ),
+                const SizedBox(
+                  height: 30,
+                ),
               ],
             ),
           ),

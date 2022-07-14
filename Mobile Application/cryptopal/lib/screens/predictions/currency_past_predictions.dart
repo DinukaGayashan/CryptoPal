@@ -214,6 +214,9 @@ class _CurrencyPastPredictionsState extends State<CurrencyPastPredictions> {
                       }));
                     },
                   ),
+                const SizedBox(
+                  height: 30,
+                ),
               ],
             ),
           ),

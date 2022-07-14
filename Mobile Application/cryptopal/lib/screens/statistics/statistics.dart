@@ -707,7 +707,7 @@ class _StatisticsState extends State<Statistics> {
                 currentUser.pastPredictions.isEmpty?
                 const Text('Statistics will be displayed when a prediction is completed.',style: kInstructionStyle,textAlign: TextAlign.center,):
                 const SizedBox(
-                  height: 80.0,
+                  height: 30,
                 ),
               ],
             ),

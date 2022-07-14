@@ -314,7 +314,9 @@ class _AddPredictionState extends State<AddPrediction> {
                       ),
                     ),
                   ),
-                  const SizedBox(height:30,),
+                  const SizedBox(
+                    height: 30,
+                  ),
                 ],
               ),
             ),

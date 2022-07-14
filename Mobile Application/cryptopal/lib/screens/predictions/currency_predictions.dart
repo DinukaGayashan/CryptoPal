@@ -324,7 +324,7 @@ class _CurrencyPredictionsState extends State<CurrencyPredictions> {
                   ),
                 ),
                 const SizedBox(
-                  height: 20.0,
+                  height: 30,
                 ),
               ],
             ),

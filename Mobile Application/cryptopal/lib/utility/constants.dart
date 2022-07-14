@@ -31,6 +31,7 @@ const kTransparentColor2 = Color(0x8814efbb);
 const kTransparentColor3 = Color(0xaaeeeeee);
 const kTransparentColor4 = Color(0xaa121212);
 const kTransparentColor5 = Color(0x33121212);
+const kTransparentColor6 = Color(0x33000000);
 const kRed = Color(0xffea4f30);
 const kGreen = Color(0xff1fba72);
 const kYellow = Color(0xfff1ae2d);

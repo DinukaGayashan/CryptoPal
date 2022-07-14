@@ -63,6 +63,9 @@ class AboutApp extends StatelessWidget {
                 ),
 
 
+                const SizedBox(
+                  height: 30,
+                ),
               ],
             ),
           ),

@@ -307,7 +307,7 @@ class _PredictionsState extends State<Predictions> {
                     },
                   ),
                 const SizedBox(
-                  height: 40.0,
+                  height: 30,
                 ),
               ],
             ),

@@ -62,7 +62,7 @@ Widget topBar(BuildContext context, String title) {
         child: IconButton(
           enableFeedback: true,
           padding:
-              const EdgeInsets.only(left: 15, right: 20, top: 15, bottom: 20),
+              const EdgeInsets.only(left: 15, right: 15, top: 15, bottom: 20),
           icon: const Icon(Icons.arrow_back_ios),
           color: kBaseColor2,
           onPressed: () {

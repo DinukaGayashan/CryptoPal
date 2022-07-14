@@ -8,7 +8,7 @@ from firebase_admin import firestore
 
 import pandas as pd
 import numpy as np
-from sklearn.preprocessing import MinMaxScaler
+from sklearn.preprocessing import StandardScaler
 
 from tensorflow.python.keras.models import Sequential
 from tensorflow.python.keras.layers import Dense, Dropout
@@ -38,7 +38,7 @@ def root(currency_type, current_date):
     run_ml(currency_type, current_date)
     elapsed = time.perf_counter() - s
     print(f'Execution time: {elapsed:0.2f} seconds.')
-    return {"message": "completed"}
+    return {"message": f"completed ML for {currency_type}"}
 
 
 def dataset_generator_lstm(dataset, look_back=10):
@@ -65,7 +65,7 @@ def run_ml(currency, date):
 
     train_df = df
 
-    scaler_train_df = MinMaxScaler(feature_range=(0, 1))
+    scaler_train_df = StandardScaler()
     scaled_train_df = scaler_train_df.fit_transform(train_df)
 
     train_x, train_y = dataset_generator_lstm(scaled_train_df)
@@ -92,7 +92,7 @@ def run_ml(currency, date):
     predicted_train_data = scaler_train_df.inverse_transform(predicted_train_data.reshape(-1, 1))
     train_actual = scaler_train_df.inverse_transform(train_y.reshape(-1, 1))
 
-    rmse_lstm_train = np.sqrt(((train_actual - predicted_train_data) ** 2).mean())
+    rsme_lstm_train = np.sqrt(((train_actual - predicted_train_data) ** 2).mean())
 
     train_x_last_look_back = train_x[train_x.shape[0] - look_back_period:]
 
@@ -113,8 +113,8 @@ def run_ml(currency, date):
         })
 
     db.collection('mlPredictions').document('predictions').collection('predictionErrors').document(currency).set({
-        'rmse': float(rmse_lstm_train),
-        'rmsePercentage': float((rmse_lstm_train / mean(predictions_array)) * 100)
+        'rsme': float(rsme_lstm_train),
+        'rsmePercentage': float((rsme_lstm_train / mean(predictions_array)) * 100)
     })
 
     print('ML completed for ' + currency)

@@ -74,6 +74,9 @@ class _NewsListDisplayState extends State<NewsListDisplay> {
                         }));
                       },
                     ),
+                  const SizedBox(
+                    height: 30,
+                  ),
                 ],
               ),
             ),
