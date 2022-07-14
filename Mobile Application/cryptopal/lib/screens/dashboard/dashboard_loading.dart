@@ -7,7 +7,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:cryptopal/utility/constants.dart';
 import 'package:cryptopal/utility/user_account.dart';
 import 'package:cryptopal/utility/real_price_data.dart';
-import 'package:cryptopal/utility/ml_prediction_data.dart';
+import 'package:cryptopal/utility/forecast_price_data.dart';
 import 'package:cryptopal/utility/news_data.dart';
 import 'dashboard.dart';
 
@@ -25,7 +25,7 @@ class DashboardLoading extends StatefulWidget {
 class _DashboardLoadingState extends State<DashboardLoading> {
   late UserAccount currentUser = UserAccount();
   late List<RealPricesOfACurrency> realPriceList;
-  late List<MLPredictionPricesOfACurrency> mlPredictionPriceList;
+  late List<ForecastPricesOfACurrency> mlPredictionPriceList;
   late List<News> newsList = [];
 
   void addPastCryptoData() async {

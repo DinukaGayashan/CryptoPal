@@ -19,7 +19,9 @@ import 'package:cryptopal/screens/dashboard/dashboard_loading.dart';
 import 'package:cryptopal/screens/market/currency_market.dart';
 import 'package:cryptopal/screens/news/news_display.dart';
 
-import '../../utility/ml_prediction_data.dart';
+import '../../utility/forecast_price_data.dart';
+import '../forecasts/currency_forecasts.dart';
+import '../forecasts/forecasts.dart';
 import '../predictions/add_prediction.dart';
 import 'account.dart';
 
@@ -31,7 +33,7 @@ class Dashboard extends StatefulWidget {
 
   final UserAccount currentUser;
   final List<RealPricesOfACurrency> realPriceList;
-  final List<MLPredictionPricesOfACurrency> mlPredictionPriceList;
+  final List<ForecastPricesOfACurrency> mlPredictionPriceList;
   final List<News> newsList;
 
   @override
@@ -39,6 +41,7 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
+
   List<RealPrice> getRealPrices({required String currency, int number = 0}) {
     List<RealPrice> realPrices = [];
     for (var type in widget.realPriceList) {
@@ -64,6 +67,14 @@ class _DashboardState extends State<Dashboard> {
       }
     }
     return minError.isInfinite ? '-' : cryptocurrencyNames[index];
+  }
+
+  double getAverageForecastError(){
+    double error=0;
+    for (int i = 0; i < cryptocurrencies.length; i++) {
+      error+=widget.mlPredictionPriceList[i].errorPercentage;
+    }
+    return error/cryptocurrencies.length;
   }
 
   List<T> pickRandomItemsAsList<T>(List<T> items, int count) =>
@@ -581,7 +592,7 @@ class _DashboardState extends State<Dashboard> {
                                         children: <Widget>[
                                           RichText(
                                             text: TextSpan(
-                                              text: 'Future Predictions\n',
+                                              text: 'Forecasted Dates\n',
                                               style: kCardSmallTextStyle,
                                               children: <TextSpan>[
                                                 TextSpan(
@@ -592,18 +603,17 @@ class _DashboardState extends State<Dashboard> {
                                                       .toString(),
                                                   style: kCardTextStyle2,
                                                 ),
+                                              ],
+                                            ),
+                                          ),
+                                          RichText(
+                                            text: TextSpan(
+                                              text: 'Average Error\n',
+                                              style: kCardSmallTextStyle,
+                                              children: <TextSpan>[
                                                 TextSpan(
-                                                  text: widget
-                                                      .mlPredictionPriceList[0]
-                                                      .errorValue
-                                                      .toString(),
-                                                  style: kCardTextStyle2,
-                                                ),
-                                                TextSpan(
-                                                  text: widget
-                                                      .mlPredictionPriceList[0]
-                                                      .errorPercentage
-                                                      .toString(),
+                                                  text: getAverageForecastError().roundToDouble()
+                                                      .toString()+'%',
                                                   style: kCardTextStyle2,
                                                 ),
                                               ],
@@ -612,13 +622,76 @@ class _DashboardState extends State<Dashboard> {
                                         ],
                                       ),
                                     ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(right: 18.0,bottom: 10),
+                                      child: SizedBox(
+                                        height: 120,
+                                        width: 120,
+                                        child: SfRadialGauge(
+                                          axes:[
+                                            RadialAxis(
+                                                startAngle: 90,
+                                                endAngle: 90,
+                                                minimum: 0,
+                                                maximum: 100,
+                                                showLabels: false,
+                                                showTicks: false,
+                                                axisLineStyle: const AxisLineStyle(
+                                                  thickness: 0.15,
+                                                  color: kBaseColor1,
+                                                  thicknessUnit: GaugeSizeUnit.factor,
+                                                ),
+                                                pointers:[
+                                                  RangePointer(
+                                                    color:kAccentColor1,
+                                                    animationType: AnimationType.easeOutBack,
+                                                    enableAnimation: true,
+                                                    cornerStyle: CornerStyle.bothCurve,
+                                                    width: 0.15,
+                                                    sizeUnit: GaugeSizeUnit.factor,
+                                                    value: (100-getAverageForecastError()),
+                                                  ),
+                                                ],
+                                              annotations: <GaugeAnnotation>[
+                                                GaugeAnnotation(
+                                                  positionFactor: 0.1,
+                                                  angle: 90,
+                                                  widget: RichText(
+                                                    textAlign: TextAlign.center,
+                                                    text: TextSpan(
+                                                      text: 'Accuracy\n',
+                                                      style: kCardSmallTextStyle,
+                                                      children: <TextSpan>[
+                                                        TextSpan(
+                                                          text: (100-getAverageForecastError()).roundToDouble()
+                                                              .toString()+'%',
+                                                          style: kCardTextStyle,
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+
+
+
                                   ],
                                 ),
                               ),
                             ],
                           ),
                         ),
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) {
+                                return Forecasts(widget.realPriceList,widget.mlPredictionPriceList);
+                              }));
+                        },
                       ),
                       glassCard(
                         context,

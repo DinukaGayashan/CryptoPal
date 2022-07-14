@@ -1,14 +1,13 @@
-import 'package:cryptopal/screens/predictions/future_predictions.dart';
-import 'package:cryptopal/screens/predictions/past_predictions.dart';
 import 'package:flutter/material.dart';
 import 'package:cryptopal/utility/user_account.dart';
 import 'package:cryptopal/utility/constants.dart';
 import 'package:cryptopal/utility/widgets.dart';
 import 'package:cryptopal/utility/real_price_data.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
-import 'currency_predictions.dart';
-import 'add_prediction.dart';
+import 'package:cryptopal/screens/predictions/currency_predictions.dart';
+import 'package:cryptopal/screens/predictions/add_prediction.dart';
+import 'package:cryptopal/screens/predictions/future_predictions.dart';
+import 'package:cryptopal/screens/predictions/past_predictions.dart';
 
 class Predictions extends StatefulWidget {
   const Predictions(this.currentUser, this.realPriceList, {Key? key})

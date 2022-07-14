@@ -38,9 +38,11 @@ const kYellow = Color(0xfff1ae2d);
 const kBlue = Color(0xff008ff7);
 const kGraphColor1= Color(0xff1bbfd0);
 const kGraphColor2= Color(0xffdd636b);
-const List<Color> kUserColorMap=[kBackgroundColor,Colors.blue,Colors.green,Colors.orange,Colors.red,Colors.red,Colors.red,Colors.red];
-
-const kAnimationTime = 1000;
+const List<Color> kUserColorMap=[Color(0xff121212),Color(0xff607d8b),Color(0xff9e9e9e),Color(0xff795548),
+  Color(0xffff5722),Color(0xffff9800),Color(0xffffc107),Color(0xffcddc39),Color(0xff8bc34a),Color(0xff4caf50),
+  Color(0xff009688),Color(0xff00bcd4),Color(0xff03a9f4),Color(0xff2196f3),Color(0xff00bcd4),Color(0xff3f51b5),
+  Color(0xff673ab7),Color(0xff9c27b0),Color(0xffe91e63),Color(0xfff44336)];
+const Color topLevelUserColor=Color(0xffff1144);
 
 DateTime kMinDayInGraph = DateTime.now().subtract(const Duration(days: 60));
 DateTime kMinDayInExtendedGraph =

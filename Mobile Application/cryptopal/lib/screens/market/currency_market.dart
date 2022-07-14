@@ -4,8 +4,7 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:cryptopal/utility/real_price_data.dart';
 import 'package:cryptopal/utility/constants.dart';
 import 'package:cryptopal/utility/widgets.dart';
-
-import 'currency_market_graphs.dart';
+import 'package:cryptopal/screens/market/currency_market_graphs.dart';
 
 class CurrencyMarket extends StatefulWidget {
   const CurrencyMarket(this.currencyIndex, this.realPriceList, {Key? key})

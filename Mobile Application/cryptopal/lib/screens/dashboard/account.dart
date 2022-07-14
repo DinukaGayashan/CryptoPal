@@ -39,7 +39,11 @@ class _AccountState extends State<Account> {
     joinedDate=dates.first;
     int userGroup=currentUser.score~/100;
     int userLevelInGroup=currentUser.score%(userGroup==0?100:userGroup*100);
-    kUserColor=Color.alphaBlend(kUserColorMap[userGroup+1].withAlpha(userLevelInGroup), kUserColorMap[userGroup].withAlpha(255-userLevelInGroup));
+    try{
+      kUserColor=Color.alphaBlend(kUserColorMap[userGroup+1].withAlpha(userLevelInGroup), kUserColorMap[userGroup].withAlpha(255-userLevelInGroup));
+    }catch(e){
+      kUserColor=topLevelUserColor;
+    }
 
     return Scaffold(
       backgroundColor: Colors.transparent,

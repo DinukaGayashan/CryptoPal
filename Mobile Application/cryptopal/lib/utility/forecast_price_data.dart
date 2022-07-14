@@ -4,25 +4,25 @@ import 'package:cryptopal/utility/constants.dart';
 final _firestore = FirebaseFirestore.instance;
 final String today=DateTime.now().toString().split(' ')[0];
 
-Future<List<MLPredictionPrice>> getPricesOfACurrency(currency) async{
-  List<MLPredictionPrice> priceList=[];
+Future<List<ForecastPrice>> getPricesOfACurrency(currency) async{
+  List<ForecastPrice> priceList=[];
   final priceSnaps = await _firestore.collection('mlPredictions').doc('predictions').collection('predictionPrices')
       .where('currency',isEqualTo: currency+'-USD').where('date',isGreaterThanOrEqualTo: today).get();
   for (var snap in priceSnaps.docs) {
-    priceList.add(MLPredictionPrice(
+    priceList.add(ForecastPrice(
         snap.data()['date'],
         snap.data()['closePrice'].toDouble()));
   }
   return priceList;
 }
 
-Future<List<MLPredictionPricesOfACurrency>> getMLPredictionPriceData() async {
+Future<List<ForecastPricesOfACurrency>> getMLPredictionPriceData() async {
 
-  List<MLPredictionPricesOfACurrency> allPricesLists =
-  List<MLPredictionPricesOfACurrency>.filled(
-      cryptocurrencies.length, MLPredictionPricesOfACurrency(''));
+  List<ForecastPricesOfACurrency> allPricesLists =
+  List<ForecastPricesOfACurrency>.filled(
+      cryptocurrencies.length, ForecastPricesOfACurrency(''));
   for (int i = 0; i < cryptocurrencies.length; i++) {
-    allPricesLists[i] = MLPredictionPricesOfACurrency('${cryptocurrencies[i]}-USD');
+    allPricesLists[i] = ForecastPricesOfACurrency('${cryptocurrencies[i]}-USD');
   }
 
   try {
@@ -51,17 +51,17 @@ Future<List<MLPredictionPricesOfACurrency>> getMLPredictionPriceData() async {
   return allPricesLists;
 }
 
-class MLPredictionPricesOfACurrency {
+class ForecastPricesOfACurrency {
   late String currency;
   late double errorValue=0, errorPercentage=0;
-  late List<MLPredictionPrice> pricesList = [];
+  late List<ForecastPrice> pricesList = [];
 
-  MLPredictionPricesOfACurrency(this.currency);
+  ForecastPricesOfACurrency(this.currency);
 }
 
-class MLPredictionPrice {
+class ForecastPrice {
   late String date;
   late double closePrice;
 
-  MLPredictionPrice(this.date, this.closePrice);
+  ForecastPrice(this.date, this.closePrice);
 }
