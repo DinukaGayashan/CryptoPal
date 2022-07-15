@@ -45,7 +45,7 @@ class CurrencyPredictionErrorsGraph extends StatelessWidget {
             topBar(context, cryptocurrencyNames[currencyIndex]+' Prediction Errors'),
             SizedBox(
               width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height-135,
+              height: MediaQuery.of(context).size.height-160,
               child: SfCartesianChart(
                 legend: Legend(
                   isVisible: true,
@@ -70,23 +70,6 @@ class CurrencyPredictionErrorsGraph extends StatelessWidget {
                 ),
                 series: <ChartSeries>[
                   ScatterSeries<GraphData, DateTime>(
-                    name: cryptocurrencies[currencyIndex]+' Prediction Error',
-                    color: kGraphColor1,
-                    dataSource: getValuesOnCurrencyNoNaN(currency: cryptocurrencies[currencyIndex], type: 'error'),
-                    trendlines:<Trendline>[
-                      Trendline(
-                        name: 'Trendline',
-                        color: kGraphColor1,
-                        type: TrendlineType.polynomial,
-                      )
-                    ],
-                    xValueMapper: (GraphData data, _) => DateTime.parse(data.valueOne),
-                    yValueMapper: (GraphData data, _) => data.valueTwo.toDouble(),
-                    markerSettings: const MarkerSettings(
-                      isVisible: true,
-                    ),
-                  ),
-                  ScatterSeries<GraphData, DateTime>(
                     name: cryptocurrencies[currencyIndex] +
                         ' Prediction Error Deviation',
                     color: kGraphColor2,
@@ -105,6 +88,8 @@ class CurrencyPredictionErrorsGraph extends StatelessWidget {
                     yValueMapper: (GraphData data, _) => sqrt(data.valueTwo).toDouble(),
                     markerSettings: const MarkerSettings(
                       isVisible: true,
+                      height: 2,
+                      width: 2,
                     ),
                   ),
                 ],

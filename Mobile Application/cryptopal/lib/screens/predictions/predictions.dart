@@ -233,7 +233,7 @@ class _PredictionsState extends State<Predictions> {
                                       TextSpan(
                                         text: ((currentUser.errorStandardDeviationOnCurrencies[cryptocurrencies[i]]!) > 100?0:100-(currentUser.errorStandardDeviationOnCurrencies[cryptocurrencies[i]]!)
                                                     .roundToDouble())
-                                            .toString(),
+                                            .toString()+'%',
                                         style: kCardTextStyle2,
                                       ),
                                     ],
@@ -277,7 +277,7 @@ class _PredictionsState extends State<Predictions> {
                                                     cryptocurrencies[i]] ??
                                                 0)
                                             .roundToDouble()
-                                            .toString(),
+                                            .toString()+'%',
                                         style: kCardTextStyle2,
                                       ),
                                     ],

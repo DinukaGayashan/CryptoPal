@@ -1,11 +1,13 @@
 import 'package:cryptopal/utility/forecast_price_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:syncfusion_flutter_charts/charts.dart' as charts;
 import 'package:cryptopal/utility/real_price_data.dart';
 import 'package:cryptopal/utility/constants.dart';
 import 'package:cryptopal/utility/widgets.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
+
+import 'currency_forecast_graph.dart';
 
 class CurrencyForecasts extends StatelessWidget {
   const CurrencyForecasts(this.realPriceList, this.forecastPriceList, this.currencyIndex, {Key? key}) : super(key: key);
@@ -37,7 +39,7 @@ class CurrencyForecasts extends StatelessWidget {
       }
     }
     if (number != 0 && forecastPrices.length > number) {
-      return forecastPrices.sublist(forecastPrices.length - number);
+      return forecastPrices.sublist(0,forecastPrices.length - number);
     }
     return forecastPrices;
   }
@@ -60,54 +62,89 @@ class CurrencyForecasts extends StatelessWidget {
                 const SizedBox(
                   height: 20.0,
                 ),
-                Center(
-                  child: RichText(
-                    text: TextSpan(
-                      text: 'Forecast Accuracy',
-                      style: kCardSmallTextStyle,
-                      children: <TextSpan>[
-                        TextSpan(
-                          text: ' ' +
-                              (100-forecastPriceList[currencyIndex].errorPercentage).roundToDouble().toString()+
-                              '%',
-                          style: kCardTextStyle2,
-                        ),
-                      ],
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    RichText(
+                      text: TextSpan(
+                        text: 'Forecast\n',
+                        style: kCardSmallTextStyle,
+                        children: <TextSpan>[
+                      TextSpan(
+                      text: 'Deviation\n',
+                        style: kCardTextStyle,
+                      ),
+                          TextSpan(
+                            text: '\$ '+forecastPriceList[currencyIndex].errorValue.roundToDouble().toString(),
+                            style: kCardTextStyle2,
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 10.0,
-                ),
-                SfLinearGauge(
-                  minimum: 0,
-                  maximum: 100,
-                  showTicks: false,
-                  showAxisTrack: false,
-                  isMirrored: true,
-                  barPointers: [
-                    LinearBarPointer(
-                      thickness: 25.0,
-                      enableAnimation: true,
-                      //animationDuration: kAnimationTime,
-                      value: (100-forecastPriceList[currencyIndex].errorPercentage),
-                      color: ((100-forecastPriceList[currencyIndex].errorPercentage)
-                          .roundToDouble()) >
-                          50
-                          ? kGreen
-                          : kRed,
-                      edgeStyle: LinearEdgeStyle.bothCurve,
-                      offset: 20,
-                      position: LinearElementPosition.outside,
+                    SizedBox(
+                      height: 120,
+                      width: 120,
+                      child: SfRadialGauge(
+                        axes:[
+                          RadialAxis(
+                            startAngle: 90,
+                            endAngle: 90,
+                            minimum: 0,
+                            maximum: 100,
+                            showLabels: false,
+                            showTicks: false,
+                            axisLineStyle: const AxisLineStyle(
+                              thickness: 0.15,
+                              color: kBaseColor1,
+                              thicknessUnit: GaugeSizeUnit.factor,
+                            ),
+                            pointers:[
+                              RangePointer(
+                                color: kAccentColor1,
+                                animationType: AnimationType.easeOutBack,
+                                enableAnimation: true,
+                                cornerStyle: CornerStyle.bothCurve,
+                                width: 0.15,
+                                sizeUnit: GaugeSizeUnit.factor,
+                                value: (100-forecastPriceList[currencyIndex].errorPercentage),
+                              ),
+                            ],
+                            annotations: <GaugeAnnotation>[
+                              GaugeAnnotation(
+                                positionFactor: 0.1,
+                                angle: 90,
+                                widget: RichText(
+                                  textAlign: TextAlign.center,
+                                  text: TextSpan(
+                                    text: 'Accuracy\n',
+                                    style: kCardSmallTextStyle,
+                                    children: <TextSpan>[
+                                      TextSpan(
+                                        text: (100-forecastPriceList[currencyIndex].errorPercentage).roundToDouble().toString()
+                                            .toString()+'%',
+                                        style: kCardTextStyle,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
+                const SizedBox(height: 20,),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     IconButton(
                       onPressed: () {
-
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                              return CurrencyForecastsGraph(realPriceList,forecastPriceList,currencyIndex);
+                            }));
                       },
                       icon: const Icon(
                         Icons.fullscreen,
@@ -119,36 +156,36 @@ class CurrencyForecasts extends StatelessWidget {
                 ),
                 SizedBox(
                   width: double.infinity,
-                  child: SfCartesianChart(
-                    title: ChartTitle(
+                  child: charts.SfCartesianChart(
+                    title: charts.ChartTitle(
                       text: 'Close Price',
                       textStyle: kCardSmallTextStyle,
                     ),
-                    legend: Legend(
+                    legend: charts.Legend(
                       isVisible: true,
-                      overflowMode: LegendItemOverflowMode.wrap,
-                      position: LegendPosition.bottom,
+                      overflowMode: charts.LegendItemOverflowMode.wrap,
+                      position: charts.LegendPosition.bottom,
                     ),
-                    zoomPanBehavior: ZoomPanBehavior(
+                    zoomPanBehavior: charts.ZoomPanBehavior(
                       enablePinching: true,
                       enablePanning: true,
                       enableMouseWheelZooming: true,
-                      zoomMode: ZoomMode.xy,
+                      zoomMode: charts.ZoomMode.xy,
                     ),
-                    primaryXAxis: DateTimeAxis(
-                      visibleMinimum: kMinDayInGraph,
+                    primaryXAxis: charts.DateTimeAxis(
+                      visibleMinimum: kMinDayInForecastGraph,
                     ),
-                    primaryYAxis: NumericAxis(),
+                    primaryYAxis: charts.NumericAxis(),
                     plotAreaBorderWidth: 1,
                     enableAxisAnimation: true,
-                    crosshairBehavior: CrosshairBehavior(
+                    crosshairBehavior: charts.CrosshairBehavior(
                       enable: true,
                     ),
-                    tooltipBehavior: TooltipBehavior(
+                    tooltipBehavior: charts.TooltipBehavior(
                       enable: true,
                     ),
-                    series: <ChartSeries>[
-                      LineSeries<RealPrice, DateTime>(
+                    series: <charts.ChartSeries>[
+                      charts.LineSeries<RealPrice, DateTime>(
                         name: cryptocurrencies[currencyIndex] +
                             ' Real Price',
                         color: kGraphColor1,
@@ -159,23 +196,21 @@ class CurrencyForecasts extends StatelessWidget {
                             DateTime.parse(data.date),
                         yValueMapper: (RealPrice data, _) => data.closePrice,
                       ),
-                      LineSeries<ForecastPrice, DateTime>(
+                      charts.LineSeries<ForecastPrice, DateTime>(
                         name: cryptocurrencies[currencyIndex] +
                             ' Forecast Price',
                         color: kGraphColor2,
                         dataSource: getForecastPrices(
-                            currency: cryptocurrencies[currencyIndex]),
+                            currency: cryptocurrencies[currencyIndex]+
+                      '-USD'),
                         xValueMapper: (ForecastPrice data, _) =>
                             DateTime.parse(data.date),
-                        yValueMapper: (ForecastPrice data, _) =>
-                        data.closePrice,
-                        markerSettings: const MarkerSettings(
-                          isVisible: true,
-                        ),
+                        yValueMapper: (ForecastPrice data, _) => data.closePrice,
                       ),
                     ],
                   ),
                 ),
+                //TODO
 
                 const SizedBox(
                   height: 30,

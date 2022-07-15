@@ -45,7 +45,7 @@ class PredictionErrorGraph extends StatelessWidget {
             topBar(context,'Price Prediction Errors'),
             SizedBox(
               width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height-135,
+              height: MediaQuery.of(context).size.height-160,
               child: SfCartesianChart(
                 legend: Legend(
                   isVisible: true,
@@ -70,25 +70,6 @@ class PredictionErrorGraph extends StatelessWidget {
                 ),
                 series: <ChartSeries>[
                   ScatterSeries<GraphData, DateTime>(
-                    name: 'Price Prediction Error',
-                    color:kGraphColor1,
-                    dataSource: getErrorHistoryNoNaN(),
-                    trendlines:<Trendline>[
-                      Trendline(
-                        name: 'Trendline',
-                        color: kGraphColor1,
-                        type: TrendlineType.polynomial,
-                      )
-                    ],
-                    xValueMapper: (GraphData data, _) =>
-                        DateTime.parse(data.valueOne),
-                    yValueMapper: (GraphData data, _) =>
-                    data.valueTwo,
-                    markerSettings: const MarkerSettings(
-                      isVisible: true,
-                    ),
-                  ),
-                  ScatterSeries<GraphData, DateTime>(
                     name: 'Price Prediction Error Deviation',
                     color: kGraphColor2,
                     dataSource: getStandardDeviationHistoryNoNaN(),
@@ -105,6 +86,8 @@ class PredictionErrorGraph extends StatelessWidget {
                     data.valueTwo,
                     markerSettings: const MarkerSettings(
                       isVisible: true,
+                      height: 2,
+                      width: 2,
                     ),
                   ),
                 ],

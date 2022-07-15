@@ -333,6 +333,8 @@ class _CurrencyPredictionStatisticsState extends State<CurrencyPredictionStatist
                                 data.valueTwo>1000?0:100-sqrt(data.valueTwo),
                             markerSettings: const MarkerSettings(
                               isVisible: true,
+                              height: 2,
+                              width: 2,
                             ),
                           ),
                         ],
@@ -391,29 +393,6 @@ class _CurrencyPredictionStatisticsState extends State<CurrencyPredictionStatist
                     series: <ChartSeries>[
                       ScatterSeries<GraphData, DateTime>(
                         name: cryptocurrencies[widget.currencyIndex] +
-                            ' Prediction Error',
-                        color: kGraphColor1,
-                        dataSource: getValuesOnCurrencyNoNaN(
-                            currency: cryptocurrencies[
-                            widget.currencyIndex],
-                            type: 'error'),
-                        trendlines:<Trendline>[
-                          Trendline(
-                            name: 'Trendline',
-                            color: kGraphColor1,
-                            type: TrendlineType.polynomial,
-                          )
-                        ],
-                        xValueMapper: (GraphData data, _) =>
-                            DateTime.parse(data.valueOne),
-                        yValueMapper: (GraphData data, _) =>
-                            data.valueTwo.toDouble(),
-                        markerSettings: const MarkerSettings(
-                          isVisible: true,
-                        ),
-                      ),
-                      ScatterSeries<GraphData, DateTime>(
-                        name: cryptocurrencies[widget.currencyIndex] +
                             ' Prediction Error Deviation',
                         color: kGraphColor2,
                         dataSource: getValuesOnCurrencyNoNaN(
@@ -433,6 +412,8 @@ class _CurrencyPredictionStatisticsState extends State<CurrencyPredictionStatist
                             sqrt(data.valueTwo.toDouble()),
                         markerSettings: const MarkerSettings(
                           isVisible: true,
+                          height: 2,
+                          width: 2,
                         ),
                       ),
                     ],

@@ -104,7 +104,7 @@ def run_ml(currency, date):
 
     predictions_array = np.array(predicted_forcast_data).flatten()
     for i, price in enumerate(predictions_array):
-        day = (datetime.date.fromisoformat(date) + datetime.timedelta(days=i)).strftime('%Y-%m-%d')
+        day = (datetime.date.fromisoformat(date) + datetime.timedelta(days=i+1)).strftime('%Y-%m-%d')
         db.collection('mlPredictions').document('predictions').collection('predictionPrices').document(
             day + ' ' + currency).set({
             'date': day,

@@ -145,7 +145,7 @@ class _CurrencyPastPredictionsState extends State<CurrencyPastPredictions> {
                                     children: <TextSpan>[
                                       TextSpan(
                                         text: (100-sqrt(prediction.errorPercentage*prediction.errorPercentage))
-                                            .roundToDouble().toString(),
+                                            .roundToDouble().toString()+'%',
                                         style: kCardTextStyle2,
                                       ),
                                     ],

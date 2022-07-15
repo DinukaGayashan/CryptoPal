@@ -192,7 +192,7 @@ class _StatisticsState extends State<Statistics> {
                         ),
                       ),
                       //const Text('Total\nActive Days',style: kCardSmallTextStyle,),
-                      const SizedBox(width: 30,),
+                      const SizedBox(width: 20,),
                       Text(currentUser.predictions.length.toString(),style: kCardTextStyle3,),
                       const SizedBox(width: 5,),
                       RichText(
@@ -429,6 +429,8 @@ class _StatisticsState extends State<Statistics> {
                         data.valueTwo,
                         markerSettings: const charts.MarkerSettings(
                           isVisible: true,
+                          height: 2,
+                          width: 2,
                         ),
                       ),
                     ],
@@ -488,25 +490,6 @@ class _StatisticsState extends State<Statistics> {
                     ),
                     series: <charts.ChartSeries>[
                       charts.ScatterSeries<GraphData, DateTime>(
-                        name: 'Price Prediction Error',
-                        color:kGraphColor1,
-                        dataSource: getErrorHistoryNoNaN(),
-                        trendlines:<charts.Trendline>[
-                          charts.Trendline(
-                            name: 'Trendline',
-                            color: kGraphColor1,
-                            type: charts.TrendlineType.polynomial,
-                          )
-                        ],
-                        xValueMapper: (GraphData data, _) =>
-                            DateTime.parse(data.valueOne),
-                        yValueMapper: (GraphData data, _) =>
-                        data.valueTwo,
-                        markerSettings: const charts.MarkerSettings(
-                          isVisible: true,
-                        ),
-                      ),
-                      charts.ScatterSeries<GraphData, DateTime>(
                         name: 'Price Prediction Error Deviation',
                         color: kGraphColor2,
                         dataSource: getStandardDeviationHistoryNoNaN(),
@@ -523,6 +506,8 @@ class _StatisticsState extends State<Statistics> {
                         data.valueTwo,
                         markerSettings: const charts.MarkerSettings(
                           isVisible: true,
+                          height: 2,
+                          width: 2,
                         ),
                       ),
                     ],

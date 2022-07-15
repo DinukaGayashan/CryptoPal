@@ -45,6 +45,7 @@ const List<Color> kUserColorMap=[Color(0xff121212),Color(0xff607d8b),Color(0xff9
 const Color topLevelUserColor=Color(0xffff1144);
 
 DateTime kMinDayInGraph = DateTime.now().subtract(const Duration(days: 60));
+DateTime kMinDayInForecastGraph = DateTime.now().subtract(const Duration(days: 40));
 DateTime kMinDayInExtendedGraph =
     DateTime.now().subtract(const Duration(days: 100));
 DateTime kMinDayInSmallGraph =

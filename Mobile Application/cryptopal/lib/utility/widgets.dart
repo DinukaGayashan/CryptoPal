@@ -3,34 +3,40 @@ import 'package:glass/glass.dart';
 import 'constants.dart';
 
 Widget glassCard(BuildContext context, Widget content) {
-  return Padding(
-    padding: const EdgeInsets.all(5.0),
-    child: Container(
-      decoration: BoxDecoration(
-        color: kCardColor,
-        borderRadius: BorderRadius.circular(30),
+  return Material(
+    color: Colors.transparent,
+    child: Padding(
+      padding: const EdgeInsets.all(5.0),
+      child: Container(
+        decoration: BoxDecoration(
+          color: kCardColor,
+          borderRadius: BorderRadius.circular(30),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(18.0),
+          child: content,
+        ),
+      ).asGlass(
+        clipBorderRadius: BorderRadius.circular(30),
+        tintColor: kTransparentColor4,
+        frosted: false,
       ),
-      child: Padding(
-        padding: const EdgeInsets.all(18.0),
-        child: content,
-      ),
-    ).asGlass(
-      clipBorderRadius: BorderRadius.circular(30),
-      tintColor: kTransparentColor4,
-      frosted: false,
     ),
   );
 }
 
 Widget glassBackground(BuildContext context, Widget content) {
-  return Container(
-    decoration: BoxDecoration(
-      color: kBackgroundColor,
-      borderRadius: BorderRadius.circular(10),
-    ),
-    child: Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 21.0, vertical: 21.0),
-      child: content,
+  return Material(
+    color: Colors.transparent,
+    child: Container(
+      decoration: BoxDecoration(
+        color: kBackgroundColor,
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 21.0, vertical: 21.0),
+        child: content,
+      ),
     ),
   );
 }

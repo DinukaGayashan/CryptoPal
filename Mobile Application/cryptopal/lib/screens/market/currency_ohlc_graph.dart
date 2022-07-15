@@ -35,7 +35,7 @@ class CurrencyOHLCGraph extends StatelessWidget {
             topBar(context, cryptocurrencyNames[currencyIndex]+' OHLC Prices'),
             SizedBox(
               width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height-135,
+              height: MediaQuery.of(context).size.height-160,
               child: SfCartesianChart(
                 zoomPanBehavior: ZoomPanBehavior(
                   enablePinching: true,

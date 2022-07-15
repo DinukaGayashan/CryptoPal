@@ -707,130 +707,128 @@ class _DashboardState extends State<Dashboard> {
                             ),
                             for (int i = 0; i < cryptocurrencies.length; i++)
                               GestureDetector(
-                                child: Center(
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                    children: <Widget>[
-                                      const SizedBox(
-                                        width: 10.0,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  children: <Widget>[
+                                    const SizedBox(
+                                      width: 10.0,
+                                    ),
+                                    SvgPicture.asset(
+                                      'assets/images/cryptocoin_icons/color/' +
+                                          cryptocurrencies[i].toLowerCase() +
+                                          '.svg',
+                                      width: 35.0,
+                                      height: 35.0,
+                                    ),
+                                    const SizedBox(
+                                      width: 10.0,
+                                    ),
+                                    SizedBox(
+                                      width: 80.0,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          Text(
+                                            cryptocurrencies[i],
+                                            style: kCardTextStyle,
+                                          ),
+                                          Text(
+                                            cryptocurrencyNames[i],
+                                            style: kCardSmallTextStyle,
+                                          ),
+                                        ],
                                       ),
-                                      SvgPicture.asset(
-                                        'assets/images/cryptocoin_icons/color/' +
-                                            cryptocurrencies[i].toLowerCase() +
-                                            '.svg',
-                                        width: 35.0,
-                                        height: 35.0,
-                                      ),
-                                      const SizedBox(
-                                        width: 15.0,
-                                      ),
-                                      SizedBox(
-                                        width: 80.0,
-                                        child: Column(
-                                          crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                          children: <Widget>[
-                                            Text(
-                                              cryptocurrencies[i],
-                                              style: kCardTextStyle,
-                                            ),
-                                            Text(
-                                              cryptocurrencyNames[i],
-                                              style: kCardSmallTextStyle,
-                                            ),
-                                          ],
+                                    ),
+                                    const SizedBox(
+                                      width: 5.0,
+                                    ),
+                                    SizedBox(
+                                      width: 120.0,
+                                      height: 100.0,
+                                      child: charts.SfCartesianChart(
+                                        primaryXAxis: charts.DateTimeAxis(
+                                          isVisible: false,
                                         ),
-                                      ),
-                                      const SizedBox(
-                                        width: 5.0,
-                                      ),
-                                      SizedBox(
-                                        width: 120.0,
-                                        height: 100.0,
-                                        child: charts.SfCartesianChart(
-                                          primaryXAxis: charts.DateTimeAxis(
-                                            isVisible: false,
+                                        primaryYAxis: charts.NumericAxis(
+                                          isVisible: false,
+                                        ),
+                                        plotAreaBorderWidth: 0,
+                                        series: <charts.ChartSeries>[
+                                          charts.LineSeries<RealPrice, DateTime>(
+                                            dataSource: getRealPrices(
+                                                currency:
+                                                cryptocurrencies[i] + '-USD',
+                                                number: 20),
+                                            xValueMapper: (RealPrice data, _) =>
+                                                DateTime.parse(data.date),
+                                            yValueMapper: (RealPrice data, _) =>
+                                            data.closePrice,
+                                            color: widget.realPriceList[i]
+                                                .priceIncreasePercentage >
+                                                0
+                                                ? kGreen
+                                                : kRed,
                                           ),
-                                          primaryYAxis: charts.NumericAxis(
-                                            isVisible: false,
-                                          ),
-                                          plotAreaBorderWidth: 0,
-                                          series: <charts.ChartSeries>[
-                                            charts.LineSeries<RealPrice, DateTime>(
-                                              dataSource: getRealPrices(
-                                                  currency:
-                                                  cryptocurrencies[i] + '-USD',
-                                                  number: 20),
-                                              xValueMapper: (RealPrice data, _) =>
-                                                  DateTime.parse(data.date),
-                                              yValueMapper: (RealPrice data, _) =>
-                                              data.closePrice,
+                                        ],
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      width: 10.0,
+                                    ),
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          '\$ ' +
+                                              kDashboardPriceDisplay(widget
+                                                  .realPriceList[i]
+                                                  .pricesList
+                                                  .last
+                                                  .closePrice)
+                                                  .toString(),
+                                          style: kCardSmallTextStyle,
+                                        ),
+                                        Row(
+                                          children: [
+                                            Icon(
+                                              widget.realPriceList[i]
+                                                  .priceIncreasePercentage >
+                                                  0
+                                                  ? Icons.arrow_upward
+                                                  : Icons.arrow_downward,
                                               color: widget.realPriceList[i]
                                                   .priceIncreasePercentage >
                                                   0
                                                   ? kGreen
                                                   : kRed,
+                                              size: 15,
+                                            ),
+                                            SizedBox(
+                                              width: 60.0,
+                                              child: Text(
+                                                double.parse((widget
+                                                    .realPriceList[i]
+                                                    .priceIncreasePercentage)
+                                                    .toStringAsFixed(2))
+                                                    .toString() +
+                                                    '%',
+                                                style: TextStyle(
+                                                  fontSize: 15,
+                                                  fontFamily: 'Bierstadt',
+                                                  color: widget.realPriceList[i]
+                                                      .priceIncreasePercentage >
+                                                      0
+                                                      ? kGreen
+                                                      : kRed,
+                                                ),
+                                              ),
                                             ),
                                           ],
                                         ),
-                                      ),
-                                      const SizedBox(
-                                        width: 10.0,
-                                      ),
-                                      Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            '\$ ' +
-                                                kDashboardPriceDisplay(widget
-                                                    .realPriceList[i]
-                                                    .pricesList
-                                                    .last
-                                                    .closePrice)
-                                                    .toString(),
-                                            style: kCardSmallTextStyle,
-                                          ),
-                                          Row(
-                                            children: [
-                                              Icon(
-                                                widget.realPriceList[i]
-                                                    .priceIncreasePercentage >
-                                                    0
-                                                    ? Icons.arrow_upward
-                                                    : Icons.arrow_downward,
-                                                color: widget.realPriceList[i]
-                                                    .priceIncreasePercentage >
-                                                    0
-                                                    ? kGreen
-                                                    : kRed,
-                                                size: 15,
-                                              ),
-                                              SizedBox(
-                                                width: 60.0,
-                                                child: Text(
-                                                  double.parse((widget
-                                                      .realPriceList[i]
-                                                      .priceIncreasePercentage)
-                                                      .toStringAsFixed(2))
-                                                      .toString() +
-                                                      '%',
-                                                  style: TextStyle(
-                                                    fontSize: 15,
-                                                    fontFamily: 'Bierstadt',
-                                                    color: widget.realPriceList[i]
-                                                        .priceIncreasePercentage >
-                                                        0
-                                                        ? kGreen
-                                                        : kRed,
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
+                                      ],
+                                    ),
+                                  ],
                                 ),
                                 onTap: () {
                                   Navigator.push(context,

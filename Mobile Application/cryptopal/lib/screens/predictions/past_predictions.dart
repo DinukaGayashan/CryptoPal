@@ -134,7 +134,7 @@ class _PastPredictionsState extends State<PastPredictions> {
                                     children: <TextSpan>[
                                       TextSpan(
                                         text: (100-sqrt(prediction.errorPercentage*prediction.errorPercentage))
-                                            .roundToDouble().toString(),
+                                            .roundToDouble().toString()+'%',
                                         style: kCardTextStyle2,
                                       ),
                                     ],

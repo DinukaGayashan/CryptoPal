@@ -45,7 +45,7 @@ class CurrencyPredictionAccuracyGraph extends StatelessWidget {
             topBar(context, cryptocurrencyNames[currencyIndex]+' Prediction Accuracy'),
             SizedBox(
               width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height-135,
+              height: MediaQuery.of(context).size.height-160,
               child: SfCartesianChart(
                 legend: Legend(
                   isVisible: true,
@@ -89,6 +89,8 @@ class CurrencyPredictionAccuracyGraph extends StatelessWidget {
                     data.valueTwo>1000?0:100-sqrt(data.valueTwo),
                     markerSettings: const MarkerSettings(
                       isVisible: true,
+                      height: 2,
+                      width: 2,
                     ),
                   ),
                 ],
