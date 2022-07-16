@@ -138,9 +138,6 @@ class _CurrencyMarketGraphsState extends State<CurrencyMarketGraphs> {
                             setState(() {
                               if(_showClosePrice){
                                 _showClosePrice = _showOpenPrice?false:true;
-                                if(_showOpenPrice==false){
-                                  snackBar(context, message: 'Select at least one graph to display.', color: kYellow);
-                                }
                               }else{
                                 _showClosePrice = true;
                               }
@@ -162,9 +159,6 @@ class _CurrencyMarketGraphsState extends State<CurrencyMarketGraphs> {
                           setState(() {
                             if(_showOpenPrice){
                               _showOpenPrice = _showClosePrice?false:true;
-                              if(_showClosePrice==false){
-                                snackBar(context, message: 'Select at least one graph to display.', color: kYellow);
-                              }
                             }else{
                               _showOpenPrice = true;
                             }

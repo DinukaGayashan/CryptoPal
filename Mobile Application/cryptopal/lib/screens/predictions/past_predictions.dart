@@ -5,7 +5,7 @@ import 'package:cryptopal/utility/constants.dart';
 import 'package:cryptopal/utility/widgets.dart';
 import 'package:cryptopal/utility/real_price_data.dart';
 
-import 'package:cryptopal/screens/predictions/currency_past_predictions_graph.dart';
+import 'package:cryptopal/screens/predictions/currency_prediction_graph.dart';
 
 class PastPredictions extends StatefulWidget {
   const PastPredictions(
@@ -118,7 +118,7 @@ class _PastPredictionsState extends State<PastPredictions> {
                                     style: kCardSmallTextStyle,
                                     children: <TextSpan>[
                                       TextSpan(
-                                        text: kCurrencyPriceDisplay(getRealPrice(currency: prediction.predictionCurrency.split('-')[0], date: prediction.predictedDate)?.closePrice),
+                                        text: '\$ '+kCurrencyPriceDisplay(getRealPrice(currency: prediction.predictionCurrency.split('-')[0], date: prediction.predictedDate)?.closePrice),
                                         style: kCardTextStyle2,
                                       ),
                                     ],
@@ -152,7 +152,7 @@ class _PastPredictionsState extends State<PastPredictions> {
                                     style: kCardSmallTextStyle,
                                     children: <TextSpan>[
                                       TextSpan(
-                                        text: kCurrencyPriceDisplay(prediction.predictionClosePrice),
+                                        text: '\$ '+kCurrencyPriceDisplay(prediction.predictionClosePrice),
                                         style: kCardTextStyle2,
                                       ),
                                     ],
@@ -166,7 +166,7 @@ class _PastPredictionsState extends State<PastPredictions> {
                                     style: kCardSmallTextStyle,
                                     children: <TextSpan>[
                                       TextSpan(
-                                        text: kCurrencyPriceDisplay(getRealPrice(currency: cryptocurrencies[getCryptocurrencyIndex(prediction.predictionCurrency)], date: prediction.predictionDate)?.closePrice),
+                                        text: '\$ '+kCurrencyPriceDisplay(getRealPrice(currency: cryptocurrencies[getCryptocurrencyIndex(prediction.predictionCurrency)], date: prediction.predictionDate)?.closePrice),
                                         style: kCardTextStyle2,
                                       ),
                                     ],
@@ -181,7 +181,7 @@ class _PastPredictionsState extends State<PastPredictions> {
                                     style: kCardSmallTextStyle,
                                     children: <TextSpan>[
                                       TextSpan(
-                                        text: kCurrencyPriceDisplay(prediction.errorValue),
+                                        text: '\$ '+kCurrencyPriceDisplay(prediction.errorValue),
                                         style: kCardTextStyle2,
                                       ),
                                     ],
@@ -195,7 +195,7 @@ class _PastPredictionsState extends State<PastPredictions> {
                     ),
                     onTap: (){
                       Navigator.push(context, MaterialPageRoute(builder: (context){
-                        return CurrencyPastPredictionsGraph(getCryptocurrencyIndex(prediction.predictionCurrency), widget.realPriceList, prediction);
+                        return CurrencyPredictionGraph(getCryptocurrencyIndex(prediction.predictionCurrency), widget.realPriceList, prediction);
                       }));
                     },
                   ),

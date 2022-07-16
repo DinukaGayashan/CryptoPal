@@ -96,7 +96,7 @@ class _PredictionsState extends State<Predictions> {
                         width: 150,
                         decoration: BoxDecoration(
                           border: Border.all(
-                            color: kTransparentColor,
+                            color: kTransparentColor1,
                           ),
                         ),
                         child: Padding(
@@ -130,7 +130,7 @@ class _PredictionsState extends State<Predictions> {
                         width: 150,
                         decoration: BoxDecoration(
                           border: Border.all(
-                            color: kTransparentColor,
+                            color: kTransparentColor1,
                           ),
                         ),
                         child: Padding(

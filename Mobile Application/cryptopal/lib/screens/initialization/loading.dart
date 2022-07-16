@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cryptopal/screens/initialization/registration_form.dart';
 import 'package:cryptopal/screens/initialization/welcome.dart';
 import 'package:flutter/cupertino.dart';
@@ -63,9 +65,47 @@ class _LoadingState extends State<Loading> {
     }
   }
 
+  void checkConnection()async{
+    try{
+      final result = await InternetAddress.lookup('google.com');
+      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+        trySignIn();
+      }
+    }catch(e){
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return CupertinoAlertDialog(
+            title: const Text(
+              'Connection Error\n',
+              style: kInstructionStyle2,
+            ),
+            content: const Text(
+              "Check your connection and retry.\n",
+              style: kInstructionStyle,
+            ),
+            actions: [
+              TextButton(
+                child: const Text(
+                  "Retry",
+                  style: kLinkStyle,
+                ),
+                onPressed: () async {
+                  Navigator.of(context).pop();
+                  Navigator.pushReplacementNamed(
+                      context, Loading.id);
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    trySignIn();
+    checkConnection();
 
     return Scaffold(
       backgroundColor: kBaseColor1,

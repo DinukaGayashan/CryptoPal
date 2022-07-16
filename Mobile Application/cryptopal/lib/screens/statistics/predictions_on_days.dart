@@ -8,6 +8,8 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 
 import 'package:cryptopal/utility/real_price_data.dart';
 
+import '../predictions/currency_prediction_graph.dart';
+
 class PredictionsOnDays extends StatefulWidget {
   const PredictionsOnDays(this.predictionsOnDays, this.realPriceList, {Key? key}) : super(key: key);
   final Map<String,List<Prediction>> predictionsOnDays;
@@ -118,7 +120,8 @@ class _PredictionsOnDaysState extends State<PredictionsOnDays> {
                   ),
                 ),
                 const SizedBox(height: 30,),
-                SizedBox(height: 80,
+                SizedBox(
+                  height: 80,
                 child: CupertinoPicker(
                   onSelectedItemChanged: (int value) {
                     setState(() {
@@ -172,6 +175,11 @@ class _PredictionsOnDaysState extends State<PredictionsOnDays> {
                         ),
                       ),
                     ),
+                    onTap: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context){
+                        return CurrencyPredictionGraph(getCryptocurrencyIndex(prediction.predictionCurrency), widget.realPriceList, prediction);
+                      }));
+                    },
                   ),
                 const SizedBox(
                   height: 30,

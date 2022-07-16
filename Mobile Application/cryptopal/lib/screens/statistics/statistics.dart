@@ -175,39 +175,44 @@ class _StatisticsState extends State<Statistics> {
                 ),
                 GestureDetector(
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Text(currentUser.history.length.toString(),style: kCardTextStyle3,),
-                      const SizedBox(width: 5,),
-                      RichText(
-                        text: const TextSpan(
-                          text: 'Total\n',
-                          style: kCardSmallTextStyle,
-                          children: <TextSpan>[
-                            TextSpan(
-                              text: 'Active Days',
-                              style: kCardTextStyle,
+                      Row(
+                        children: [
+                          Text(currentUser.history.length.toString(),style: kCardTextStyle3,),
+                          const SizedBox(width: 5,),
+                          RichText(
+                            text: const TextSpan(
+                              text: 'Total\n',
+                              style: kCardSmallTextStyle,
+                              children: <TextSpan>[
+                                TextSpan(
+                                  text: 'Active Days',
+                                  style: kCardTextStyle,
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
-                      //const Text('Total\nActive Days',style: kCardSmallTextStyle,),
-                      const SizedBox(width: 20,),
-                      Text(currentUser.predictions.length.toString(),style: kCardTextStyle3,),
-                      const SizedBox(width: 5,),
-                      RichText(
-                        text: const TextSpan(
-                          text: 'Total\n',
-                          style: kCardSmallTextStyle,
-                          children: <TextSpan>[
-                            TextSpan(
-                              text: 'Predictions',
-                              style: kCardTextStyle,
+                      Row(
+                        children: [
+                          Text(currentUser.predictions.length.toString(),style: kCardTextStyle3,),
+                          const SizedBox(width: 5,),
+                          RichText(
+                            text: const TextSpan(
+                              text: 'Total\n',
+                              style: kCardSmallTextStyle,
+                              children: <TextSpan>[
+                                TextSpan(
+                                  text: 'Predictions',
+                                  style: kCardTextStyle,
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
-                      //const Text('Total\nPredictions',style: kCardSmallTextStyle,),
                     ],
                   ),
                   onTap: () {

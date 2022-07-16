@@ -6,7 +6,7 @@ import 'package:cryptopal/utility/constants.dart';
 import 'package:cryptopal/utility/widgets.dart';
 import 'package:cryptopal/utility/real_price_data.dart';
 
-import 'currency_future_predictions_graph.dart';
+import 'currency_prediction_graph.dart';
 
 class CurrencyFuturePredictions extends StatefulWidget {
   const CurrencyFuturePredictions(
@@ -215,7 +215,7 @@ class _CurrencyFuturePredictionsState extends State<CurrencyFuturePredictions> {
                                     style: kCardSmallTextStyle,
                                     children: <TextSpan>[
                                       TextSpan(
-                                        text: prediction.predictionClosePrice.toString(),
+                                        text: '\$ '+prediction.predictionClosePrice.toString(),
                                         style: kCardTextStyle2,
                                       ),
                                     ],
@@ -229,7 +229,7 @@ class _CurrencyFuturePredictionsState extends State<CurrencyFuturePredictions> {
                     ),
                     onTap: (){
                       Navigator.push(context, MaterialPageRoute(builder: (context){
-                        return CurrencyFuturePredictionsGraph(widget.currencyIndex, widget.realPriceList, prediction);
+                        return CurrencyPredictionGraph(widget.currencyIndex, widget.realPriceList, prediction);
                       }));
                     },
 

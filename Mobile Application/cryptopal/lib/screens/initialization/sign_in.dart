@@ -132,7 +132,7 @@ class _SignInState extends State<SignIn> {
                         contentPadding: EdgeInsets.symmetric(
                             vertical: 10.0, horizontal: 20.0),
                         border: InputBorder.none,
-                        fillColor: kTransparentColor,
+                        fillColor: kTransparentColor1,
                         filled: true,
                       ),
                     ),
@@ -156,7 +156,7 @@ class _SignInState extends State<SignIn> {
                         contentPadding: EdgeInsets.symmetric(
                             vertical: 10.0, horizontal: 20.0),
                         border: InputBorder.none,
-                        fillColor: kTransparentColor,
+                        fillColor: kTransparentColor1,
                         filled: true,
                       ),
                     ),

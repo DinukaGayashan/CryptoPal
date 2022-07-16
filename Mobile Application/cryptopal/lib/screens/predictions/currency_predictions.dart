@@ -158,7 +158,7 @@ class _CurrencyPredictionsState extends State<CurrencyPredictions> {
                         width: 150,
                         decoration: BoxDecoration(
                           border: Border.all(
-                            color: kTransparentColor,
+                            color: kTransparentColor1,
                           ),
                         ),
                         child: Padding(
@@ -197,7 +197,7 @@ class _CurrencyPredictionsState extends State<CurrencyPredictions> {
                         width: 150,
                         decoration: BoxDecoration(
                           border: Border.all(
-                            color: kTransparentColor,
+                            color: kTransparentColor1,
                           ),
                         ),
                         child: Padding(

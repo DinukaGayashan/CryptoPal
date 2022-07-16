@@ -83,7 +83,7 @@ class _SignUpState extends State<SignUp> {
                             contentPadding: EdgeInsets.symmetric(
                                 vertical: 10.0, horizontal: 20.0),
                             border: InputBorder.none,
-                            fillColor: kTransparentColor,
+                            fillColor: kTransparentColor1,
                             filled: true,
                           ),
                           onChanged: (value) {
@@ -106,7 +106,7 @@ class _SignUpState extends State<SignUp> {
                             contentPadding: EdgeInsets.symmetric(
                                 vertical: 10.0, horizontal: 20.0),
                             border: InputBorder.none,
-                            fillColor: kTransparentColor,
+                            fillColor: kTransparentColor1,
                             filled: true,
                           ),
                           onChanged: (value) {
@@ -129,7 +129,7 @@ class _SignUpState extends State<SignUp> {
                             contentPadding: EdgeInsets.symmetric(
                                 vertical: 10.0, horizontal: 20.0),
                             border: InputBorder.none,
-                            fillColor: kTransparentColor,
+                            fillColor: kTransparentColor1,
                             filled: true,
                           ),
                           onChanged: (value) {

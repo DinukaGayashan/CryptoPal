@@ -56,7 +56,7 @@ class Forecasts extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: <Widget>[
                           SizedBox(
-                            width: 150,
+                            width: 145,
                             child: Row(
                               children: [
                                 SizedBox(
@@ -84,7 +84,7 @@ class Forecasts extends StatelessWidget {
                                                 20
                                                 ? kYellow
                                                 : kRed,
-                                            animationType: AnimationType.easeOutBack,
+                                            animationType: AnimationType.ease,
                                             enableAnimation: true,
                                             cornerStyle: CornerStyle.bothCurve,
                                             width: 0.15,
@@ -161,22 +161,28 @@ class Forecasts extends StatelessWidget {
                               ],
                             ),
                           ),
-                          Text(
-                            (100-forecastPriceList[i].errorPercentage).roundToDouble().toString()+'%',
-                            style: TextStyle(
-                              fontSize: 15,
-                              fontFamily: 'Bierstadt',
-                              color: forecastPriceList[i].errorPercentage<
-                                  10
-                                  ? kGreen
-                                  : forecastPriceList[i].errorPercentage<
-                                  20
-                                  ? kYellow
-                                  : kRed,
+                          RichText(
+                            text: TextSpan(
+                              text: 'Accuracy\n',
+                              style: kTransparentSmallStyle,
+                              children: <TextSpan>[
+                                TextSpan(
+                                  text: (100-forecastPriceList[i].errorPercentage).roundToDouble().toString()+'%',
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    fontFamily: 'Bierstadt',
+                                    color: forecastPriceList[i].errorPercentage<
+                                        10
+                                        ? kGreen
+                                        : forecastPriceList[i].errorPercentage<
+                                        20
+                                        ? kYellow
+                                        : kRed,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-
-
                         ],
                       ),
                     ),

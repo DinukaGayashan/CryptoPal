@@ -484,12 +484,12 @@ class _DashboardState extends State<Dashboard> {
                                       mainAxisAlignment:
                                       MainAxisAlignment.center,
                                       children: <Widget>[
+                                        const SizedBox(height: 30,),
                                         SizedBox(
-                                          height: 90.0,
-                                          width: 200.0,
+                                          height: 50.0,
+                                          width: 160.0,
                                           child: Tooltip(
-                                            message: 'Past Errors',
-                                            triggerMode: TooltipTriggerMode.tap,
+                                            message: 'Accuracy History',
                                             child: SfLinearGauge(
                                               orientation:
                                               LinearGaugeOrientation
@@ -512,7 +512,7 @@ class _DashboardState extends State<Dashboard> {
                                                 i--)
                                                   LinearBarPointer(
                                                     enableAnimation: true,
-                                                    value: (currentUser
+                                                    value: (100-((currentUser
                                                         .pastPredictions[
                                                     i - 1]
                                                         .errorPercentage
@@ -523,7 +523,7 @@ class _DashboardState extends State<Dashboard> {
                                                         .pastPredictions[
                                                     i - 1]
                                                         .errorPercentage
-                                                        .abs()),
+                                                        .abs()))),
                                                     color: currentUser
                                                         .pastPredictions[
                                                     i - 1]
@@ -543,7 +543,7 @@ class _DashboardState extends State<Dashboard> {
                                           ),
                                         ),
                                         const SizedBox(
-                                          height: 30,
+                                          height: 40,
                                         ),
                                       ],
                                     ),
@@ -623,10 +623,10 @@ class _DashboardState extends State<Dashboard> {
                                       ),
                                     ),
                                     Padding(
-                                      padding: const EdgeInsets.only(right: 18.0,bottom: 10),
+                                      padding: const EdgeInsets.only(right: 20.0,bottom: 10),
                                       child: SizedBox(
-                                        height: 120,
-                                        width: 120,
+                                        height: 110,
+                                        width: 110,
                                         child: SfRadialGauge(
                                           axes:[
                                             RadialAxis(
@@ -643,8 +643,14 @@ class _DashboardState extends State<Dashboard> {
                                                 ),
                                                 pointers:[
                                                   RangePointer(
-                                                    color:kAccentColor1,
-                                                    animationType: AnimationType.easeOutBack,
+                                                    color: (getAverageForecastError())<
+                                                        10
+                                                        ? kGreen
+                                                        : (getAverageForecastError())<
+                                                        20
+                                                        ? kYellow
+                                                        : kRed,
+                                                    animationType: AnimationType.ease,
                                                     enableAnimation: true,
                                                     cornerStyle: CornerStyle.bothCurve,
                                                     width: 0.15,
@@ -785,8 +791,7 @@ class _DashboardState extends State<Dashboard> {
                                                   .realPriceList[i]
                                                   .pricesList
                                                   .last
-                                                  .closePrice)
-                                                  .toString(),
+                                                  .closePrice),
                                           style: kCardSmallTextStyle,
                                         ),
                                         Row(

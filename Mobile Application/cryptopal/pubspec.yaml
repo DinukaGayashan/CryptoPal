@@ -42,11 +42,13 @@ dependencies:
   liquid_pull_to_refresh: ^3.0.1
   syncfusion_flutter_charts: ^20.1.57
   syncfusion_flutter_gauges: ^20.1.57
+  syncfusion_flutter_sliders: ^20.2.38
   glass: ^1.0.1+1
   flutter_svg: ^1.1.0
   webview_flutter: ^3.0.4
   share_plus: ^4.0.10
   path_provider: ^2.0.11
+  equations: ^4.0.0
 
 dev_dependencies:
   flutter_test:

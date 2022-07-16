@@ -15,7 +15,7 @@ from tensorflow.python.keras.layers import Dense, Dropout
 from tensorflow.python.keras.layers import LSTM
 from tensorflow.python.keras.callbacks import ModelCheckpoint, EarlyStopping
 
-from fastapi import FastAPI
+from fastapi import BackgroundTasks, FastAPI
 from starlette.middleware.cors import CORSMiddleware
 
 cred = credentials.Certificate("src/serviceAccountKey.json")
@@ -33,12 +33,12 @@ app.add_middleware(
 
 
 @app.get("/")
-def root(currency_type, current_date):
+def root(currency_type, current_date,background_tasks:BackgroundTasks):
     s = time.perf_counter()
-    run_ml(currency_type, current_date)
+    background_tasks.add_task(run_ml,currency_type,current_date)
     elapsed = time.perf_counter() - s
     print(f'Execution time: {elapsed:0.2f} seconds.')
-    return {"message": f"completed ML for {currency_type}"}
+    return {"message": f"ML started for {currency_type}"}
 
 
 def dataset_generator_lstm(dataset, look_back=10):
@@ -104,7 +104,7 @@ def run_ml(currency, date):
 
     predictions_array = np.array(predicted_forcast_data).flatten()
     for i, price in enumerate(predictions_array):
-        day = (datetime.date.fromisoformat(date) + datetime.timedelta(days=i+1)).strftime('%Y-%m-%d')
+        day = (datetime.date.fromisoformat(date) + datetime.timedelta(days=i + 1)).strftime('%Y-%m-%d')
         db.collection('mlPredictions').document('predictions').collection('predictionPrices').document(
             day + ' ' + currency).set({
             'date': day,
