@@ -5,8 +5,8 @@ import 'package:cryptopal/utility/constants.dart';
 import 'package:cryptopal/utility/widgets.dart';
 import 'package:cryptopal/utility/real_price_data.dart';
 
-class CurrencyPastPredictionsGraph extends StatelessWidget {
-  const CurrencyPastPredictionsGraph(this.currencyIndex, this.realPriceList, this.prediction, {Key? key}) : super(key: key);
+class CurrencyPredictionGraph extends StatelessWidget {
+  const CurrencyPredictionGraph(this.currencyIndex, this.realPriceList, this.prediction, {Key? key}) : super(key: key);
 
   final int currencyIndex;
   final Prediction prediction;
