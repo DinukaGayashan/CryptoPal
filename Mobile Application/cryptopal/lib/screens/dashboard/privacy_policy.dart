@@ -8,7 +8,7 @@ class PrivacyPolicy extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.transparent,
+      backgroundColor: kBaseColor1,
       body: SafeArea(
         child: SizedBox(
           height: MediaQuery.of(context).size.height,

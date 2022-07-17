@@ -84,7 +84,7 @@ class _DashboardState extends State<Dashboard> {
   Widget build(BuildContext context) {
     return SafeArea(
           child: Scaffold(
-            backgroundColor: Colors.transparent,
+            backgroundColor: kBaseColor1,
             drawer: Drawer(
               backgroundColor: kTransparentColor4,
               width: MediaQuery.of(context).size.width * 0.72,
@@ -527,10 +527,13 @@ class _DashboardState extends State<Dashboard> {
                                                     color: currentUser
                                                         .pastPredictions[
                                                     i - 1]
-                                                        .errorPercentage >
-                                                        0
+                                                        .errorPercentage.abs() <
+                                                        10
                                                         ? kGreen
-                                                        : kRed,
+                                                        : currentUser
+                                                        .pastPredictions[
+                                                    i - 1]
+                                                        .errorPercentage.abs() <20?kYellow:kRed,
                                                     edgeStyle: LinearEdgeStyle
                                                         .bothCurve,
                                                     offset: i * 10,

@@ -77,7 +77,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
     final userEmail = user?.email;
 
     return Scaffold(
-      backgroundColor: Colors.transparent,
+      backgroundColor: kBaseColor1,
       body: SafeArea(
         child: SizedBox(
           height: MediaQuery.of(context).size.height,

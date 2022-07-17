@@ -28,8 +28,8 @@ class _CurrencyForecastsState extends State<CurrencyForecasts> {
   late String selectedDate = dates.first;
   late double closePrice=widget.forecastPriceList[widget.currencyIndex].pricesList.where((element) => element.date==selectedDate).first.closePrice;
   late double rsme=widget.forecastPriceList[widget.currencyIndex].errorValue;
-  late RangeValues priceRange=RangeValues(closePrice-3*rsme, closePrice+3*rsme);
-  late RangeValues selectedRange=RangeValues(closePrice-2*rsme, closePrice+2*rsme);
+  late SfRangeValues priceRange=SfRangeValues(closePrice-3*rsme, closePrice+3*rsme);
+  late SfRangeValues selectedRange=SfRangeValues(closePrice-2*rsme, closePrice+2*rsme);
 
   List<RealPrice> getRealPrices({required String currency, int number = 0}) {
     List<RealPrice> realPrices = [];
@@ -67,7 +67,7 @@ class _CurrencyForecastsState extends State<CurrencyForecasts> {
     return dates;
   }
 
-  double getProbabilityValue(RangeValues range){
+  double getProbabilityValue(SfRangeValues range){
     var s=(range.start-closePrice)/rsme;
     var e=(range.end-closePrice)/rsme;
     var simpson = SimpsonRule(
@@ -84,7 +84,7 @@ class _CurrencyForecastsState extends State<CurrencyForecasts> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.transparent,
+      backgroundColor: kBaseColor1,
       body: SafeArea(
         child: SizedBox(
           height: MediaQuery.of(context).size.height,
@@ -248,7 +248,7 @@ class _CurrencyForecastsState extends State<CurrencyForecasts> {
                   ),
                 ),
                 const SizedBox(height: 40,),
-                RichText(
+                /*RichText(
                   textAlign: TextAlign.center,
                   text: TextSpan(
                     text: 'Probability of ',
@@ -265,7 +265,7 @@ class _CurrencyForecastsState extends State<CurrencyForecasts> {
                     ],
                   ),
                 ),
-                const SizedBox(height: 10,),
+                const SizedBox(height: 10,),*/
                 SizedBox(
                   height: 80,
                   child: CupertinoPicker(
@@ -274,8 +274,9 @@ class _CurrencyForecastsState extends State<CurrencyForecasts> {
                         selectedDate = dates.elementAt(value);
                         closePrice=widget.forecastPriceList[widget.currencyIndex].pricesList.where((element) => element.date==selectedDate).first.closePrice;
                         rsme=widget.forecastPriceList[widget.currencyIndex].errorValue;
-                        priceRange=RangeValues(closePrice-3*rsme, closePrice+3*rsme);
-                        selectedRange=RangeValues(closePrice-2*rsme, closePrice+2*rsme);
+                        priceRange=SfRangeValues(closePrice-3*rsme, closePrice+3*rsme);
+                         // selectedRange.end>priceRange.end?selectedRange=SfRangeValues(selectedRange.start, priceRange.end):selectedRange=SfRangeValues(selectedRange.start, selectedRange.end);
+                         // selectedRange.start<priceRange.start?selectedRange=SfRangeValues(priceRange.start, selectedRange.end):selectedRange=SfRangeValues(selectedRange.start, selectedRange.end);
                       });
                     },
                     diameterRatio: 1.2,
@@ -293,13 +294,13 @@ class _CurrencyForecastsState extends State<CurrencyForecasts> {
                   ),
                 ),
                 const SizedBox(height: 20,),
-                Text(
+                /*Text(
                   ' to be between ',
                   style: kCardSmallTextStyle,
                   textAlign: TextAlign.center,
                 ),
-                const SizedBox(height: 10,),
-                SizedBox(
+                const SizedBox(height: 10,),*/
+                /*SizedBox(
                   width: double.infinity,
                   height: 70,
                   child: charts.SfCartesianChart(
@@ -333,8 +334,8 @@ class _CurrencyForecastsState extends State<CurrencyForecasts> {
                       ),
                     ],
                   ),
-                ),
-                RangeSlider(
+                ),*/
+                /*RangeSlider(
                   activeColor: kAccentColor1,
                   inactiveColor: kTransparentColor1,
                   values: selectedRange,
@@ -350,12 +351,73 @@ class _CurrencyForecastsState extends State<CurrencyForecasts> {
                       selectedRange = values;
                     });
                   },
+                ),*/
+                /*SfRangeSlider(
+                  activeColor: kAccentColor1,
+                  inactiveColor: kTransparentColor1,
+                  min: priceRange.start,
+                  max: priceRange.end,
+                  enableTooltip: true,
+                  tooltipShape: const SfPaddleTooltipShape(),
+                  values: selectedRange,
+                  onChanged: (dynamic values) {
+                    setState(() {
+                      selectedRange = values;
+                    });
+                  },
+                ),*/
+                SfRangeSelector(
+                  min: priceRange.start,
+                  max: priceRange.end,
+                  initialValues: selectedRange,
+                  activeColor: kAccentColor1,
+                  inactiveColor: kTransparentColor7,
+                  enableTooltip: true,
+                  tooltipShape: const SfPaddleTooltipShape(),
+                  onChanged: (dynamic values) {
+                    setState(() {
+                      selectedRange = values;
+                    });
+                  },
+                  child: SizedBox(
+                    width: double.infinity,
+                    height: 70,
+                    child: charts.SfCartesianChart(
+                      plotAreaBorderWidth:0,
+                      primaryXAxis: charts.NumericAxis(
+                        visibleMinimum: priceRange.start,
+                        visibleMaximum: priceRange.end,
+                        isVisible: false,
+                      ),
+                      primaryYAxis: charts.NumericAxis(
+                        visibleMaximum: 0.4,
+                        isVisible: false,
+                      ),
+                      series: <charts.ChartSeries>[
+                        charts.SplineAreaSeries<GraphData, double>(
+                          name: 'Probability Distribution',
+                          color: kTransparentColor2,
+                          dataSource: [
+                            GraphData(valueOne: closePrice-3.0*rsme, valueTwo: 0.004),
+                            GraphData(valueOne: closePrice-2.0*rsme, valueTwo: 0.054),
+                            GraphData(valueOne: closePrice-1.0*rsme, valueTwo: 0.242),
+                            GraphData(valueOne: closePrice, valueTwo: 0.399),
+                            GraphData(valueOne: closePrice+1.0*rsme, valueTwo: 0.242),
+                            GraphData(valueOne: closePrice+2.0*rsme, valueTwo: 0.054),
+                            GraphData(valueOne: closePrice+3.0*rsme, valueTwo: 0.004),
+                          ],
+                          xValueMapper: (GraphData data, _) => data.valueOne,
+                          yValueMapper: (GraphData data, _) => data.valueTwo,
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Text(
-                        '\$ '+kDashboardPriceDisplay(selectedRange.start),
+                      '\$ '+kDashboardPriceDisplay(selectedRange.start),
                       style: kCardTextStyle,
                     ),
                     Text(
@@ -364,55 +426,15 @@ class _CurrencyForecastsState extends State<CurrencyForecasts> {
                     ),
                   ],
                 ),
-                const Text(
-                  'is',
-                  style: kCardSmallTextStyle,
-                  textAlign: TextAlign.center,
-                ),
-                Text(
-                  getProbabilityValue(selectedRange).toStringAsFixed(2)+'%',
-                  style: kCardTextStyle2,
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 20,),
-
-
+                const SizedBox(height: 10,),
                 RichText(
                   textAlign: TextAlign.center,
                   text: TextSpan(
-                    text: 'Probability of ',
+                    text: 'Probability of',
                     style: kCardSmallTextStyle,
                     children: <TextSpan>[
                       TextSpan(
-                        text: cryptocurrencies[widget.currencyIndex],
-                        style: kCardTextStyle2,
-                      ),
-                      TextSpan(
-                        text: ' price on ',
-                        style: kCardSmallTextStyle,
-                      ),
-                      TextSpan(
-                        text: selectedDate,
-                        style: kCardTextStyle2,
-                      ),
-                      TextSpan(
-                        text: ' to be between ',
-                        style: kCardSmallTextStyle,
-                      ),
-                      TextSpan(
-                        text: '\$ '+kDashboardPriceDisplay(selectedRange.start),
-                        style: kCardTextStyle2,
-                      ),
-                      TextSpan(
-                        text: ' & ',
-                        style: kCardSmallTextStyle,
-                      ),
-                      TextSpan(
-                        text: '\$ '+kDashboardPriceDisplay(selectedRange.end),
-                        style: kCardTextStyle2,
-                      ),
-                      TextSpan(
-                        text: ' is ',
+                        text: ' price to be in the range\n',
                         style: kCardSmallTextStyle,
                       ),
                       TextSpan(
@@ -422,9 +444,6 @@ class _CurrencyForecastsState extends State<CurrencyForecasts> {
                     ],
                   ),
                 ),
-
-
-
                 const SizedBox(
                   height: 30,
                 ),

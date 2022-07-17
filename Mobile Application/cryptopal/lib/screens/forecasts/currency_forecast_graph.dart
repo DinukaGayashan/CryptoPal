@@ -43,66 +43,69 @@ class CurrencyForecastsGraph extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: glassCard(context,
-        Column(
-          children: [
-            topBar(context, cryptocurrencyNames[currencyIndex]+' Forecasts'),
-            SizedBox(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height-160,
-              child: SfCartesianChart(
-                legend: Legend(
-                  isVisible: true,
-                  overflowMode: LegendItemOverflowMode.wrap,
-                  position: LegendPosition.bottom,
-                ),
-                zoomPanBehavior: ZoomPanBehavior(
-                  enablePinching: true,
-                  enablePanning: true,
-                  enableMouseWheelZooming: true,
-                  zoomMode: ZoomMode.xy,
-                ),
-                primaryXAxis: DateTimeAxis(
-                  visibleMinimum: kMinDayInForecastGraph,
-                ),
-                primaryYAxis: NumericAxis(),
-                plotAreaBorderWidth: 1,
-                enableAxisAnimation: true,
-                crosshairBehavior: CrosshairBehavior(
-                  enable: true,
-                ),
-                tooltipBehavior: TooltipBehavior(
-                  enable: true,
-                ),
-                series: <ChartSeries>[
-                  LineSeries<RealPrice, DateTime>(
-                    name: cryptocurrencies[currencyIndex] +
-                        ' Real Price',
-                    color: kGraphColor1,
-                    dataSource: getRealPrices(
-                        currency: cryptocurrencies[currencyIndex] +
-                            '-USD'),
-                    xValueMapper: (RealPrice data, _) =>
-                        DateTime.parse(data.date),
-                    yValueMapper: (RealPrice data, _) => data.closePrice,
+    return Scaffold(
+      backgroundColor: kBaseColor1,
+      body: SafeArea(
+        child: glassCard(context,
+          Column(
+            children: [
+              topBar(context, cryptocurrencyNames[currencyIndex]+' Forecasts'),
+              SizedBox(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height-160,
+                child: SfCartesianChart(
+                  legend: Legend(
+                    isVisible: true,
+                    overflowMode: LegendItemOverflowMode.wrap,
+                    position: LegendPosition.bottom,
                   ),
-                  LineSeries<ForecastPrice, DateTime>(
-                    name: cryptocurrencies[currencyIndex] +
-                        ' Forecast Price',
-                    color: kGraphColor2,
-                    dataSource: getForecastPrices(
-                        currency: cryptocurrencies[currencyIndex]+
-                            '-USD'),
-                    xValueMapper: (ForecastPrice data, _) =>
-                        DateTime.parse(data.date),
-                    yValueMapper: (ForecastPrice data, _) => data.closePrice,
+                  zoomPanBehavior: ZoomPanBehavior(
+                    enablePinching: true,
+                    enablePanning: true,
+                    enableMouseWheelZooming: true,
+                    zoomMode: ZoomMode.xy,
                   ),
-                ],
+                  primaryXAxis: DateTimeAxis(
+                    visibleMinimum: kMinDayInForecastGraph,
+                  ),
+                  primaryYAxis: NumericAxis(),
+                  plotAreaBorderWidth: 1,
+                  enableAxisAnimation: true,
+                  crosshairBehavior: CrosshairBehavior(
+                    enable: true,
+                  ),
+                  tooltipBehavior: TooltipBehavior(
+                    enable: true,
+                  ),
+                  series: <ChartSeries>[
+                    LineSeries<RealPrice, DateTime>(
+                      name: cryptocurrencies[currencyIndex] +
+                          ' Real Price',
+                      color: kGraphColor1,
+                      dataSource: getRealPrices(
+                          currency: cryptocurrencies[currencyIndex] +
+                              '-USD'),
+                      xValueMapper: (RealPrice data, _) =>
+                          DateTime.parse(data.date),
+                      yValueMapper: (RealPrice data, _) => data.closePrice,
+                    ),
+                    LineSeries<ForecastPrice, DateTime>(
+                      name: cryptocurrencies[currencyIndex] +
+                          ' Forecast Price',
+                      color: kGraphColor2,
+                      dataSource: getForecastPrices(
+                          currency: cryptocurrencies[currencyIndex]+
+                              '-USD'),
+                      xValueMapper: (ForecastPrice data, _) =>
+                          DateTime.parse(data.date),
+                      yValueMapper: (ForecastPrice data, _) => data.closePrice,
+                    ),
+                  ],
+                ),
               ),
-            ),
 
-          ],
+            ],
+          ),
         ),
       ),
     );

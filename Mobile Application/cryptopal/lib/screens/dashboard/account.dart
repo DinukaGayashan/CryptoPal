@@ -46,7 +46,7 @@ class _AccountState extends State<Account> {
     }
 
     return Scaffold(
-      backgroundColor: Colors.transparent,
+      backgroundColor: kBaseColor1,
       body: SafeArea(
         child: SizedBox(
           height: MediaQuery.of(context).size.height,

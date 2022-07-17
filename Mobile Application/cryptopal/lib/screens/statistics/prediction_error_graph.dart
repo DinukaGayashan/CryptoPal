@@ -38,62 +38,65 @@ class PredictionErrorGraph extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: glassCard(context,
-        Column(
-          children: [
-            topBar(context,'Price Prediction Errors'),
-            SizedBox(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height-160,
-              child: SfCartesianChart(
-                legend: Legend(
-                  isVisible: true,
-                  overflowMode: LegendItemOverflowMode.wrap,
-                  position: LegendPosition.bottom,
-                ),
-                zoomPanBehavior: ZoomPanBehavior(
-                  enablePinching: true,
-                  enablePanning: true,
-                  enableMouseWheelZooming: true,
-                  zoomMode: ZoomMode.xy,
-                ),
-                primaryXAxis: DateTimeAxis(),
-                primaryYAxis: NumericAxis(),
-                plotAreaBorderWidth: 1,
-                enableAxisAnimation: true,
-                crosshairBehavior: CrosshairBehavior(
-                  enable: true,
-                ),
-                tooltipBehavior: TooltipBehavior(
-                  enable: true,
-                ),
-                series: <ChartSeries>[
-                  ScatterSeries<GraphData, DateTime>(
-                    name: 'Price Prediction Error Deviation',
-                    color: kGraphColor2,
-                    dataSource: getStandardDeviationHistoryNoNaN(),
-                    trendlines:<Trendline>[
-                      Trendline(
-                        name: 'Trendline',
-                        color: kGraphColor2,
-                        type: TrendlineType.polynomial,
-                      )
-                    ],
-                    xValueMapper: (GraphData data, _) =>
-                        DateTime.parse(data.valueOne),
-                    yValueMapper: (GraphData data, _) =>
-                    data.valueTwo,
-                    markerSettings: const MarkerSettings(
-                      isVisible: true,
-                      height: 2,
-                      width: 2,
-                    ),
+    return Scaffold(
+      backgroundColor: kBaseColor1,
+      body: SafeArea(
+        child: glassCard(context,
+          Column(
+            children: [
+              topBar(context,'Price Prediction Errors'),
+              SizedBox(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height-160,
+                child: SfCartesianChart(
+                  legend: Legend(
+                    isVisible: true,
+                    overflowMode: LegendItemOverflowMode.wrap,
+                    position: LegendPosition.bottom,
                   ),
-                ],
+                  zoomPanBehavior: ZoomPanBehavior(
+                    enablePinching: true,
+                    enablePanning: true,
+                    enableMouseWheelZooming: true,
+                    zoomMode: ZoomMode.xy,
+                  ),
+                  primaryXAxis: DateTimeAxis(),
+                  primaryYAxis: NumericAxis(),
+                  plotAreaBorderWidth: 1,
+                  enableAxisAnimation: true,
+                  crosshairBehavior: CrosshairBehavior(
+                    enable: true,
+                  ),
+                  tooltipBehavior: TooltipBehavior(
+                    enable: true,
+                  ),
+                  series: <ChartSeries>[
+                    ScatterSeries<GraphData, DateTime>(
+                      name: 'Price Prediction Error Deviation',
+                      color: kGraphColor2,
+                      dataSource: getStandardDeviationHistoryNoNaN(),
+                      trendlines:<Trendline>[
+                        Trendline(
+                          name: 'Trendline',
+                          color: kGraphColor2,
+                          type: TrendlineType.polynomial,
+                        )
+                      ],
+                      xValueMapper: (GraphData data, _) =>
+                          DateTime.parse(data.valueOne),
+                      yValueMapper: (GraphData data, _) =>
+                      data.valueTwo,
+                      markerSettings: const MarkerSettings(
+                        isVisible: true,
+                        height: 2,
+                        width: 2,
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

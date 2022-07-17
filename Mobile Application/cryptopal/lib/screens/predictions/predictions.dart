@@ -41,7 +41,7 @@ class _PredictionsState extends State<Predictions> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.transparent,
+      backgroundColor: kBaseColor1,
       floatingActionButton: FloatingActionButton(
         backgroundColor: kAccentColor1,
         tooltip: 'Add Prediction',

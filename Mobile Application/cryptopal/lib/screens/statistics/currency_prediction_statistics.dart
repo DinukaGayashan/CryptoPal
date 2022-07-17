@@ -123,7 +123,7 @@ class _CurrencyPredictionStatisticsState extends State<CurrencyPredictionStatist
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.transparent,
+      backgroundColor: kBaseColor1,
       body: SafeArea(
         child: SizedBox(
           height: MediaQuery.of(context).size.height,

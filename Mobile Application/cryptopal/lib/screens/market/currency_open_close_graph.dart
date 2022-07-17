@@ -30,72 +30,75 @@ class CurrencyOpenCloseGraph extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: glassCard(context,
-        Column(
-          children: [
-            topBar(context, cryptocurrencyNames[currencyIndex]+' Open Close Prices'),
-            SizedBox(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height-160,
-              child: SfCartesianChart(
-                zoomPanBehavior: ZoomPanBehavior(
-                  enablePinching: true,
-                  enablePanning: true,
-                  enableMouseWheelZooming: true,
-                  zoomMode: ZoomMode.xy,
-                ),
-                primaryXAxis: DateTimeAxis(
-                  visibleMinimum: kMinDayInExtendedGraph,
-                  dateFormat: DateFormat.yMd(),
-                ),
-                primaryYAxis: NumericAxis(),
-                plotAreaBorderWidth: 1,
-                tooltipBehavior: TooltipBehavior(
-                  enable: true,
-                ),
-                crosshairBehavior: CrosshairBehavior(
-                  enable: true,
-                ),
-                legend: Legend(
-                  isVisible: true,
-                  overflowMode: LegendItemOverflowMode.wrap,
-                  position: LegendPosition.bottom,
-                ),
-                series: <ChartSeries>[
-                  LineSeries<RealPrice, DateTime>(
-                    isVisible: showClose,
-                    name: cryptocurrencies[currencyIndex] +
-                        ' Close Price',
-                    color: kGraphColor1,
-                    dataSource: getRealPrices(
-                        currency:
-                        cryptocurrencies[currencyIndex] +
-                            '-USD'),
-                    xValueMapper: (RealPrice data, _) =>
-                        DateTime.parse(data.date),
-                    yValueMapper: (RealPrice data, _) =>
-                    data.closePrice,
-                    //pointColorMapper: (RealPrice data, _) => data.closePrice>data.openPrice?kGreen:kRed,
+    return Scaffold(
+      backgroundColor: kBaseColor1,
+      body: SafeArea(
+        child: glassCard(context,
+          Column(
+            children: [
+              topBar(context, cryptocurrencyNames[currencyIndex]+' Open Close Prices'),
+              SizedBox(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height-160,
+                child: SfCartesianChart(
+                  zoomPanBehavior: ZoomPanBehavior(
+                    enablePinching: true,
+                    enablePanning: true,
+                    enableMouseWheelZooming: true,
+                    zoomMode: ZoomMode.xy,
                   ),
-                  LineSeries<RealPrice, DateTime>(
-                    isVisible: showOpen,
-                    name: cryptocurrencies[currencyIndex] +
-                        ' Open Price',
-                    color: kGraphColor2,
-                    dataSource: getRealPrices(
-                        currency:
-                        cryptocurrencies[currencyIndex] +
-                            '-USD'),
-                    xValueMapper: (RealPrice data, _) =>
-                        DateTime.parse(data.date),
-                    yValueMapper: (RealPrice data, _) =>
-                    data.openPrice,
+                  primaryXAxis: DateTimeAxis(
+                    visibleMinimum: kMinDayInExtendedGraph,
+                    dateFormat: DateFormat.yMd(),
                   ),
-                ],
+                  primaryYAxis: NumericAxis(),
+                  plotAreaBorderWidth: 1,
+                  tooltipBehavior: TooltipBehavior(
+                    enable: true,
+                  ),
+                  crosshairBehavior: CrosshairBehavior(
+                    enable: true,
+                  ),
+                  legend: Legend(
+                    isVisible: true,
+                    overflowMode: LegendItemOverflowMode.wrap,
+                    position: LegendPosition.bottom,
+                  ),
+                  series: <ChartSeries>[
+                    LineSeries<RealPrice, DateTime>(
+                      isVisible: showClose,
+                      name: cryptocurrencies[currencyIndex] +
+                          ' Close Price',
+                      color: kGraphColor1,
+                      dataSource: getRealPrices(
+                          currency:
+                          cryptocurrencies[currencyIndex] +
+                              '-USD'),
+                      xValueMapper: (RealPrice data, _) =>
+                          DateTime.parse(data.date),
+                      yValueMapper: (RealPrice data, _) =>
+                      data.closePrice,
+                      //pointColorMapper: (RealPrice data, _) => data.closePrice>data.openPrice?kGreen:kRed,
+                    ),
+                    LineSeries<RealPrice, DateTime>(
+                      isVisible: showOpen,
+                      name: cryptocurrencies[currencyIndex] +
+                          ' Open Price',
+                      color: kGraphColor2,
+                      dataSource: getRealPrices(
+                          currency:
+                          cryptocurrencies[currencyIndex] +
+                              '-USD'),
+                      xValueMapper: (RealPrice data, _) =>
+                          DateTime.parse(data.date),
+                      yValueMapper: (RealPrice data, _) =>
+                      data.openPrice,
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

@@ -3,60 +3,37 @@ import 'package:glass/glass.dart';
 import 'constants.dart';
 
 Widget glassCard(BuildContext context, Widget content) {
-  return Material(
-    color: Colors.transparent,
-    child: Padding(
-      padding: const EdgeInsets.all(5.0),
-      child: Container(
-        decoration: BoxDecoration(
-          color: kCardColor,
-          borderRadius: BorderRadius.circular(30),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(18.0),
-          child: content,
-        ),
-      ).asGlass(
-        clipBorderRadius: BorderRadius.circular(30),
-        tintColor: kTransparentColor4,
-        frosted: false,
+  return Padding(
+    padding: const EdgeInsets.all(5.0),
+    child: Container(
+      decoration: BoxDecoration(
+        color: kCardColor,
+        borderRadius: BorderRadius.circular(30),
       ),
+      child: Padding(
+        padding: const EdgeInsets.all(18.0),
+        child: content,
+      ),
+    ).asGlass(
+      clipBorderRadius: BorderRadius.circular(30),
+      tintColor: kTransparentColor4,
+      frosted: false,
     ),
   );
 }
 
 Widget glassBackground(BuildContext context, Widget content) {
-  return Material(
-    color: Colors.transparent,
-    child: Container(
-      decoration: BoxDecoration(
-        color: kBackgroundColor,
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 21.0, vertical: 21.0),
-        child: content,
-      ),
+  return Container(
+    decoration: BoxDecoration(
+      color: kBackgroundColor,
+      borderRadius: BorderRadius.circular(10),
+    ),
+    child: Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 21.0, vertical: 21.0),
+      child: content,
     ),
   );
 }
-
-/*Widget openCloseAnimation(BuildContext context,
-    {required Widget closeWidget, required Widget openWidget}) {
-  return OpenContainer(
-    closedColor: Colors.transparent,
-    openColor: Colors.transparent,
-    closedElevation: 0,
-    openElevation: 5.0,
-    transitionType: ContainerTransitionType.fade,
-    closedBuilder: (context, action) {
-        return closeWidget;
-    },
-    openBuilder: (context, action) {
-        return openWidget;
-    },
-  );
-}*/
 
 Widget topBar(BuildContext context, String title) {
   return Row(
