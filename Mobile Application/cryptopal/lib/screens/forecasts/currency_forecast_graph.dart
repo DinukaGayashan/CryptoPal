@@ -52,7 +52,7 @@ class CurrencyForecastsGraph extends StatelessWidget {
               topBar(context, cryptocurrencyNames[currencyIndex]+' Forecasts'),
               SizedBox(
                 width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height-160,
+                height: MediaQuery.of(context).size.height-133,
                 child: SfCartesianChart(
                   legend: Legend(
                     isVisible: true,

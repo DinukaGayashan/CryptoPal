@@ -153,7 +153,7 @@ class _CurrencyPredictionsState extends State<CurrencyPredictions> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
-                    GestureDetector(
+                    InkWell(
                       child: Container(
                         width: 150,
                         decoration: BoxDecoration(
@@ -192,7 +192,7 @@ class _CurrencyPredictionsState extends State<CurrencyPredictions> {
                         }));
                       },
                     ),
-                    GestureDetector(
+                    InkWell(
                       child: Container(
                         width: 150,
                         decoration: BoxDecoration(
@@ -280,7 +280,7 @@ class _CurrencyPredictionsState extends State<CurrencyPredictions> {
                       enablePinching: true,
                       enablePanning: true,
                       enableMouseWheelZooming: true,
-                      zoomMode: ZoomMode.xy,
+                      zoomMode: ZoomMode.x,
                     ),
                     primaryXAxis: DateTimeAxis(
                       visibleMinimum: kMinDayInGraph,

@@ -22,7 +22,7 @@ const String about="CryptoPal is an advisory platform for cryptocurrency investm
 const kBaseColor1 = Color(0xff000000);
 const kBaseColor2 = Color(0xffeeeeee);
 const kBackgroundColor = Color(0xee121212);
-const kCardColor = Color(0xaa202020);
+const kCardColor = Color(0x99202020);
 const kAccentColor1 = Color(0xff14efbb);
 const kAccentColor2 = Color(0xffffd369);
 const kAccentColor3 = Color(0xff1d708f);
@@ -32,7 +32,7 @@ const kTransparentColor3 = Color(0xaaeeeeee);
 const kTransparentColor4 = Color(0xaa121212);
 const kTransparentColor5 = Color(0x33121212);
 const kTransparentColor6 = Color(0x33000000);
-const kTransparentColor7 = Color(0xbb121212);
+const kTransparentColor7 = Color(0x66151515);
 const kRed = Color(0xffea4f30);
 const kGreen = Color(0xff1fba72);
 const kYellow = Color(0xfff1ae2d);
@@ -162,6 +162,12 @@ const TextStyle kCardTextStyle3 = TextStyle(
   fontSize: 50,
   fontFamily: 'Bierstadt',
   color: kAccentColor1,
+);
+
+const TextStyle kCardMediumTextStyle = TextStyle(
+  fontSize: 25,
+  fontFamily: 'Bierstadt',
+  color: kBaseColor2,
 );
 
 const TextStyle kCardSmallTextStyle = TextStyle(

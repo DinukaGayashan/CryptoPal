@@ -189,8 +189,9 @@ class _AddPredictionState extends State<AddPrediction> {
                     ),
                   ),
                   RichText(
+                    textAlign: TextAlign.center,
                     text: TextSpan(
-                      text: cryptocurrencies[selectedCrypto]+' close price on '+widget.realPriceList.last.pricesList.last.date+' ',
+                      text: 'Last close price ('+widget.realPriceList.last.pricesList.last.date+')\n',
                       style: kCardSmallTextStyle,
                       children: <TextSpan>[
                         TextSpan(

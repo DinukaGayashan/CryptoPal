@@ -91,7 +91,7 @@ class _PredictionsState extends State<Predictions> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
-                    GestureDetector(
+                    InkWell(
                       child: Container(
                         width: 150,
                         decoration: BoxDecoration(
@@ -125,7 +125,7 @@ class _PredictionsState extends State<Predictions> {
                             }));
                       },
                     ),
-                    GestureDetector(
+                    InkWell(
                       child: Container(
                         width: 150,
                         decoration: BoxDecoration(
@@ -170,7 +170,7 @@ class _PredictionsState extends State<Predictions> {
                   height: 30.0,
                 ),
                 for (int i = 0; i < cryptocurrencies.length; i++)
-                  GestureDetector(
+                  InkWell(
                     child: glassCard(
                       context,
                       Padding(

@@ -568,7 +568,7 @@ class _DashboardState extends State<Dashboard> {
                           });
                         },
                       ),
-                      GestureDetector(
+                      InkWell(
                         child: glassCard(
                           context,
                           Column(
@@ -715,7 +715,7 @@ class _DashboardState extends State<Dashboard> {
                               ),
                             ),
                             for (int i = 0; i < cryptocurrencies.length; i++)
-                              GestureDetector(
+                              InkWell(
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                   children: <Widget>[
@@ -866,44 +866,44 @@ class _DashboardState extends State<Dashboard> {
                                 children: [
                                   for (var news
                                   in pickRandomItemsAsList(widget.newsList, 5))
-                                    GestureDetector(
-                                      child: Row(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          SizedBox(
-                                            height: 70,
-                                            width: 96,
-                                            child: Image.network(
-                                              news.imageUrl.toString(),
+                                    InkWell(
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(vertical: 15),
+                                        child: Row(
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          children: [
+                                            SizedBox(
+                                              width: 96,
+                                              child: Image.network(
+                                                news.imageUrl.toString(),
+                                              ),
                                             ),
-                                          ),
-                                          const SizedBox(
-                                            width: 10,
-                                          ),
-                                          Flexible(
-                                            child: Column(
-                                              crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  news.source.toString(),
-                                                  style: kTransparentSmallStyle,
-                                                ),
-                                                Text(
-                                                  news.title.toString(),
-                                                  style: kCardSmallTextStyle,
-                                                ),
-                                                Text(
-                                                  news.date.toString().split('T')[0],
-                                                  style: kTransparentSmallStyle,
-                                                ),
-                                                const SizedBox(
-                                                  height: 40,
-                                                ),
-                                              ],
+                                            const SizedBox(
+                                              width: 10,
                                             ),
-                                          ),
-                                        ],
+                                            Flexible(
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                children: [
+                                                  Text(
+                                                    news.source.toString(),
+                                                    style: kTransparentSmallStyle,
+                                                  ),
+                                                  Text(
+                                                    news.title.toString(),
+                                                    style: kCardSmallTextStyle,
+                                                  ),
+                                                  Text(
+                                                    news.date.toString().split('T')[0],
+                                                    style: kTransparentSmallStyle,
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                       onTap: () {
                                         Navigator.push(context,

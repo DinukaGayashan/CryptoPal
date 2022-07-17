@@ -39,7 +39,7 @@ class CurrencyOpenCloseGraph extends StatelessWidget {
               topBar(context, cryptocurrencyNames[currencyIndex]+' Open Close Prices'),
               SizedBox(
                 width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height-160,
+                height: MediaQuery.of(context).size.height-133,
                 child: SfCartesianChart(
                   zoomPanBehavior: ZoomPanBehavior(
                     enablePinching: true,

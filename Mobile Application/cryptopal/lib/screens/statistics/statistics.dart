@@ -173,7 +173,7 @@ class _StatisticsState extends State<Statistics> {
                 const SizedBox(
                   height: 20.0,
                 ),
-                GestureDetector(
+                InkWell(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
@@ -404,7 +404,7 @@ class _StatisticsState extends State<Statistics> {
                       enablePinching: true,
                       enablePanning: true,
                       enableMouseWheelZooming: true,
-                      zoomMode: charts.ZoomMode.xy,
+                      zoomMode: charts.ZoomMode.x,
                     ),
                     primaryXAxis: charts.DateTimeAxis(),
                     primaryYAxis: charts.NumericAxis(),
@@ -481,7 +481,7 @@ class _StatisticsState extends State<Statistics> {
                       enablePinching: true,
                       enablePanning: true,
                       enableMouseWheelZooming: true,
-                      zoomMode: charts.ZoomMode.xy,
+                      zoomMode: charts.ZoomMode.x,
                     ),
                     primaryXAxis: charts.DateTimeAxis(),
                     primaryYAxis: charts.NumericAxis(),
@@ -563,7 +563,7 @@ class _StatisticsState extends State<Statistics> {
                 ),
                 const SizedBox(height: 10.0,),
                 for (int i = 0; i < currenciesWithPastPredictions.length; i++)
-                  GestureDetector(
+                  InkWell(
                     child: glassCard(
                       context,
                       Padding(

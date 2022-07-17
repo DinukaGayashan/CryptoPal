@@ -78,7 +78,7 @@ class _PastPredictionsState extends State<PastPredictions> {
                 ),
                 for (var prediction in currentUser.pastPredictions
                     .reversed)
-                  GestureDetector(
+                  InkWell(
                     child: glassCard(
                       context,
                       Padding(
@@ -91,10 +91,10 @@ class _PastPredictionsState extends State<PastPredictions> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 SizedBox(
-                                  height: 60,
+                                  height: 70,
                                   child: Text(
                                     prediction.predictionDate+'\n'+prediction.predictionCurrency,
-                                    style: kCardTextStyle,
+                                    style: kCardMediumTextStyle,
                                   ),
                                 ),
                                 RichText(
@@ -118,7 +118,7 @@ class _PastPredictionsState extends State<PastPredictions> {
                                     style: kCardSmallTextStyle,
                                     children: <TextSpan>[
                                       TextSpan(
-                                        text: '\$ '+kCurrencyPriceDisplay(getRealPrice(currency: prediction.predictionCurrency.split('-')[0], date: prediction.predictedDate)?.closePrice),
+                                        text: kCurrencyPriceDisplay(getRealPrice(currency: prediction.predictionCurrency.split('-')[0], date: prediction.predictedDate)?.closePrice)+' \$',
                                         style: kCardTextStyle2,
                                       ),
                                     ],
@@ -145,14 +145,14 @@ class _PastPredictionsState extends State<PastPredictions> {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                const SizedBox(height: 60,),
+                                const SizedBox(height: 70,),
                                 RichText(
                                   text: TextSpan(
                                     text: 'Prediction Price\n',
                                     style: kCardSmallTextStyle,
                                     children: <TextSpan>[
                                       TextSpan(
-                                        text: '\$ '+kCurrencyPriceDisplay(prediction.predictionClosePrice),
+                                        text: kCurrencyPriceDisplay(prediction.predictionClosePrice)+' \$',
                                         style: kCardTextStyle2,
                                       ),
                                     ],
@@ -166,7 +166,7 @@ class _PastPredictionsState extends State<PastPredictions> {
                                     style: kCardSmallTextStyle,
                                     children: <TextSpan>[
                                       TextSpan(
-                                        text: '\$ '+kCurrencyPriceDisplay(getRealPrice(currency: cryptocurrencies[getCryptocurrencyIndex(prediction.predictionCurrency)], date: prediction.predictionDate)?.closePrice),
+                                        text: kCurrencyPriceDisplay(getRealPrice(currency: cryptocurrencies[getCryptocurrencyIndex(prediction.predictionCurrency)], date: prediction.predictionDate)?.closePrice)+' \$',
                                         style: kCardTextStyle2,
                                       ),
                                     ],
@@ -181,7 +181,7 @@ class _PastPredictionsState extends State<PastPredictions> {
                                     style: kCardSmallTextStyle,
                                     children: <TextSpan>[
                                       TextSpan(
-                                        text: '\$ '+kCurrencyPriceDisplay(prediction.errorValue),
+                                        text: kCurrencyPriceDisplay(prediction.errorValue)+' \$',
                                         style: kCardTextStyle2,
                                       ),
                                     ],

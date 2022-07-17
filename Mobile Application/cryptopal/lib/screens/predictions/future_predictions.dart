@@ -77,7 +77,7 @@ class _FuturePredictionsState extends State<FuturePredictions> {
                   height: 10.0,
                 ),
                 for (var prediction in currentUser.futurePredictions)
-                  GestureDetector(
+                  InkWell(
                     child: glassCard(
                       context,
                       Padding(
@@ -96,7 +96,7 @@ class _FuturePredictionsState extends State<FuturePredictions> {
                                     prediction.predictionDate +
                                         '\n' +
                                         prediction.predictionCurrency,
-                                    style: kCardTextStyle,
+                                    style: kCardMediumTextStyle,
                                   ),
                                 ),
                                 IconButton(
@@ -225,8 +225,8 @@ class _FuturePredictionsState extends State<FuturePredictions> {
                                     style: kCardSmallTextStyle,
                                     children: <TextSpan>[
                                       TextSpan(
-                                        text: '\$ '+prediction.predictionClosePrice
-                                            .toString(),
+                                        text: prediction.predictionClosePrice
+                                            .toString()+' \$',
                                         style: kCardTextStyle2,
                                       ),
                                     ],

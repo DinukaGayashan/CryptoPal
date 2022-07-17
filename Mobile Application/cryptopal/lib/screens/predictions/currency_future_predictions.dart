@@ -101,7 +101,7 @@ class _CurrencyFuturePredictionsState extends State<CurrencyFuturePredictions> {
                 ),
                 for (var prediction in getUserFuturePredictions(
                     currency: cryptocurrencies[widget.currencyIndex]))
-                  GestureDetector(
+                  InkWell(
                     child: glassCard(
                       context,
                       Padding(
@@ -118,7 +118,7 @@ class _CurrencyFuturePredictionsState extends State<CurrencyFuturePredictions> {
                                   height: 45.0,
                                   child: Text(
                                     prediction.predictionDate,
-                                    style: kCardTextStyle,
+                                    style: kCardMediumTextStyle,
                                   ),
                                 ),
                                 IconButton(
@@ -215,7 +215,7 @@ class _CurrencyFuturePredictionsState extends State<CurrencyFuturePredictions> {
                                     style: kCardSmallTextStyle,
                                     children: <TextSpan>[
                                       TextSpan(
-                                        text: '\$ '+prediction.predictionClosePrice.toString(),
+                                        text: prediction.predictionClosePrice.toString()+' \$',
                                         style: kCardTextStyle2,
                                       ),
                                     ],

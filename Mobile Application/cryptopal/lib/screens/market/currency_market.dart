@@ -43,7 +43,7 @@ class _CurrencyMarketState extends State<CurrencyMarket> {
             context,
             ListView(
               children: <Widget>[
-                topBar(context, cryptocurrencyNames[widget.currencyIndex]),
+                topBar(context, cryptocurrencyNames[widget.currencyIndex]+' Market'),
                 const SizedBox(
                   height: 10.0,
                 ),

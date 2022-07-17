@@ -48,7 +48,7 @@ class Forecasts extends StatelessWidget {
                   height: 20.0,
                 ),
                 for(int i=0;i<cryptocurrencies.length;i++)
-                  GestureDetector(
+                  InkWell(
                     child: glassCard(
                       context,
                       Row(
@@ -56,58 +56,15 @@ class Forecasts extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: <Widget>[
                           SizedBox(
-                            width: 145,
+                            width: 120,
                             child: Row(
                               children: [
-                                SizedBox(
-                                  height: 70,
-                                  width: 70,
-                                  child: SfRadialGauge(
-                                    axes:[
-                                      RadialAxis(
-                                        startAngle: 90,
-                                        endAngle: 90,
-                                        minimum: 0,
-                                        maximum: 100,
-                                        showLabels: false,
-                                        showTicks: false,
-                                        axisLineStyle: const AxisLineStyle(
-                                          thickness: 0.15,
-                                          thicknessUnit: GaugeSizeUnit.factor,
-                                        ),
-                                        pointers:[
-                                          RangePointer(
-                                            color: forecastPriceList[i].errorPercentage<
-                                                10
-                                                ? kGreen
-                                                : forecastPriceList[i].errorPercentage<
-                                                20
-                                                ? kYellow
-                                                : kRed,
-                                            animationType: AnimationType.ease,
-                                            enableAnimation: true,
-                                            cornerStyle: CornerStyle.bothCurve,
-                                            width: 0.15,
-                                            sizeUnit: GaugeSizeUnit.factor,
-                                            value: (100-forecastPriceList[i].errorPercentage),
-                                          ),
-                                        ],
-                                        annotations: <GaugeAnnotation>[
-                                          GaugeAnnotation(
-                                            positionFactor: 0.07,
-                                            angle: 90,
-                                            widget: SvgPicture.asset(
-                                              'assets/images/cryptocoin_icons/color/' +
-                                                  cryptocurrencies[i].toLowerCase() +
-                                                  '.svg',
-                                              width: 45.0,
-                                              height: 45.0,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
+                                SvgPicture.asset(
+                                  'assets/images/cryptocoin_icons/color/' +
+                                      cryptocurrencies[i].toLowerCase() +
+                                      '.svg',
+                                  width: 45.0,
+                                  height: 45.0,
                                 ),
                                 const SizedBox(
                                   width: 10.0,
@@ -131,7 +88,7 @@ class Forecasts extends StatelessWidget {
                           ),
                           SizedBox(
                             width: 100.0,
-                            height: 100.0,
+                            height: 90.0,
                             child: charts.SfCartesianChart(
                               primaryXAxis: charts.DateTimeAxis(
                                 isVisible: false,
