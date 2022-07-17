@@ -125,7 +125,7 @@ class _CurrencyMarketState extends State<CurrencyMarket> {
                       enablePinching: true,
                       enablePanning: true,
                       enableMouseWheelZooming: true,
-                      zoomMode: ZoomMode.xy,
+                      zoomMode: ZoomMode.x,
                     ),
                     primaryXAxis: DateTimeAxis(
                       visibleMinimum: kMinDayInGraph,
@@ -158,18 +158,20 @@ class _CurrencyMarketState extends State<CurrencyMarket> {
                     ],
                   ),
                 ),
-                TextButton(
-                  child: const Text(
-                    'More Graphs',
-                    style: kLinkStyle,
+                Center(
+                  child: TextButton(
+                    child: const Text(
+                      'More Graphs',
+                      style: kLinkStyle,
+                    ),
+                    onPressed: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                            return CurrencyMarketGraphs(
+                                widget.realPriceList, widget.currencyIndex);
+                          }));
+                    },
                   ),
-                  onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) {
-                          return CurrencyMarketGraphs(
-                              widget.realPriceList, widget.currencyIndex);
-                        }));
-                  },
                 ),
                 const SizedBox(
                   height: 10,

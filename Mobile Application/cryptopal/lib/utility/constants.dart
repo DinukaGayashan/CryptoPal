@@ -17,7 +17,7 @@ const List<String> cryptocurrencies = <String>[
   "DOGE"
 ];
 
-const String about="CryptoPal is an advisory platform for cryptocurrency investments that only focused on educational purposes. Please do not use this application as a advisor for financial investment purposes.";
+const String description="CryptoPal is an advisory platform for cryptocurrency investments that only focused on educational purposes. Please do not use this application as a advisor for financial investment purposes.";
 
 const kBaseColor1 = Color(0xff000000);
 const kBaseColor2 = Color(0xffeeeeee);
@@ -164,8 +164,8 @@ const TextStyle kCardTextStyle3 = TextStyle(
   color: kAccentColor1,
 );
 
-const TextStyle kCardMediumTextStyle = TextStyle(
-  fontSize: 25,
+const TextStyle kCardLargeTextStyle = TextStyle(
+  fontSize: 23,
   fontFamily: 'Bierstadt',
   color: kBaseColor2,
 );

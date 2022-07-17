@@ -22,21 +22,18 @@ class AboutApp extends StatelessWidget {
                 ),
                 Column(
                   children: <Widget>[
-                    Hero(
-                      tag: 'logo',
-                      child: CircleAvatar(
+
+                    CircleAvatar(
                         backgroundColor: Colors.transparent,
                         radius: 100.0,
                         child:
                         Image.asset('assets/images/CryptoPal-logo-white.png'),
-                      ),
+
                     ),
                     const SizedBox(
                       height: 50.0,
                       width: double.infinity,
                       child: Center(
-                        child: Hero(
-                          tag: 'name',
                           child: DefaultTextStyle(
                             child: Text(
                               'CryptoPal',
@@ -44,7 +41,6 @@ class AboutApp extends StatelessWidget {
                             style: kMainTitleStyle,
                           ),
                         ),
-                      ),
                     ),
                   ],
                 ),
@@ -57,11 +53,14 @@ class AboutApp extends StatelessWidget {
                     ),
                   ),
                 ),
-                const Text(
-                   about,
-                    style: kInstructionStyle,
+                const SizedBox(
+                  height: 30,
                 ),
-
+                const Text(
+                   description,
+                    style: kInstructionStyle,
+                  textAlign: TextAlign.center,
+                ),
 
                 const SizedBox(
                   height: 30,

@@ -44,7 +44,7 @@ class PredictionErrorGraph extends StatelessWidget {
         child: glassCard(context,
           Column(
             children: [
-              topBar(context,'Price Prediction Errors'),
+              topBar(context,'Price Prediction Error'),
               SizedBox(
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height-133,

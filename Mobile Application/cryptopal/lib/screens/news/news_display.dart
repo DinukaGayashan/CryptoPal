@@ -36,7 +36,7 @@ class _NewsDisplayState extends State<NewsDisplay> {
                   ),
                 ),
                 SizedBox(
-                  height: MediaQuery.of(context).size.height - 150,
+                  height: MediaQuery.of(context).size.height - 140,
                   child: ClipRRect(
                     borderRadius: const BorderRadius.all(
                       Radius.circular(20.0),

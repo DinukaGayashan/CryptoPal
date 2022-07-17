@@ -49,6 +49,7 @@ class Forecasts extends StatelessWidget {
                 ),
                 for(int i=0;i<cryptocurrencies.length;i++)
                   InkWell(
+                    borderRadius: BorderRadius.circular(30),
                     child: glassCard(
                       context,
                       Row(

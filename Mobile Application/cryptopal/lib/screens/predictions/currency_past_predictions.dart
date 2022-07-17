@@ -90,6 +90,7 @@ class _CurrencyPastPredictionsState extends State<CurrencyPastPredictions> {
                     past: true)
                     .reversed)
                   InkWell(
+                    borderRadius: BorderRadius.circular(30),
                     child: glassCard(
                       context,
                       Padding(
@@ -105,7 +106,7 @@ class _CurrencyPastPredictionsState extends State<CurrencyPastPredictions> {
                                   height: 50,
                                   child: Text(
                                     prediction.predictionDate,
-                                    style: kCardMediumTextStyle,
+                                    style: kCardLargeTextStyle,
                                   ),
                                 ),
                                 RichText(

@@ -79,7 +79,7 @@ class _CurrencyMarketGraphsState extends State<CurrencyMarketGraphs> {
                         enablePinching: true,
                         enablePanning: true,
                         enableMouseWheelZooming: true,
-                        zoomMode: ZoomMode.xy,
+                        zoomMode: ZoomMode.x,
                       ),
                       primaryXAxis: DateTimeAxis(
                         visibleMinimum: kMinDayInExtendedGraph,
@@ -202,7 +202,7 @@ class _CurrencyMarketGraphsState extends State<CurrencyMarketGraphs> {
                         enablePinching: true,
                         enablePanning: true,
                         enableMouseWheelZooming: true,
-                        zoomMode: ZoomMode.xy,
+                        zoomMode: ZoomMode.x,
                       ),
                       primaryXAxis: DateTimeAxis(
                         visibleMinimum: kMinDayInExtendedGraph,

@@ -24,6 +24,7 @@ import '../forecasts/currency_forecasts.dart';
 import '../forecasts/forecasts.dart';
 import '../predictions/add_prediction.dart';
 import 'account.dart';
+import 'help.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard(this.currentUser, this.realPriceList,
@@ -165,6 +166,10 @@ class _DashboardState extends State<Dashboard> {
                     ),
                     onTap: () {
                       Navigator.pop(context);
+                      Navigator.push(context,
+                          CupertinoPageRoute(builder: (context) {
+                            return const Help();
+                          }));
                     },
                   ),
                   ListTile(
@@ -186,6 +191,7 @@ class _DashboardState extends State<Dashboard> {
             ).asGlass(),
             body: LiquidPullToRefresh(
               color: Colors.transparent,
+              backgroundColor: Colors.transparent,
               onRefresh: () async {
                 Navigator.pushNamedAndRemoveUntil(
                     context, DashboardLoading.id, (route) => false);
@@ -238,7 +244,8 @@ class _DashboardState extends State<Dashboard> {
                       const SizedBox(
                         height: 20.0,
                       ),
-                      GestureDetector(
+                      InkWell(
+                        borderRadius: BorderRadius.circular(30),
                         child: glassCard(
                           context,
                           Column(
@@ -388,7 +395,8 @@ class _DashboardState extends State<Dashboard> {
                               }));
                         },
                       ),
-                      GestureDetector(
+                      InkWell(
+                        borderRadius: BorderRadius.circular(30),
                         child: glassCard(
                           context,
                           Column(
@@ -569,6 +577,7 @@ class _DashboardState extends State<Dashboard> {
                         },
                       ),
                       InkWell(
+                        borderRadius: BorderRadius.circular(30),
                         child: glassCard(
                           context,
                           Column(
@@ -702,234 +711,253 @@ class _DashboardState extends State<Dashboard> {
                               }));
                         },
                       ),
-                      glassCard(
-                        context,
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            const Padding(
-                              padding: EdgeInsets.all(10),
-                              child: Text(
-                                'Market',
-                                style: kCardTitleStyle,
+                      InkWell(
+                        borderRadius: BorderRadius.circular(30),
+                        child: glassCard(
+                          context,
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              const Padding(
+                                padding: EdgeInsets.all(10),
+                                child: Text(
+                                  'Market',
+                                  style: kCardTitleStyle,
+                                ),
                               ),
-                            ),
-                            for (int i = 0; i < cryptocurrencies.length; i++)
-                              InkWell(
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                  children: <Widget>[
-                                    const SizedBox(
-                                      width: 10.0,
-                                    ),
-                                    SvgPicture.asset(
-                                      'assets/images/cryptocoin_icons/color/' +
-                                          cryptocurrencies[i].toLowerCase() +
-                                          '.svg',
-                                      width: 35.0,
-                                      height: 35.0,
-                                    ),
-                                    const SizedBox(
-                                      width: 10.0,
-                                    ),
-                                    SizedBox(
-                                      width: 80.0,
-                                      child: Column(
-                                        crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                          Text(
-                                            cryptocurrencies[i],
-                                            style: kCardTextStyle,
-                                          ),
-                                          Text(
-                                            cryptocurrencyNames[i],
-                                            style: kCardSmallTextStyle,
-                                          ),
-                                        ],
+                              for (int i = 0; i < cryptocurrencies.length; i++)
+                                InkWell(
+                                  borderRadius: BorderRadius.circular(10),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    children: <Widget>[
+                                      const SizedBox(
+                                        width: 10.0,
                                       ),
-                                    ),
-                                    const SizedBox(
-                                      width: 5.0,
-                                    ),
-                                    SizedBox(
-                                      width: 120.0,
-                                      height: 100.0,
-                                      child: charts.SfCartesianChart(
-                                        primaryXAxis: charts.DateTimeAxis(
-                                          isVisible: false,
-                                        ),
-                                        primaryYAxis: charts.NumericAxis(
-                                          isVisible: false,
-                                        ),
-                                        plotAreaBorderWidth: 0,
-                                        series: <charts.ChartSeries>[
-                                          charts.LineSeries<RealPrice, DateTime>(
-                                            dataSource: getRealPrices(
-                                                currency:
-                                                cryptocurrencies[i] + '-USD',
-                                                number: 20),
-                                            xValueMapper: (RealPrice data, _) =>
-                                                DateTime.parse(data.date),
-                                            yValueMapper: (RealPrice data, _) =>
-                                            data.closePrice,
-                                            color: widget.realPriceList[i]
-                                                .priceIncreasePercentage >
-                                                0
-                                                ? kGreen
-                                                : kRed,
-                                          ),
-                                        ],
+                                      SvgPicture.asset(
+                                        'assets/images/cryptocoin_icons/color/' +
+                                            cryptocurrencies[i].toLowerCase() +
+                                            '.svg',
+                                        width: 35.0,
+                                        height: 35.0,
                                       ),
-                                    ),
-                                    const SizedBox(
-                                      width: 10.0,
-                                    ),
-                                    Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          '\$ ' +
-                                              kDashboardPriceDisplay(widget
-                                                  .realPriceList[i]
-                                                  .pricesList
-                                                  .last
-                                                  .closePrice),
-                                          style: kCardSmallTextStyle,
+                                      const SizedBox(
+                                        width: 10.0,
+                                      ),
+                                      SizedBox(
+                                        width: 80.0,
+                                        child: Column(
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                          children: <Widget>[
+                                            Text(
+                                              cryptocurrencies[i],
+                                              style: kCardTextStyle,
+                                            ),
+                                            Text(
+                                              cryptocurrencyNames[i],
+                                              style: kCardSmallTextStyle,
+                                            ),
+                                          ],
                                         ),
-                                        Row(
-                                          children: [
-                                            Icon(
-                                              widget.realPriceList[i]
-                                                  .priceIncreasePercentage >
-                                                  0
-                                                  ? Icons.arrow_upward
-                                                  : Icons.arrow_downward,
+                                      ),
+                                      const SizedBox(
+                                        width: 5.0,
+                                      ),
+                                      SizedBox(
+                                        width: 120.0,
+                                        height: 100.0,
+                                        child: charts.SfCartesianChart(
+                                          primaryXAxis: charts.DateTimeAxis(
+                                            isVisible: false,
+                                          ),
+                                          primaryYAxis: charts.NumericAxis(
+                                            isVisible: false,
+                                          ),
+                                          plotAreaBorderWidth: 0,
+                                          series: <charts.ChartSeries>[
+                                            charts.LineSeries<RealPrice, DateTime>(
+                                              dataSource: getRealPrices(
+                                                  currency:
+                                                  cryptocurrencies[i] + '-USD',
+                                                  number: 20),
+                                              xValueMapper: (RealPrice data, _) =>
+                                                  DateTime.parse(data.date),
+                                              yValueMapper: (RealPrice data, _) =>
+                                              data.closePrice,
                                               color: widget.realPriceList[i]
                                                   .priceIncreasePercentage >
                                                   0
                                                   ? kGreen
                                                   : kRed,
-                                              size: 15,
-                                            ),
-                                            SizedBox(
-                                              width: 60.0,
-                                              child: Text(
-                                                double.parse((widget
-                                                    .realPriceList[i]
-                                                    .priceIncreasePercentage)
-                                                    .toStringAsFixed(2))
-                                                    .toString() +
-                                                    '%',
-                                                style: TextStyle(
-                                                  fontSize: 15,
-                                                  fontFamily: 'Bierstadt',
-                                                  color: widget.realPriceList[i]
-                                                      .priceIncreasePercentage >
-                                                      0
-                                                      ? kGreen
-                                                      : kRed,
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                                onTap: () {
-                                  Navigator.push(context,
-                                      MaterialPageRoute(builder: (context) {
-                                        return CurrencyMarket(i, widget.realPriceList);
-                                      }));
-                                },
-                              ),
-                          ],
-                        ),
-                      ),
-                      glassCard(
-                        context,
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            const Padding(
-                              padding: EdgeInsets.all(10),
-                              child: Text(
-                                'News',
-                                style: kCardTitleStyle,
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 10,left: 10,right: 10),
-                              child: Column(
-                                children: [
-                                  for (var news
-                                  in pickRandomItemsAsList(widget.newsList, 5))
-                                    InkWell(
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(vertical: 15),
-                                        child: Row(
-                                          crossAxisAlignment: CrossAxisAlignment.center,
-                                          children: [
-                                            SizedBox(
-                                              width: 96,
-                                              child: Image.network(
-                                                news.imageUrl.toString(),
-                                              ),
-                                            ),
-                                            const SizedBox(
-                                              width: 10,
-                                            ),
-                                            Flexible(
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                children: [
-                                                  Text(
-                                                    news.source.toString(),
-                                                    style: kTransparentSmallStyle,
-                                                  ),
-                                                  Text(
-                                                    news.title.toString(),
-                                                    style: kCardSmallTextStyle,
-                                                  ),
-                                                  Text(
-                                                    news.date.toString().split('T')[0],
-                                                    style: kTransparentSmallStyle,
-                                                  ),
-                                                ],
-                                              ),
                                             ),
                                           ],
                                         ),
                                       ),
-                                      onTap: () {
-                                        Navigator.push(context,
-                                            MaterialPageRoute(builder: (context) {
-                                              return NewsDisplay(news);
-                                            }));
-                                      },
-                                    ),
-                                ],
-                              ),
-                            ),
-                            Center(
-                              child: TextButton(
-                                  onPressed: () {
+                                      const SizedBox(
+                                        width: 10.0,
+                                      ),
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            '\$ ' +
+                                                kDashboardPriceDisplay(widget
+                                                    .realPriceList[i]
+                                                    .pricesList
+                                                    .last
+                                                    .closePrice),
+                                            style: kCardSmallTextStyle,
+                                          ),
+                                          Row(
+                                            children: [
+                                              Icon(
+                                                widget.realPriceList[i]
+                                                    .priceIncreasePercentage >
+                                                    0
+                                                    ? Icons.arrow_upward
+                                                    : Icons.arrow_downward,
+                                                color: widget.realPriceList[i]
+                                                    .priceIncreasePercentage >
+                                                    0
+                                                    ? kGreen
+                                                    : kRed,
+                                                size: 15,
+                                              ),
+                                              SizedBox(
+                                                width: 60.0,
+                                                child: Text(
+                                                  double.parse((widget
+                                                      .realPriceList[i]
+                                                      .priceIncreasePercentage)
+                                                      .toStringAsFixed(2))
+                                                      .toString() +
+                                                      '%',
+                                                  style: TextStyle(
+                                                    fontSize: 15,
+                                                    fontFamily: 'Bierstadt',
+                                                    color: widget.realPriceList[i]
+                                                        .priceIncreasePercentage >
+                                                        0
+                                                        ? kGreen
+                                                        : kRed,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                  onTap: () {
                                     Navigator.push(context,
                                         MaterialPageRoute(builder: (context) {
-                                          return NewsListDisplay(widget.newsList);
+                                          return CurrencyMarket(i, widget.realPriceList);
                                         }));
                                   },
-                                  child: const Text(
-                                    'More News',
-                                    style: kLinkStyle,
-                                  )),
-                            )
-                          ],
+                                ),
+                            ],
+                          ),
                         ),
+                           onTap:  () {
+                        },
+                      ),
+                      InkWell(
+                        borderRadius: BorderRadius.circular(30),
+                        child: glassCard(
+                          context,
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              const Padding(
+                                padding: EdgeInsets.all(10),
+                                child: Text(
+                                  'News',
+                                  style: kCardTitleStyle,
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 10,left: 10,right: 10),
+                                child: Column(
+                                  children: [
+                                    for (var news
+                                    in pickRandomItemsAsList(widget.newsList, 5))
+                                      InkWell(
+                                        borderRadius: BorderRadius.circular(10),
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(vertical: 18),
+                                          child: Row(
+                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                            children: [
+                                              SizedBox(
+                                                width: 96,
+                                                child: Image.network(
+                                                  news.imageUrl.toString(),
+                                                ),
+                                              ),
+                                              const SizedBox(
+                                                width: 10,
+                                              ),
+                                              Flexible(
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                  children: [
+                                                    Text(
+                                                      news.source.toString(),
+                                                      style: kTransparentSmallStyle,
+                                                    ),
+                                                    Text(
+                                                      news.title.toString(),
+                                                      style: kCardSmallTextStyle,
+                                                    ),
+                                                    Text(
+                                                      news.date.toString().split('T')[0],
+                                                      style: kTransparentSmallStyle,
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        onTap: () {
+                                          Navigator.push(context,
+                                              MaterialPageRoute(builder: (context) {
+                                                return NewsDisplay(news);
+                                              }));
+                                        },
+                                      ),
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Center(
+                                child: TextButton(
+                                    onPressed: () {
+                                      Navigator.push(context,
+                                          MaterialPageRoute(builder: (context) {
+                                            return NewsListDisplay(widget.newsList);
+                                          }));
+                                    },
+                                    child: const Text(
+                                      'More News',
+                                      style: kLinkStyle,
+                                    )),
+                              )
+                            ],
+                          ),
+                        ),
+                        onTap: () {
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) {
+                                return NewsListDisplay(widget.newsList);
+                              }));
+                        },
                       ),
                       const SizedBox(
                         height: 30,

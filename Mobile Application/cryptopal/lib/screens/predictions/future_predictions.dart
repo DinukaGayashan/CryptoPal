@@ -78,6 +78,7 @@ class _FuturePredictionsState extends State<FuturePredictions> {
                 ),
                 for (var prediction in currentUser.futurePredictions)
                   InkWell(
+                    borderRadius: BorderRadius.circular(30),
                     child: glassCard(
                       context,
                       Padding(
@@ -96,7 +97,7 @@ class _FuturePredictionsState extends State<FuturePredictions> {
                                     prediction.predictionDate +
                                         '\n' +
                                         prediction.predictionCurrency,
-                                    style: kCardMediumTextStyle,
+                                    style: kCardLargeTextStyle,
                                   ),
                                 ),
                                 IconButton(
@@ -125,7 +126,7 @@ class _FuturePredictionsState extends State<FuturePredictions> {
                                             style: kInstructionStyle,
                                           ),
                                           actions: [
-                                            TextButton(
+                                            CupertinoDialogAction(
                                               child: const Text(
                                                 "Cancel",
                                                 style: kLinkStyle,
@@ -134,7 +135,7 @@ class _FuturePredictionsState extends State<FuturePredictions> {
                                                 Navigator.of(context).pop();
                                               },
                                             ),
-                                            TextButton(
+                                            CupertinoDialogAction(
                                               child: const Text(
                                                 "Delete",
                                                 style: kLinkStyle,

@@ -32,6 +32,7 @@ class _NewsListDisplayState extends State<NewsListDisplay> {
                   ),
                   for (var news in widget.newsList)
                     InkWell(
+                      borderRadius: BorderRadius.circular(10),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(vertical: 15),
                         child: Row(

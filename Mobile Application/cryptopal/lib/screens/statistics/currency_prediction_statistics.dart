@@ -366,7 +366,7 @@ class _CurrencyPredictionStatisticsState extends State<CurrencyPredictionStatist
                   width: double.infinity,
                   child: SfCartesianChart(
                     title: ChartTitle(
-                      text: 'Past Prediction Errors',
+                      text: 'Prediction Error',
                       textStyle: kCardSmallTextStyle,
                     ),
                     legend: Legend(

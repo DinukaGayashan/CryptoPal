@@ -85,7 +85,7 @@ class _LoadingState extends State<Loading> {
               style: kInstructionStyle,
             ),
             actions: [
-              TextButton(
+              CupertinoDialogAction(
                 child: const Text(
                   "Retry",
                   style: kLinkStyle,

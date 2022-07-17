@@ -44,7 +44,7 @@ class CurrencyPredictionErrorsGraph extends StatelessWidget {
         child: glassCard(context,
           Column(
             children: [
-              topBar(context, cryptocurrencyNames[currencyIndex]+' Prediction Errors'),
+              topBar(context, cryptocurrencyNames[currencyIndex]+' Prediction Error'),
               SizedBox(
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height-133,

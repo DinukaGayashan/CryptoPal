@@ -79,6 +79,7 @@ class _PastPredictionsState extends State<PastPredictions> {
                 for (var prediction in currentUser.pastPredictions
                     .reversed)
                   InkWell(
+                    borderRadius: BorderRadius.circular(30),
                     child: glassCard(
                       context,
                       Padding(
@@ -94,7 +95,7 @@ class _PastPredictionsState extends State<PastPredictions> {
                                   height: 70,
                                   child: Text(
                                     prediction.predictionDate+'\n'+prediction.predictionCurrency,
-                                    style: kCardMediumTextStyle,
+                                    style: kCardLargeTextStyle,
                                   ),
                                 ),
                                 RichText(

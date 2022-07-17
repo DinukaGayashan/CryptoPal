@@ -174,6 +174,7 @@ class _StatisticsState extends State<Statistics> {
                   height: 20.0,
                 ),
                 InkWell(
+                  borderRadius: BorderRadius.circular(10),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
@@ -469,7 +470,7 @@ class _StatisticsState extends State<Statistics> {
                   width: double.infinity,
                   child: charts.SfCartesianChart(
                     title: charts.ChartTitle(
-                      text: 'Price Prediction Errors',
+                      text: 'Price Prediction Error',
                       textStyle: kCardSmallTextStyle,
                     ),
                     legend: charts.Legend(
@@ -564,6 +565,7 @@ class _StatisticsState extends State<Statistics> {
                 const SizedBox(height: 10.0,),
                 for (int i = 0; i < currenciesWithPastPredictions.length; i++)
                   InkWell(
+                    borderRadius: BorderRadius.circular(30),
                     child: glassCard(
                       context,
                       Padding(
@@ -576,7 +578,7 @@ class _StatisticsState extends State<Statistics> {
                               children: <Widget>[
                                 SvgPicture.asset(
                                   'assets/images/cryptocoin_icons/color/' +
-                                      currenciesWithPastPredictions[i].toLowerCase() +
+                                      cryptocurrencies[i].toLowerCase() +
                                       '.svg',
                                   width: 40.0,
                                   height: 40.0,
@@ -585,8 +587,12 @@ class _StatisticsState extends State<Statistics> {
                                   height: 10,
                                 ),
                                 Text(
-                                  currenciesWithPastPredictions[i],
+                                  cryptocurrencies[i],
                                   style: kCardTextStyle,
+                                ),
+                                Text(
+                                  cryptocurrencyNames[i],
+                                  style: kCardSmallTextStyle,
                                 ),
                               ],
                             ),

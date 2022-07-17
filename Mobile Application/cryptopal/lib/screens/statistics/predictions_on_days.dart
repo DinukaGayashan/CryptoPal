@@ -102,7 +102,6 @@ class _PredictionsOnDaysState extends State<PredictionsOnDays> {
                     primaryXAxis: DateTimeAxis(
                       visibleMinimum: kMinDayInSmallGraph,
                     ),
-
                     plotAreaBorderWidth: 1,
                     enableAxisAnimation: true,
                     crosshairBehavior: CrosshairBehavior(
@@ -144,7 +143,8 @@ class _PredictionsOnDaysState extends State<PredictionsOnDays> {
                 ),
                 const SizedBox(height: 15,),
                 for(var prediction in widget.predictionsOnDays[selectedDate]!)
-                  GestureDetector(
+                  InkWell(
+                    borderRadius: BorderRadius.circular(30),
                     child: glassCard(
                       context,
                       Padding(
@@ -156,7 +156,7 @@ class _PredictionsOnDaysState extends State<PredictionsOnDays> {
                             SizedBox(
                               child: Text(
                                 prediction.predictionDate+'\n'+prediction.predictionCurrency,
-                                style: kCardTextStyle,
+                                style: kCardLargeTextStyle,
                               ),
                             ),
                             RichText(

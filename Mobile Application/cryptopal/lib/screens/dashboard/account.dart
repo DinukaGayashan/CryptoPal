@@ -241,7 +241,7 @@ class _AccountState extends State<Account> {
                                 ],
                               ),
                               actions: [
-                                TextButton(
+                                CupertinoDialogAction(
                                   child: const Text(
                                     "Cancel",
                                     style: kLinkStyle,
@@ -250,7 +250,7 @@ class _AccountState extends State<Account> {
                                     Navigator.of(context).pop();
                                   },
                                 ),
-                                TextButton(
+                                CupertinoDialogAction(
                                   child: const Text(
                                     "Confirm",
                                     style: kLinkStyle,
@@ -285,7 +285,7 @@ class _AccountState extends State<Account> {
                 const SizedBox(
                   height: 30.0,
                 ),
-                ListTile(
+                /*ListTile(
                   leading: const Icon(Icons.list_alt),
                   title: const Text(
                     'Fill Profile Details',
@@ -294,7 +294,7 @@ class _AccountState extends State<Account> {
                   onTap: (){
 
                   },
-                ),
+                ),*/
                 ListTile(
                   leading: const Icon(Icons.logout_outlined),
                   title: const Text(
@@ -317,7 +317,7 @@ class _AccountState extends State<Account> {
                             style: kInstructionStyle,
                           ),
                           actions: [
-                            TextButton(
+                            CupertinoDialogAction(
                               child: const Text(
                                 "No",
                                 style: kLinkStyle,
@@ -326,7 +326,7 @@ class _AccountState extends State<Account> {
                                 Navigator.of(context).pop();
                               },
                             ),
-                            TextButton(
+                            CupertinoDialogAction(
                               child: const Text(
                                 "Yes",
                                 style: kLinkStyle,

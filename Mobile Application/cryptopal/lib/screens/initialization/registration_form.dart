@@ -218,7 +218,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
                                       style: kInstructionStyle,
                                     ),
                                     actions: [
-                                      TextButton(
+                                      CupertinoDialogAction(
                                         child: const Text(
                                           "No",
                                           style: kLinkStyle,
@@ -227,7 +227,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
                                           Navigator.of(context).pop();
                                         },
                                       ),
-                                      TextButton(
+                                      CupertinoDialogAction(
                                         child: const Text(
                                           "Yes",
                                           style: kLinkStyle,

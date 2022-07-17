@@ -65,15 +65,15 @@ class Welcome extends StatelessWidget {
                               builder: (BuildContext context) {
                                 return CupertinoAlertDialog(
                                   title: const Text(
-                                    "CryptoPal\n",
+                                    "CryptoPal",
                                     style: kTitleStyle,
                                   ),
                                   content: const Text(
-                                    about,
+                                    description,
                                     style: kInstructionStyle,
                                   ),
                                   actions: [
-                                    TextButton(
+                                    CupertinoDialogAction(
                                       child: const Text(
                                         "OK",
                                         style: kLinkStyle,

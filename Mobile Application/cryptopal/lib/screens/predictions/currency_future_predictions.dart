@@ -102,6 +102,7 @@ class _CurrencyFuturePredictionsState extends State<CurrencyFuturePredictions> {
                 for (var prediction in getUserFuturePredictions(
                     currency: cryptocurrencies[widget.currencyIndex]))
                   InkWell(
+                    borderRadius: BorderRadius.circular(30),
                     child: glassCard(
                       context,
                       Padding(
@@ -118,7 +119,7 @@ class _CurrencyFuturePredictionsState extends State<CurrencyFuturePredictions> {
                                   height: 45.0,
                                   child: Text(
                                     prediction.predictionDate,
-                                    style: kCardMediumTextStyle,
+                                    style: kCardLargeTextStyle,
                                   ),
                                 ),
                                 IconButton(
@@ -141,7 +142,7 @@ class _CurrencyFuturePredictionsState extends State<CurrencyFuturePredictions> {
                                             style: kInstructionStyle,
                                           ),
                                           actions: [
-                                            TextButton(
+                                            CupertinoDialogAction(
                                               child: const Text(
                                                 "Cancel",
                                                 style: kLinkStyle,
@@ -150,7 +151,7 @@ class _CurrencyFuturePredictionsState extends State<CurrencyFuturePredictions> {
                                                 Navigator.of(context).pop();
                                               },
                                             ),
-                                            TextButton(
+                                            CupertinoDialogAction(
                                               child: const Text(
                                                 "Delete",
                                                 style: kLinkStyle,
