@@ -36,7 +36,7 @@ class CurrencyOpenCloseGraph extends StatelessWidget {
         child: glassCard(context,
           Column(
             children: [
-              topBar(context, cryptocurrencyNames[currencyIndex]+' Open Close Prices'),
+              topBar(context, cryptocurrencyNames[cryptocurrencies[currencyIndex]].toString()+' Open Close Prices'),
               SizedBox(
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height-133,

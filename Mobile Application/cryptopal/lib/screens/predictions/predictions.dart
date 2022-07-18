@@ -197,7 +197,7 @@ class _PredictionsState extends State<Predictions> {
                                   style: kCardTextStyle,
                                 ),
                                 Text(
-                                  cryptocurrencyNames[i],
+                                  cryptocurrencyNames[cryptocurrencies[i]].toString(),
                                   style: kCardSmallTextStyle,
                                 ),
                               ],

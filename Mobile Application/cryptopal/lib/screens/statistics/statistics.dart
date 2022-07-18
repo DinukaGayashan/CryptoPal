@@ -591,7 +591,7 @@ class _StatisticsState extends State<Statistics> {
                                   style: kCardTextStyle,
                                 ),
                                 Text(
-                                  cryptocurrencyNames[i],
+                                  cryptocurrencyNames[cryptocurrencies[i]].toString(),
                                   style: kCardSmallTextStyle,
                                 ),
                               ],

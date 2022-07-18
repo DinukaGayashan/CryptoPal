@@ -133,7 +133,7 @@ class _CurrencyPredictionStatisticsState extends State<CurrencyPredictionStatist
               children: <Widget>[
                 topBar(
                   context,
-                  cryptocurrencyNames[widget.currencyIndex] + ' Predictions',
+                  cryptocurrencyNames[cryptocurrencies[widget.currencyIndex]].toString() + ' Predictions',
                 ),
                 const SizedBox(
                   height: 20.0,

@@ -50,7 +50,7 @@ class _CurrencyMarketGraphsState extends State<CurrencyMarketGraphs> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  topBar(context, cryptocurrencyNames[widget.currencyIndex]+' Market Prices'),
+                  topBar(context, cryptocurrencyNames[cryptocurrencies[widget.currencyIndex]].toString()+' Market Prices'),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [

@@ -1,21 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:number_display/number_display.dart';
 
-const List<String> cryptocurrencyNames = <String>[
-  "Bitcoin",
-  "Ethereum",
-  "Litecoin",
-  "Ripple",
-  "Dogecoin"
-];
+List<String> selectedCryptocurrencies=[];
 
-const List<String> cryptocurrencies = <String>[
+const List<String> cryptocurrencies = [
   "BTC",
   "ETH",
   "LTC",
   "XRP",
   "DOGE"
 ];
+
+const Map<String,String> cryptocurrencyNames = {
+  "BTC":"Bitcoin",
+  "ETH":"Ethereum",
+  "LTC":"Litecoin",
+  "XRP": "Ripple",
+  "DOGE":"Dogecoin",
+};
 
 const String description="CryptoPal is an advisory platform for cryptocurrency investments that only focused on educational purposes. Please do not use this application as a advisor for financial investment purposes.";
 

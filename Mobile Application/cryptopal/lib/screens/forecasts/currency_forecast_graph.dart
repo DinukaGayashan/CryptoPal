@@ -49,7 +49,7 @@ class CurrencyForecastsGraph extends StatelessWidget {
         child: glassCard(context,
           Column(
             children: [
-              topBar(context, cryptocurrencyNames[currencyIndex]+' Forecasts'),
+              topBar(context, cryptocurrencyNames[cryptocurrencies[currencyIndex]].toString()+' Forecasts'),
               SizedBox(
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height-133,

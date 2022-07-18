@@ -79,7 +79,7 @@ class Forecasts extends StatelessWidget {
                                       style: kCardTextStyle,
                                     ),
                                     Text(
-                                      cryptocurrencyNames[i],
+                                      cryptocurrencyNames[cryptocurrencies[i]].toString(),
                                       style: kCardSmallTextStyle,
                                     ),
                                   ],

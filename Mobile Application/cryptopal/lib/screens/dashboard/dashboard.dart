@@ -65,7 +65,7 @@ class _DashboardState extends State<Dashboard> {
         index = i;
       }
     }
-    return minError.isInfinite ? '-' : cryptocurrencyNames[index];
+    return minError.isInfinite ? '-' : cryptocurrencyNames[cryptocurrencies[index]].toString();
   }
 
   double getAverageForecastError(){
@@ -753,7 +753,7 @@ class _DashboardState extends State<Dashboard> {
                                               style: kCardTextStyle,
                                             ),
                                             Text(
-                                              cryptocurrencyNames[i],
+                                              cryptocurrencyNames[cryptocurrencies[i]].toString(),
                                               style: kCardSmallTextStyle,
                                             ),
                                           ],

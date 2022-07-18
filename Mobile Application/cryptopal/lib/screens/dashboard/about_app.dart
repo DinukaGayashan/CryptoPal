@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:cryptopal/utility/constants.dart';
 import 'package:cryptopal/utility/widgets.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-import 'dart:html' as html;
 
 class AboutApp extends StatelessWidget {
   const AboutApp({Key? key}) : super(key: key);
@@ -85,23 +84,23 @@ class AboutApp extends StatelessWidget {
                 const SizedBox(
                   height: 10,
                 ),
-                Center(
-                  child: InkWell(
-                    child:Text(
-                      'Dinuka Gayashan',
-                      style: TextStyle(
-                        fontSize: 30,
-                        fontFamily: 'ReenieBeanie',
-                        color: kBaseColor2,
-                      ),
-                    ),
-                    onTap: (){
-                      html.window.open('https://dinukagayashan.github.io/_di-Website', 'new tab');
-                    },
-                    highlightColor: Colors.transparent,
-                    splashColor: Colors.transparent,
-                  ),
-                ),
+                // Center(
+                //   child: InkWell(
+                //     child:Text(
+                //       'Dinuka Gayashan',
+                //       style: TextStyle(
+                //         fontSize: 30,
+                //         fontFamily: 'ReenieBeanie',
+                //         color: kBaseColor2,
+                //       ),
+                //     ),
+                //     onTap: (){
+                //       html.window.open('https://dinukagayashan.github.io/_di-Website', 'new tab');
+                //     },
+                //     highlightColor: Colors.transparent,
+                //     splashColor: Colors.transparent,
+                //   ),
+                // ),
 
                 // const SizedBox(
                 //   height: 50.0,

@@ -282,16 +282,16 @@ class _AccountState extends State<Account> {
                 const SizedBox(
                   height: 30.0,
                 ),
-                /*ListTile(
-                  leading: const Icon(Icons.list_alt),
+                ListTile(
+                  leading: const Icon(Icons.currency_bitcoin),
                   title: const Text(
-                    'Fill Profile Details',
+                    'Select Cryptocurrencies',
                     style: kCardTextStyle,
                   ),
                   onTap: (){
 
                   },
-                ),*/
+                ),
                 ListTile(
                   leading: const Icon(Icons.logout_outlined),
                   title: const Text(

@@ -34,7 +34,7 @@ class CurrencyOHLCGraph extends StatelessWidget {
         child: glassCard(context,
           Column(
             children: [
-              topBar(context, cryptocurrencyNames[currencyIndex]+' OHLC Prices'),
+              topBar(context, cryptocurrencyNames[cryptocurrencies[currencyIndex]].toString()+' OHLC Prices'),
               SizedBox(
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height-133,
