@@ -1,8 +1,3 @@
-import 'package:cryptopal/screens/dashboard/about_app.dart';
-import 'package:cryptopal/screens/dashboard/privacy_policy.dart';
-import 'package:cryptopal/screens/news/news_list_display.dart';
-import 'package:cryptopal/screens/predictions/predictions.dart';
-import 'package:cryptopal/screens/statistics/statistics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:glass/glass.dart';
@@ -18,9 +13,12 @@ import 'package:cryptopal/utility/news_data.dart';
 import 'package:cryptopal/screens/dashboard/dashboard_loading.dart';
 import 'package:cryptopal/screens/market/currency_market.dart';
 import 'package:cryptopal/screens/news/news_display.dart';
+import 'package:cryptopal/screens/dashboard/about_app.dart';
+import 'package:cryptopal/screens/news/news_list_display.dart';
+import 'package:cryptopal/screens/predictions/predictions.dart';
+import 'package:cryptopal/screens/statistics/statistics.dart';
 
 import '../../utility/forecast_price_data.dart';
-import '../forecasts/currency_forecasts.dart';
 import '../forecasts/forecasts.dart';
 import '../predictions/add_prediction.dart';
 import 'account.dart';
@@ -144,20 +142,20 @@ class _DashboardState extends State<Dashboard> {
                       });
                     },
                   ),
-                  ListTile(
-                    leading: const Icon(Icons.lock),
-                    title: const Text(
-                      'Privacy Policy',
-                      style: kCardTextStyle,
-                    ),
-                    onTap: () {
-                      Navigator.pop(context);
-                      Navigator.push(context,
-                          CupertinoPageRoute(builder: (context) {
-                            return const PrivacyPolicy();
-                          }));
-                    },
-                  ),
+                  // ListTile(
+                  //   leading: const Icon(Icons.lock),
+                  //   title: const Text(
+                  //     'Privacy Policy',
+                  //     style: kCardTextStyle,
+                  //   ),
+                  //   onTap: () {
+                  //     Navigator.pop(context);
+                  //     Navigator.push(context,
+                  //         CupertinoPageRoute(builder: (context) {
+                  //           return const PrivacyPolicy();
+                  //         }));
+                  //   },
+                  // ),
                   ListTile(
                     leading: const Icon(Icons.help),
                     title: const Text(

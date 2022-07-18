@@ -281,8 +281,12 @@ class _CurrencyForecastsState extends State<CurrencyForecasts> {
                         closePrice=widget.forecastPriceList[widget.currencyIndex].pricesList.where((element) => element.date==selectedDate).first.closePrice;
                         rsme=widget.forecastPriceList[widget.currencyIndex].errorValue;
                         priceRange=SfRangeValues(closePrice-3*rsme, closePrice+3*rsme);
-                         // selectedRange.end>priceRange.end?selectedRange=SfRangeValues(selectedRange.start, priceRange.end):selectedRange=SfRangeValues(selectedRange.start, selectedRange.end);
-                         // selectedRange.start<priceRange.start?selectedRange=SfRangeValues(priceRange.start, selectedRange.end):selectedRange=SfRangeValues(selectedRange.start, selectedRange.end);
+                        // if(selectedRange.start<priceRange.start){
+                        //   selectedRange=SfRangeValues(priceRange.start,selectedRange.end);
+                        // }
+                        // if(selectedRange.end>priceRange.end){
+                        //   selectedRange=SfRangeValues(selectedRange.start,priceRange.end);
+                        // }
                       });
                     },
                     diameterRatio: 1.2,
@@ -367,7 +371,7 @@ class _CurrencyForecastsState extends State<CurrencyForecasts> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    SizedBox(width: 50,),
+                    const SizedBox(width: 50,),
                     SizedBox(
                       width: MediaQuery.of(context).size.width-250,
                       child: Text(

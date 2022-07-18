@@ -34,6 +34,10 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
+  font_awesome_flutter: ^10.1.0
+
+  flutter_web_plugins:
+    sdk: flutter
 
 dev_dependencies:
   flutter_test:
@@ -97,3 +101,6 @@ flutter:
     - family: Tenorite
       fonts:
         - asset: assets/fonts/Tenorite-Regular.ttf
+    - family: ReenieBeanie
+      fonts:
+        - asset: assets/fonts/ReenieBeanie-Regular.ttf

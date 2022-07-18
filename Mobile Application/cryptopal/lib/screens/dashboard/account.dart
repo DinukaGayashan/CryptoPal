@@ -67,75 +67,72 @@ class _AccountState extends State<Account> {
                           borderRadius: BorderRadius.circular(30.0),
                           side: BorderSide.none,
                         ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(00),
-                          child: SizedBox(
-                            height: 220,
-                            child: Stack(
-                              children: [
-                                SizedBox(
-                                  width:double.infinity,
-                                  child: RichText(
-                                    textAlign: TextAlign.right,
-                                    text: TextSpan(
-                                      text: '\n',
-                                      style: const TextStyle(
-                                        fontSize:85,
-                                      ),
-                                      children: <TextSpan>[
-                                        TextSpan(
-                                          text: kUserScoreDisplay(currentUser.score),
-                                          style: const TextStyle(
-                                            fontSize:160,
-                                            fontFamily: 'Bierstadt',
-                                            color: kTransparentColor5,
-                                          ),
-                                        ),
-                                      ],
+                        child: SizedBox(
+                          height: 220,
+                          child: Stack(
+                            children: [
+                              SizedBox(
+                                width:double.infinity,
+                                child: RichText(
+                                  textAlign: TextAlign.right,
+                                  text: TextSpan(
+                                    text: '\n',
+                                    style: const TextStyle(
+                                      fontSize:85,
                                     ),
-                                  ),
-                                ),
-                                Center(
-                                  child: RichText(
-                                    textAlign: TextAlign.center,
-                                    text: TextSpan(
-                                      text: '${currentUser.name}\n',
-                                      style: kCardTitleStyle,
-                                      children: <TextSpan>[
-                                        TextSpan(
-                                          text: currentUser.user?.email.toString(),
-                                          style: kCardSmallTextStyle,
+                                    children: <TextSpan>[
+                                      TextSpan(
+                                        text: kUserScoreDisplay(currentUser.score),
+                                        style: const TextStyle(
+                                          fontSize:160,
+                                          fontFamily: 'Bierstadt',
+                                          color: kTransparentColor5,
                                         ),
-                                        TextSpan(
-                                          text:'\nJoined $joinedDate',
-                                          style: kTransparentSmallStyle,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 40,
-                                  child:Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.end,
-                                    children: <Widget>[
-                                      const SizedBox(width: 10,),
-                                      CircleAvatar(
-                                        backgroundColor: Colors.transparent,
-                                        radius: 15.0,
-                                        child: Image.asset(
-                                            'assets/images/CryptoPal-logo-black.png'),
                                       ),
-                                      const Text(
-                                          'CryptoPal',
-                                          style: kSmallBlackTitleStyle,
-                                        ),
                                     ],
                                   ),
                                 ),
-                              ],
-                            ),
+                              ),
+                              Center(
+                                child: RichText(
+                                  textAlign: TextAlign.center,
+                                  text: TextSpan(
+                                    text: '${currentUser.name}\n',
+                                    style: kCardTitleStyle,
+                                    children: <TextSpan>[
+                                      TextSpan(
+                                        text: currentUser.user?.email.toString(),
+                                        style: kCardSmallTextStyle,
+                                      ),
+                                      TextSpan(
+                                        text:'\nJoined $joinedDate',
+                                        style: kTransparentSmallStyle,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 40,
+                                child:Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: <Widget>[
+                                    const SizedBox(width: 10,),
+                                    CircleAvatar(
+                                      backgroundColor: Colors.transparent,
+                                      radius: 15.0,
+                                      child: Image.asset(
+                                          'assets/images/CryptoPal-logo-black.png'),
+                                    ),
+                                    const Text(
+                                        'CryptoPal',
+                                        style: kSmallBlackTitleStyle,
+                                      ),
+                                  ],
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ).asGlass(

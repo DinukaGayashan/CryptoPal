@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cryptopal/utility/constants.dart';
 import 'package:cryptopal/utility/widgets.dart';
+import 'package:webview_flutter/webview_flutter.dart';
+import 'dart:html' as html;
 
 class AboutApp extends StatelessWidget {
   const AboutApp({Key? key}) : super(key: key);
@@ -20,47 +22,104 @@ class AboutApp extends StatelessWidget {
                 const SizedBox(
                   height: 10.0,
                 ),
-                Column(
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.end,
                   children: <Widget>[
-
                     CircleAvatar(
-                        backgroundColor: Colors.transparent,
-                        radius: 100.0,
-                        child:
-                        Image.asset('assets/images/CryptoPal-logo-white.png'),
-
+                      backgroundColor: Colors.transparent,
+                      radius: 25.0,
+                      child: Image.asset(
+                          'assets/images/CryptoPal-logo-white.png'),
                     ),
-                    const SizedBox(
-                      height: 50.0,
-                      width: double.infinity,
-                      child: Center(
-                          child: DefaultTextStyle(
-                            child: Text(
-                              'CryptoPal',
-                            ),
-                            style: kMainTitleStyle,
-                          ),
-                        ),
+                    DefaultTextStyle(
+                      style: kTitleStyle,
+                      child: Text(
+                        'CryptoPal',
+                      ),
                     ),
                   ],
                 ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height - 140,
+                  child: WebView(
+                    initialUrl: 'https://cryptopal-e288a.firebaseapp.com/AboutApp',
+                    javascriptMode: JavascriptMode.unrestricted,
+                  ),
+                ),
                 const SizedBox(
-                  height: 50.0,
-                  child: Center(
-                    child:  Text(
-                      'Advisory platform for cryptocurrency investments',
-                      style: kInstructionStyle,
+                  height: 20,
+                ),
+                const Text(
+                  "CryptoPal is an advisory platform for cryptocurrency investments that only focused on educational purposes.\n"
+                      "\nPlease do not use this application as a advisor for financial investment purposes.",
+                  style: kCardSmallTextStyle,
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(
+                  height: 50,
+                ),
+                Center(
+                  child: TextButton(
+                    onPressed: (){},
+                    child: Text(
+                        'Policies & Conditions'
                     ),
                   ),
                 ),
                 const SizedBox(
-                  height: 30,
+                  height: 50,
                 ),
-                const Text(
-                   description,
-                    style: kInstructionStyle,
-                  textAlign: TextAlign.center,
+                Center(
+                  child: Text(
+                    'DEVELOPER',
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontFamily: 'Bierstadt',
+                      color: kTransparentColor3,
+                      letterSpacing: 10,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
                 ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Center(
+                  child: InkWell(
+                    child:Text(
+                      'Dinuka Gayashan',
+                      style: TextStyle(
+                        fontSize: 30,
+                        fontFamily: 'ReenieBeanie',
+                        color: kBaseColor2,
+                      ),
+                    ),
+                    onTap: (){
+                      html.window.open('https://dinukagayashan.github.io/_di-Website', 'new tab');
+                    },
+                    highlightColor: Colors.transparent,
+                    splashColor: Colors.transparent,
+                  ),
+                ),
+
+                // const SizedBox(
+                //   height: 50.0,
+                //   child: Center(
+                //     child:  Text(
+                //       'Advisory platform for cryptocurrency investments',
+                //       style: kInstructionStyle,
+                //     ),
+                //   ),
+                // ),
+                // const SizedBox(
+                //   height: 30,
+                // ),
+                // const Text(
+                //    description,
+                //     style: kInstructionStyle,
+                //   textAlign: TextAlign.center,
+                // ),
 
                 const SizedBox(
                   height: 30,

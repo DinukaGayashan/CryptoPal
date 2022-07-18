@@ -1,8 +1,12 @@
+import 'package:cryptopal_web/about_app.dart';
+import 'package:cryptopal_web/home_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'constants.dart';
+import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 
 void main() {
+  setUrlStrategy(PathUrlStrategy());
   runApp(const CryptoPalWeb());
 }
 
@@ -14,47 +18,23 @@ class CryptoPalWeb extends StatelessWidget {
     return MaterialApp(
       title: "CryptoPal-Web",
       theme: ThemeData.dark().copyWith(
+        useMaterial3: true,
         primaryColor: kBaseColor1,
         scaffoldBackgroundColor: kBackgroundColor,
+        cupertinoOverrideTheme: const CupertinoThemeData(
+          textTheme: CupertinoTextThemeData(
+            dateTimePickerTextStyle: kInstructionStyle2,
+            pickerTextStyle: kInstructionStyle2,
+          ),
+        ),
       ),
-      home: const HomePage(),
+      initialRoute: '/HomePage',
+      routes: {
+        '/HomePage': (context) => HomePage(),
+        '/AboutApp': (context) => AboutApp(),
+      },
     );
   }
 }
 
-class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: kBackgroundColor,
-        body: Column(
-      children: <Widget>[
-        Hero(
-                tag: 'logo',
-                child: CircleAvatar(
-                  backgroundColor: Colors.transparent,
-                  radius: 100.0,
-                  child: Image.asset('assets/images/CryptoPal-logo-white.png'),
-                ),
-              ),
-        const SizedBox(
-          height: 50.0,
-          width: double.infinity,
-          child: Center(
-            child: Hero(
-              tag: 'name',
-              child: DefaultTextStyle(
-                child: Text(
-                  'CryptoPal',
-                ),
-                style: kMainTitleStyle,
-              ),
-            ),
-          ),
-        ),
-      ],
-    ));
-  }
-}
