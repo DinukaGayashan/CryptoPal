@@ -5,7 +5,7 @@ import 'package:cryptopal/utility/user_account.dart';
 import 'package:cryptopal/utility/constants.dart';
 import 'package:cryptopal/utility/widgets.dart';
 import 'package:cryptopal/utility/real_price_data.dart';
-
+import 'package:cryptopal/utility/cryptocurrency_data.dart';
 import 'currency_prediction_graph.dart';
 
 class CurrencyFuturePredictions extends StatefulWidget {

@@ -1,5 +1,5 @@
 import 'dart:math';
-import 'package:cryptopal/utility/constants.dart';
+import 'package:cryptopal/utility/cryptocurrency_data.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 

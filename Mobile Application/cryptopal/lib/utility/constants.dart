@@ -1,24 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:number_display/number_display.dart';
 
-List<String> selectedCryptocurrencies=[];
-
-const List<String> cryptocurrencies = [
-  "BTC",
-  "ETH",
-  "LTC",
-  "XRP",
-  "DOGE"
-];
-
-const Map<String,String> cryptocurrencyNames = {
-  "BTC":"Bitcoin",
-  "ETH":"Ethereum",
-  "LTC":"Litecoin",
-  "XRP": "Ripple",
-  "DOGE":"Dogecoin",
-};
-
 const String description="CryptoPal is an advisory platform for cryptocurrency investments that only focused on educational purposes. Please do not use this application as a advisor for financial investment purposes.";
 
 const kBaseColor1 = Color(0xff000000);
@@ -66,12 +48,6 @@ const TextStyle kMainTitleStyle = TextStyle(
 
 const TextStyle kTitleStyle = TextStyle(
   color: kBaseColor2,
-  fontFamily: 'Tenorite',
-  fontSize: 30,
-);
-
-const TextStyle kBlackTitleStyle = TextStyle(
-  color: kBaseColor1,
   fontFamily: 'Tenorite',
   fontSize: 30,
 );

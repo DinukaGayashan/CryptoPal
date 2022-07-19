@@ -10,6 +10,7 @@ import 'package:cryptopal/utility/widgets.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:equations/equations.dart';
 import 'currency_forecast_graph.dart';
+import 'package:cryptopal/utility/cryptocurrency_data.dart';
 
 class CurrencyForecasts extends StatefulWidget {
   const CurrencyForecasts(this.realPriceList, this.forecastPriceList, this.currencyIndex,{Key? key}) : super(key: key);

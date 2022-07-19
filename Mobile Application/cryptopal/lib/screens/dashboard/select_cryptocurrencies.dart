@@ -1,28 +1,30 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cryptopal/screens/dashboard/dashboard_loading.dart';
 import 'package:cryptopal/utility/cryptocurrency_data.dart';
 import 'package:cryptopal/utility/user_account.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-
+import 'package:cryptopal/screens/dashboard/dashboard_loading.dart';
 import '../../utility/constants.dart';
 import '../../utility/widgets.dart';
 
-class ChooseCryptocurrencies extends StatefulWidget {
-  const ChooseCryptocurrencies({Key? key}) : super(key: key);
+class SelectCryptocurrencies extends StatefulWidget {
+  const SelectCryptocurrencies({Key? key}) : super(key: key);
 
   @override
-  State<ChooseCryptocurrencies> createState() => _ChooseCryptocurrenciesState();
+  State<SelectCryptocurrencies> createState() => _SelectCryptocurrenciesState();
 }
 
-class _ChooseCryptocurrenciesState extends State<ChooseCryptocurrencies> {
+class _SelectCryptocurrenciesState extends State<SelectCryptocurrencies> {
 
+  final _firestore = FirebaseFirestore.instance;
   late Map<String,bool> stateOfCryptocurrencies={};
   late List<String> cryptocurrencyList=[];
 
   void initializeCryptocurrencyList(){
     stateOfCryptocurrencies=Map.fromIterables(cryptocurrencies, List.filled(cryptocurrencies.length, false));
-    for(var c in chosenCryptocurrencies){
+    for(var c in selectedCryptocurrencies){
       stateOfCryptocurrencies[c]=true;
     }
     cryptocurrencyList=stateOfCryptocurrencies.keys.toList();
@@ -90,9 +92,7 @@ class _ChooseCryptocurrenciesState extends State<ChooseCryptocurrencies> {
                               child: Row(
                                 children: [
                                   SvgPicture.asset(
-                                    'assets/images/cryptocoin_icons/color/' +
-                                        currency.toLowerCase() +
-                                        '.svg',
+                                    'assets/images/cryptocoin_icons/color/${currency.toLowerCase()}.svg',
                                     width: 45.0,
                                     height: 45.0,
                                   ),
@@ -124,7 +124,6 @@ class _ChooseCryptocurrenciesState extends State<ChooseCryptocurrencies> {
                                 setState(() {
                                   stateOfCryptocurrencies;
                                 });
-                                print(stateOfCryptocurrencies);
                               },
                             ),
                           ],
@@ -175,7 +174,21 @@ class _ChooseCryptocurrenciesState extends State<ChooseCryptocurrencies> {
                                 selectedList.add(currency);
                               }
                             }
-                            print(selectedList);
+                            try{
+                              await _firestore
+                                  .collection('users')
+                                  .doc(currentUser.user?.uid)
+                                  .set(
+                                {
+                                  'selectedCryptocurrencies': selectedList,
+                                },
+                                SetOptions(merge: true),);
+                            }
+                            catch(e){
+                              snackBar(context, message: e.toString(), color: kRed);
+                            }
+                            Navigator.of(context)
+                                .pushNamedAndRemoveUntil(DashboardLoading.id, (Route<dynamic> route) => false);
                           },
                         ),
                       ],

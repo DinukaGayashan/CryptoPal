@@ -4,7 +4,7 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:cryptopal/utility/user_account.dart';
 import 'package:cryptopal/utility/constants.dart';
 import 'package:cryptopal/utility/widgets.dart';
-
+import 'package:cryptopal/utility/cryptocurrency_data.dart';
 import '../../utility/real_price_data.dart';
 
 class CurrencyPredictionAccuracyGraph extends StatelessWidget {
@@ -47,7 +47,7 @@ class CurrencyPredictionAccuracyGraph extends StatelessWidget {
               topBar(context, cryptocurrencyNames[selectedCryptocurrencies[currencyIndex]].toString()+' Prediction Accuracy'),
               SizedBox(
                 width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height-133,
+                height: MediaQuery.of(context).size.height-155,
                 child: SfCartesianChart(
                   legend: Legend(
                     isVisible: true,

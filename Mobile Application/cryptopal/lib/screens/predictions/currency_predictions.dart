@@ -6,7 +6,7 @@ import 'package:cryptopal/utility/widgets.dart';
 import 'package:cryptopal/utility/real_price_data.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
-
+import 'package:cryptopal/utility/cryptocurrency_data.dart';
 import 'currency_future_predictions.dart';
 import 'currency_past_predictions.dart';
 import 'currency_predictions_graph.dart';

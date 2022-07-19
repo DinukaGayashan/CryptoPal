@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cryptopal/utility/constants.dart';
+import 'package:cryptopal/utility/cryptocurrency_data.dart';
 
 final _firestore = FirebaseFirestore.instance;
 

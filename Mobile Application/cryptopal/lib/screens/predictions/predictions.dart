@@ -8,6 +8,7 @@ import 'package:cryptopal/screens/predictions/currency_predictions.dart';
 import 'package:cryptopal/screens/predictions/add_prediction.dart';
 import 'package:cryptopal/screens/predictions/future_predictions.dart';
 import 'package:cryptopal/screens/predictions/past_predictions.dart';
+import 'package:cryptopal/utility/cryptocurrency_data.dart';
 
 class Predictions extends StatefulWidget {
   const Predictions(this.currentUser, this.realPriceList, {Key? key})

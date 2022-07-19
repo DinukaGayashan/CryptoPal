@@ -51,7 +51,7 @@ class AboutApp extends StatelessWidget {
                 ),
                 const Text(
                   "CryptoPal is an advisory platform for cryptocurrency investments that only focused on educational purposes.\n"
-                      "\nPlease do not use this application as a advisor for financial investment purposes.",
+                      "Please do not use this application as a advisor for financial investment purposes.",
                   style: kCardSmallTextStyle,
                   textAlign: TextAlign.center,
                 ),
@@ -62,7 +62,7 @@ class AboutApp extends StatelessWidget {
                   child: TextButton(
                     onPressed: (){},
                     child: Text(
-                        'Policies & Conditions',
+                        'Terms & Conditions',
                       style: kLinkStyle,
                     ),
                   ),

@@ -9,6 +9,7 @@ import 'package:cryptopal/utility/user_account.dart';
 import 'package:cryptopal/utility/real_price_data.dart';
 import 'package:cryptopal/utility/forecast_price_data.dart';
 import 'package:cryptopal/utility/news_data.dart';
+import '../../utility/cryptocurrency_data.dart';
 import 'dashboard.dart';
 
 final _functions = FirebaseFunctions.instance;
@@ -25,7 +26,7 @@ class DashboardLoading extends StatefulWidget {
 class _DashboardLoadingState extends State<DashboardLoading> {
   late UserAccount currentUser = UserAccount();
   late List<RealPricesOfACurrency> realPriceList;
-  late List<ForecastPricesOfACurrency> mlPredictionPriceList;
+  late List<ForecastPricesOfACurrency> mlForecastPriceList;
   late List<News> newsList = [];
 
   void addPastCryptoData() async {
@@ -63,6 +64,12 @@ class _DashboardLoadingState extends State<DashboardLoading> {
     Stopwatch stopwatchx = Stopwatch()..start();
 
     Stopwatch stopwatch = Stopwatch()..start();
+    await loadCryptocurrencyData();
+    stopwatch.stop();
+    print('crypto done in ${stopwatch.elapsed}');
+
+    stopwatch.reset();
+    stopwatch.start();
     currentUser = await getActiveUserData();
     stopwatch.stop();
     print('user done in ${stopwatch.elapsed}');
@@ -81,7 +88,7 @@ class _DashboardLoadingState extends State<DashboardLoading> {
 
     stopwatch.reset();
     stopwatch.start();
-    mlPredictionPriceList=await getMLPredictionPriceData();
+    mlForecastPriceList=await getMLForecastPriceData();
     stopwatch.stop();
     print('ml data done in ${stopwatch.elapsed}');
 
@@ -89,7 +96,7 @@ class _DashboardLoadingState extends State<DashboardLoading> {
     print('loading done in ${stopwatchx.elapsed}');
 
     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-      return Dashboard(currentUser, realPriceList, mlPredictionPriceList, newsList);
+      return Dashboard(currentUser, realPriceList, mlForecastPriceList, newsList);
     }));
   }
 
@@ -97,7 +104,11 @@ class _DashboardLoadingState extends State<DashboardLoading> {
   Widget build(BuildContext context) {
     //addPastCryptoData();
     //fixDatesOfPastCryptoData();
-    continueToDashboard();
+    try{
+      continueToDashboard();
+    }catch(e){
+
+    }
 
     return Scaffold(
       backgroundColor: kBaseColor1,

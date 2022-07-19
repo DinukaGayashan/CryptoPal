@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cryptopal/screens/dashboard/select_cryptocurrencies.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -146,6 +147,15 @@ class _AccountState extends State<Account> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    IconButton(
+                      tooltip:'Share User Card',
+                      icon: const Icon(
+                        Icons.share,
+                        size: 20,
+                        color: kTransparentColor3,
+                      ),
+                      onPressed: (){}
+                    ),
                     /*IconButton(
                       tooltip:'Download User Card',
                       icon: const Icon(
@@ -195,88 +205,21 @@ class _AccountState extends State<Account> {
                             .now()}');
                       },
                     ),
-                    IconButton(
-                      tooltip:'Change Username',
-                      icon: const Icon(
-                        Icons.edit,
-                        size: 20,
-                        color: kTransparentColor3,
-                      ),
-                      onPressed: () {
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              backgroundColor: kBackgroundColor,
-                              title: const Text(
-                                'Change Username',
-                                style: kInstructionStyle2,
-                              ),
-                              content: SizedBox(
-                                width: 200,
-                                height: 35,
-                                child: TextField(
-                                  decoration: const InputDecoration(
-                                    hintText:  "Enter new username",
-                                    hintStyle: kTransparentStyle,
-                                    focusedBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(color: kAccentColor3),
-                                    ),
-                                  ),
-                                  textCapitalization: TextCapitalization.words,
-                                  style: kCardTextStyle,
-                                  cursorHeight: 20,
-                                  cursorColor: kBaseColor2,
-                                  autofocus: true,
-                                  onChanged: (value) {
-                                    newName = value;
-                                  },
-                                ),
-                              ),
-                              actions: [
-                                TextButton(
-                                  child: const Text(
-                                    "Cancel",
-                                    style: kLinkStyle,
-                                  ),
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                ),
-                                TextButton(
-                                  child: const Text(
-                                    "Confirm",
-                                    style: kLinkStyle,
-                                  ),
-                                  onPressed: () async {
-                                    try{
-                                      currentUser.name=newName;
-                                      await _firestore
-                                          .collection('users')
-                                          .doc(currentUser.user?.uid)
-                                          .set(
-                                        {
-                                          'name': newName,
-                                        },
-                                        SetOptions(merge: true),);
-                                      snackBar(context, message: 'Username changed successfully.', color: kGreen);
-                                    }
-                                    catch(e){
-                                      snackBar(context, message: e.toString(), color: kRed);
-                                    }
-                                    Navigator.of(context).pop();
-                                  },
-                                ),
-                              ],
-                            );
-                          },
-                        );
-                      },
-                    ),
                   ],
                 ),
                 const SizedBox(
                   height: 30.0,
+                ),
+
+                ListTile(
+                  leading: const Icon(Icons.format_list_bulleted,),
+                  title: const Text(
+                    'Fill User Form',
+                    style: kCardTextStyle,
+                  ),
+                  onTap: (){
+
+                  },
                 ),
                 ListTile(
                   leading: const Icon(Icons.currency_bitcoin),
@@ -285,7 +228,87 @@ class _AccountState extends State<Account> {
                     style: kCardTextStyle,
                   ),
                   onTap: (){
-
+                      Navigator.push(context,
+                          CupertinoPageRoute(builder: (context) {
+                            return const SelectCryptocurrencies();
+                          }));
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(Icons.edit,),
+                  title: const Text(
+                    'Change Username',
+                    style: kCardTextStyle,
+                  ),
+                  onTap: (){
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          backgroundColor: kBackgroundColor,
+                          title: const Text(
+                            'Change Username',
+                            style: kInstructionStyle2,
+                          ),
+                          content: SizedBox(
+                            width: 200,
+                            height: 35,
+                            child: TextField(
+                              decoration: const InputDecoration(
+                                hintText:  "Enter new username",
+                                hintStyle: kTransparentStyle,
+                                focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: kAccentColor3),
+                                ),
+                              ),
+                              textCapitalization: TextCapitalization.words,
+                              style: kCardTextStyle,
+                              cursorHeight: 20,
+                              cursorColor: kBaseColor2,
+                              autofocus: true,
+                              onChanged: (value) {
+                                newName = value;
+                              },
+                            ),
+                          ),
+                          actions: [
+                            TextButton(
+                              child: const Text(
+                                "Cancel",
+                                style: kLinkStyle,
+                              ),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                            TextButton(
+                              child: const Text(
+                                "Confirm",
+                                style: kLinkStyle,
+                              ),
+                              onPressed: () async {
+                                try{
+                                  currentUser.name=newName;
+                                  await _firestore
+                                      .collection('users')
+                                      .doc(currentUser.user?.uid)
+                                      .set(
+                                    {
+                                      'name': newName,
+                                    },
+                                    SetOptions(merge: true),);
+                                  snackBar(context, message: 'Username changed successfully.', color: kGreen);
+                                }
+                                catch(e){
+                                  snackBar(context, message: e.toString(), color: kRed);
+                                }
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    );
                   },
                 ),
                 ListTile(

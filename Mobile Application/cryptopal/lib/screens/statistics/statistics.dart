@@ -1,6 +1,6 @@
 import 'package:cryptopal/screens/statistics/currency_prediction_statistics.dart';
 import 'package:cryptopal/screens/statistics/prediction_accuracy_graph.dart';
-import 'package:cryptopal/screens/statistics/prediction_error_graph.dart';
+import 'package:cryptopal/utility/cryptocurrency_data.dart';
 import 'package:cryptopal/screens/statistics/predictions_on_days.dart';
 import 'package:flutter/material.dart';
 import 'package:cryptopal/utility/user_account.dart';

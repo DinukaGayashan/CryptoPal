@@ -7,6 +7,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:syncfusion_flutter_charts/charts.dart' as charts;
 import 'package:cryptopal/utility/constants.dart';
 import 'package:cryptopal/utility/widgets.dart';
+import 'package:cryptopal/utility/cryptocurrency_data.dart';
 import 'package:cryptopal/utility/user_account.dart';
 import 'package:cryptopal/utility/real_price_data.dart';
 import 'package:cryptopal/utility/news_data.dart';
@@ -20,6 +21,7 @@ import 'package:cryptopal/screens/statistics/statistics.dart';
 
 import '../../utility/forecast_price_data.dart';
 import '../forecasts/forecasts.dart';
+import '../market/market.dart';
 import '../predictions/add_prediction.dart';
 import 'account.dart';
 import 'help.dart';
@@ -165,6 +167,9 @@ class _DashboardState extends State<Dashboard> {
                   //   },
                   // ),
                   ListTile(
+
+                  ),
+                  ListTile(
                     leading: const Icon(Icons.help),
                     title: const Text(
                       'Help',
@@ -233,7 +238,7 @@ class _DashboardState extends State<Dashboard> {
                             child: Image.asset(
                                 'assets/images/CryptoPal-logo-white.png'),
                           ),
-                          DefaultTextStyle(
+                          const DefaultTextStyle(
                             style: kTitleStyle,
                             child: Text(
                               'CryptoPal',
@@ -298,10 +303,8 @@ class _DashboardState extends State<Dashboard> {
                                               style: kCardSmallTextStyle,
                                               children: <TextSpan>[
                                                 TextSpan(
-                                                  text: currentUser.error
-                                                      .roundToDouble()
-                                                      .toString() +
-                                                      '%',
+                                                  text: '${currentUser.error
+                                                      .roundToDouble()}%',
                                                   style: kCardTextStyle2,
                                                 ),
                                               ],
@@ -323,8 +326,8 @@ class _DashboardState extends State<Dashboard> {
                                       ),
                                     ),
                                     SizedBox(
-                                      height: 200.0,
-                                      width: 200.0,
+                                      height: 190.0,
+                                      width: 190.0,
                                       child: SfRadialGauge(
                                         axes: <RadialAxis>[
                                           RadialAxis(
@@ -736,7 +739,7 @@ class _DashboardState extends State<Dashboard> {
                                   style: kCardTitleStyle,
                                 ),
                               ),
-                              for (int i = 0; i < selectedCryptocurrencies.length; i++)
+                              for (int i = 0; (i < selectedCryptocurrencies.length && i<5); i++)
                                 InkWell(
                                   borderRadius: BorderRadius.circular(10),
                                   child: Row(
@@ -868,11 +871,30 @@ class _DashboardState extends State<Dashboard> {
                                         }));
                                   },
                                 ),
+                              selectedCryptocurrencies.length>5?
+                              Center(
+                                child: TextButton(
+                                    onPressed: () {
+                                      Navigator.push(context,
+                                          MaterialPageRoute(builder: (context) {
+                                            return Market(widget.realPriceList);
+                                          }));
+                                    },
+                                    child: const Text(
+                                      'More Currencies',
+                                      style: kLinkStyle,
+                                    )),
+                              ):
+                                  const SizedBox(),
                             ],
                           ),
                         ),
                            onTap:  () {
-                        },
+                             Navigator.push(context,
+                                 MaterialPageRoute(builder: (context) {
+                                   return Market(widget.realPriceList);
+                                 }));
+                           },
                       ),
                       InkWell(
                         borderRadius: BorderRadius.circular(30),
@@ -959,7 +981,7 @@ class _DashboardState extends State<Dashboard> {
                                       'More News',
                                       style: kLinkStyle,
                                     )),
-                              )
+                              ),
                             ],
                           ),
                         ),

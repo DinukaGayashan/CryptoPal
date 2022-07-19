@@ -4,6 +4,7 @@ import 'package:cryptopal/utility/user_account.dart';
 import 'package:cryptopal/utility/constants.dart';
 import 'package:cryptopal/utility/widgets.dart';
 import 'package:cryptopal/utility/real_price_data.dart';
+import 'package:cryptopal/utility/cryptocurrency_data.dart';
 
 class CurrencyPredictionGraph extends StatelessWidget {
   const CurrencyPredictionGraph(this.currencyIndex, this.realPriceList, this.prediction, {Key? key}) : super(key: key);
@@ -37,7 +38,7 @@ class CurrencyPredictionGraph extends StatelessWidget {
               topBar(context, cryptocurrencyNames[selectedCryptocurrencies[currencyIndex]].toString()+' Prediction'),
               SizedBox(
                 width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height-133,
+                height: MediaQuery.of(context).size.height-155,
                 child: SfCartesianChart(
                   legend: Legend(
                     isVisible: true,

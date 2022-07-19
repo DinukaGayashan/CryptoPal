@@ -4,8 +4,7 @@ import 'package:syncfusion_flutter_charts/charts.dart' as charts;
 import 'package:cryptopal/utility/real_price_data.dart';
 import 'package:cryptopal/utility/constants.dart';
 import 'package:cryptopal/utility/widgets.dart';
-import 'package:syncfusion_flutter_gauges/gauges.dart';
-
+import 'package:cryptopal/utility/cryptocurrency_data.dart';
 import '../../utility/forecast_price_data.dart';
 import 'currency_forecasts.dart';
 

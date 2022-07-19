@@ -8,6 +8,7 @@ import 'package:cryptopal/utility/widgets.dart';
 
 import 'currency_ohlc_graph.dart';
 import 'currency_open_close_graph.dart';
+import 'package:cryptopal/utility/cryptocurrency_data.dart';
 
 class CurrencyMarketGraphs extends StatefulWidget {
   const CurrencyMarketGraphs(this.realPriceList, this.currencyIndex, {Key? key})

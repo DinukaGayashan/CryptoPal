@@ -35,7 +35,7 @@ class PredictionAccuracyGraph extends StatelessWidget {
               topBar(context,'Price Prediction Accuracy'),
               SizedBox(
                 width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height-133,
+                height: MediaQuery.of(context).size.height-155,
                 child: SfCartesianChart(
                   legend: Legend(
                     isVisible: true,

@@ -6,7 +6,7 @@ import 'package:cryptopal/utility/widgets.dart';
 import 'package:cryptopal/utility/real_price_data.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
-
+import 'package:cryptopal/utility/cryptocurrency_data.dart';
 import '../predictions/currency_predictions_graph.dart';
 import 'currency_prediction_accuracy_graph.dart';
 import 'currency_prediction_errors_graph.dart';
@@ -340,85 +340,85 @@ class _CurrencyPredictionStatisticsState extends State<CurrencyPredictionStatist
                         ],
                       ),
                     ),
-                const SizedBox(
-                  height: 20.0,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    IconButton(
-                      onPressed: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) {
-                              return CurrencyPredictionErrorsGraph(
-                                  currentUser, widget.currencyIndex);
-                            }));
-                      },
-                      icon: const Icon(
-                        Icons.fullscreen,
-                      ),
-                      tooltip: 'Full Screen View',
-                      alignment: Alignment.bottomRight,
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  width: double.infinity,
-                  child: SfCartesianChart(
-                    title: ChartTitle(
-                      text: 'Prediction Error',
-                      textStyle: kCardSmallTextStyle,
-                    ),
-                    legend: Legend(
-                      isVisible: true,
-                      overflowMode: LegendItemOverflowMode.wrap,
-                      position: LegendPosition.bottom,
-                    ),
-                    zoomPanBehavior: ZoomPanBehavior(
-                      enablePinching: true,
-                      enablePanning: true,
-                      enableMouseWheelZooming: true,
-                      zoomMode: ZoomMode.x,
-                    ),
-                    primaryXAxis: DateTimeAxis(),
-                    primaryYAxis: NumericAxis(),
-                    plotAreaBorderWidth: 1,
-                    enableAxisAnimation: true,
-                    crosshairBehavior: CrosshairBehavior(
-                      enable: true,
-                    ),
-                    tooltipBehavior: TooltipBehavior(
-                      enable: true,
-                    ),
-                    series: <ChartSeries>[
-                      ScatterSeries<GraphData, DateTime>(
-                        name: selectedCryptocurrencies[widget.currencyIndex] +
-                            ' Prediction Error Deviation',
-                        color: kGraphColor2,
-                        dataSource: getValuesOnCurrencyNoNaN(
-                            currency: selectedCryptocurrencies[
-                            widget.currencyIndex],
-                            type: 'variance'),
-                        trendlines:<Trendline>[
-                          Trendline(
-                            name: 'Trendline',
-                            color: kGraphColor2,
-                            type: TrendlineType.polynomial,
-                          )
-                        ],
-                        xValueMapper: (GraphData data, _) =>
-                            DateTime.parse(data.valueOne),
-                        yValueMapper: (GraphData data, _) =>
-                            sqrt(data.valueTwo.toDouble()),
-                        markerSettings: const MarkerSettings(
-                          isVisible: true,
-                          height: 2,
-                          width: 2,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                // const SizedBox(
+                //   height: 20.0,
+                // ),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.end,
+                //   children: [
+                //     IconButton(
+                //       onPressed: () {
+                //         Navigator.push(context,
+                //             MaterialPageRoute(builder: (context) {
+                //               return CurrencyPredictionErrorsGraph(
+                //                   currentUser, widget.currencyIndex);
+                //             }));
+                //       },
+                //       icon: const Icon(
+                //         Icons.fullscreen,
+                //       ),
+                //       tooltip: 'Full Screen View',
+                //       alignment: Alignment.bottomRight,
+                //     ),
+                //   ],
+                // ),
+                // SizedBox(
+                //   width: double.infinity,
+                //   child: SfCartesianChart(
+                //     title: ChartTitle(
+                //       text: 'Prediction Error',
+                //       textStyle: kCardSmallTextStyle,
+                //     ),
+                //     legend: Legend(
+                //       isVisible: true,
+                //       overflowMode: LegendItemOverflowMode.wrap,
+                //       position: LegendPosition.bottom,
+                //     ),
+                //     zoomPanBehavior: ZoomPanBehavior(
+                //       enablePinching: true,
+                //       enablePanning: true,
+                //       enableMouseWheelZooming: true,
+                //       zoomMode: ZoomMode.x,
+                //     ),
+                //     primaryXAxis: DateTimeAxis(),
+                //     primaryYAxis: NumericAxis(),
+                //     plotAreaBorderWidth: 1,
+                //     enableAxisAnimation: true,
+                //     crosshairBehavior: CrosshairBehavior(
+                //       enable: true,
+                //     ),
+                //     tooltipBehavior: TooltipBehavior(
+                //       enable: true,
+                //     ),
+                //     series: <ChartSeries>[
+                //       ScatterSeries<GraphData, DateTime>(
+                //         name: selectedCryptocurrencies[widget.currencyIndex] +
+                //             ' Prediction Error Deviation',
+                //         color: kGraphColor2,
+                //         dataSource: getValuesOnCurrencyNoNaN(
+                //             currency: selectedCryptocurrencies[
+                //             widget.currencyIndex],
+                //             type: 'variance'),
+                //         trendlines:<Trendline>[
+                //           Trendline(
+                //             name: 'Trendline',
+                //             color: kGraphColor2,
+                //             type: TrendlineType.polynomial,
+                //           )
+                //         ],
+                //         xValueMapper: (GraphData data, _) =>
+                //             DateTime.parse(data.valueOne),
+                //         yValueMapper: (GraphData data, _) =>
+                //             sqrt(data.valueTwo.toDouble()),
+                //         markerSettings: const MarkerSettings(
+                //           isVisible: true,
+                //           height: 2,
+                //           width: 2,
+                //         ),
+                //       ),
+                //     ],
+                //   ),
+                // ),
                 const SizedBox(
                   height: 30,
                 ),
