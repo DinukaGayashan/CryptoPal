@@ -133,7 +133,7 @@ class _CurrencyPredictionStatisticsState extends State<CurrencyPredictionStatist
               children: <Widget>[
                 topBar(
                   context,
-                  cryptocurrencyNames[cryptocurrencies[widget.currencyIndex]].toString() + ' Predictions',
+                  cryptocurrencyNames[selectedCryptocurrencies[widget.currencyIndex]].toString() + ' Predictions',
                 ),
                 const SizedBox(
                   height: 20.0,
@@ -146,7 +146,7 @@ class _CurrencyPredictionStatisticsState extends State<CurrencyPredictionStatist
                       children: <TextSpan>[
                         TextSpan(
                           text: ' ' +
-                              ((currentUser.errorStandardDeviationOnCurrencies[cryptocurrencies[widget.currencyIndex]]!) > 100?0:100-(currentUser.errorStandardDeviationOnCurrencies[cryptocurrencies[widget.currencyIndex]]!)
+                              ((currentUser.errorStandardDeviationOnCurrencies[selectedCryptocurrencies[widget.currencyIndex]]!) > 100?0:100-(currentUser.errorStandardDeviationOnCurrencies[selectedCryptocurrencies[widget.currencyIndex]]!)
                                   .roundToDouble())
                                   .toString() +
                               '%',
@@ -169,8 +169,8 @@ class _CurrencyPredictionStatisticsState extends State<CurrencyPredictionStatist
                     LinearBarPointer(
                       thickness: 25.0,
                       enableAnimation: true,
-                      value: (currentUser.errorStandardDeviationOnCurrencies[cryptocurrencies[widget.currencyIndex]]!) > 100?0:100-(currentUser.errorStandardDeviationOnCurrencies[cryptocurrencies[widget.currencyIndex]]!).roundToDouble(),
-                      color: ((currentUser.errorStandardDeviationOnCurrencies[cryptocurrencies[widget.currencyIndex]]!) > 100?0:100-(currentUser.errorStandardDeviationOnCurrencies[cryptocurrencies[widget.currencyIndex]]!)
+                      value: (currentUser.errorStandardDeviationOnCurrencies[selectedCryptocurrencies[widget.currencyIndex]]!) > 100?0:100-(currentUser.errorStandardDeviationOnCurrencies[selectedCryptocurrencies[widget.currencyIndex]]!).roundToDouble(),
+                      color: ((currentUser.errorStandardDeviationOnCurrencies[selectedCryptocurrencies[widget.currencyIndex]]!) > 100?0:100-(currentUser.errorStandardDeviationOnCurrencies[selectedCryptocurrencies[widget.currencyIndex]]!)
                           .roundToDouble()) >
                           50
                           ? kGreen
@@ -235,22 +235,22 @@ class _CurrencyPredictionStatisticsState extends State<CurrencyPredictionStatist
                     ),
                     series: <ChartSeries>[
                       LineSeries<RealPrice, DateTime>(
-                        name: cryptocurrencies[widget.currencyIndex] +
+                        name: selectedCryptocurrencies[widget.currencyIndex] +
                             ' Close Price',
                         color: kGraphColor1,
                         dataSource: getRealPrices(
-                            currency: cryptocurrencies[widget.currencyIndex] +
+                            currency: selectedCryptocurrencies[widget.currencyIndex] +
                                 '-USD'),
                         xValueMapper: (RealPrice data, _) =>
                             DateTime.parse(data.date),
                         yValueMapper: (RealPrice data, _) => data.closePrice,
                       ),
                       LineSeries<Prediction, DateTime>(
-                        name: cryptocurrencies[widget.currencyIndex] +
+                        name: selectedCryptocurrencies[widget.currencyIndex] +
                             ' Prediction',
                         color: kGraphColor2,
                         dataSource: getUserPredictions(
-                            currency: cryptocurrencies[widget.currencyIndex]),
+                            currency: selectedCryptocurrencies[widget.currencyIndex]),
                         xValueMapper: (Prediction data, _) =>
                         data.predictionDateAsDate,
                         yValueMapper: (Prediction data, _) =>
@@ -314,10 +314,10 @@ class _CurrencyPredictionStatisticsState extends State<CurrencyPredictionStatist
                         ),
                         series: <ChartSeries>[
                           ScatterSeries<GraphData, DateTime>(
-                            name: '${cryptocurrencies[widget.currencyIndex]} Prediction Accuracy',
+                            name: '${selectedCryptocurrencies[widget.currencyIndex]} Prediction Accuracy',
                             color: kGraphColor1,
                             dataSource: getValuesOnCurrencyNoNaN(
-                                currency: cryptocurrencies[
+                                currency: selectedCryptocurrencies[
                                 widget.currencyIndex],
                             type: 'variance'),
                             trendlines:<Trendline>[
@@ -392,11 +392,11 @@ class _CurrencyPredictionStatisticsState extends State<CurrencyPredictionStatist
                     ),
                     series: <ChartSeries>[
                       ScatterSeries<GraphData, DateTime>(
-                        name: cryptocurrencies[widget.currencyIndex] +
+                        name: selectedCryptocurrencies[widget.currencyIndex] +
                             ' Prediction Error Deviation',
                         color: kGraphColor2,
                         dataSource: getValuesOnCurrencyNoNaN(
-                            currency: cryptocurrencies[
+                            currency: selectedCryptocurrencies[
                             widget.currencyIndex],
                             type: 'variance'),
                         trendlines:<Trendline>[

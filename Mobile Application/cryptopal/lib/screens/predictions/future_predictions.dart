@@ -50,8 +50,8 @@ class _FuturePredictionsState extends State<FuturePredictions> {
 
   int getCryptocurrencyIndex(String predictionCurrency) {
     int i = 0;
-    for (i = 0; i < cryptocurrencies.length; i++) {
-      if (cryptocurrencies[i] == predictionCurrency.split('-')[0]) {
+    for (i = 0; i < selectedCryptocurrencies.length; i++) {
+      if (selectedCryptocurrencies[i] == predictionCurrency.split('-')[0]) {
         break;
       }
     }
@@ -106,9 +106,10 @@ class _FuturePredictionsState extends State<FuturePredictions> {
                                     showDialog(
                                       context: context,
                                       builder: (BuildContext context) {
-                                        return CupertinoAlertDialog(
+                                        return AlertDialog(
+                                          backgroundColor: kBackgroundColor,
                                           title: const Text(
-                                            'Confirm Prediction Deletion\n',
+                                            'Confirm Prediction Deletion',
                                             style: kInstructionStyle2,
                                           ),
                                           content: Text(
@@ -126,7 +127,7 @@ class _FuturePredictionsState extends State<FuturePredictions> {
                                             style: kInstructionStyle,
                                           ),
                                           actions: [
-                                            CupertinoDialogAction(
+                                            TextButton(
                                               child: const Text(
                                                 "Cancel",
                                                 style: kLinkStyle,
@@ -135,7 +136,7 @@ class _FuturePredictionsState extends State<FuturePredictions> {
                                                 Navigator.of(context).pop();
                                               },
                                             ),
-                                            CupertinoDialogAction(
+                                            TextButton(
                                               child: const Text(
                                                 "Delete",
                                                 style: kLinkStyle,

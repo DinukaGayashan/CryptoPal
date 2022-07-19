@@ -50,7 +50,7 @@ class CurrencyPredictionsGraph extends StatelessWidget {
         child: glassCard(context,
            Column(
              children: [
-               topBar(context, cryptocurrencyNames[cryptocurrencies[currencyIndex]].toString()+' Predictions'),
+               topBar(context, cryptocurrencyNames[selectedCryptocurrencies[currencyIndex]].toString()+' Predictions'),
                SizedBox(
                  width: MediaQuery.of(context).size.width,
                  height: MediaQuery.of(context).size.height-133,
@@ -80,16 +80,16 @@ class CurrencyPredictionsGraph extends StatelessWidget {
                    ),
                    series: <ChartSeries>[
                      LineSeries<RealPrice, DateTime>(
-                       name: cryptocurrencies[currencyIndex]+' Close Price',
+                       name: selectedCryptocurrencies[currencyIndex]+' Close Price',
                        color: kGraphColor1,
-                       dataSource: getRealPrices(currency: cryptocurrencies[currencyIndex]+'-USD'),
+                       dataSource: getRealPrices(currency: selectedCryptocurrencies[currencyIndex]+'-USD'),
                        xValueMapper: (RealPrice data, _) => DateTime.parse(data.date),
                        yValueMapper: (RealPrice data, _) => data.closePrice,
                      ),
                      LineSeries<Prediction, DateTime>(
-                       name: cryptocurrencies[currencyIndex]+' Prediction',
+                       name: selectedCryptocurrencies[currencyIndex]+' Prediction',
                        color: kGraphColor2,
-                       dataSource: getUserPredictions(currency: cryptocurrencies[currencyIndex]),
+                       dataSource: getUserPredictions(currency: selectedCryptocurrencies[currencyIndex]),
                        xValueMapper: (Prediction data, _) => data.predictionDateAsDate,
                        yValueMapper: (Prediction data, _) => data.predictionClosePrice,
                        markerSettings: const MarkerSettings(

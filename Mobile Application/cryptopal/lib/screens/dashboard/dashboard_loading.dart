@@ -63,6 +63,12 @@ class _DashboardLoadingState extends State<DashboardLoading> {
     Stopwatch stopwatchx = Stopwatch()..start();
 
     Stopwatch stopwatch = Stopwatch()..start();
+    currentUser = await getActiveUserData();
+    stopwatch.stop();
+    print('user done in ${stopwatch.elapsed}');
+
+    stopwatch.reset();
+    stopwatch.start();
     newsList = await getNewsData();
     stopwatch.stop();
     print('news done in ${stopwatch.elapsed}');
@@ -78,12 +84,6 @@ class _DashboardLoadingState extends State<DashboardLoading> {
     mlPredictionPriceList=await getMLPredictionPriceData();
     stopwatch.stop();
     print('ml data done in ${stopwatch.elapsed}');
-
-    stopwatch.reset();
-    stopwatch.start();
-    currentUser = await getActiveUserData();
-    stopwatch.stop();
-    print('user done in ${stopwatch.elapsed}');
 
     stopwatchx.stop();
     print('loading done in ${stopwatchx.elapsed}');

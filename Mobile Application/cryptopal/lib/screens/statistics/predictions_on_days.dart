@@ -39,8 +39,8 @@ class _PredictionsOnDaysState extends State<PredictionsOnDays> {
 
   int getCryptocurrencyIndex(String predictionCurrency){
     int i=0;
-    for(i=0;i<cryptocurrencies.length;i++){
-      if(cryptocurrencies[i]==predictionCurrency.split('-')[0]){
+    for(i=0;i<selectedCryptocurrencies.length;i++){
+      if(selectedCryptocurrencies[i]==predictionCurrency.split('-')[0]){
         break;
       }
     }

@@ -79,14 +79,14 @@ class _CurrencyPastPredictionsState extends State<CurrencyPastPredictions> {
               children: <Widget>[
                 topBar(
                   context,
-                  cryptocurrencyNames[cryptocurrencies[widget.currencyIndex]].toString()+
+                  cryptocurrencyNames[selectedCryptocurrencies[widget.currencyIndex]].toString()+
                       ' Past Predictions',
                 ),
                 const SizedBox(
                   height: 10.0,
                 ),
                 for (var prediction in getUserPredictions(
-                    currency: cryptocurrencies[widget.currencyIndex],
+                    currency: selectedCryptocurrencies[widget.currencyIndex],
                     past: true)
                     .reversed)
                   InkWell(
@@ -179,7 +179,7 @@ class _CurrencyPastPredictionsState extends State<CurrencyPastPredictions> {
                                     children: <TextSpan>[
                                       TextSpan(
                                         text: kCurrencyPriceDisplay(getRealPrice(
-                                            currency: cryptocurrencies[
+                                            currency: selectedCryptocurrencies[
                                             widget.currencyIndex],
                                             date: prediction.predictionDate)
                                             ?.closePrice)+' \$',

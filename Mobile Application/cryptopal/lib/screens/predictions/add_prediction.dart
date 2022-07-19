@@ -68,11 +68,11 @@ class _AddPredictionState extends State<AddPrediction> {
                       diameterRatio: 1.2,
                       itemExtent: 32.0,
                       children: List<Widget>.generate(
-                          cryptocurrencyNames.length,
+                          selectedCryptocurrencies.length,
                               (int index) {
                             return Center(
                               child: Text(
-                                    cryptocurrencies[index],
+                                    selectedCryptocurrencies[index],
                                 style: kSubjectStyle,
                               ),
                             );
@@ -149,7 +149,7 @@ class _AddPredictionState extends State<AddPrediction> {
                     height: 200,
                     child: SfCartesianChart(
                       title: ChartTitle(
-                        text: cryptocurrencies[selectedCrypto]+' Close Price',
+                        text: selectedCryptocurrencies[selectedCrypto]+' Close Price',
                         textStyle: kCardSmallTextStyle,
                       ),
                       zoomPanBehavior: ZoomPanBehavior(
@@ -176,10 +176,10 @@ class _AddPredictionState extends State<AddPrediction> {
                               0
                               ? kGreen
                               : kRed,
-                          name: cryptocurrencies[selectedCrypto] +
+                          name: selectedCryptocurrencies[selectedCrypto] +
                               ' Close Price',
                           dataSource: getRealPrices(
-                              currency: cryptocurrencies[selectedCrypto] +
+                              currency: selectedCryptocurrencies[selectedCrypto] +
                                   '-USD'),
                           xValueMapper: (RealPrice data, _) =>
                               DateTime.parse(data.date),
@@ -268,7 +268,7 @@ class _AddPredictionState extends State<AddPrediction> {
                         if(predictionPrice>=0){
                           String date = predictionDate.toString().split(' ')[0];
                           String currency =
-                              cryptocurrencies[selectedCrypto] + '-USD';
+                              selectedCryptocurrencies[selectedCrypto] + '-USD';
                           double price = predictionPrice.toDouble();
 
                           currentUser.predictions.removeWhere((item) =>

@@ -36,7 +36,7 @@ class CurrencyOpenCloseGraph extends StatelessWidget {
         child: glassCard(context,
           Column(
             children: [
-              topBar(context, cryptocurrencyNames[cryptocurrencies[currencyIndex]].toString()+' Open Close Prices'),
+              topBar(context, cryptocurrencyNames[selectedCryptocurrencies[currencyIndex]].toString()+' Open Close Prices'),
               SizedBox(
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height-133,
@@ -67,12 +67,12 @@ class CurrencyOpenCloseGraph extends StatelessWidget {
                   series: <ChartSeries>[
                     LineSeries<RealPrice, DateTime>(
                       isVisible: showClose,
-                      name: cryptocurrencies[currencyIndex] +
+                      name: selectedCryptocurrencies[currencyIndex] +
                           ' Close Price',
                       color: kGraphColor1,
                       dataSource: getRealPrices(
                           currency:
-                          cryptocurrencies[currencyIndex] +
+                          selectedCryptocurrencies[currencyIndex] +
                               '-USD'),
                       xValueMapper: (RealPrice data, _) =>
                           DateTime.parse(data.date),
@@ -82,12 +82,12 @@ class CurrencyOpenCloseGraph extends StatelessWidget {
                     ),
                     LineSeries<RealPrice, DateTime>(
                       isVisible: showOpen,
-                      name: cryptocurrencies[currencyIndex] +
+                      name: selectedCryptocurrencies[currencyIndex] +
                           ' Open Price',
                       color: kGraphColor2,
                       dataSource: getRealPrices(
                           currency:
-                          cryptocurrencies[currencyIndex] +
+                          selectedCryptocurrencies[currencyIndex] +
                               '-USD'),
                       xValueMapper: (RealPrice data, _) =>
                           DateTime.parse(data.date),

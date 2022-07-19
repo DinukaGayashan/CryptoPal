@@ -50,8 +50,8 @@ class _PastPredictionsState extends State<PastPredictions> {
 
   int getCryptocurrencyIndex(String predictionCurrency){
     int i=0;
-    for(i=0;i<cryptocurrencies.length;i++){
-      if(cryptocurrencies[i]==predictionCurrency.split('-')[0]){
+    for(i=0;i<selectedCryptocurrencies.length;i++){
+      if(selectedCryptocurrencies[i]==predictionCurrency.split('-')[0]){
         break;
       }
     }
@@ -167,7 +167,7 @@ class _PastPredictionsState extends State<PastPredictions> {
                                     style: kCardSmallTextStyle,
                                     children: <TextSpan>[
                                       TextSpan(
-                                        text: kCurrencyPriceDisplay(getRealPrice(currency: cryptocurrencies[getCryptocurrencyIndex(prediction.predictionCurrency)], date: prediction.predictionDate)?.closePrice)+' \$',
+                                        text: kCurrencyPriceDisplay(getRealPrice(currency: selectedCryptocurrencies[getCryptocurrencyIndex(prediction.predictionCurrency)], date: prediction.predictionDate)?.closePrice)+' \$',
                                         style: kCardTextStyle2,
                                       ),
                                     ],

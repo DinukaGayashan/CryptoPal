@@ -44,7 +44,7 @@ class CurrencyPredictionAccuracyGraph extends StatelessWidget {
         child: glassCard(context,
           Column(
             children: [
-              topBar(context, cryptocurrencyNames[cryptocurrencies[currencyIndex]].toString()+' Prediction Accuracy'),
+              topBar(context, cryptocurrencyNames[selectedCryptocurrencies[currencyIndex]].toString()+' Prediction Accuracy'),
               SizedBox(
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height-133,
@@ -72,10 +72,10 @@ class CurrencyPredictionAccuracyGraph extends StatelessWidget {
                   ),
                   series: <ChartSeries>[
                     ScatterSeries<GraphData, DateTime>(
-                      name: '${cryptocurrencies[currencyIndex]} Prediction Accuracy',
+                      name: '${selectedCryptocurrencies[currencyIndex]} Prediction Accuracy',
                       color: kGraphColor1,
                       dataSource: getValuesOnCurrencyNoNaN(
-                          currency: cryptocurrencies[
+                          currency: selectedCryptocurrencies[
                           currencyIndex],
                           type: 'variance'),
                       trendlines:<Trendline>[

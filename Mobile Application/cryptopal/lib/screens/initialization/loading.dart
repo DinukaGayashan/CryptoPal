@@ -75,17 +75,18 @@ class _LoadingState extends State<Loading> {
       showDialog(
         context: context,
         builder: (BuildContext context) {
-          return CupertinoAlertDialog(
+          return AlertDialog(
+            backgroundColor: kBackgroundColor,
             title: const Text(
-              'Connection Error\n',
+              'Connection Error',
               style: kInstructionStyle2,
             ),
             content: const Text(
-              "Check your connection and retry.\n",
+              "Check your connection and retry.",
               style: kInstructionStyle,
             ),
             actions: [
-              CupertinoDialogAction(
+              TextButton(
                 child: const Text(
                   "Retry",
                   style: kLinkStyle,

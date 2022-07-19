@@ -206,39 +206,35 @@ class _AccountState extends State<Account> {
                         showDialog(
                           context: context,
                           builder: (BuildContext context) {
-                            return CupertinoAlertDialog(
+                            return AlertDialog(
+                              backgroundColor: kBackgroundColor,
                               title: const Text(
-                                'Change Username\n',
+                                'Change Username',
                                 style: kInstructionStyle2,
                               ),
-                              content: Column(
-                                children: [
-                                  const Text(
-                                    "Enter new username\n",
-                                    style: kInstructionStyle,
-                                  ),
-                                  SizedBox(
-                                    width: 200,
-                                    height: 35,
-                                    child: CupertinoTextField(
-                                      decoration: const BoxDecoration(
-                                        color: Colors.transparent,
-                                      ),
-                                      textAlign: TextAlign.center,
-                                      textCapitalization: TextCapitalization.words,
-                                      style: kCardTextStyle,
-                                      cursorHeight: 20,
-                                      cursorColor: kBaseColor2,
-                                      autofocus: true,
-                                      onChanged: (value) {
-                                        newName = value;
-                                      },
+                              content: SizedBox(
+                                width: 200,
+                                height: 35,
+                                child: TextField(
+                                  decoration: const InputDecoration(
+                                    hintText:  "Enter new username",
+                                    hintStyle: kTransparentStyle,
+                                    focusedBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(color: kAccentColor3),
                                     ),
                                   ),
-                                ],
+                                  textCapitalization: TextCapitalization.words,
+                                  style: kCardTextStyle,
+                                  cursorHeight: 20,
+                                  cursorColor: kBaseColor2,
+                                  autofocus: true,
+                                  onChanged: (value) {
+                                    newName = value;
+                                  },
+                                ),
                               ),
                               actions: [
-                                CupertinoDialogAction(
+                                TextButton(
                                   child: const Text(
                                     "Cancel",
                                     style: kLinkStyle,
@@ -247,7 +243,7 @@ class _AccountState extends State<Account> {
                                     Navigator.of(context).pop();
                                   },
                                 ),
-                                CupertinoDialogAction(
+                                TextButton(
                                   child: const Text(
                                     "Confirm",
                                     style: kLinkStyle,
@@ -304,9 +300,10 @@ class _AccountState extends State<Account> {
                     showDialog(
                       context: context,
                       builder: (BuildContext context) {
-                        return CupertinoAlertDialog(
+                        return AlertDialog(
+                          backgroundColor: kBackgroundColor,
                           title: const Text(
-                            'Confirm Sign Out\n',
+                            'Confirm Sign Out',
                             style: kInstructionStyle2,
                           ),
                           content: const Text(
@@ -314,7 +311,7 @@ class _AccountState extends State<Account> {
                             style: kInstructionStyle,
                           ),
                           actions: [
-                            CupertinoDialogAction(
+                            TextButton(
                               child: const Text(
                                 "No",
                                 style: kLinkStyle,
@@ -323,7 +320,7 @@ class _AccountState extends State<Account> {
                                 Navigator.of(context).pop();
                               },
                             ),
-                            CupertinoDialogAction(
+                            TextButton(
                               child: const Text(
                                 "Yes",
                                 style: kLinkStyle,

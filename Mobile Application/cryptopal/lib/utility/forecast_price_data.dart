@@ -20,19 +20,19 @@ Future<List<ForecastPricesOfACurrency>> getMLPredictionPriceData() async {
 
   List<ForecastPricesOfACurrency> allPricesLists =
   List<ForecastPricesOfACurrency>.filled(
-      cryptocurrencies.length, ForecastPricesOfACurrency(''));
-  for (int i = 0; i < cryptocurrencies.length; i++) {
-    allPricesLists[i] = ForecastPricesOfACurrency('${cryptocurrencies[i]}-USD');
+      selectedCryptocurrencies.length, ForecastPricesOfACurrency(''));
+  for (int i = 0; i < selectedCryptocurrencies.length; i++) {
+    allPricesLists[i] = ForecastPricesOfACurrency('${selectedCryptocurrencies[i]}-USD');
   }
 
   try {
     List<Future> queries=[];
     List<double> rsmes=[],rsmePercentages=[];
-    for(int i=0;i<cryptocurrencies.length;i++){
-      queries.add(getPricesOfACurrency(cryptocurrencies[i]));
+    for(int i=0;i<selectedCryptocurrencies.length;i++){
+      queries.add(getPricesOfACurrency(selectedCryptocurrencies[i]));
       try{
         final errorDoc = await _firestore.collection('mlPredictions').doc('predictions').collection('predictionErrors')
-            .doc('${cryptocurrencies[i]}-USD').get();
+            .doc('${selectedCryptocurrencies[i]}-USD').get();
         rsmes.add(errorDoc.data()?['rsme'].toDouble());
         rsmePercentages.add(errorDoc.data()?['rsmePercentage'].toDouble());
       }catch(e){
@@ -40,7 +40,7 @@ Future<List<ForecastPricesOfACurrency>> getMLPredictionPriceData() async {
       }
     }
     final results=await Future.wait(queries);
-    for(int i=0;i<cryptocurrencies.length;i++){
+    for(int i=0;i<selectedCryptocurrencies.length;i++){
       allPricesLists[i].pricesList=results[i];
       allPricesLists[i].errorValue=rsmes[i];
       allPricesLists[i].errorPercentage=rsmePercentages[i];

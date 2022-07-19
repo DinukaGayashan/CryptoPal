@@ -113,3 +113,6 @@ flutter:
     - family: Tenorite
       fonts:
         - asset: assets/fonts/Tenorite-Regular.ttf
+    - family: ReenieBeanie
+      fonts:
+        - asset: assets/fonts/ReenieBeanie-Regular.ttf

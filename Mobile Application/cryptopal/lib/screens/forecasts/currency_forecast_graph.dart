@@ -49,7 +49,7 @@ class CurrencyForecastsGraph extends StatelessWidget {
         child: glassCard(context,
           Column(
             children: [
-              topBar(context, cryptocurrencyNames[cryptocurrencies[currencyIndex]].toString()+' Forecasts'),
+              topBar(context, cryptocurrencyNames[selectedCryptocurrencies[currencyIndex]].toString()+' Forecasts'),
               SizedBox(
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height-133,
@@ -79,22 +79,22 @@ class CurrencyForecastsGraph extends StatelessWidget {
                   ),
                   series: <ChartSeries>[
                     LineSeries<RealPrice, DateTime>(
-                      name: cryptocurrencies[currencyIndex] +
+                      name: selectedCryptocurrencies[currencyIndex] +
                           ' Real Price',
                       color: kGraphColor1,
                       dataSource: getRealPrices(
-                          currency: cryptocurrencies[currencyIndex] +
+                          currency: selectedCryptocurrencies[currencyIndex] +
                               '-USD'),
                       xValueMapper: (RealPrice data, _) =>
                           DateTime.parse(data.date),
                       yValueMapper: (RealPrice data, _) => data.closePrice,
                     ),
                     LineSeries<ForecastPrice, DateTime>(
-                      name: cryptocurrencies[currencyIndex] +
+                      name: selectedCryptocurrencies[currencyIndex] +
                           ' Forecast Price',
                       color: kGraphColor2,
                       dataSource: getForecastPrices(
-                          currency: cryptocurrencies[currencyIndex]+
+                          currency: selectedCryptocurrencies[currencyIndex]+
                               '-USD'),
                       xValueMapper: (ForecastPrice data, _) =>
                           DateTime.parse(data.date),

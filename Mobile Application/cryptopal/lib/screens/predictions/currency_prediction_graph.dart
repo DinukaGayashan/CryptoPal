@@ -34,7 +34,7 @@ class CurrencyPredictionGraph extends StatelessWidget {
         child: glassCard(context,
           Column(
             children: [
-              topBar(context, cryptocurrencyNames[cryptocurrencies[currencyIndex]].toString()+' Prediction'),
+              topBar(context, cryptocurrencyNames[selectedCryptocurrencies[currencyIndex]].toString()+' Prediction'),
               SizedBox(
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height-133,
@@ -64,14 +64,14 @@ class CurrencyPredictionGraph extends StatelessWidget {
                   ),
                   series: <ChartSeries>[
                     LineSeries<RealPrice, DateTime>(
-                      name: cryptocurrencies[currencyIndex]+' Close Price',
+                      name: selectedCryptocurrencies[currencyIndex]+' Close Price',
                       color: kGraphColor1,
-                      dataSource: getRealPrices(currency: cryptocurrencies[currencyIndex]+'-USD'),
+                      dataSource: getRealPrices(currency: selectedCryptocurrencies[currencyIndex]+'-USD'),
                       xValueMapper: (RealPrice data, _) => DateTime.parse(data.date),
                       yValueMapper: (RealPrice data, _) => data.closePrice,
                     ),
                     LineSeries<Prediction, DateTime>(
-                      name: cryptocurrencies[currencyIndex]+' Prediction',
+                      name: selectedCryptocurrencies[currencyIndex]+' Prediction',
                       color: kGraphColor2,
                       dataSource: prediction.toList(prediction),
                       xValueMapper: (Prediction data, _) => data.predictionDateAsDate,

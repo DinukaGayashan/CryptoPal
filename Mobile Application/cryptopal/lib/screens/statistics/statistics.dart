@@ -29,7 +29,7 @@ class _StatisticsState extends State<Statistics> {
   void getStatisticData(){
     currenciesWithPastPredictions.clear();
     currenciesWithPredictions.clear();
-    for(var c in cryptocurrencies){
+    for(var c in selectedCryptocurrencies){
       if(getUserPredictions(currency: c, past:true).isNotEmpty){
         currenciesWithPastPredictions.add(c);
       }
@@ -54,8 +54,8 @@ class _StatisticsState extends State<Statistics> {
 
   int getCryptocurrencyIndex(String predictionCurrency){
     int i=0;
-    for(i=0;i<cryptocurrencies.length;i++){
-      if(cryptocurrencies[i]==predictionCurrency.split('-')[0]){
+    for(i=0;i<selectedCryptocurrencies.length;i++){
+      if(selectedCryptocurrencies[i]==predictionCurrency.split('-')[0]){
         break;
       }
     }
@@ -442,7 +442,7 @@ class _StatisticsState extends State<Statistics> {
                     ],
                   ),
                 ),
-                const SizedBox(height: 20,),
+                /*const SizedBox(height: 20,),
                 currentUser.pastPredictions.isEmpty?
                 const SizedBox():
                 Row(
@@ -518,10 +518,10 @@ class _StatisticsState extends State<Statistics> {
                       ),
                     ],
                   ),
-                ),
+                ),*/
 
 
-                const SizedBox(height: 50,),
+                const SizedBox(height: 60,),
                 currentUser.pastPredictions.isEmpty?
                 const SizedBox():
                 const Center(
@@ -578,7 +578,7 @@ class _StatisticsState extends State<Statistics> {
                               children: <Widget>[
                                 SvgPicture.asset(
                                   'assets/images/cryptocoin_icons/color/' +
-                                      cryptocurrencies[i].toLowerCase() +
+                                      selectedCryptocurrencies[i].toLowerCase() +
                                       '.svg',
                                   width: 40.0,
                                   height: 40.0,
@@ -587,11 +587,11 @@ class _StatisticsState extends State<Statistics> {
                                   height: 10,
                                 ),
                                 Text(
-                                  cryptocurrencies[i],
+                                  selectedCryptocurrencies[i],
                                   style: kCardTextStyle,
                                 ),
                                 Text(
-                                  cryptocurrencyNames[cryptocurrencies[i]].toString(),
+                                  cryptocurrencyNames[selectedCryptocurrencies[i]].toString(),
                                   style: kCardSmallTextStyle,
                                 ),
                               ],

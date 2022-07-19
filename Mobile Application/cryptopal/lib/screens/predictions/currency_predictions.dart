@@ -93,7 +93,7 @@ class _CurrencyPredictionsState extends State<CurrencyPredictions> {
               children: <Widget>[
                 topBar(
                   context,
-                  cryptocurrencyNames[cryptocurrencies[widget.currencyIndex]].toString()+ ' Predictions',
+                  cryptocurrencyNames[selectedCryptocurrencies[widget.currencyIndex]].toString()+ ' Predictions',
                 ),
                 const SizedBox(
                   height: 20.0,
@@ -106,7 +106,7 @@ class _CurrencyPredictionsState extends State<CurrencyPredictions> {
                       children: <TextSpan>[
                         TextSpan(
                           text: ' ' +
-                              ((currentUser.errorStandardDeviationOnCurrencies[cryptocurrencies[widget.currencyIndex]]!) > 100?0:100-(currentUser.errorStandardDeviationOnCurrencies[cryptocurrencies[widget.currencyIndex]]!)
+                              ((currentUser.errorStandardDeviationOnCurrencies[selectedCryptocurrencies[widget.currencyIndex]]!) > 100?0:100-(currentUser.errorStandardDeviationOnCurrencies[selectedCryptocurrencies[widget.currencyIndex]]!)
                                   .roundToDouble())
                                   .toString() +
                               '%',
@@ -120,7 +120,7 @@ class _CurrencyPredictionsState extends State<CurrencyPredictions> {
                   height: 10.0,
                 ),
                 getUserPredictions(
-                            currency: cryptocurrencies[widget.currencyIndex],
+                            currency: selectedCryptocurrencies[widget.currencyIndex],
                             past: true)
                         .isEmpty
                     ? const SizedBox()
@@ -135,8 +135,8 @@ class _CurrencyPredictionsState extends State<CurrencyPredictions> {
                             thickness: 25.0,
                             enableAnimation: true,
                             //animationDuration: kAnimationTime,
-                            value: (currentUser.errorStandardDeviationOnCurrencies[cryptocurrencies[widget.currencyIndex]]!) > 100?0:100-(currentUser.errorStandardDeviationOnCurrencies[cryptocurrencies[widget.currencyIndex]]!).roundToDouble(),
-                            color: ((currentUser.errorStandardDeviationOnCurrencies[cryptocurrencies[widget.currencyIndex]]!) > 100?0:100-(currentUser.errorStandardDeviationOnCurrencies[cryptocurrencies[widget.currencyIndex]]!)
+                            value: (currentUser.errorStandardDeviationOnCurrencies[selectedCryptocurrencies[widget.currencyIndex]]!) > 100?0:100-(currentUser.errorStandardDeviationOnCurrencies[selectedCryptocurrencies[widget.currencyIndex]]!).roundToDouble(),
+                            color: ((currentUser.errorStandardDeviationOnCurrencies[selectedCryptocurrencies[widget.currencyIndex]]!) > 100?0:100-(currentUser.errorStandardDeviationOnCurrencies[selectedCryptocurrencies[widget.currencyIndex]]!)
                                 .roundToDouble()) >
                                     50
                                 ? kGreen
@@ -171,7 +171,7 @@ class _CurrencyPredictionsState extends State<CurrencyPredictions> {
                                 children: <TextSpan>[
                                   TextSpan(
                                     text: getUserPredictions(
-                                            currency: cryptocurrencies[
+                                            currency: selectedCryptocurrencies[
                                                 widget.currencyIndex],
                                             past: true)
                                         .length
@@ -210,11 +210,11 @@ class _CurrencyPredictionsState extends State<CurrencyPredictions> {
                                 children: <TextSpan>[
                                   TextSpan(
                                     text: (getUserPredictions(
-                                                    currency: cryptocurrencies[
+                                                    currency: selectedCryptocurrencies[
                                                         widget.currencyIndex])
                                                 .length -
                                             getUserPredictions(
-                                                    currency: cryptocurrencies[
+                                                    currency: selectedCryptocurrencies[
                                                         widget.currencyIndex],
                                                     past: true)
                                                 .length)
@@ -296,22 +296,22 @@ class _CurrencyPredictionsState extends State<CurrencyPredictions> {
                     ),
                     series: <ChartSeries>[
                       LineSeries<RealPrice, DateTime>(
-                        name: cryptocurrencies[widget.currencyIndex] +
+                        name: selectedCryptocurrencies[widget.currencyIndex] +
                             ' Close Price',
                         color: kGraphColor1,
                         dataSource: getRealPrices(
-                            currency: cryptocurrencies[widget.currencyIndex] +
+                            currency: selectedCryptocurrencies[widget.currencyIndex] +
                                 '-USD'),
                         xValueMapper: (RealPrice data, _) =>
                             DateTime.parse(data.date),
                         yValueMapper: (RealPrice data, _) => data.closePrice,
                       ),
                       LineSeries<Prediction, DateTime>(
-                        name: cryptocurrencies[widget.currencyIndex] +
+                        name: selectedCryptocurrencies[widget.currencyIndex] +
                             ' Prediction',
                         color: kGraphColor2,
                         dataSource: getUserPredictions(
-                            currency: cryptocurrencies[widget.currencyIndex]),
+                            currency: selectedCryptocurrencies[widget.currencyIndex]),
                         xValueMapper: (Prediction data, _) =>
                             data.predictionDateAsDate,
                         yValueMapper: (Prediction data, _) =>

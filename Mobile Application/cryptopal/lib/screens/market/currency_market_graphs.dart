@@ -50,7 +50,7 @@ class _CurrencyMarketGraphsState extends State<CurrencyMarketGraphs> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  topBar(context, cryptocurrencyNames[cryptocurrencies[widget.currencyIndex]].toString()+' Market Prices'),
+                  topBar(context, cryptocurrencyNames[selectedCryptocurrencies[widget.currencyIndex]].toString()+' Market Prices'),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
@@ -101,12 +101,12 @@ class _CurrencyMarketGraphsState extends State<CurrencyMarketGraphs> {
                       series: <ChartSeries>[
                         LineSeries<RealPrice, DateTime>(
                           isVisible: _showClosePrice,
-                          name: cryptocurrencies[widget.currencyIndex] +
+                          name: selectedCryptocurrencies[widget.currencyIndex] +
                               ' Close Price',
                           color: kGraphColor1,
                           dataSource: getRealPrices(
                               currency:
-                                  cryptocurrencies[widget.currencyIndex] + '-USD'),
+                                  selectedCryptocurrencies[widget.currencyIndex] + '-USD'),
                           xValueMapper: (RealPrice data, _) =>
                               DateTime.parse(data.date),
                           yValueMapper: (RealPrice data, _) => data.closePrice,
@@ -114,12 +114,12 @@ class _CurrencyMarketGraphsState extends State<CurrencyMarketGraphs> {
                         ),
                         LineSeries<RealPrice, DateTime>(
                           isVisible: _showOpenPrice,
-                          name: cryptocurrencies[widget.currencyIndex] +
+                          name: selectedCryptocurrencies[widget.currencyIndex] +
                               ' Open Price',
                           color: kGraphColor2,
                           dataSource: getRealPrices(
                               currency:
-                                  cryptocurrencies[widget.currencyIndex] + '-USD'),
+                                  selectedCryptocurrencies[widget.currencyIndex] + '-USD'),
                           xValueMapper: (RealPrice data, _) =>
                               DateTime.parse(data.date),
                           yValueMapper: (RealPrice data, _) => data.openPrice,
@@ -215,11 +215,11 @@ class _CurrencyMarketGraphsState extends State<CurrencyMarketGraphs> {
                       ),
                       series: <ChartSeries>[
                         CandleSeries<RealPrice, DateTime>(
-                          name: cryptocurrencies[widget.currencyIndex] +
+                          name: selectedCryptocurrencies[widget.currencyIndex] +
                               ' OHLC Prices',
                           dataSource: getRealPrices(
                               currency:
-                                  cryptocurrencies[widget.currencyIndex] + '-USD'),
+                                  selectedCryptocurrencies[widget.currencyIndex] + '-USD'),
                           xValueMapper: (RealPrice data, _) =>
                               DateTime.parse(data.date),
                           lowValueMapper: (RealPrice data, _) =>

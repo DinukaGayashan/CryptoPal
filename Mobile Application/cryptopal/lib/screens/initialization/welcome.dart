@@ -63,7 +63,8 @@ class Welcome extends StatelessWidget {
                             showDialog(
                               context: context,
                               builder: (BuildContext context) {
-                                return CupertinoAlertDialog(
+                                return AlertDialog(
+                                  backgroundColor: kBackgroundColor,
                                   title: const Text(
                                     "CryptoPal",
                                     style: kTitleStyle,
@@ -73,7 +74,7 @@ class Welcome extends StatelessWidget {
                                     style: kInstructionStyle,
                                   ),
                                   actions: [
-                                    CupertinoDialogAction(
+                                    TextButton(
                                       child: const Text(
                                         "OK",
                                         style: kLinkStyle,

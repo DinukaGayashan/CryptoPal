@@ -93,14 +93,14 @@ class _CurrencyFuturePredictionsState extends State<CurrencyFuturePredictions> {
               children: <Widget>[
                 topBar(
                   context,
-                  cryptocurrencyNames[cryptocurrencies[widget.currencyIndex]].toString()+
+                  cryptocurrencyNames[selectedCryptocurrencies[widget.currencyIndex]].toString()+
                       ' Future Predictions',
                 ),
                 const SizedBox(
                   height: 10.0,
                 ),
                 for (var prediction in getUserFuturePredictions(
-                    currency: cryptocurrencies[widget.currencyIndex]))
+                    currency: selectedCryptocurrencies[widget.currencyIndex]))
                   InkWell(
                     borderRadius: BorderRadius.circular(30),
                     child: glassCard(
@@ -128,9 +128,10 @@ class _CurrencyFuturePredictionsState extends State<CurrencyFuturePredictions> {
                                     showDialog(
                                       context: context,
                                       builder: (BuildContext context) {
-                                        return CupertinoAlertDialog(
+                                        return AlertDialog(
+                                          backgroundColor: kBackgroundColor,
                                           title: const Text(
-                                            'Confirm Prediction Deletion\n',
+                                            'Confirm Prediction Deletion',
                                             style: kInstructionStyle2,
                                           ),
                                           content: Text(
@@ -142,7 +143,7 @@ class _CurrencyFuturePredictionsState extends State<CurrencyFuturePredictions> {
                                             style: kInstructionStyle,
                                           ),
                                           actions: [
-                                            CupertinoDialogAction(
+                                            TextButton(
                                               child: const Text(
                                                 "Cancel",
                                                 style: kLinkStyle,
@@ -151,7 +152,7 @@ class _CurrencyFuturePredictionsState extends State<CurrencyFuturePredictions> {
                                                 Navigator.of(context).pop();
                                               },
                                             ),
-                                            CupertinoDialogAction(
+                                            TextButton(
                                               child: const Text(
                                                 "Delete",
                                                 style: kLinkStyle,
@@ -164,7 +165,7 @@ class _CurrencyFuturePredictionsState extends State<CurrencyFuturePredictions> {
 
                                                 setState(()=>
                                                     getUserFuturePredictions(
-                                                        currency: cryptocurrencies[widget.currencyIndex])
+                                                        currency: selectedCryptocurrencies[widget.currencyIndex])
                                                 );
 
                                                 try {

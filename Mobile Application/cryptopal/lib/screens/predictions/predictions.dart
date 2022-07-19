@@ -169,7 +169,7 @@ class _PredictionsState extends State<Predictions> {
                 const SizedBox(
                   height: 30.0,
                 ),
-                for (int i = 0; i < cryptocurrencies.length; i++)
+                for (int i = 0; i < selectedCryptocurrencies.length; i++)
                   InkWell(
                     borderRadius: BorderRadius.circular(30),
                     child: glassCard(
@@ -184,7 +184,7 @@ class _PredictionsState extends State<Predictions> {
                               children: <Widget>[
                                 SvgPicture.asset(
                                   'assets/images/cryptocoin_icons/color/' +
-                                      cryptocurrencies[i].toLowerCase() +
+                                      selectedCryptocurrencies[i].toLowerCase() +
                                       '.svg',
                                   width: 40.0,
                                   height: 40.0,
@@ -193,11 +193,11 @@ class _PredictionsState extends State<Predictions> {
                                   height: 10,
                                 ),
                                 Text(
-                                  cryptocurrencies[i],
+                                  selectedCryptocurrencies[i],
                                   style: kCardTextStyle,
                                 ),
                                 Text(
-                                  cryptocurrencyNames[cryptocurrencies[i]].toString(),
+                                  cryptocurrencyNames[selectedCryptocurrencies[i]].toString(),
                                   style: kCardSmallTextStyle,
                                 ),
                               ],
@@ -215,7 +215,7 @@ class _PredictionsState extends State<Predictions> {
                                     children: <TextSpan>[
                                       TextSpan(
                                         text: getUserPredictions(
-                                                currency: cryptocurrencies[i])
+                                                currency: selectedCryptocurrencies[i])
                                             .length
                                             .toString(),
                                         style: kCardTextStyle2,
@@ -232,7 +232,7 @@ class _PredictionsState extends State<Predictions> {
                                     style: kCardSmallTextStyle,
                                     children: <TextSpan>[
                                       TextSpan(
-                                        text: ((currentUser.errorStandardDeviationOnCurrencies[cryptocurrencies[i]]!) > 100?0:100-(currentUser.errorStandardDeviationOnCurrencies[cryptocurrencies[i]]!)
+                                        text: ((currentUser.errorStandardDeviationOnCurrencies[selectedCryptocurrencies[i]]!) > 100?0:100-(currentUser.errorStandardDeviationOnCurrencies[selectedCryptocurrencies[i]]!)
                                                     .roundToDouble())
                                             .toString()+'%',
                                         style: kCardTextStyle2,
@@ -255,7 +255,7 @@ class _PredictionsState extends State<Predictions> {
                                     children: <TextSpan>[
                                       TextSpan(
                                         text: getUserPredictions(
-                                                currency: cryptocurrencies[i],
+                                                currency: selectedCryptocurrencies[i],
                                                 past: true)
                                             .length
                                             .toString(),
@@ -275,7 +275,7 @@ class _PredictionsState extends State<Predictions> {
                                       TextSpan(
                                         text: (currentUser
                                                         .errorsOnCurrencies[
-                                                    cryptocurrencies[i]] ??
+                                                    selectedCryptocurrencies[i]] ??
                                                 0)
                                             .roundToDouble()
                                             .toString()+'%',

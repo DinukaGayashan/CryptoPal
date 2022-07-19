@@ -47,7 +47,7 @@ class Forecasts extends StatelessWidget {
                 const SizedBox(
                   height: 20.0,
                 ),
-                for(int i=0;i<cryptocurrencies.length;i++)
+                for(int i=0;i<selectedCryptocurrencies.length;i++)
                   InkWell(
                     borderRadius: BorderRadius.circular(30),
                     child: glassCard(
@@ -62,7 +62,7 @@ class Forecasts extends StatelessWidget {
                               children: [
                                 SvgPicture.asset(
                                   'assets/images/cryptocoin_icons/color/' +
-                                      cryptocurrencies[i].toLowerCase() +
+                                      selectedCryptocurrencies[i].toLowerCase() +
                                       '.svg',
                                   width: 45.0,
                                   height: 45.0,
@@ -75,11 +75,11 @@ class Forecasts extends StatelessWidget {
                                   CrossAxisAlignment.start,
                                   children: <Widget>[
                                     Text(
-                                      cryptocurrencies[i],
+                                      selectedCryptocurrencies[i],
                                       style: kCardTextStyle,
                                     ),
                                     Text(
-                                      cryptocurrencyNames[cryptocurrencies[i]].toString(),
+                                      cryptocurrencyNames[selectedCryptocurrencies[i]].toString(),
                                       style: kCardSmallTextStyle,
                                     ),
                                   ],
@@ -102,7 +102,7 @@ class Forecasts extends StatelessWidget {
                                 charts.LineSeries<ForecastPrice, DateTime>(
                                   dataSource: getForecastPrices(
                                       currency:
-                                      cryptocurrencies[i] + '-USD',
+                                      selectedCryptocurrencies[i] + '-USD',
                                       number: 20),
                                   xValueMapper: (ForecastPrice data, _) =>
                                       DateTime.parse(data.date),

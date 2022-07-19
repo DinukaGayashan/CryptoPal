@@ -22,6 +22,16 @@ Future<UserAccount> getActiveUserData() async {
     currentUser.name = userSnapshot.data()!['name'];
     currentUser.birthday = userSnapshot.data()!['birthday'];
 
+    try{
+      selectedCryptocurrencies=List.from(userSnapshot.data()!['selectedCryptocurrencies']);
+    }catch(e){
+      selectedCryptocurrencies=cryptocurrencies;
+    }
+
+    if(selectedCryptocurrencies.isEmpty){
+      selectedCryptocurrencies=cryptocurrencies;
+    }
+
     final predictionsWithoutErrorSnap = await _firestore
         .collection('users')
         .doc(currentUser.user?.uid)
@@ -58,12 +68,20 @@ Future<UserAccount> getActiveUserData() async {
     }
 
     try {
+
+      List <String> predictionCurrencies=[];
+      for(var c in selectedCryptocurrencies){
+        predictionCurrencies.add(c+'-USD');
+      }
+
       final predictionsSnapshot = await _firestore
           .collection('users')
           .doc(currentUser.user?.uid)
           .collection('predictions')
-          .where('predictedDate',isNull: false)
+          .where('predictionCurrency',whereIn: predictionCurrencies)
           .get();
+      
+
       currentUser.predictions.clear();
       currentUser.pastPredictions.clear();
       currentUser.futurePredictions.clear();
@@ -100,16 +118,16 @@ Future<UserAccount> getActiveUserData() async {
       int predictionCount = currentUser.pastPredictions.length;
       double userError = 0.0, userErrorVariance = 0.0;
       List<double> userErrorsOnCurrencies =
-          List<double>.filled(cryptocurrencies.length, 0);
+          List<double>.filled(selectedCryptocurrencies.length, 0);
       List<double> userErrorVarianceOnCurrencies =
-          List<double>.filled(cryptocurrencies.length, 0);
+          List<double>.filled(selectedCryptocurrencies.length, 0);
       List<int> userPredictionsOnCurrencies =
-          List<int>.filled(cryptocurrencies.length, 0);
+          List<int>.filled(selectedCryptocurrencies.length, 0);
       for (var i in currentUser.pastPredictions) {
         userError += i.errorPercentage;
         userErrorVariance += (i.errorPercentage * i.errorPercentage);
-        for (int x = 0; x < cryptocurrencies.length; x++) {
-          if (i.predictionCurrency == (cryptocurrencies[x] + "-USD")) {
+        for (int x = 0; x < selectedCryptocurrencies.length; x++) {
+          if (i.predictionCurrency == (selectedCryptocurrencies[x] + "-USD")) {
             userErrorsOnCurrencies[x] += (i.errorPercentage);
             userErrorVarianceOnCurrencies[x] +=
                 (i.errorPercentage * i.errorPercentage);
@@ -120,23 +138,23 @@ Future<UserAccount> getActiveUserData() async {
       }
 
       List<double> userErrorStandardDeviationOnCurrencies =
-      List<double>.filled(cryptocurrencies.length, 0);
+      List<double>.filled(selectedCryptocurrencies.length, 0);
 
       currentUser.error = userError / predictionCount;
       currentUser.errorVariance = userErrorVariance / predictionCount;
       currentUser.errorStandardDeviation = sqrt(currentUser.errorVariance);
-      for (int x = 0; x < cryptocurrencies.length; x++) {
+      for (int x = 0; x < selectedCryptocurrencies.length; x++) {
         userErrorsOnCurrencies[x] /= userPredictionsOnCurrencies[x];
         userErrorVarianceOnCurrencies[x] /= userPredictionsOnCurrencies[x];
         userErrorStandardDeviationOnCurrencies[x]=sqrt(userErrorVarianceOnCurrencies[x]);
       }
 
       currentUser.errorsOnCurrencies =
-          Map.fromIterables(cryptocurrencies, userErrorsOnCurrencies);
+          Map.fromIterables(selectedCryptocurrencies, userErrorsOnCurrencies);
       currentUser.errorVarianceOnCurrencies =
-          Map.fromIterables(cryptocurrencies, userErrorVarianceOnCurrencies);
+          Map.fromIterables(selectedCryptocurrencies, userErrorVarianceOnCurrencies);
       currentUser.errorStandardDeviationOnCurrencies=
-          Map.fromIterables(cryptocurrencies, userErrorStandardDeviationOnCurrencies);
+          Map.fromIterables(selectedCryptocurrencies, userErrorStandardDeviationOnCurrencies);
 
       currentUser.accuracy =
           100 - currentUser.errorStandardDeviation;

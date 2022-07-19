@@ -21,18 +21,18 @@ Future<List<RealPricesOfACurrency>> getRealPriceData() async {
 
   List<RealPricesOfACurrency> allPricesLists =
       List<RealPricesOfACurrency>.filled(
-          cryptocurrencies.length, RealPricesOfACurrency(''));
-  for (int i = 0; i < cryptocurrencies.length; i++) {
-    allPricesLists[i] = RealPricesOfACurrency('${cryptocurrencies[i]}-USD');
+          selectedCryptocurrencies.length, RealPricesOfACurrency(''));
+  for (int i = 0; i < selectedCryptocurrencies.length; i++) {
+    allPricesLists[i] = RealPricesOfACurrency('${selectedCryptocurrencies[i]}-USD');
   }
 
   try {
     List<Future> queries=[];
-    for(int i=0;i<cryptocurrencies.length;i++){
-      queries.add(getPricesOfACurrency(cryptocurrencies[i]));
+    for(int i=0;i<selectedCryptocurrencies.length;i++){
+      queries.add(getPricesOfACurrency(selectedCryptocurrencies[i]));
     }
     final results=await Future.wait(queries);
-    for(int i=0;i<cryptocurrencies.length;i++){
+    for(int i=0;i<selectedCryptocurrencies.length;i++){
       allPricesLists[i].pricesList=results[i];
       allPricesLists[i].calculatePriceIncreasePercentage();
     }

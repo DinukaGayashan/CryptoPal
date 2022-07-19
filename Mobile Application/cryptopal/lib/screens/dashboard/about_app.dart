@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cryptopal/utility/constants.dart';
 import 'package:cryptopal/utility/widgets.dart';
-import 'package:webview_flutter/webview_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AboutApp extends StatelessWidget {
   const AboutApp({Key? key}) : super(key: key);
@@ -39,13 +39,13 @@ class AboutApp extends StatelessWidget {
                     ),
                   ],
                 ),
-                SizedBox(
-                  height: MediaQuery.of(context).size.height - 140,
-                  child: WebView(
-                    initialUrl: 'https://cryptopal-e288a.firebaseapp.com/AboutApp',
-                    javascriptMode: JavascriptMode.unrestricted,
-                  ),
-                ),
+                // SizedBox(
+                //   height: MediaQuery.of(context).size.height - 140,
+                //   child: WebView(
+                //     initialUrl: 'https://cryptopal-e288a.firebaseapp.com/AboutApp',
+                //     javascriptMode: JavascriptMode.unrestricted,
+                //   ),
+                // ),
                 const SizedBox(
                   height: 20,
                 ),
@@ -62,10 +62,19 @@ class AboutApp extends StatelessWidget {
                   child: TextButton(
                     onPressed: (){},
                     child: Text(
-                        'Policies & Conditions'
+                        'Policies & Conditions',
+                      style: kLinkStyle,
                     ),
                   ),
                 ),
+                const SizedBox(
+                  height: 50,
+                ),
+
+
+
+
+
                 const SizedBox(
                   height: 50,
                 ),
@@ -84,42 +93,23 @@ class AboutApp extends StatelessWidget {
                 const SizedBox(
                   height: 10,
                 ),
-                // Center(
-                //   child: InkWell(
-                //     child:Text(
-                //       'Dinuka Gayashan',
-                //       style: TextStyle(
-                //         fontSize: 30,
-                //         fontFamily: 'ReenieBeanie',
-                //         color: kBaseColor2,
-                //       ),
-                //     ),
-                //     onTap: (){
-                //       html.window.open('https://dinukagayashan.github.io/_di-Website', 'new tab');
-                //     },
-                //     highlightColor: Colors.transparent,
-                //     splashColor: Colors.transparent,
-                //   ),
-                // ),
-
-                // const SizedBox(
-                //   height: 50.0,
-                //   child: Center(
-                //     child:  Text(
-                //       'Advisory platform for cryptocurrency investments',
-                //       style: kInstructionStyle,
-                //     ),
-                //   ),
-                // ),
-                // const SizedBox(
-                //   height: 30,
-                // ),
-                // const Text(
-                //    description,
-                //     style: kInstructionStyle,
-                //   textAlign: TextAlign.center,
-                // ),
-
+                Center(
+                  child: InkWell(
+                    child:Text(
+                      'Dinuka Gayashan',
+                      style: TextStyle(
+                        fontSize: 30,
+                        fontFamily: 'ReenieBeanie',
+                        color: kBaseColor2,
+                      ),
+                    ),
+                    onTap: () async {
+                      await launch('https://dinukagayashan.github.io/_di-Website');
+                    },
+                    highlightColor: Colors.transparent,
+                    splashColor: Colors.transparent,
+                  ),
+                ),
                 const SizedBox(
                   height: 30,
                 ),

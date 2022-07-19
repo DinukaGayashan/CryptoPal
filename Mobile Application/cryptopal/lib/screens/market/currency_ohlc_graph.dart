@@ -34,7 +34,7 @@ class CurrencyOHLCGraph extends StatelessWidget {
         child: glassCard(context,
           Column(
             children: [
-              topBar(context, cryptocurrencyNames[cryptocurrencies[currencyIndex]].toString()+' OHLC Prices'),
+              topBar(context, cryptocurrencyNames[selectedCryptocurrencies[currencyIndex]].toString()+' OHLC Prices'),
               SizedBox(
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height-133,
@@ -56,11 +56,11 @@ class CurrencyOHLCGraph extends StatelessWidget {
                   ),
                   series: <ChartSeries>[
                     CandleSeries<RealPrice, DateTime>(
-                      name: cryptocurrencies[currencyIndex] +
+                      name: selectedCryptocurrencies[currencyIndex] +
                           ' OHLC Prices',
                       dataSource: getRealPrices(
                           currency:
-                          cryptocurrencies[currencyIndex] +
+                          selectedCryptocurrencies[currencyIndex] +
                               '-USD'),
                       xValueMapper: (RealPrice data, _) =>
                           DateTime.parse(data.date),

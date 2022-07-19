@@ -206,9 +206,10 @@ class _RegistrationFormState extends State<RegistrationForm> {
                               showDialog(
                                 context: context,
                                 builder: (BuildContext context) {
-                                  return CupertinoAlertDialog(
+                                  return AlertDialog(
+                                    backgroundColor: kBackgroundColor,
                                     title: const Text(
-                                      "Delete User Account\n",
+                                      "Delete User Account",
                                       style: kSubSubjectStyle,
                                     ),
                                     content: Text(
@@ -218,7 +219,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
                                       style: kInstructionStyle,
                                     ),
                                     actions: [
-                                      CupertinoDialogAction(
+                                      TextButton(
                                         child: const Text(
                                           "No",
                                           style: kLinkStyle,
@@ -227,7 +228,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
                                           Navigator.of(context).pop();
                                         },
                                       ),
-                                      CupertinoDialogAction(
+                                      TextButton(
                                         child: const Text(
                                           "Yes",
                                           style: kLinkStyle,

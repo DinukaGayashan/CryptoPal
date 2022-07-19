@@ -58,22 +58,30 @@ class _DashboardState extends State<Dashboard> {
   String getBestCryptocurrency() {
     double minError = double.infinity;
     int index = 0;
-    for (int i = 0; i < cryptocurrencies.length; i++) {
+    for (int i = 0; i < selectedCryptocurrencies.length; i++) {
       if (currentUser.errorVarianceOnCurrencies.values.elementAt(i) <
           minError) {
         minError = currentUser.errorVarianceOnCurrencies.values.elementAt(i);
         index = i;
       }
     }
-    return minError.isInfinite ? '-' : cryptocurrencyNames[cryptocurrencies[index]].toString();
+    return minError.isInfinite ? '-' : cryptocurrencyNames[selectedCryptocurrencies[index]].toString();
+  }
+
+  int getAverageForecastDays(){
+    int days=0;
+    for (int i = 0; i < selectedCryptocurrencies.length; i++) {
+      days+=widget.mlPredictionPriceList[i].pricesList.length;
+    }
+    return (days/selectedCryptocurrencies.length).round();
   }
 
   double getAverageForecastError(){
     double error=0;
-    for (int i = 0; i < cryptocurrencies.length; i++) {
+    for (int i = 0; i < selectedCryptocurrencies.length; i++) {
       error+=widget.mlPredictionPriceList[i].errorPercentage;
     }
-    return error/cryptocurrencies.length;
+    return error/selectedCryptocurrencies.length;
   }
 
   List<T> pickRandomItemsAsList<T>(List<T> items, int count) =>
@@ -455,29 +463,37 @@ class _DashboardState extends State<Dashboard> {
                                         const SizedBox(
                                           height: 30,
                                         ),
-                                        SizedBox(
-                                          height: 60,
-                                          width: 120,
-                                          child: FloatingActionButton(
-                                            backgroundColor: kAccentColor1,
-                                            tooltip: 'Add Prediction',
-                                            onPressed: () {
-                                              Navigator.push(context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) {
-                                                        return AddPrediction(
-                                                            currentUser,
-                                                            widget.realPriceList);
-                                                      })).then((_) {
-                                                setState(() {
-                                                  currentUser.predictions;
-                                                  currentUser.futurePredictions;
+                                        Padding(
+                                          padding: const EdgeInsets.only(right: 40.0),
+                                          child: SizedBox(
+                                            height: 60,
+                                            width: 60,
+                                            child: MaterialButton(
+                                              color: kAccentColor1,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.circular(16.0),
+                                              ),
+                                              //borderRadius: const BorderRadius.all(Radius.circular(8)),
+                                              // backgroundColor: kAccentColor1,
+                                              // tooltip: 'Add Prediction',
+                                              onPressed: () {
+                                                Navigator.push(context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) {
+                                                          return AddPrediction(
+                                                              currentUser,
+                                                              widget.realPriceList);
+                                                        })).then((_) {
+                                                  setState(() {
+                                                    currentUser.predictions;
+                                                    currentUser.futurePredictions;
+                                                  });
                                                 });
-                                              });
-                                            },
-                                            child: const Icon(
-                                              Icons.add,
-                                              color: kTransparentColor4,
+                                              },
+                                              child: const Icon(
+                                                Icons.add,
+                                                color: kTransparentColor4,
+                                              ),
                                             ),
                                           ),
                                         ),
@@ -606,10 +622,7 @@ class _DashboardState extends State<Dashboard> {
                                               style: kCardSmallTextStyle,
                                               children: <TextSpan>[
                                                 TextSpan(
-                                                  text: widget
-                                                      .mlPredictionPriceList[0]
-                                                      .pricesList
-                                                      .length
+                                                  text: getAverageForecastDays()
                                                       .toString(),
                                                   style: kCardTextStyle2,
                                                 ),
@@ -723,7 +736,7 @@ class _DashboardState extends State<Dashboard> {
                                   style: kCardTitleStyle,
                                 ),
                               ),
-                              for (int i = 0; i < cryptocurrencies.length; i++)
+                              for (int i = 0; i < selectedCryptocurrencies.length; i++)
                                 InkWell(
                                   borderRadius: BorderRadius.circular(10),
                                   child: Row(
@@ -734,7 +747,7 @@ class _DashboardState extends State<Dashboard> {
                                       ),
                                       SvgPicture.asset(
                                         'assets/images/cryptocoin_icons/color/' +
-                                            cryptocurrencies[i].toLowerCase() +
+                                            selectedCryptocurrencies[i].toLowerCase() +
                                             '.svg',
                                         width: 35.0,
                                         height: 35.0,
@@ -749,11 +762,11 @@ class _DashboardState extends State<Dashboard> {
                                           CrossAxisAlignment.start,
                                           children: <Widget>[
                                             Text(
-                                              cryptocurrencies[i],
+                                              selectedCryptocurrencies[i],
                                               style: kCardTextStyle,
                                             ),
                                             Text(
-                                              cryptocurrencyNames[cryptocurrencies[i]].toString(),
+                                              cryptocurrencyNames[selectedCryptocurrencies[i]].toString(),
                                               style: kCardSmallTextStyle,
                                             ),
                                           ],
@@ -777,7 +790,7 @@ class _DashboardState extends State<Dashboard> {
                                             charts.LineSeries<RealPrice, DateTime>(
                                               dataSource: getRealPrices(
                                                   currency:
-                                                  cryptocurrencies[i] + '-USD',
+                                                  selectedCryptocurrencies[i] + '-USD',
                                                   number: 20),
                                               xValueMapper: (RealPrice data, _) =>
                                                   DateTime.parse(data.date),

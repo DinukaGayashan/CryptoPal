@@ -43,13 +43,13 @@ class _CurrencyMarketState extends State<CurrencyMarket> {
             context,
             ListView(
               children: <Widget>[
-                topBar(context, cryptocurrencyNames[cryptocurrencies[widget.currencyIndex]].toString()+' Market'),
+                topBar(context, cryptocurrencyNames[selectedCryptocurrencies[widget.currencyIndex]].toString()+' Market'),
                 const SizedBox(
                   height: 10.0,
                 ),
                 SvgPicture.asset(
                   'assets/images/cryptocoin_icons/color/' +
-                      cryptocurrencies[widget.currencyIndex].toLowerCase() +
+                      selectedCryptocurrencies[widget.currencyIndex].toLowerCase() +
                       '.svg',
                   width: 60.0,
                   height: 60.0,
@@ -67,7 +67,7 @@ class _CurrencyMarketState extends State<CurrencyMarket> {
                       style: kCardNumberStyle,
                       children: <TextSpan>[
                         TextSpan(
-                          text: cryptocurrencies[widget.currencyIndex],
+                          text: selectedCryptocurrencies[widget.currencyIndex],
                           style: kCardTextStyle,
                         ),
                       ],
@@ -146,10 +146,10 @@ class _CurrencyMarketState extends State<CurrencyMarket> {
                                 0
                             ? kGreen
                             : kRed,
-                        name: cryptocurrencies[widget.currencyIndex] +
+                        name: selectedCryptocurrencies[widget.currencyIndex] +
                             ' Close Price',
                         dataSource: getRealPrices(
-                            currency: cryptocurrencies[widget.currencyIndex] +
+                            currency: selectedCryptocurrencies[widget.currencyIndex] +
                                 '-USD'),
                         xValueMapper: (RealPrice data, _) =>
                             DateTime.parse(data.date),

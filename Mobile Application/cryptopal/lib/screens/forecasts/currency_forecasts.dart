@@ -94,7 +94,7 @@ class _CurrencyForecastsState extends State<CurrencyForecasts> {
               children: <Widget>[
                 topBar(
                   context,
-                  cryptocurrencyNames[cryptocurrencies[widget.currencyIndex]].toString() + ' Forecasts',
+                  cryptocurrencyNames[selectedCryptocurrencies[widget.currencyIndex]].toString() + ' Forecasts',
                 ),
                 const SizedBox(
                   height: 20.0,
@@ -229,22 +229,22 @@ class _CurrencyForecastsState extends State<CurrencyForecasts> {
                     ),
                     series: <charts.ChartSeries>[
                       charts.LineSeries<RealPrice, DateTime>(
-                        name: cryptocurrencies[widget.currencyIndex] +
+                        name: selectedCryptocurrencies[widget.currencyIndex] +
                             ' Real Price',
                         color: kGraphColor1,
                         dataSource: getRealPrices(
-                            currency: cryptocurrencies[widget.currencyIndex] +
+                            currency: selectedCryptocurrencies[widget.currencyIndex] +
                                 '-USD'),
                         xValueMapper: (RealPrice data, _) =>
                             DateTime.parse(data.date),
                         yValueMapper: (RealPrice data, _) => data.closePrice,
                       ),
                       charts.LineSeries<ForecastPrice, DateTime>(
-                        name: cryptocurrencies[widget.currencyIndex] +
+                        name: selectedCryptocurrencies[widget.currencyIndex] +
                             ' Forecast Price',
                         color: kGraphColor2,
                         dataSource: getForecastPrices(
-                            currency: cryptocurrencies[widget.currencyIndex]+
+                            currency: selectedCryptocurrencies[widget.currencyIndex]+
                                 '-USD'),
                         xValueMapper: (ForecastPrice data, _) =>
                             DateTime.parse(data.date),

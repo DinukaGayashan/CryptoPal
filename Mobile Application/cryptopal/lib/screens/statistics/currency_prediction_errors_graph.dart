@@ -44,7 +44,7 @@ class CurrencyPredictionErrorsGraph extends StatelessWidget {
         child: glassCard(context,
           Column(
             children: [
-              topBar(context, cryptocurrencyNames[cryptocurrencies[currencyIndex]].toString()+' Prediction Error'),
+              topBar(context, cryptocurrencyNames[selectedCryptocurrencies[currencyIndex]].toString()+' Prediction Error'),
               SizedBox(
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height-133,
@@ -72,11 +72,11 @@ class CurrencyPredictionErrorsGraph extends StatelessWidget {
                   ),
                   series: <ChartSeries>[
                     ScatterSeries<GraphData, DateTime>(
-                      name: cryptocurrencies[currencyIndex] +
+                      name: selectedCryptocurrencies[currencyIndex] +
                           ' Prediction Error Deviation',
                       color: kGraphColor2,
                       dataSource: getValuesOnCurrencyNoNaN(
-                          currency: cryptocurrencies[
+                          currency: selectedCryptocurrencies[
                           currencyIndex],
                           type: 'variance'),
                       trendlines:<Trendline>[
