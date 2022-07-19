@@ -167,9 +167,6 @@ class _DashboardState extends State<Dashboard> {
                   //   },
                   // ),
                   ListTile(
-
-                  ),
-                  ListTile(
                     leading: const Icon(Icons.help),
                     title: const Text(
                       'Help',

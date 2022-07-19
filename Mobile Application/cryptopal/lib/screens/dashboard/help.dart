@@ -20,7 +20,13 @@ class Help extends StatelessWidget {
                 const SizedBox(
                   height: 10.0,
                 ),
-
+                Center(
+                  child: const Text(
+                    'Under development. :_(\nContact +94776306761 for help.',
+                    style: kInstructionStyle,
+                    textAlign: TextAlign.center,
+                  ),
+                ),
 
                 const SizedBox(
                   height: 30,

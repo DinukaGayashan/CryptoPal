@@ -19,7 +19,7 @@ class AboutApp extends StatelessWidget {
               children: <Widget>[
                 topBar(context, 'About App'),
                 const SizedBox(
-                  height: 10.0,
+                  height: 30.0,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -60,7 +60,9 @@ class AboutApp extends StatelessWidget {
                 ),
                 Center(
                   child: TextButton(
-                    onPressed: (){},
+                    onPressed: (){
+                      snackBar(context, message: 'No Terms, No Conditions ;-)', color: kGreen);
+                    },
                     child: Text(
                         'Terms & Conditions',
                       style: kLinkStyle,

@@ -145,17 +145,16 @@ class _AccountState extends State<Account> {
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    IconButton(
-                      tooltip:'Share User Card',
-                      icon: const Icon(
-                        Icons.share,
-                        size: 20,
-                        color: kTransparentColor3,
-                      ),
-                      onPressed: (){}
-                    ),
+                    // IconButton(
+                    //   tooltip:'Share User Card',
+                    //   icon: const Icon(
+                    //     Icons.share,
+                    //     size: 20,
+                    //     color: kTransparentColor3,
+                    //   ),
+                    //   onPressed: (){}
+                    // ),
                     /*IconButton(
                       tooltip:'Download User Card',
                       icon: const Icon(
@@ -209,30 +208,6 @@ class _AccountState extends State<Account> {
                 ),
                 const SizedBox(
                   height: 30.0,
-                ),
-
-                ListTile(
-                  leading: const Icon(Icons.format_list_bulleted,),
-                  title: const Text(
-                    'Fill User Form',
-                    style: kCardTextStyle,
-                  ),
-                  onTap: (){
-
-                  },
-                ),
-                ListTile(
-                  leading: const Icon(Icons.currency_bitcoin),
-                  title: const Text(
-                    'Select Cryptocurrencies',
-                    style: kCardTextStyle,
-                  ),
-                  onTap: (){
-                      Navigator.push(context,
-                          CupertinoPageRoute(builder: (context) {
-                            return const SelectCryptocurrencies();
-                          }));
-                  },
                 ),
                 ListTile(
                   leading: const Icon(Icons.edit,),
@@ -309,6 +284,29 @@ class _AccountState extends State<Account> {
                         );
                       },
                     );
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(Icons.currency_bitcoin),
+                  title: const Text(
+                    'Select Cryptocurrencies',
+                    style: kCardTextStyle,
+                  ),
+                  onTap: (){
+                      Navigator.push(context,
+                          CupertinoPageRoute(builder: (context) {
+                            return const SelectCryptocurrencies();
+                          }));
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(Icons.format_list_bulleted,),
+                  title: const Text(
+                    'Fill User Form',
+                    style: kCardTextStyle,
+                  ),
+                  onTap: (){
+                    snackBar(context, message: 'Not Yet Implemented', color: kYellow);
                   },
                 ),
                 ListTile(
