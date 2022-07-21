@@ -39,6 +39,11 @@ class AboutApp extends StatelessWidget {
                     ),
                   ],
                 ),
+                const Text(
+                  version,
+                  style: kTransparentSmallStyle,
+                  textAlign: TextAlign.center,
+                ),
                 // SizedBox(
                 //   height: MediaQuery.of(context).size.height - 140,
                 //   child: WebView(
@@ -96,7 +101,7 @@ class AboutApp extends StatelessWidget {
                   height: 10,
                 ),
                 Center(
-                  child: InkWell(
+                  child: GestureDetector(
                     child:Text(
                       'Dinuka Gayashan',
                       style: TextStyle(
@@ -108,8 +113,6 @@ class AboutApp extends StatelessWidget {
                     onTap: () async {
                       await launch('https://dinukagayashan.github.io/_di-Website');
                     },
-                    highlightColor: Colors.transparent,
-                    splashColor: Colors.transparent,
                   ),
                 ),
                 const SizedBox(

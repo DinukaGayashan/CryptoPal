@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:number_display/number_display.dart';
 
 const String description="CryptoPal is an advisory platform for cryptocurrency investments that only focused on educational purposes. Please do not use this application as a advisor for financial investment purposes.";
+const String version='Version 0.8';
 
 const kBaseColor1 = Color(0xff000000);
 const kBaseColor2 = Color(0xffeeeeee);
@@ -17,6 +18,7 @@ const kTransparentColor4 = Color(0xaa121212);
 const kTransparentColor5 = Color(0x33121212);
 const kTransparentColor6 = Color(0x33000000);
 const kTransparentColor7 = Color(0x66151515);
+const kTransparentColor8 = Color(0x11101010);
 const kRed = Color(0xffea4f30);
 const kGreen = Color(0xff1fba72);
 const kYellow = Color(0xfff1ae2d);
@@ -50,6 +52,12 @@ const TextStyle kTitleStyle = TextStyle(
   color: kBaseColor2,
   fontFamily: 'Tenorite',
   fontSize: 30,
+);
+
+const TextStyle kSmallTitleStyle = TextStyle(
+  color: kBaseColor2,
+  fontFamily: 'Tenorite',
+  fontSize: 20,
 );
 
 const TextStyle kSmallBlackTitleStyle = TextStyle(

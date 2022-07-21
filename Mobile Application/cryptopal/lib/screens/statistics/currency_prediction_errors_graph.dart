@@ -19,17 +19,21 @@ class CurrencyPredictionErrorsGraph extends StatelessWidget {
     Iterable<String> dates = currentUser.history.keys;
     if (type == 'error') {
       for (var d in dates) {
-        if (!currentUser.history[d]?.errorsOnCurrencies[currency].isNaN) {
-          currencyValues.add(GraphData(
-              valueOne:d, valueTwo:currentUser.history[d]?.errorsOnCurrencies[currency]));
+        if(currentUser.history[d]?.errorsOnCurrencies[currency]!=null){
+          if (!currentUser.history[d]?.errorsOnCurrencies[currency].isNaN) {
+            currencyValues.add(GraphData(
+                valueOne:d, valueTwo:currentUser.history[d]?.errorsOnCurrencies[currency]));
+          }
         }
       }
     } else {
       for (var d in dates) {
-        if (!currentUser
-            .history[d]?.errorVarianceOnCurrencies[currency].isNaN) {
-          currencyValues.add(GraphData(
-              valueOne:d, valueTwo:currentUser.history[d]?.errorVarianceOnCurrencies[currency]));
+        if(currentUser.history[d]?.errorVarianceOnCurrencies[currency]!=null){
+          if (!currentUser
+              .history[d]?.errorVarianceOnCurrencies[currency].isNaN) {
+            currencyValues.add(GraphData(
+                valueOne:d, valueTwo:currentUser.history[d]?.errorVarianceOnCurrencies[currency]));
+          }
         }
       }
     }

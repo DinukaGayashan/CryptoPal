@@ -165,7 +165,7 @@ class _PredictionsOnDaysState extends State<PredictionsOnDays> {
                                 style: kCardSmallTextStyle,
                                 children: <TextSpan>[
                                   TextSpan(
-                                    text: kCurrencyPriceDisplay(prediction.predictionClosePrice),
+                                    text: kCurrencyPriceDisplay(prediction.predictionClosePrice)+' \$',
                                     style: kCardTextStyle2,
                                   ),
                                 ],

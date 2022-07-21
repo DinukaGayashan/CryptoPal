@@ -1,21 +1,5 @@
 import 'package:flutter/material.dart';
 
-const List<String> cryptocurrencyNames = <String>[
-  "Bitcoin",
-  "Ethereum",
-  "Litecoin",
-  "Ripple",
-  "Dogecoin"
-];
-
-const List<String> cryptocurrencies = <String>[
-  "BTC",
-  "ETH",
-  "LTC",
-  "XRP",
-  "DOGE"
-];
-
 const kBaseColor1 = Color(0xff000000);
 const kBaseColor2 = Color(0xffeeeeee);
 const kBackgroundColor = Color(0xee121212);
@@ -30,28 +14,13 @@ const kTransparentColor4 = Color(0xaa121212);
 const kTransparentColor5 = Color(0x33121212);
 const kTransparentColor6 = Color(0x33000000);
 const kTransparentColor7 = Color(0x66151515);
+const kTransparentColor8 = Color(0xff111111);
 const kRed = Color(0xffea4f30);
 const kGreen = Color(0xff1fba72);
 const kYellow = Color(0xfff1ae2d);
 const kBlue = Color(0xff008ff7);
 const kGraphColor1= Color(0xff1bbfd0);
 const kGraphColor2= Color(0xffdd636b);
-const List<Color> kUserColorMap=[Color(0xff121212),Color(0xff607d8b),Color(0xff9e9e9e),Color(0xff795548),
-  Color(0xffff5722),Color(0xffff9800),Color(0xffffc107),Color(0xffcddc39),Color(0xff8bc34a),Color(0xff4caf50),
-  Color(0xff009688),Color(0xff00bcd4),Color(0xff03a9f4),Color(0xff2196f3),Color(0xff00bcd4),Color(0xff3f51b5),
-  Color(0xff673ab7),Color(0xff9c27b0),Color(0xffe91e63),Color(0xfff44336)];
-const Color topLevelUserColor=Color(0xffff1144);
-
-DateTime kMinDayInGraph = DateTime.now().subtract(const Duration(days: 60));
-DateTime kMinDayInForecastGraph = DateTime.now().subtract(const Duration(days: 40));
-DateTime kMinDayInExtendedGraph =
-DateTime.now().subtract(const Duration(days: 100));
-DateTime kMinDayInSmallGraph =
-DateTime.now().subtract(const Duration(days: 10));
-
-// final kDashboardPriceDisplay = createDisplay(length: 7);
-// final kCurrencyPriceDisplay = createDisplay(length: 10);
-// final kUserScoreDisplay = createDisplay(length:4);
 
 const TextStyle kMainTitleStyle = TextStyle(
   color: kBaseColor2,

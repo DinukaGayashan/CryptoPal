@@ -16,9 +16,11 @@ class PredictionAccuracyGraph extends StatelessWidget {
     List<GraphData> accuracyValues = [];
     Iterable<String> dates = currentUser.history.keys;
     for (var d in dates) {
-      if (currentUser.history[d]?.accuracy.isNaN!=true) {
-        accuracyValues.add(GraphData(
-            valueOne:d, valueTwo:currentUser.history[d]?.accuracy));
+      if(currentUser.history[d]?.accuracy!=null){
+        if (currentUser.history[d]?.accuracy.isNaN!=true) {
+          accuracyValues.add(GraphData(
+              valueOne:d, valueTwo:currentUser.history[d]?.accuracy));
+        }
       }
     }
     return accuracyValues;

@@ -1,6 +1,6 @@
 import 'package:cryptopal_web/widgets.dart';
 import 'package:flutter/material.dart';
-import 'about_app.dart';
+import 'help.dart';
 import 'constants.dart';
 
 class HomePage extends StatelessWidget {
@@ -37,10 +37,10 @@ class HomePage extends StatelessWidget {
               ),
               TextButton(
                   onPressed: (){
-                    Navigator.pushNamed(context, '/AboutApp');
+                    Navigator.pushNamed(context, '/Help');
                   },
                   child: Text(
-                    'about'
+                    'help'
                   ),
               ),
             ],

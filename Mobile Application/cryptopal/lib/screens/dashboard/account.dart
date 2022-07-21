@@ -16,6 +16,9 @@ import 'package:flutter/rendering.dart';
 import 'dart:ui' as ui;
 import 'dart:io';
 
+import 'about_app.dart';
+import 'help.dart';
+
 class Account extends StatefulWidget {
   const Account(this.currentUser, {Key? key}) : super(key: key);
   final UserAccount currentUser;
@@ -206,8 +209,15 @@ class _AccountState extends State<Account> {
                     ),
                   ],
                 ),
-                const SizedBox(
-                  height: 30.0,
+                ListTile(
+                  leading: const Icon(Icons.manage_accounts_rounded),
+                  title: const Text(
+                    'Account Settings',
+                    style: kCardTextStyle,
+                  ),
+                  onTap: () {
+
+                  },
                 ),
                 ListTile(
                   leading: const Icon(Icons.edit,),
@@ -307,6 +317,32 @@ class _AccountState extends State<Account> {
                   ),
                   onTap: (){
                     snackBar(context, message: 'Not Yet Implemented', color: kYellow);
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(Icons.help),
+                  title: const Text(
+                    'Help',
+                    style: kCardTextStyle,
+                  ),
+                  onTap: () {
+                    Navigator.push(context,
+                        CupertinoPageRoute(builder: (context) {
+                          return const Help();
+                        }));
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(Icons.touch_app),
+                  title: const Text(
+                    'About App',
+                    style: kCardTextStyle,
+                  ),
+                  onTap: () {
+                    Navigator.push(context,
+                        CupertinoPageRoute(builder: (context) {
+                          return const AboutApp();
+                        }));
                   },
                 ),
                 ListTile(

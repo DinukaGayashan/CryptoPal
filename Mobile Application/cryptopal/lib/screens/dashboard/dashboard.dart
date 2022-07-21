@@ -94,7 +94,7 @@ class _DashboardState extends State<Dashboard> {
     return SafeArea(
           child: Scaffold(
             backgroundColor: kBaseColor1,
-            drawer: Drawer(
+            /*drawer: Drawer(
               backgroundColor: kTransparentColor4,
               width: MediaQuery.of(context).size.width * 0.72,
               child: ListView(
@@ -152,20 +152,16 @@ class _DashboardState extends State<Dashboard> {
                       });
                     },
                   ),
-                  // ListTile(
-                  //   leading: const Icon(Icons.lock),
-                  //   title: const Text(
-                  //     'Privacy Policy',
-                  //     style: kCardTextStyle,
-                  //   ),
-                  //   onTap: () {
-                  //     Navigator.pop(context);
-                  //     Navigator.push(context,
-                  //         CupertinoPageRoute(builder: (context) {
-                  //           return const PrivacyPolicy();
-                  //         }));
-                  //   },
-                  // ),
+                  ListTile(
+                    leading: const Icon(Icons.settings),
+                    title: const Text(
+                      'Settings',
+                      style: kCardTextStyle,
+                    ),
+                    onTap: () {
+
+                    },
+                  ),
                   ListTile(
                     leading: const Icon(Icons.help),
                     title: const Text(
@@ -194,9 +190,33 @@ class _DashboardState extends State<Dashboard> {
                           }));
                     },
                   ),
+                  SizedBox(height: MediaQuery.of(context).size.height-600,),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: <Widget>[
+                      CircleAvatar(
+                        backgroundColor: Colors.transparent,
+                        radius: 15.0,
+                        child: Image.asset(
+                            'assets/images/CryptoPal-logo-white.png'),
+                      ),
+                      DefaultTextStyle(
+                        style: kSmallTitleStyle,
+                        child: Text(
+                          'CryptoPal',
+                        ),
+                      ),
+                    ],
+                  ),
+                  const Text(
+                    version,
+                    style: kTransparentSmallStyle,
+                    textAlign: TextAlign.center,
+                  ),
                 ],
               ),
-            ).asGlass(),
+            ).asGlass(),*/
             body: LiquidPullToRefresh(
               color: Colors.transparent,
               backgroundColor: Colors.transparent,
@@ -214,7 +234,7 @@ class _DashboardState extends State<Dashboard> {
                     children: <Widget>[
                       SizedBox(
                         width: 80,
-                        child: Builder(builder: (context) {
+                        /*child: Builder(builder: (context) {
                           return IconButton(
                             enableFeedback: true,
                             icon: const Icon(Icons.keyboard_control),
@@ -223,7 +243,7 @@ class _DashboardState extends State<Dashboard> {
                               Scaffold.of(context).openDrawer();
                             },
                           );
-                        }),
+                        }),*/
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -243,8 +263,26 @@ class _DashboardState extends State<Dashboard> {
                           ),
                         ],
                       ),
-                      const SizedBox(
+                      SizedBox(
                         width: 80,
+                        child: IconButton(
+                          enableFeedback: true,
+                          icon: const Icon(Icons.keyboard_control),
+                          color: kBaseColor2,
+                          onPressed: () {
+                            Navigator.push(context,
+                                CupertinoPageRoute(builder: (context) {
+                                  return Account(
+                                    currentUser,
+                                  );
+                                })).then((_) {
+                              setState(() {
+                                currentUser.name;
+                                currentUser.birthday;
+                              });
+                            });
+                          },
+                        ),
                       )
                     ],
                   ),

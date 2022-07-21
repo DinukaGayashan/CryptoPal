@@ -1,4 +1,4 @@
-import 'package:cryptopal_web/about_app.dart';
+import 'package:cryptopal_web/help.dart';
 import 'package:cryptopal_web/home_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -28,10 +28,10 @@ class CryptoPalWeb extends StatelessWidget {
           ),
         ),
       ),
-      initialRoute: '/HomePage',
+      initialRoute: '/',
       routes: {
-        '/HomePage': (context) => HomePage(),
-        '/AboutApp': (context) => AboutApp(),
+        '/': (context) => HomePage(),
+        '/Help': (context) => Help(),
       },
     );
   }

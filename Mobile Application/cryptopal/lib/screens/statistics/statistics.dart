@@ -62,82 +62,70 @@ class _StatisticsState extends State<Statistics> {
     return i;
   }
 
-  List<GraphData> getValuesOnCurrency(
-      {required String currency, required String type}) {
-    List<GraphData> currencyValues = [];
-    Iterable<String> dates = currentUser.history.keys;
-    if (type == 'error') {
-      for (var d in dates) {
-        currencyValues.add(GraphData(
-            valueOne:d, valueTwo:currentUser.history[d]?.errorsOnCurrencies[currency]));
-      }
-    } else {
-      for (var d in dates) {
-        currencyValues.add(GraphData(
-            valueOne:d, valueTwo:currentUser.history[d]?.errorVarianceOnCurrencies[currency]));
-      }
-    }
-    return currencyValues;
-  }
+  // List<GraphData> getValuesOnCurrency(
+  //     {required String currency, required String type}) {
+  //   List<GraphData> currencyValues = [];
+  //   Iterable<String> dates = currentUser.history.keys;
+  //   if (type == 'error') {
+  //     for (var d in dates) {
+  //       if(currentUser.history[d]?.errorsOnCurrencies[currency]!=null){
+  //         if (!currentUser.history[d]?.errorsOnCurrencies[currency].isNaN) {
+  //           currencyValues.add(GraphData(
+  //               valueOne:d, valueTwo:currentUser.history[d]?.errorsOnCurrencies[currency]));
+  //         }
+  //       }
+  //     }
+  //   } else {
+  //     for (var d in dates) {
+  //       if(currentUser.history[d]?.errorVarianceOnCurrencies[currency]!=null){
+  //         if (!currentUser
+  //             .history[d]?.errorVarianceOnCurrencies[currency].isNaN) {
+  //           currencyValues.add(GraphData(
+  //               valueOne:d, valueTwo:currentUser.history[d]?.errorVarianceOnCurrencies[currency]));
+  //         }
+  //       }
+  //     }
+  //   }
+  //   return currencyValues;
+  // }
 
-  List<GraphData> getValuesOnCurrencyNoNaN(
-      {required String currency, required String type}) {
-    List<GraphData> currencyValues = [];
-    Iterable<String> dates = currentUser.history.keys;
-    if (type == 'error') {
-      for (var d in dates) {
-        if (!currentUser.history[d]?.errorsOnCurrencies[currency].isNaN) {
-          currencyValues.add(GraphData(
-              valueOne:d, valueTwo:currentUser.history[d]?.errorsOnCurrencies[currency]));
-        }
-      }
-    } else {
-      for (var d in dates) {
-        if (!currentUser
-            .history[d]?.errorVarianceOnCurrencies[currency].isNaN) {
-          currencyValues.add(GraphData(
-              valueOne:d, valueTwo:currentUser.history[d]?.errorVarianceOnCurrencies[currency]));
-        }
-      }
-    }
-    return currencyValues;
-  }
-
-  List<GraphData> getAccuracyHistoryNoNaN() {
+  List<GraphData> getAccuracyHistory() {
     List<GraphData> accuracyValues = [];
     Iterable<String> dates = currentUser.history.keys;
     for (var d in dates) {
-      if (currentUser.history[d]?.accuracy.isNaN!=true) {
-        accuracyValues.add(GraphData(
-            valueOne:d, valueTwo:currentUser.history[d]?.accuracy));
+      if(currentUser.history[d]?.accuracy!=null){
+        if (currentUser.history[d]?.accuracy.isNaN!=true) {
+          accuracyValues.add(GraphData(
+              valueOne:d, valueTwo:currentUser.history[d]?.accuracy));
+        }
       }
     }
     return accuracyValues;
   }
 
-  List<GraphData> getErrorHistoryNoNaN() {
-    List<GraphData> errorValues = [];
-    Iterable<String> dates = currentUser.history.keys;
-    for (var d in dates) {
-      if (currentUser.history[d]?.error.isNaN!=true) {
-        errorValues.add(GraphData(
-            valueOne:d, valueTwo:currentUser.history[d]?.error));
-      }
-    }
-    return errorValues;
-  }
+  // List<GraphData> getErrorHistoryNoNaN() {
+  //   List<GraphData> errorValues = [];
+  //   Iterable<String> dates = currentUser.history.keys;
+  //   for (var d in dates) {
+  //     if (currentUser.history[d]?.error.isNaN!=true) {
+  //       errorValues.add(GraphData(
+  //           valueOne:d, valueTwo:currentUser.history[d]?.error));
+  //     }
+  //   }
+  //   return errorValues;
+  // }
 
-  List<GraphData> getStandardDeviationHistoryNoNaN() {
-    List<GraphData> standardDeviationValues = [];
-    Iterable<String> dates = currentUser.history.keys;
-    for (var d in dates) {
-      if (currentUser.history[d]?.standardDeviation.isNaN!=true) {
-        standardDeviationValues.add(GraphData(
-            valueOne:d, valueTwo:currentUser.history[d]?.standardDeviation));
-      }
-    }
-    return standardDeviationValues;
-  }
+  // List<GraphData> getStandardDeviationHistoryNoNaN() {
+  //   List<GraphData> standardDeviationValues = [];
+  //   Iterable<String> dates = currentUser.history.keys;
+  //   for (var d in dates) {
+  //     if (currentUser.history[d]?.standardDeviation.isNaN!=true) {
+  //       standardDeviationValues.add(GraphData(
+  //           valueOne:d, valueTwo:currentUser.history[d]?.standardDeviation));
+  //     }
+  //   }
+  //   return standardDeviationValues;
+  // }
 
   List<Prediction> getUserPredictions(
       {required String currency, bool past = false}) {
@@ -421,7 +409,7 @@ class _StatisticsState extends State<Statistics> {
                       charts.ScatterSeries<GraphData, DateTime>(
                         name: 'Price Prediction Accuracy',
                         color: kGraphColor1,
-                        dataSource: getAccuracyHistoryNoNaN(),
+                        dataSource: getAccuracyHistory(),
                         trendlines:<charts.Trendline>[
                           charts.Trendline(
                             name: 'Trendline',
