@@ -82,6 +82,7 @@ class AboutApp extends StatelessWidget {
 
 
 
+                ListTile(title: Text('Share App'),),
                 const SizedBox(
                   height: 50,
                 ),
