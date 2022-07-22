@@ -1,14 +1,9 @@
-import 'package:cryptopal/screens/dashboard/select_cryptocurrencies.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:glass/glass.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cryptopal/utility/constants.dart';
 import 'package:cryptopal/utility/widgets.dart';
 import 'package:cryptopal/utility/user_account.dart';
-import 'settings.dart';
-import 'package:cryptopal/screens/initialization/welcome.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:flutter/rendering.dart';
@@ -16,17 +11,18 @@ import 'dart:ui' as ui;
 import 'dart:io';
 
 import 'about_app.dart';
+import 'account.dart';
 import 'help.dart';
 
-class Account extends StatefulWidget {
-  const Account(this.currentUser, {Key? key}) : super(key: key);
+class Settings extends StatefulWidget {
+  const Settings(this.currentUser, {Key? key}) : super(key: key);
   final UserAccount currentUser;
 
   @override
-  State<Account> createState() => _AccountState();
+  State<Settings> createState() => _SettingsState();
 }
 
-class _AccountState extends State<Account> {
+class _SettingsState extends State<Settings> {
 
   late String joinedDate='';
   late int profileLevel;
@@ -214,7 +210,7 @@ class _AccountState extends State<Account> {
                 ListTile(
                   leading: const Icon(Icons.settings),
                   title: const Text(
-                    'Settings',
+                    'Account',
                     style: kCardTextStyle,
                   ),
                   subtitle: const Text(
@@ -224,7 +220,7 @@ class _AccountState extends State<Account> {
                   onTap: () {
                     Navigator.push(context,
                         CupertinoPageRoute(builder: (context) {
-                          return Settings(
+                          return Account(
                             currentUser,
                           );
                         })).then((_) {

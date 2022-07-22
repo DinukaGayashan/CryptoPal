@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cryptopal/screens/dashboard/select_cryptocurrencies.dart';
+import 'package:cryptopal/screens/settings/select_cryptocurrencies.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -10,15 +10,15 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../utility/user_account.dart';
 import '../initialization/welcome.dart';
 
-class Settings extends StatefulWidget {
-  const Settings(this.currentUser, {Key? key}) : super(key: key);
+class Account extends StatefulWidget {
+  const Account(this.currentUser, {Key? key}) : super(key: key);
   final UserAccount currentUser;
 
   @override
-  State<Settings> createState() => _SettingsState();
+  State<Account> createState() => _AccountState();
 }
 
-class _SettingsState extends State<Settings> {
+class _AccountState extends State<Account> {
   final _auth = FirebaseAuth.instance;
   final _firestore = FirebaseFirestore.instance;
   late String newName;
@@ -34,14 +34,14 @@ class _SettingsState extends State<Settings> {
             context,
             ListView(
               children: <Widget>[
-                topBar(context, 'Settings'),
+                topBar(context, 'Account'),
                 const SizedBox(
                   height: 20.0,
                 ),
                 ListTile(
                     leading: const Icon(Icons.manage_accounts),
                     title: const Text(
-                      'Personal Information',
+                      'Personal Details',
                       style: kCardTextStyle,
                     ),
                     onTap: (){}

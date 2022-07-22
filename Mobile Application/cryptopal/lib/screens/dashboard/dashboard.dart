@@ -14,7 +14,6 @@ import 'package:cryptopal/utility/news_data.dart';
 import 'package:cryptopal/screens/dashboard/dashboard_loading.dart';
 import 'package:cryptopal/screens/market/currency_market.dart';
 import 'package:cryptopal/screens/news/news_display.dart';
-import 'package:cryptopal/screens/dashboard/about_app.dart';
 import 'package:cryptopal/screens/news/news_list_display.dart';
 import 'package:cryptopal/screens/predictions/predictions.dart';
 import 'package:cryptopal/screens/statistics/statistics.dart';
@@ -23,8 +22,7 @@ import '../../utility/forecast_price_data.dart';
 import '../forecasts/forecasts.dart';
 import '../market/market.dart';
 import '../predictions/add_prediction.dart';
-import 'account.dart';
-import 'help.dart';
+import '../settings/settings.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard(this.currentUser, this.realPriceList,
@@ -272,7 +270,7 @@ class _DashboardState extends State<Dashboard> {
                           onPressed: () {
                             Navigator.push(context,
                                 CupertinoPageRoute(builder: (context) {
-                                  return Account(
+                                  return Settings(
                                     currentUser,
                                   );
                                 })).then((_) {
