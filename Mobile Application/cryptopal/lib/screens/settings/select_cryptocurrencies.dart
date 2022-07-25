@@ -177,7 +177,7 @@ class _SelectCryptocurrenciesState extends State<SelectCryptocurrencies> {
                             try{
                               await _firestore
                                   .collection('users')
-                                  .doc(currentUser.user?.uid)
+                                  .doc(currentUser.user.uid)
                                   .set(
                                 {
                                   'selectedCryptocurrencies': selectedList,

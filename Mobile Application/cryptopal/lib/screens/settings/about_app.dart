@@ -15,7 +15,7 @@ class AboutApp extends StatelessWidget {
           height: MediaQuery.of(context).size.height,
           child: glassBackground(
             context,
-            ListView(
+            Column(
               children: <Widget>[
                 topBar(context, 'About App'),
                 const SizedBox(
@@ -31,34 +31,28 @@ class AboutApp extends StatelessWidget {
                       child: Image.asset(
                           'assets/images/CryptoPal-logo-white.png'),
                     ),
-                    DefaultTextStyle(
-                      style: kTitleStyle,
-                      child: Text(
+                    const Text(
                         'CryptoPal',
+                        style: kTitleStyle,
                       ),
-                    ),
                   ],
                 ),
                 const Text(
-                  version,
+                  'Version 0.9',
                   style: kTransparentSmallStyle,
                   textAlign: TextAlign.center,
                 ),
-                // SizedBox(
-                //   height: MediaQuery.of(context).size.height - 140,
-                //   child: WebView(
-                //     initialUrl: 'https://cryptopal-e288a.firebaseapp.com/AboutApp',
-                //     javascriptMode: JavascriptMode.unrestricted,
-                //   ),
-                // ),
                 const SizedBox(
                   height: 20,
                 ),
-                const Text(
-                  "CryptoPal is an advisory platform for cryptocurrency investments that only focused on educational purposes.\n"
-                      "Please do not use this application as a advisor for financial investment purposes.",
-                  style: kCardSmallTextStyle,
-                  textAlign: TextAlign.center,
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20.0),
+                  child: Text(
+                    "CryptoPal is an advisory platform for cryptocurrency investments that only focused on educational purposes. "
+                        "Please do not use this application as a advisor for financial investment purposes.",
+                    style: kCardSmallTextStyle,
+                    textAlign: TextAlign.center,
+                  ),
                 ),
                 const SizedBox(
                   height: 50,
@@ -68,7 +62,7 @@ class AboutApp extends StatelessWidget {
                     onPressed: (){
                       snackBar(context, message: 'No Terms, No Conditions ;-)', color: kGreen);
                     },
-                    child: Text(
+                    child: const Text(
                         'Terms & Conditions',
                       style: kLinkStyle,
                     ),
@@ -86,7 +80,7 @@ class AboutApp extends StatelessWidget {
                 const SizedBox(
                   height: 50,
                 ),
-                Center(
+                const Center(
                   child: Text(
                     'DEVELOPER',
                     style: TextStyle(
@@ -103,10 +97,10 @@ class AboutApp extends StatelessWidget {
                 ),
                 Center(
                   child: GestureDetector(
-                    child:Text(
+                    child:const Text(
                       'Dinuka Gayashan',
                       style: TextStyle(
-                        fontSize: 30,
+                        fontSize: 28,
                         fontFamily: 'ReenieBeanie',
                         color: kBaseColor2,
                       ),

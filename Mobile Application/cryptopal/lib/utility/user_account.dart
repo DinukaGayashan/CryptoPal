@@ -11,14 +11,14 @@ final String today=DateTime.now().toString().split(' ')[0];
 Future<UserAccount> getActiveUserData() async {
 
   try {
-    currentUser.user = _auth.currentUser;
+    currentUser.user = _auth.currentUser!;
   } catch (e) {
     rethrow;
   }
 
   try {
     final userSnapshot =
-        await _firestore.collection('users').doc(currentUser.user?.uid).get();
+        await _firestore.collection('users').doc(currentUser.user.uid).get();
     currentUser.name = userSnapshot.data()!['name'];
     currentUser.birthday = userSnapshot.data()!['birthday'];
 
@@ -34,7 +34,7 @@ Future<UserAccount> getActiveUserData() async {
 
     final predictionsWithoutErrorSnap = await _firestore
         .collection('users')
-        .doc(currentUser.user?.uid)
+        .doc(currentUser.user.uid)
         .collection('predictions')
         .where('errorValue',isNull: true)
         .get();
@@ -54,7 +54,7 @@ Future<UserAccount> getActiveUserData() async {
 
           await _firestore
               .collection('users')
-              .doc(currentUser.user?.uid)
+              .doc(currentUser.user.uid)
               .collection('predictions')
               .doc(i.id)
               .set({
@@ -76,7 +76,7 @@ Future<UserAccount> getActiveUserData() async {
 
       final predictionsSnapshot = await _firestore
           .collection('users')
-          .doc(currentUser.user?.uid)
+          .doc(currentUser.user.uid)
           .collection('predictions')
           .where('predictionCurrency',whereIn: predictionCurrencies)
           .get();
@@ -161,7 +161,7 @@ Future<UserAccount> getActiveUserData() async {
 
       await _firestore
           .collection('users')
-          .doc(currentUser.user?.uid)
+          .doc(currentUser.user.uid)
           .collection('statistics')
           .doc('calculations')
           .set(
@@ -178,7 +178,7 @@ Future<UserAccount> getActiveUserData() async {
 
       await _firestore
           .collection('users')
-          .doc(currentUser.user?.uid)
+          .doc(currentUser.user.uid)
           .collection('statistics')
           .doc('pastCalculations')
           .set(
@@ -193,7 +193,7 @@ Future<UserAccount> getActiveUserData() async {
 
       final historySnapshot = await _firestore
           .collection('users')
-          .doc(currentUser.user?.uid)
+          .doc(currentUser.user.uid)
           .collection('statistics')
           .doc('pastCalculations')
           .get();
@@ -257,7 +257,7 @@ class Prediction {
 }
 
 class UserAccount {
-  late User? user;
+  late User user;
   late String name, birthday;
   late int score;
   late List<Prediction> predictions = [], pastPredictions = [], futurePredictions = [];

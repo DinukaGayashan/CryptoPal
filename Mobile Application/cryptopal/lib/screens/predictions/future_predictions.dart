@@ -168,7 +168,7 @@ class _FuturePredictionsState extends State<FuturePredictions> {
                                                   await _firestore
                                                       .collection('users')
                                                       .doc(widget.currentUser
-                                                          .user?.uid)
+                                                          .user.uid)
                                                       .collection('predictions')
                                                       .doc(prediction
                                                               .predictionDate

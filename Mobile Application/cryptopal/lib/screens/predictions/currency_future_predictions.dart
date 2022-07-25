@@ -171,7 +171,7 @@ class _CurrencyFuturePredictionsState extends State<CurrencyFuturePredictions> {
                                                 try {
                                                   await _firestore
                                                       .collection('users')
-                                                      .doc(widget.currentUser.user?.uid)
+                                                      .doc(widget.currentUser.user.uid)
                                                       .collection('predictions')
                                                       .doc(prediction.predictionDate.toString().split(' ')[0] +
                                                       ' ' +

@@ -286,7 +286,7 @@ class _AddPredictionState extends State<AddPrediction> {
                           try {
                             await _firestore
                                 .collection('users')
-                                .doc(widget.currentUser.user?.uid)
+                                .doc(widget.currentUser.user.uid)
                                 .collection('predictions')
                                 .doc('$date $currency')
                                 .set({

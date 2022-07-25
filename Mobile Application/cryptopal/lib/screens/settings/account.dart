@@ -21,8 +21,7 @@ class Account extends StatefulWidget {
 
 class _AccountState extends State<Account> {
   final _auth = FirebaseAuth.instance;
-  final _firestore = FirebaseFirestore.instance;
-  late String newName;
+  late String oldPassword,newPassword1,newPassword2;
 
   @override
   Widget build(BuildContext context) {
@@ -59,10 +58,10 @@ class _AccountState extends State<Account> {
                       });
                     }
                 ),
-                /*ListTile(
-                  leading: const Icon(Icons.edit,),
+                ListTile(
+                  leading: const Icon(Icons.password),
                   title: const Text(
-                    'Change Username',
+                    'Change Password',
                     style: kCardTextStyle,
                   ),
                   onTap: (){
@@ -72,28 +71,86 @@ class _AccountState extends State<Account> {
                         return AlertDialog(
                           backgroundColor: kBackgroundColor,
                           title: const Text(
-                            'Change Username',
+                            'Change Password',
                             style: kInstructionStyle2,
                           ),
-                          content: SizedBox(
-                            width: 200,
-                            height: 35,
-                            child: TextField(
-                              decoration: const InputDecoration(
-                                hintText:  "Enter new username",
-                                hintStyle: kTransparentStyle,
-                                focusedBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(color: kAccentColor3),
+                          content: Container(
+                            constraints: BoxConstraints(maxHeight: 200),
+                            height: 150,
+                            child: Column(
+                              children: [
+                                const SizedBox(
+                                  height: 10.0,
                                 ),
-                              ),
-                              textCapitalization: TextCapitalization.words,
-                              style: kCardTextStyle,
-                              cursorHeight: 20,
-                              cursorColor: kBaseColor2,
-                              autofocus: true,
-                              onChanged: (value) {
-                                newName = value;
-                              },
+                                SizedBox(
+                                  width: 200,
+                                  height: 35,
+                                  child: TextField(
+                                    decoration: const InputDecoration(
+                                      hintText: "Enter current password",
+                                      hintStyle: kTransparentStyle,
+                                      focusedBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(color: kAccentColor3),
+                                      ),
+                                    ),
+                                    keyboardType: TextInputType.visiblePassword,
+                                    obscureText: true,
+                                    style: kCardTextStyle,
+                                    cursorHeight: 20,
+                                    cursorColor: kBaseColor2,
+                                    autofocus: true,
+                                    onChanged: (value) {
+                                      oldPassword=value;
+                                    },
+                                  ),
+                                ),
+                                const SizedBox(height: 20,),
+                                SizedBox(
+                                  width: 200,
+                                  height: 35,
+                                  child: TextField(
+                                    decoration: const InputDecoration(
+                                      hintText: "Enter new password",
+                                      hintStyle: kTransparentStyle,
+                                      focusedBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(color: kAccentColor3),
+                                      ),
+                                    ),
+                                    keyboardType: TextInputType.visiblePassword,
+                                    obscureText: true,
+                                    style: kCardTextStyle,
+                                    cursorHeight: 20,
+                                    cursorColor: kBaseColor2,
+                                    autofocus: true,
+                                    onChanged: (value) {
+                                      newPassword1=value;
+                                    },
+                                  ),
+                                ),
+                                const SizedBox(height: 10,),
+                                SizedBox(
+                                  width: 200,
+                                  height: 35,
+                                  child: TextField(
+                                    decoration: const InputDecoration(
+                                      hintText: "Enter new password",
+                                      hintStyle: kTransparentStyle,
+                                      focusedBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(color: kAccentColor3),
+                                      ),
+                                    ),
+                                    keyboardType: TextInputType.visiblePassword,
+                                    obscureText: true,
+                                    style: kCardTextStyle,
+                                    cursorHeight: 20,
+                                    cursorColor: kBaseColor2,
+                                    autofocus: true,
+                                    onChanged: (value) {
+                                      newPassword2=value;
+                                    },
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                           actions: [
@@ -113,21 +170,29 @@ class _AccountState extends State<Account> {
                               ),
                               onPressed: () async {
                                 try{
-                                  currentUser.name=newName;
-                                  await _firestore
-                                      .collection('users')
-                                      .doc(currentUser.user?.uid)
-                                      .set(
-                                    {
-                                      'name': newName,
-                                    },
-                                    SetOptions(merge: true),);
-                                  snackBar(context, message: 'Username changed successfully.', color: kGreen);
+                                  final authCredentials=EmailAuthProvider.credential(email: currentUser.user.email.toString(), password: oldPassword);
+                                  final passwordCheck=await currentUser.user.reauthenticateWithCredential(authCredentials);
+                                  if(passwordCheck.user!=null){
+                                    try{
+                                      if(newPassword1==newPassword2){
+                                        try{
+                                          currentUser.user.updatePassword(newPassword1);
+                                          snackBar(context, message: 'Password changed successfully.', color: kGreen);
+                                          Navigator.of(context).pop();
+                                        }catch(e){
+                                          snackBar(context, message: e.toString(), color: kRed);
+                                        }
+                                      }
+                                      else{
+                                        snackBar(context, message: 'Entered new passwords are not matching.', color: kRed);
+                                      }
+                                    }catch(e){
+                                      snackBar(context, message: e.toString(), color: kRed);
+                                    }
+                                  }
+                                }catch(e){
+                                  snackBar(context, message: 'Entered password is not correct.', color: kRed);
                                 }
-                                catch(e){
-                                  snackBar(context, message: e.toString(), color: kRed);
-                                }
-                                Navigator.of(context).pop();
                               },
                             ),
                           ],
@@ -135,14 +200,6 @@ class _AccountState extends State<Account> {
                       },
                     );
                   },
-                ),*/
-                ListTile(
-                  leading: const Icon(Icons.password),
-                  title: const Text(
-                    'Change Password',
-                    style: kCardTextStyle,
-                  ),
-                  onTap: (){}
                 ),
                 ListTile(
                   leading: const Icon(Icons.currency_bitcoin),

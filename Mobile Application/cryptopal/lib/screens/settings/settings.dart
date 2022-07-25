@@ -99,7 +99,7 @@ class _SettingsState extends State<Settings> {
                                     style: kCardTitleStyle,
                                     children: <TextSpan>[
                                       TextSpan(
-                                        text: currentUser.user?.email.toString(),
+                                        text: currentUser.user.email.toString(),
                                         style: kCardSmallTextStyle,
                                       ),
                                       TextSpan(

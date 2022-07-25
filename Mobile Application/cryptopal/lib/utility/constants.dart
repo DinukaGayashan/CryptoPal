@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:number_display/number_display.dart';
 
 const String description="CryptoPal is an advisory platform for cryptocurrency investments that only focused on educational purposes. Please do not use this application as a advisor for financial investment purposes.";
-const String version='Version 0.8';
 
 const kBaseColor1 = Color(0xff000000);
 const kBaseColor2 = Color(0xffeeeeee);
