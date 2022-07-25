@@ -238,7 +238,7 @@ class _SettingsState extends State<Settings> {
                     style: kCardTextStyle,
                   ),
                   subtitle: const Text(
-                    'User App Help',
+                    'Mobile App Help',
                     style: kTransparentSmallStyle,
                   ),
                   onTap: () {

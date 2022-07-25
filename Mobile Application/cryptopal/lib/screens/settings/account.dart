@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cryptopal/screens/settings/personal_details.dart';
 import 'package:cryptopal/screens/settings/select_cryptocurrencies.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -44,9 +45,21 @@ class _AccountState extends State<Account> {
                       'Personal Details',
                       style: kCardTextStyle,
                     ),
-                    onTap: (){}
+                    onTap: (){
+                      Navigator.push(context,
+                          CupertinoPageRoute(builder: (context) {
+                            return PersonalDetails(
+                              currentUser,
+                            );
+                          })).then((_) {
+                        setState(() {
+                          currentUser.name;
+                          currentUser.birthday;
+                        });
+                      });
+                    }
                 ),
-                ListTile(
+                /*ListTile(
                   leading: const Icon(Icons.edit,),
                   title: const Text(
                     'Change Username',
@@ -122,7 +135,7 @@ class _AccountState extends State<Account> {
                       },
                     );
                   },
-                ),
+                ),*/
                 ListTile(
                   leading: const Icon(Icons.password),
                   title: const Text(
