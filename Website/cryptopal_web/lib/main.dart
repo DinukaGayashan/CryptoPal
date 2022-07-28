@@ -1,5 +1,6 @@
 import 'package:cryptopal_web/help.dart';
 import 'package:cryptopal_web/home_page.dart';
+import 'package:cryptopal_web/share_app.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'constants.dart';
@@ -30,8 +31,9 @@ class CryptoPalWeb extends StatelessWidget {
       ),
       initialRoute: '/',
       routes: {
-        '/': (context) => HomePage(),
-        '/Help': (context) => Help(),
+        '/': (context) => const HomePage(),
+        '/Help': (context) => const Help(),
+        '/ShareApp': (context) => const ShareApp(),
       },
     );
   }

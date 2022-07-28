@@ -4,23 +4,20 @@ import 'package:cryptopal/utility/constants.dart';
 import 'package:cryptopal/utility/widgets.dart';
 import 'package:cryptopal/utility/cryptocurrency_data.dart';
 import 'package:cryptopal/utility/user_account.dart';
+import 'package:hashtagable/widgets/hashtag_text.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-
 import 'package:cryptopal/utility/real_price_data.dart';
-
-import '../predictions/currency_prediction_graph.dart';
+import 'package:cryptopal/screens/predictions/currency_prediction_graph.dart';
 
 class PredictionsOnDays extends StatefulWidget {
   const PredictionsOnDays(this.predictionsOnDays, this.realPriceList, {Key? key}) : super(key: key);
   final Map<String,List<Prediction>> predictionsOnDays;
   final List<RealPricesOfACurrency> realPriceList;
 
-  @override
   State<PredictionsOnDays> createState() => _PredictionsOnDaysState();
 }
 
 class _PredictionsOnDaysState extends State<PredictionsOnDays> {
-  late String selectedDate=DateTime.now().toString().split(' ')[0];
   late List<String> dates;
 
   List<GraphData> getPredictionCountOnDays(){
@@ -35,42 +32,6 @@ class _PredictionsOnDaysState extends State<PredictionsOnDays> {
     dates=widget.predictionsOnDays.keys.toList();
     dates.sort();
     dates=dates.reversed.toList();
-  }
-
-  int getCryptocurrencyIndex(String predictionCurrency){
-    int i=0;
-    for(i=0;i<selectedCryptocurrencies.length;i++){
-      if(selectedCryptocurrencies[i]==predictionCurrency.split('-')[0]){
-        break;
-      }
-    }
-    return i;
-  }
-
-  List<RealPrice> getRealPrices({required String currency, int number = 0}) {
-    List<RealPrice> realPrices = [];
-    for (var type in widget.realPriceList) {
-      if (type.currency == currency) {
-        realPrices = type.pricesList;
-        break;
-      }
-    }
-    if (number != 0 && realPrices.length > number) {
-      return realPrices.sublist(realPrices.length - number);
-    }
-    return realPrices;
-  }
-  
-  RealPrice? getRealPrice({required String currency, required String date}) {
-    final List<RealPrice> priceList =
-    getRealPrices(currency: currency + '-USD');
-    RealPrice x = RealPrice(date, 0, 0, 0, 0);
-    for (var i in priceList) {
-      if (i.date == date) {
-        x = i;
-      }
-    }
-    return x;
   }
 
   @override
@@ -107,80 +68,19 @@ class _PredictionsOnDaysState extends State<PredictionsOnDays> {
                     crosshairBehavior: CrosshairBehavior(
                       enable: true,
                     ),
-                      series: <ChartSeries>[
-                        ColumnSeries<GraphData, DateTime>(
-                          name: 'Number of predictions',
-                            color:kGraphColor1,
-                            dataSource: getPredictionCountOnDays(),
-                            xValueMapper: (GraphData data, _) => data.valueOne,
-                            yValueMapper: (GraphData data, _) => data.valueTwo,
-                        ),
-                      ],
+                    series: <ChartSeries>[
+                      ColumnSeries<GraphData, DateTime>(
+                        name: 'Number of predictions',
+                        color:kGraphColor1,
+                        dataSource: getPredictionCountOnDays(),
+                        xValueMapper: (GraphData data, _) => data.valueOne,
+                        yValueMapper: (GraphData data, _) => data.valueTwo,
+                      ),
+                    ],
                   ),
                 ),
                 const SizedBox(height: 30,),
-                SizedBox(
-                  height: 80,
-                child: CupertinoPicker(
-                  onSelectedItemChanged: (int value) {
-                    setState(() {
-                      selectedDate = dates.elementAt(value);
-                    });
-                  },
-                  diameterRatio: 1.2,
-                  itemExtent: 32.0,
-                  children: List<Widget>.generate(
-                      dates.length,
-                          (int index) {
-                        return Center(
-                          child: Text(
-                            dates.elementAt(index),
-                            style: kCardTextStyle,
-                          ),
-                        );
-                      }),
-                ),
-                ),
-                const SizedBox(height: 15,),
-                for(var prediction in widget.predictionsOnDays[selectedDate]!)
-                  InkWell(
-                    borderRadius: BorderRadius.circular(30),
-                    child: glassCard(
-                      context,
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 10, horizontal: 20),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            SizedBox(
-                              child: Text(
-                                prediction.predictionDate+'\n'+prediction.predictionCurrency,
-                                style: kCardLargeTextStyle,
-                              ),
-                            ),
-                            RichText(
-                              text: TextSpan(
-                                text: 'Prediction Price\n',
-                                style: kCardSmallTextStyle,
-                                children: <TextSpan>[
-                                  TextSpan(
-                                    text: kCurrencyPriceDisplay(prediction.predictionClosePrice)+' \$',
-                                    style: kCardTextStyle2,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    onTap: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context){
-                        return CurrencyPredictionGraph(getCryptocurrencyIndex(prediction.predictionCurrency), widget.realPriceList, prediction);
-                      }));
-                    },
-                  ),
+                PredictionOnDaysList(widget.predictionsOnDays,widget.realPriceList,dates),
                 const SizedBox(
                   height: 30,
                 ),
@@ -192,3 +92,136 @@ class _PredictionsOnDaysState extends State<PredictionsOnDays> {
     );
   }
 }
+
+class PredictionOnDaysList extends StatefulWidget {
+  const PredictionOnDaysList(this.predictionsOnDays, this.realPriceList, this.dates, {Key? key}) : super(key: key);
+  final Map<String,List<Prediction>> predictionsOnDays;
+  final List<RealPricesOfACurrency> realPriceList;
+  final List<String> dates;
+
+  @override
+  State<PredictionOnDaysList> createState() => _PredictionOnDaysListState();
+}
+
+class _PredictionOnDaysListState extends State<PredictionOnDaysList> {
+  late String selectedDate=DateTime.now().toString().split(' ')[0];
+
+  List<RealPrice> getRealPrices({required String currency, int number = 0}) {
+    List<RealPrice> realPrices = [];
+    for (var type in widget.realPriceList) {
+      if (type.currency == currency) {
+        realPrices = type.pricesList;
+        break;
+      }
+    }
+    if (number != 0 && realPrices.length > number) {
+      return realPrices.sublist(realPrices.length - number);
+    }
+    return realPrices;
+  }
+
+  RealPrice? getRealPrice({required String currency, required String date}) {
+    final List<RealPrice> priceList =
+    getRealPrices(currency: currency + '-USD');
+    RealPrice x = RealPrice(date, 0, 0, 0, 0);
+    for (var i in priceList) {
+      if (i.date == date) {
+        x = i;
+      }
+    }
+    return x;
+  }
+
+  int getCryptocurrencyIndex(String predictionCurrency){
+    int i=0;
+    for(i=0;i<selectedCryptocurrencies.length;i++){
+      if(selectedCryptocurrencies[i]==predictionCurrency.split('-')[0]){
+        break;
+      }
+    }
+    return i;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        SizedBox(
+          height: 80,
+          child: CupertinoPicker(
+            onSelectedItemChanged: (int value) {
+              setState(() {
+                selectedDate = widget.dates.elementAt(value);
+              });
+            },
+            diameterRatio: 1.2,
+            itemExtent: 32.0,
+            children: List<Widget>.generate(
+                widget.dates.length,
+                    (int index) {
+                  return Center(
+                    child: Text(
+                      widget.dates.elementAt(index),
+                      style: kCardTextStyle,
+                    ),
+                  );
+                }),
+          ),
+        ),
+        const SizedBox(height: 15,),
+        for(var prediction in widget.predictionsOnDays[selectedDate]!)
+          InkWell(
+            borderRadius: BorderRadius.circular(30),
+            child: glassCard(
+              context,
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                    vertical: 10, horizontal: 20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        SizedBox(
+                          child: Text(
+                            prediction.predictionDate+'\n'+prediction.predictionCurrency,
+                            style: kCardLargeTextStyle,
+                          ),
+                        ),
+                        RichText(
+                          text: TextSpan(
+                            text: 'Prediction Price\n',
+                            style: kCardSmallTextStyle,
+                            children: <TextSpan>[
+                              TextSpan(
+                                text: kCurrencyPriceDisplay(prediction.predictionClosePrice)+' \$',
+                                style: kCardTextStyle2,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    prediction.predictionKeywords!=null?
+                    HashTagText(
+                        text: '\n'+prediction.predictionKeywords.toString(),
+                        basicStyle: kTransparentStyle,
+                        decoratedStyle: kCardSmallTextStyle
+                    ):
+                    const SizedBox(),
+                  ],
+                ),
+              ),
+            ),
+            onTap: (){
+              Navigator.push(context, MaterialPageRoute(builder: (context){
+                return CurrencyPredictionGraph(getCryptocurrencyIndex(prediction.predictionCurrency), widget.realPriceList, prediction);
+              }));
+            },
+          ),
+      ],
+    );
+  }
+}
+

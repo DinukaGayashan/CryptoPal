@@ -6,6 +6,7 @@ import 'package:cryptopal/utility/widgets.dart';
 import 'package:cryptopal/utility/real_price_data.dart';
 import 'package:cryptopal/utility/cryptocurrency_data.dart';
 import 'package:cryptopal/screens/predictions/currency_prediction_graph.dart';
+import 'package:hashtagable/widgets/hashtag_text.dart';
 
 class PastPredictions extends StatefulWidget {
   const PastPredictions(
@@ -85,111 +86,122 @@ class _PastPredictionsState extends State<PastPredictions> {
                       Padding(
                         padding: const EdgeInsets.symmetric(
                             vertical: 10, horizontal: 20),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                        child: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
-                                SizedBox(
-                                  height: 70,
-                                  child: Text(
-                                    prediction.predictionDate+'\n'+prediction.predictionCurrency,
-                                    style: kCardLargeTextStyle,
-                                  ),
-                                ),
-                                RichText(
-                                  text: TextSpan(
-                                    text: 'Predicted On\n',
-                                    style: kCardSmallTextStyle,
-                                    children: <TextSpan>[
-                                      TextSpan(
-                                        text: prediction.predictedDate,
-                                        style: kCardTextStyle2,
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    SizedBox(
+                                      height: 70,
+                                      child: Text(
+                                        prediction.predictionDate+'\n'+prediction.predictionCurrency,
+                                        style: kCardLargeTextStyle,
                                       ),
-                                    ],
-                                  ),
-                                ),
-                                const SizedBox(
-                                  height: 10.0,
-                                ),
-                                RichText(
-                                  text: TextSpan(
-                                    text: 'Price when predicted\n',
-                                    style: kCardSmallTextStyle,
-                                    children: <TextSpan>[
-                                      TextSpan(
-                                        text: kCurrencyPriceDisplay(getRealPrice(currency: prediction.predictionCurrency.split('-')[0], date: prediction.predictedDate)?.closePrice)+' \$',
-                                        style: kCardTextStyle2,
+                                    ),
+                                    RichText(
+                                      text: TextSpan(
+                                        text: 'Predicted On\n',
+                                        style: kCardSmallTextStyle,
+                                        children: <TextSpan>[
+                                          TextSpan(
+                                            text: prediction.predictedDate,
+                                            style: kCardTextStyle2,
+                                          ),
+                                        ],
                                       ),
-                                    ],
-                                  ),
-                                ),
-                                const SizedBox(
-                                  height: 10.0,
-                                ),
-                                RichText(
-                                  text: TextSpan(
-                                    text: 'Accuracy\n',
-                                    style: kCardSmallTextStyle,
-                                    children: <TextSpan>[
-                                      TextSpan(
-                                        text: (100-sqrt(prediction.errorPercentage*prediction.errorPercentage))
-                                            .roundToDouble().toString()+'%',
-                                        style: kCardTextStyle2,
+                                    ),
+                                    const SizedBox(
+                                      height: 10.0,
+                                    ),
+                                    RichText(
+                                      text: TextSpan(
+                                        text: 'Price when predicted\n',
+                                        style: kCardSmallTextStyle,
+                                        children: <TextSpan>[
+                                          TextSpan(
+                                            text: kCurrencyPriceDisplay(getRealPrice(currency: prediction.predictionCurrency.split('-')[0], date: prediction.predictedDate)?.closePrice)+' \$',
+                                            style: kCardTextStyle2,
+                                          ),
+                                        ],
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                    const SizedBox(
+                                      height: 10.0,
+                                    ),
+                                    RichText(
+                                      text: TextSpan(
+                                        text: 'Accuracy\n',
+                                        style: kCardSmallTextStyle,
+                                        children: <TextSpan>[
+                                          TextSpan(
+                                            text: (100-sqrt(prediction.errorPercentage*prediction.errorPercentage))
+                                                .roundToDouble().toString()+'%',
+                                            style: kCardTextStyle2,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    const SizedBox(height: 70,),
+                                    RichText(
+                                      text: TextSpan(
+                                        text: 'Prediction Price\n',
+                                        style: kCardSmallTextStyle,
+                                        children: <TextSpan>[
+                                          TextSpan(
+                                            text: kCurrencyPriceDisplay(prediction.predictionClosePrice)+' \$',
+                                            style: kCardTextStyle2,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 10.0,
+                                    ),RichText(
+                                      text: TextSpan(
+                                        text: 'Actual Price\n',
+                                        style: kCardSmallTextStyle,
+                                        children: <TextSpan>[
+                                          TextSpan(
+                                            text: kCurrencyPriceDisplay(getRealPrice(currency: selectedCryptocurrencies[getCryptocurrencyIndex(prediction.predictionCurrency)], date: prediction.predictionDate)?.closePrice)+' \$',
+                                            style: kCardTextStyle2,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 10.0,
+                                    ),
+                                    RichText(
+                                      text: TextSpan(
+                                        text: 'Error\n',
+                                        style: kCardSmallTextStyle,
+                                        children: <TextSpan>[
+                                          TextSpan(
+                                            text: kCurrencyPriceDisplay(prediction.errorValue)+' \$',
+                                            style: kCardTextStyle2,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                const SizedBox(height: 70,),
-                                RichText(
-                                  text: TextSpan(
-                                    text: 'Prediction Price\n',
-                                    style: kCardSmallTextStyle,
-                                    children: <TextSpan>[
-                                      TextSpan(
-                                        text: kCurrencyPriceDisplay(prediction.predictionClosePrice)+' \$',
-                                        style: kCardTextStyle2,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                const SizedBox(
-                                  height: 10.0,
-                                ),RichText(
-                                  text: TextSpan(
-                                    text: 'Actual Price\n',
-                                    style: kCardSmallTextStyle,
-                                    children: <TextSpan>[
-                                      TextSpan(
-                                        text: kCurrencyPriceDisplay(getRealPrice(currency: selectedCryptocurrencies[getCryptocurrencyIndex(prediction.predictionCurrency)], date: prediction.predictionDate)?.closePrice)+' \$',
-                                        style: kCardTextStyle2,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                const SizedBox(
-                                  height: 10.0,
-                                ),
-                                RichText(
-                                  text: TextSpan(
-                                    text: 'Error\n',
-                                    style: kCardSmallTextStyle,
-                                    children: <TextSpan>[
-                                      TextSpan(
-                                        text: kCurrencyPriceDisplay(prediction.errorValue)+' \$',
-                                        style: kCardTextStyle2,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
+                            prediction.predictionKeywords!=null?
+                            HashTagText(
+                                text: '\n'+prediction.predictionKeywords.toString(),
+                                basicStyle: kTransparentStyle,
+                                decoratedStyle: kCardSmallTextStyle
+                            ):
+                            const SizedBox(),
                           ],
                         ),
                       ),

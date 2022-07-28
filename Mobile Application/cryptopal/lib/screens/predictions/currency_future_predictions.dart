@@ -6,6 +6,7 @@ import 'package:cryptopal/utility/constants.dart';
 import 'package:cryptopal/utility/widgets.dart';
 import 'package:cryptopal/utility/real_price_data.dart';
 import 'package:cryptopal/utility/cryptocurrency_data.dart';
+import 'package:hashtagable/widgets/hashtag_text.dart';
 import 'currency_prediction_graph.dart';
 
 class CurrencyFuturePredictions extends StatefulWidget {
@@ -225,6 +226,13 @@ class _CurrencyFuturePredictionsState extends State<CurrencyFuturePredictions> {
                                 ),
                               ],
                             ),
+                            prediction.predictionKeywords!=null?
+                            HashTagText(
+                                text: '\n'+prediction.predictionKeywords.toString(),
+                                basicStyle: kTransparentStyle,
+                                decoratedStyle: kCardSmallTextStyle
+                            ):
+                            const SizedBox(),
                           ],
                         ),
                       ),

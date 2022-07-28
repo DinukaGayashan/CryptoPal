@@ -92,6 +92,7 @@ Future<UserAccount> getActiveUserData() async {
               i.data()['predictionDate'],
               i.data()['predictionCurrency'],
               i.data()['predictionClosePrice'].toDouble(),
+              i.data()['predictionKeywords'],
               i.data()['errorValue'].toDouble(),
               i.data()['errorPercentage'].toDouble()));
         }
@@ -101,6 +102,7 @@ Future<UserAccount> getActiveUserData() async {
               i.data()['predictionDate'],
               i.data()['predictionCurrency'],
               i.data()['predictionClosePrice'].toDouble(),
+              i.data()['predictionKeywords'],
               0.0,0.0));
         }
         currentUser.predictions.add(Prediction(
@@ -108,6 +110,7 @@ Future<UserAccount> getActiveUserData() async {
             i.data()['predictionDate'],
             i.data()['predictionCurrency'],
             i.data()['predictionClosePrice'].toDouble(),
+            i.data()['predictionKeywords'],
             0.0,0.0));
       }
     } catch (e) {
@@ -240,18 +243,19 @@ class Prediction {
   late String predictionDate;
   late String predictionCurrency;
   late double predictionClosePrice;
+  late String? predictionKeywords;
   late double errorValue;
   late double errorPercentage;
   late DateTime predictionDateAsDate;
 
   Prediction(this.predictedDate, this.predictionDate, this.predictionCurrency,
-      this.predictionClosePrice, this.errorValue,this.errorPercentage){
+      this.predictionClosePrice, this.predictionKeywords, this.errorValue,this.errorPercentage){
     predictionDateAsDate=DateTime.parse(predictionDate);
   }
 
   List<Prediction> toList(Prediction x){
     List<Prediction> list=[];
-    list.add(Prediction(x.predictedDate, x.predictionDate, x.predictionCurrency, x.predictionClosePrice,x.errorValue, x.errorPercentage));
+    list.add(Prediction(x.predictedDate, x.predictionDate, x.predictionCurrency, x.predictionClosePrice, x.predictionKeywords, x.errorValue, x.errorPercentage));
     return list;
   }
 }

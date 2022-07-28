@@ -37,10 +37,10 @@ class HomePage extends StatelessWidget {
               ),
               TextButton(
                   onPressed: (){
-                    Navigator.pushNamed(context, '/Help');
+                    Navigator.pushNamed(context, '/ShareApp');
                   },
                   child: Text(
-                    'help'
+                    'Share App'
                   ),
               ),
             ],

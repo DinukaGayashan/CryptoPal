@@ -654,7 +654,7 @@ class _DashboardState extends State<Dashboard> {
                                         children: <Widget>[
                                           RichText(
                                             text: TextSpan(
-                                              text: 'Forecasted Dates\n',
+                                              text: 'Forecasted Days\n',
                                               style: kCardSmallTextStyle,
                                               children: <TextSpan>[
                                                 TextSpan(

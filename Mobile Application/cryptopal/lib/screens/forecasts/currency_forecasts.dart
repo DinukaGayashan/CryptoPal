@@ -12,29 +12,15 @@ import 'package:equations/equations.dart';
 import 'currency_forecast_graph.dart';
 import 'package:cryptopal/utility/cryptocurrency_data.dart';
 
-class CurrencyForecasts extends StatefulWidget {
+class CurrencyForecasts extends StatelessWidget {
   const CurrencyForecasts(this.realPriceList, this.forecastPriceList, this.currencyIndex,{Key? key}) : super(key: key);
-
   final List<RealPricesOfACurrency> realPriceList;
   final List<ForecastPricesOfACurrency> forecastPriceList;
   final int currencyIndex;
 
-  @override
-  State<CurrencyForecasts> createState() => _CurrencyForecastsState();
-}
-
-class _CurrencyForecastsState extends State<CurrencyForecasts> {
-
-  late List<String> dates=getForecastDates();
-  late String selectedDate = dates.first;
-  late double closePrice=widget.forecastPriceList[widget.currencyIndex].pricesList.where((element) => element.date==selectedDate).first.closePrice;
-  late double rsme=widget.forecastPriceList[widget.currencyIndex].errorValue;
-  late SfRangeValues priceRange=SfRangeValues(closePrice-3*rsme, closePrice+3*rsme);
-  late SfRangeValues selectedRange=SfRangeValues(closePrice-2*rsme, closePrice+2*rsme);
-
   List<RealPrice> getRealPrices({required String currency, int number = 0}) {
     List<RealPrice> realPrices = [];
-    for (var type in widget.realPriceList) {
+    for (var type in realPriceList) {
       if (type.currency == currency) {
         realPrices = type.pricesList;
         break;
@@ -48,7 +34,7 @@ class _CurrencyForecastsState extends State<CurrencyForecasts> {
 
   List<ForecastPrice> getForecastPrices({required String currency, int number = 0}) {
     List<ForecastPrice> forecastPrices = [];
-    for (var type in widget.forecastPriceList) {
+    for (var type in forecastPriceList) {
       if (type.currency == currency) {
         forecastPrices = type.pricesList;
         break;
@@ -58,28 +44,6 @@ class _CurrencyForecastsState extends State<CurrencyForecasts> {
       return forecastPrices.sublist(0,forecastPrices.length - number);
     }
     return forecastPrices;
-  }
-
-  List<String> getForecastDates(){
-    List<String> dates=[];
-    for(var f in widget.forecastPriceList[widget.currencyIndex].pricesList){
-      dates.add(f.date);
-    }
-    return dates;
-  }
-
-  double getProbabilityValue(SfRangeValues range){
-    var s=(range.start-closePrice)/rsme;
-    var e=(range.end-closePrice)/rsme;
-    var simpson = SimpsonRule(
-      function: '1/(2*pi*e^(x^2))^0.5',
-      lowerBound: s,
-      upperBound: e,
-    );
-
-    int d=widget.forecastPriceList[widget.currencyIndex].pricesList.indexWhere((element) => element.date==selectedDate)+1;
-
-    return (simpson.integrate().result*100)*pow((100-(widget.forecastPriceList[widget.currencyIndex].errorPercentage))/100, d);
   }
 
   @override
@@ -95,7 +59,7 @@ class _CurrencyForecastsState extends State<CurrencyForecasts> {
               children: <Widget>[
                 topBar(
                   context,
-                  cryptocurrencyNames[selectedCryptocurrencies[widget.currencyIndex]].toString() + ' Forecasts',
+                  cryptocurrencyNames[selectedCryptocurrencies[currencyIndex]].toString() + ' Forecasts',
                 ),
                 const SizedBox(
                   height: 20.0,
@@ -113,7 +77,7 @@ class _CurrencyForecastsState extends State<CurrencyForecasts> {
                             style: kCardTextStyle,
                           ),
                           TextSpan(
-                            text: '\$ '+kDashboardPriceDisplay(widget.forecastPriceList[widget.currencyIndex].errorValue),
+                            text: '\$ '+kDashboardPriceDisplay(forecastPriceList[currencyIndex].errorValue),
                             style: kCardTextStyle2,
                           ),
                         ],
@@ -138,10 +102,10 @@ class _CurrencyForecastsState extends State<CurrencyForecasts> {
                             ),
                             pointers:[
                               RangePointer(
-                                color: widget.forecastPriceList[widget.currencyIndex].errorPercentage<
+                                color: forecastPriceList[currencyIndex].errorPercentage<
                                     10
                                     ? kGreen
-                                    : widget.forecastPriceList[widget.currencyIndex].errorPercentage<
+                                    : forecastPriceList[currencyIndex].errorPercentage<
                                     20
                                     ? kYellow
                                     : kRed,
@@ -150,7 +114,7 @@ class _CurrencyForecastsState extends State<CurrencyForecasts> {
                                 cornerStyle: CornerStyle.bothCurve,
                                 width: 0.15,
                                 sizeUnit: GaugeSizeUnit.factor,
-                                value: (100-widget.forecastPriceList[widget.currencyIndex].errorPercentage),
+                                value: (100-forecastPriceList[currencyIndex].errorPercentage),
                               ),
                             ],
                             annotations: <GaugeAnnotation>[
@@ -164,7 +128,7 @@ class _CurrencyForecastsState extends State<CurrencyForecasts> {
                                     style: kCardSmallTextStyle,
                                     children: <TextSpan>[
                                       TextSpan(
-                                        text: (100-widget.forecastPriceList[widget.currencyIndex].errorPercentage).roundToDouble().toString()
+                                        text: (100-forecastPriceList[currencyIndex].errorPercentage).roundToDouble().toString()
                                             .toString()+'%',
                                         style: kCardTextStyle,
                                       ),
@@ -187,7 +151,7 @@ class _CurrencyForecastsState extends State<CurrencyForecasts> {
                       onPressed: () {
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) {
-                              return CurrencyForecastsGraph(widget.realPriceList,widget.forecastPriceList,widget.currencyIndex);
+                              return CurrencyForecastsGraph(realPriceList,forecastPriceList,currencyIndex);
                             }));
                       },
                       icon: const Icon(
@@ -230,22 +194,22 @@ class _CurrencyForecastsState extends State<CurrencyForecasts> {
                     ),
                     series: <charts.ChartSeries>[
                       charts.LineSeries<RealPrice, DateTime>(
-                        name: selectedCryptocurrencies[widget.currencyIndex] +
+                        name: selectedCryptocurrencies[currencyIndex] +
                             ' Real Price',
                         color: kGraphColor1,
                         dataSource: getRealPrices(
-                            currency: selectedCryptocurrencies[widget.currencyIndex] +
+                            currency: selectedCryptocurrencies[currencyIndex] +
                                 '-USD'),
                         xValueMapper: (RealPrice data, _) =>
                             DateTime.parse(data.date),
                         yValueMapper: (RealPrice data, _) => data.closePrice,
                       ),
                       charts.LineSeries<ForecastPrice, DateTime>(
-                        name: selectedCryptocurrencies[widget.currencyIndex] +
+                        name: selectedCryptocurrencies[currencyIndex] +
                             ' Forecast Price',
                         color: kGraphColor2,
                         dataSource: getForecastPrices(
-                            currency: selectedCryptocurrencies[widget.currencyIndex]+
+                            currency: selectedCryptocurrencies[currencyIndex]+
                                 '-USD'),
                         xValueMapper: (ForecastPrice data, _) =>
                             DateTime.parse(data.date),
@@ -255,57 +219,97 @@ class _CurrencyForecastsState extends State<CurrencyForecasts> {
                   ),
                 ),
                 const SizedBox(height: 40,),
-                /*RichText(
-                  textAlign: TextAlign.center,
-                  text: TextSpan(
-                    text: 'Probability of ',
-                    style: kCardSmallTextStyle,
-                    children: <TextSpan>[
-                      TextSpan(
-                        text: cryptocurrencies[widget.currencyIndex],
-                        style: kCardTextStyle2,
-                      ),
-                  TextSpan(
-                    text: ' price on',
-                    style: kCardSmallTextStyle,
-                  ),
-                    ],
-                  ),
+                ProbabilityGraph(realPriceList, forecastPriceList, currencyIndex),
+                const SizedBox(
+                  height: 30,
                 ),
-                const SizedBox(height: 10,),*/
-                SizedBox(
-                  height: 80,
-                  child: CupertinoPicker(
-                    onSelectedItemChanged: (int value) {
-                      setState(() {
-                        selectedDate = dates.elementAt(value);
-                        closePrice=widget.forecastPriceList[widget.currencyIndex].pricesList.where((element) => element.date==selectedDate).first.closePrice;
-                        rsme=widget.forecastPriceList[widget.currencyIndex].errorValue;
-                        priceRange=SfRangeValues(closePrice-3*rsme, closePrice+3*rsme);
-                        // if(selectedRange.start<priceRange.start){
-                        //   selectedRange=SfRangeValues(priceRange.start,selectedRange.end);
-                        // }
-                        // if(selectedRange.end>priceRange.end){
-                        //   selectedRange=SfRangeValues(selectedRange.start,priceRange.end);
-                        // }
-                      });
-                    },
-                    diameterRatio: 1.2,
-                    itemExtent: 32.0,
-                    children: List<Widget>.generate(
-                        dates.length,
-                            (int index) {
-                          return Center(
-                            child: Text(
-                              dates.elementAt(index),
-                              style: kCardTextStyle,
-                            ),
-                          );
-                        }),
-                  ),
-                ),
-                const SizedBox(height: 20,),
-                /*RangeSlider(
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class ProbabilityGraph extends StatefulWidget {
+  const ProbabilityGraph(this.realPriceList, this.forecastPriceList, this.currencyIndex,{Key? key}) : super(key: key);
+
+  final List<RealPricesOfACurrency> realPriceList;
+  final List<ForecastPricesOfACurrency> forecastPriceList;
+  final int currencyIndex;
+
+  @override
+  State<ProbabilityGraph> createState() => _ProbabilityGraphState();
+}
+
+class _ProbabilityGraphState extends State<ProbabilityGraph> {
+  late List<String> dates=getForecastDates();
+  late String selectedDate = dates.first;
+  late double closePrice=widget.forecastPriceList[widget.currencyIndex].pricesList.where((element) => element.date==selectedDate).first.closePrice;
+  late double rsme=widget.forecastPriceList[widget.currencyIndex].errorValue;
+  late SfRangeValues priceRange=SfRangeValues(closePrice-3*rsme, closePrice+3*rsme);
+  late SfRangeValues selectedRange=SfRangeValues(closePrice-2*rsme, closePrice+2*rsme);
+
+  List<String> getForecastDates(){
+    List<String> dates=[];
+    for(var f in widget.forecastPriceList[widget.currencyIndex].pricesList){
+      dates.add(f.date);
+    }
+    return dates;
+  }
+
+  double getProbabilityValue(SfRangeValues range){
+    var s=(range.start-closePrice)/rsme;
+    var e=(range.end-closePrice)/rsme;
+    var simpson = SimpsonRule(
+      function: '1/(2*pi*e^(x^2))^0.5',
+      lowerBound: s,
+      upperBound: e,
+    );
+
+    int d=widget.forecastPriceList[widget.currencyIndex].pricesList.indexWhere((element) => element.date==selectedDate)+1;
+
+    return (simpson.integrate().result*100)*pow((100-(widget.forecastPriceList[widget.currencyIndex].errorPercentage))/100, d);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        SizedBox(
+          height: 80,
+          child: CupertinoPicker(
+            onSelectedItemChanged: (int value) {
+              setState(() {
+                selectedDate = dates.elementAt(value);
+                closePrice=widget.forecastPriceList[widget.currencyIndex].pricesList.where((element) => element.date==selectedDate).first.closePrice;
+                rsme=widget.forecastPriceList[widget.currencyIndex].errorValue;
+                priceRange=SfRangeValues(closePrice-3*rsme, closePrice+3*rsme);
+                // if(selectedRange.start<priceRange.start){
+                //   selectedRange=SfRangeValues(priceRange.start,selectedRange.end);
+                // }
+                // if(selectedRange.end>priceRange.end){
+                //   selectedRange=SfRangeValues(selectedRange.start,priceRange.end);
+                // }
+              });
+            },
+            diameterRatio: 1.2,
+            itemExtent: 32.0,
+            children: List<Widget>.generate(
+                dates.length,
+                    (int index) {
+                  return Center(
+                    child: Text(
+                      dates.elementAt(index),
+                      style: kCardTextStyle,
+                    ),
+                  );
+                }),
+          ),
+        ),
+        const SizedBox(height: 20,),
+        /*RangeSlider(
                   activeColor: kAccentColor1,
                   inactiveColor: kTransparentColor1,
                   values: selectedRange,
@@ -322,99 +326,93 @@ class _CurrencyForecastsState extends State<CurrencyForecasts> {
                     });
                   },
                 ),*/
-                SfRangeSelector(
-                  min: priceRange.start,
-                  max: priceRange.end,
-                  initialValues: selectedRange,
-                  activeColor: kAccentColor1,
-                  inactiveColor: kTransparentColor7,
-                  enableTooltip: true,
-                  tooltipShape: const SfPaddleTooltipShape(),
-                  onChanged: (dynamic values) {
-                    setState(() {
-                      selectedRange = values;
-                    });
-                  },
-                  child: SizedBox(
-                    width: double.infinity,
-                    height: 70,
-                    child: charts.SfCartesianChart(
-                      plotAreaBorderWidth:0,
-                      primaryXAxis: charts.NumericAxis(
-                        visibleMinimum: priceRange.start,
-                        visibleMaximum: priceRange.end,
-                        isVisible: false,
-                      ),
-                      primaryYAxis: charts.NumericAxis(
-                        visibleMaximum: 0.4,
-                        isVisible: false,
-                      ),
-                      series: <charts.ChartSeries>[
-                        charts.SplineAreaSeries<GraphData, double>(
-                          name: 'Probability Distribution',
-                          color: kTransparentColor2,
-                          dataSource: [
-                            GraphData(valueOne: closePrice-3.0*rsme, valueTwo: 0.004),
-                            GraphData(valueOne: closePrice-2.0*rsme, valueTwo: 0.054),
-                            GraphData(valueOne: closePrice-1.0*rsme, valueTwo: 0.242),
-                            GraphData(valueOne: closePrice, valueTwo: 0.399),
-                            GraphData(valueOne: closePrice+1.0*rsme, valueTwo: 0.242),
-                            GraphData(valueOne: closePrice+2.0*rsme, valueTwo: 0.054),
-                            GraphData(valueOne: closePrice+3.0*rsme, valueTwo: 0.004),
-                          ],
-                          xValueMapper: (GraphData data, _) => data.valueOne,
-                          yValueMapper: (GraphData data, _) => data.valueTwo,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const SizedBox(width: 50,),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width-250,
-                      child: Text(
-                        '\$ '+kDashboardPriceDisplay(selectedRange.start),
-                        style: kCardTextStyle,
-                      ),
-                    ),
-                    //SizedBox(width: MediaQuery.of(context).size.width-50,),
-                    SizedBox(
-                      width: 150,
-                    child:Text(
-                      '\$ '+kDashboardPriceDisplay(selectedRange.end),
-                      style: kCardTextStyle,
-                    ),),
+        SfRangeSelector(
+          min: priceRange.start,
+          max: priceRange.end,
+          initialValues: selectedRange,
+          activeColor: kAccentColor1,
+          inactiveColor: kTransparentColor7,
+          enableTooltip: true,
+          tooltipShape: const SfPaddleTooltipShape(),
+          onChanged: (dynamic values) {
+            setState(() {
+              selectedRange = values;
+            });
+          },
+          child: SizedBox(
+            width: double.infinity,
+            height: 70,
+            child: charts.SfCartesianChart(
+              plotAreaBorderWidth:0,
+              primaryXAxis: charts.NumericAxis(
+                visibleMinimum: priceRange.start,
+                visibleMaximum: priceRange.end,
+                isVisible: false,
+              ),
+              primaryYAxis: charts.NumericAxis(
+                visibleMaximum: 0.4,
+                isVisible: false,
+              ),
+              series: <charts.ChartSeries>[
+                charts.SplineAreaSeries<GraphData, double>(
+                  name: 'Probability Distribution',
+                  color: kTransparentColor2,
+                  dataSource: [
+                    GraphData(valueOne: closePrice-3.0*rsme, valueTwo: 0.004),
+                    GraphData(valueOne: closePrice-2.0*rsme, valueTwo: 0.054),
+                    GraphData(valueOne: closePrice-1.0*rsme, valueTwo: 0.242),
+                    GraphData(valueOne: closePrice, valueTwo: 0.399),
+                    GraphData(valueOne: closePrice+1.0*rsme, valueTwo: 0.242),
+                    GraphData(valueOne: closePrice+2.0*rsme, valueTwo: 0.054),
+                    GraphData(valueOne: closePrice+3.0*rsme, valueTwo: 0.004),
                   ],
-                ),
-                const SizedBox(height: 10,),
-                RichText(
-                  textAlign: TextAlign.center,
-                  text: TextSpan(
-                    text: 'Probability of',
-                    style: kCardSmallTextStyle,
-                    children: <TextSpan>[
-                      TextSpan(
-                        text: ' price being in the range\n',
-                        style: kCardSmallTextStyle,
-                      ),
-                      TextSpan(
-                        text: getProbabilityValue(selectedRange).toStringAsFixed(2)+'%',
-                        style: kCardTextStyle2,
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(
-                  height: 30,
+                  xValueMapper: (GraphData data, _) => data.valueOne,
+                  yValueMapper: (GraphData data, _) => data.valueTwo,
                 ),
               ],
             ),
           ),
         ),
-      ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            SizedBox(
+              width: 150,
+              child: Text(
+                '\$ '+kDashboardPriceDisplay(selectedRange.start),
+                style: kCardTextStyle,
+                textAlign: TextAlign.center,
+              ),
+            ),
+            SizedBox(
+              width: 150,
+              child:Text(
+                '\$ '+kDashboardPriceDisplay(selectedRange.end),
+                style: kCardTextStyle,
+                textAlign: TextAlign.center,
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 10,),
+        RichText(
+          textAlign: TextAlign.center,
+          text: TextSpan(
+            text: 'Probability of',
+            style: kCardSmallTextStyle,
+            children: <TextSpan>[
+              TextSpan(
+                text: ' price being in the range\n',
+                style: kCardSmallTextStyle,
+              ),
+              TextSpan(
+                text: getProbabilityValue(selectedRange).toStringAsFixed(2)+'%',
+                style: kCardTextStyle2,
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }
