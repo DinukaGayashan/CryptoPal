@@ -1,66 +1,63 @@
-import 'dart:io';
+import 'package:cryptopal/utility/widgets.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:cloud_functions/cloud_functions.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:cryptopal/utility/constants.dart';
 import 'package:cryptopal/utility/user_account.dart';
 import 'package:cryptopal/utility/real_price_data.dart';
 import 'package:cryptopal/utility/forecast_price_data.dart';
 import 'package:cryptopal/utility/news_data.dart';
-import '../../utility/cryptocurrency_data.dart';
-import 'dashboard.dart';
+import 'package:cryptopal/utility/cryptocurrency_data.dart';
+import 'package:cryptopal/screens/dashboard/dashboard.dart';
 
-final _functions = FirebaseFunctions.instance;
-final _firestore = FirebaseFirestore.instance;
-
-class DashboardLoading extends StatefulWidget {
+class DashboardLoading extends StatelessWidget {
   const DashboardLoading({Key? key}) : super(key: key);
   static const String id = 'DashboardLoading';
 
-  @override
-  State<DashboardLoading> createState() => _DashboardLoadingState();
-}
+  // final _functions = FirebaseFunctions.instance;
+  // final _firestore = FirebaseFirestore.instance;
+  //
+  // void addPastCryptoData() async {
+  //   const int numberOfDaysBefore = 420;
+  //   for (int i = 0; i < numberOfDaysBefore; i++) {
+  //     print('addPastCryptoData call ${i + 1}');
+  //     try {
+  //       HttpsCallable addPastData =
+  //           _functions.httpsCallable('addPastCryptoData');
+  //       await addPastData
+  //           .call(<String, dynamic>{'numberOfDays': 1, 'beforeDays': i});
+  //     } catch (e) {
+  //       print(e);
+  //     }
+  //     sleep(const Duration(minutes: 1));
+  //   }
+  // }
+  //
+  // void fixDatesOfPastCryptoData() async {
+  //   final dataSnapshots = await _firestore.collection('realPrices').get();
+  //   for (var data in dataSnapshots.docs) {
+  //     try {
+  //       final String dateString =
+  //           data.data()['date'].toDate().toString().split(' ')[0];
+  //       await _firestore.collection('realPrices').doc(data.id).set({
+  //         'date': dateString,
+  //       }, SetOptions(merge: true));
+  //     } catch (e) {
+  //       print(e);
+  //     }
+  //   }
+  // }
 
-class _DashboardLoadingState extends State<DashboardLoading> {
-  late UserAccount currentUser = UserAccount();
-  late List<RealPricesOfACurrency> realPriceList;
-  late List<ForecastPricesOfACurrency> mlForecastPriceList;
-  late List<News> newsList = [];
-
-  void addPastCryptoData() async {
-    const int numberOfDaysBefore = 420;
-    for (int i = 0; i < numberOfDaysBefore; i++) {
-      print('addPastCryptoData call ${i + 1}');
-      try {
-        HttpsCallable addPastData =
-            _functions.httpsCallable('addPastCryptoData');
-        await addPastData
-            .call(<String, dynamic>{'numberOfDays': 1, 'beforeDays': i});
-      } catch (e) {
-        print(e);
-      }
-      sleep(const Duration(minutes: 1));
-    }
+  Future<List<News>> getData() {
+    return compute(getNewsData,true);
   }
 
-  void fixDatesOfPastCryptoData() async {
-    final dataSnapshots = await _firestore.collection('realPrices').get();
-    for (var data in dataSnapshots.docs) {
-      try {
-        final String dateString =
-            data.data()['date'].toDate().toString().split(' ')[0];
-        await _firestore.collection('realPrices').doc(data.id).set({
-          'date': dateString,
-        }, SetOptions(merge: true));
-      } catch (e) {
-        print(e);
-      }
-    }
-  }
+  void continueToDashboard(BuildContext context) async {
+    UserAccount currentUser = UserAccount();
+    List<RealPricesOfACurrency> realPriceList=[];
+    List<ForecastPricesOfACurrency> mlForecastPriceList=[];
+    List<News> newsList = [];
 
-  void continueToDashboard() async{
     Stopwatch stopwatchx = Stopwatch()..start();
 
     Stopwatch stopwatch = Stopwatch()..start();
@@ -76,7 +73,7 @@ class _DashboardLoadingState extends State<DashboardLoading> {
 
     stopwatch.reset();
     stopwatch.start();
-    newsList = await getNewsData();
+    newsList = await getData();
     stopwatch.stop();
     print('news done in ${stopwatch.elapsed}');
 
@@ -102,14 +99,12 @@ class _DashboardLoadingState extends State<DashboardLoading> {
 
   @override
   Widget build(BuildContext context) {
-    //addPastCryptoData();
-    //fixDatesOfPastCryptoData();
+
     try{
-      continueToDashboard();
+      continueToDashboard(context);
     }catch(e){
-
+      snackBar(context, message: e.toString(), color: kRed);
     }
-
     return Scaffold(
       backgroundColor: kBaseColor1,
       body: SafeArea(
@@ -125,7 +120,7 @@ class _DashboardLoadingState extends State<DashboardLoading> {
                       backgroundColor: Colors.transparent,
                       radius: 100.0,
                       child:
-                          Image.asset('assets/images/CryptoPal-logo-white.png'),
+                      Image.asset('assets/images/CryptoPal-logo-white.png'),
                     ),
                   ),
                   const SizedBox(
@@ -152,10 +147,10 @@ class _DashboardLoadingState extends State<DashboardLoading> {
                     tag: 'description',
                     child: DefaultTextStyle(
                       style: kInstructionStyle,
-                    child: Text(
-                      'Advisory platform for cryptocurrency investments',
+                      child: Text(
+                        'Advisory platform for cryptocurrency investments',
 
-                    ),),
+                      ),),
                   ),
                 ),
               ),

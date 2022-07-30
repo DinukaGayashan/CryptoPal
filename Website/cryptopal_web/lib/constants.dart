@@ -125,7 +125,7 @@ const TextStyle kCardTextStyle2 = TextStyle(
 );
 
 const TextStyle kCardTextStyle3 = TextStyle(
-  fontSize: 50,
+  fontSize: 35,
   fontFamily: 'Bierstadt',
   color: kAccentColor1,
 );

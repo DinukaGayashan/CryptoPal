@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:cryptopal/auth/secrets.dart';
 
-Future<List<News>> getNewsData() async {
+Future<List<News>> getNewsData(bool x) async {
   late List<News> news = [];
 
   final response = await http.get(Uri.parse(

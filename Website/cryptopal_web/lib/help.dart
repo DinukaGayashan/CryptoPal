@@ -35,7 +35,7 @@ class _HelpState extends State<Help> {
                       body: const Padding(
                         padding: EdgeInsets.only(bottom: 20,left: 10,right: 10),
                         child: Text(
-                          'CryptoPal helps users to get an idea about cryptocurrency markets. \n\n'
+                          'CryptoPal helps users to get an idea about cryptocurrency trading. \n\n'
                               'App will show market prices of cryptocurrencies and cryptocurrency related news. \n\n'
                               'User can add predictions about the future cryptocurrency prices and get to know about prediction statistics. \n\n'
                               'User also can view machine learning generated cryptocurrency forecast prices. \n\n'

@@ -174,7 +174,7 @@ class _AddPredictionState extends State<AddPrediction> {
                         width: 10.0,
                       ),
                       SizedBox(
-                        width: 160.0,
+                        width: MediaQuery.of(context).size.width-230,
                         child: TextFormField(
                           textAlign: TextAlign.center,
                           keyboardType: const TextInputType.numberWithOptions(),

@@ -5,11 +5,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 final _auth = FirebaseAuth.instance;
 final _firestore = FirebaseFirestore.instance;
-late UserAccount currentUser = UserAccount();
+UserAccount currentUser = UserAccount();
 final String today=DateTime.now().toString().split(' ')[0];
 
 Future<UserAccount> getActiveUserData() async {
-
   try {
     currentUser.user = _auth.currentUser!;
   } catch (e) {
