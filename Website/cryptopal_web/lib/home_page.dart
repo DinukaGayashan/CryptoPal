@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cryptopal_web/widgets.dart';
@@ -12,10 +14,11 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final screenshots=[
-      Image.asset('assets/images/CryptoPal-logo-white.png',fit: BoxFit.cover,),
-      Image.asset('assets/images/CryptoPal-logo-black.png'),
-    ];
+    final screenshots=[];
+
+    for(int i=0;i<16;i++){
+      screenshots.add(Image.asset('assets/images/screenshots/ss ($i).jpg'));
+    }
 
     return Scaffold(
       appBar: PreferredSize(
@@ -74,25 +77,27 @@ class HomePage extends StatelessWidget {
                     SizedBox(
                       height: 80,
                       child: DefaultTextStyle(
-                        style: kCardTitleStyle,
+                        textAlign: TextAlign.center,
+                        style: kCardSmallTextStyle,
                         child: AnimatedTextKit(
+                          pause: const Duration(milliseconds: 50),
                           repeatForever: true,
-                          pause: const Duration(milliseconds: 10),
                           animatedTexts: [
-                            RotateAnimatedText('Understand'),
-                            RotateAnimatedText('Acknowledge'),
-                            RotateAnimatedText('Update'),
-                            RotateAnimatedText('Practise'),
-                            RotateAnimatedText('Customize'),
-                            RotateAnimatedText('Share'),
-                            RotateAnimatedText('Enjoy'),
+                            RotateAnimatedText('Update on cryptocurrency market'),
+                            RotateAnimatedText('Practise cryptocurrency price prediction'),
+                            RotateAnimatedText('Experience the cryptocurrency price variation'),
+                            RotateAnimatedText('Customize your experience'),
+                            RotateAnimatedText('Share your status to the world'),
+                            RotateAnimatedText('Enjoy cryptocurrency investing'),
                           ],
                         ),
                       ),
                     ),
-                    Container(
-                      height: MediaQuery.of(context).size.height - 210,
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height - 250,
+                      child: Image.asset('assets/images/screenshots/colors/color (${Random().nextInt(16)}).png'),
                     ),
+                    const SizedBox(height: 10,),
                     const Text(
                       'Advisory platform for cryptocurrency investments\n',
                       style: kCardTextStyle,
@@ -295,7 +300,8 @@ class HomePage extends StatelessWidget {
                                 style: kCardTextStyle,
                                 children: [
                                   TextSpan(
-                                    text: '\nCustom user card is available for every user with varying colors according to the level of the user. User level is calculated with the score which is contributed by the overall accuracy and the past predictions user has made.',
+                                    text: '\nCustom user card is available for every user with varying colors according to the level of the user. '
+                                        'User level is calculated with the score which is contributed by the overall accuracy and the past predictions user has made.',
                                     style: kTransparentStyle,
                                   ),
                                 ]
@@ -453,7 +459,7 @@ class HomePage extends StatelessWidget {
     );
   }
   Widget buildImage(final screenshot,index)=>Container(
-    margin: EdgeInsets.symmetric(horizontal: 12),
+    margin: const EdgeInsets.symmetric(horizontal: 0),
     child: screenshot,
     color: kAccentColor3,
   );
