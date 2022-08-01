@@ -1,22 +1,20 @@
 import 'dart:math';
-
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:cryptopal_web/widgets.dart';
 import 'package:glass/glass.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'constants.dart';
+import 'package:cryptopal_web/constants.dart';
+import 'package:cryptopal_web/widgets.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final screenshots = [];
 
-    final screenshots=[];
-
-    for(int i=0;i<16;i++){
+    for (int i = 0; i < 16; i++) {
       screenshots.add(Image.asset('assets/images/screenshots/ss ($i).jpg'));
     }
 
@@ -83,21 +81,29 @@ class HomePage extends StatelessWidget {
                           pause: const Duration(milliseconds: 50),
                           repeatForever: true,
                           animatedTexts: [
-                            RotateAnimatedText('Update on cryptocurrency market'),
-                            RotateAnimatedText('Practise cryptocurrency price prediction'),
-                            RotateAnimatedText('Experience the cryptocurrency price variation'),
+                            RotateAnimatedText(
+                                'Update on cryptocurrency market'),
+                            RotateAnimatedText(
+                                'Practise cryptocurrency price prediction'),
+                            RotateAnimatedText(
+                                'Experience the cryptocurrency price variation'),
                             RotateAnimatedText('Customize your experience'),
-                            RotateAnimatedText('Share your status to the world'),
-                            RotateAnimatedText('Enjoy cryptocurrency investing'),
+                            RotateAnimatedText(
+                                'Share your status to the world'),
+                            RotateAnimatedText(
+                                'Enjoy cryptocurrency investing'),
                           ],
                         ),
                       ),
                     ),
                     SizedBox(
                       height: MediaQuery.of(context).size.height - 250,
-                      child: Image.asset('assets/images/screenshots/colors/color (${Random().nextInt(16)}).png'),
+                      child: Image.asset(
+                          'assets/images/screenshots/colors/color (${Random().nextInt(16)}).png'),
                     ),
-                    const SizedBox(height: 10,),
+                    const SizedBox(
+                      height: 10,
+                    ),
                     const Text(
                       'Advisory platform for cryptocurrency investments\n',
                       style: kCardTextStyle,
@@ -113,16 +119,17 @@ class HomePage extends StatelessWidget {
             Container(
               child: Padding(
                 padding: EdgeInsets.symmetric(
-                    horizontal: MediaQuery.of(context).size.width / 5,vertical: 20),
+                    horizontal: MediaQuery.of(context).size.width / 5,
+                    vertical: 20),
                 child: Column(
                   children: [
                     const Text(
                       'Features',
-                    style: kCardTextStyle3,
+                      style: kCardTextStyle3,
                     ),
                     const Text(
                       'This application helps you to get an idea about your price prediction capability, '
-                          'provides forecast prices by machine learning and news related to cryptocurrencies.',
+                      'provides forecast prices by machine learning and news related to cryptocurrencies.',
                       style: kCardSmallTextStyle,
                       textAlign: TextAlign.center,
                     ),
@@ -141,18 +148,18 @@ class HomePage extends StatelessWidget {
                           width: 10,
                         ),
                         SizedBox(
-                          width: MediaQuery.of(context).size.width/2.5,
+                          width: MediaQuery.of(context).size.width / 2.5,
                           child: RichText(
-                              text: const TextSpan(
-                                  text: 'Market',
+                            text: const TextSpan(
+                                text: 'Market',
                                 style: kCardTextStyle,
                                 children: [
                                   TextSpan(
-                                    text: '\nMarket prices of the currencies user has chosen are available from the starting day of particular cryptocurrency trading.',
+                                    text:
+                                        '\nMarket prices of the currencies user has chosen are available from the starting day of particular cryptocurrency trading.',
                                     style: kTransparentStyle,
                                   ),
-                                ]
-                              ),
+                                ]),
                           ),
                         ),
                       ],
@@ -165,7 +172,7 @@ class HomePage extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         SizedBox(
-                          width: MediaQuery.of(context).size.width/2.5,
+                          width: MediaQuery.of(context).size.width / 2.5,
                           child: RichText(
                             textAlign: TextAlign.right,
                             text: const TextSpan(
@@ -173,11 +180,11 @@ class HomePage extends StatelessWidget {
                                 style: kCardTextStyle,
                                 children: [
                                   TextSpan(
-                                    text: '\nNews related to cryptocurrencies are available from different news providers and they can be viewed within the app itself.',
+                                    text:
+                                        '\nNews related to cryptocurrencies are available from different news providers and they can be viewed within the app itself.',
                                     style: kTransparentStyle,
                                   ),
-                                ]
-                            ),
+                                ]),
                           ),
                         ),
                         const SizedBox(
@@ -204,18 +211,18 @@ class HomePage extends StatelessWidget {
                           width: 10,
                         ),
                         SizedBox(
-                          width: MediaQuery.of(context).size.width/2.5,
+                          width: MediaQuery.of(context).size.width / 2.5,
                           child: RichText(
                             text: const TextSpan(
                                 text: 'Predictions',
                                 style: kCardTextStyle,
                                 children: [
                                   TextSpan(
-                                    text:  '\nUser can add price predictions for cryptocurrencies and after that prediction date prediction results will be calculated.',
+                                    text:
+                                        '\nUser can add price predictions for cryptocurrencies and after that prediction date prediction results will be calculated.',
                                     style: kTransparentStyle,
                                   ),
-                                ]
-                            ),
+                                ]),
                           ),
                         ),
                       ],
@@ -228,7 +235,7 @@ class HomePage extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         SizedBox(
-                          width: MediaQuery.of(context).size.width/2.5,
+                          width: MediaQuery.of(context).size.width / 2.5,
                           child: RichText(
                             textAlign: TextAlign.right,
                             text: const TextSpan(
@@ -236,12 +243,12 @@ class HomePage extends StatelessWidget {
                                 style: kCardTextStyle,
                                 children: [
                                   TextSpan(
-                                    text: '\nPrediction accuracy, error value and deviation will be calculated and with those results for a cryptocurrency and overall user results. '
+                                    text:
+                                        '\nPrediction accuracy, error value and deviation will be calculated and with those results for a cryptocurrency and overall user results. '
                                         'Also these historical results will be stored and used to generate meaningful results to understand user capability of price prediction.',
                                     style: kTransparentStyle,
                                   ),
-                                ]
-                            ),
+                                ]),
                           ),
                         ),
                         const SizedBox(
@@ -268,18 +275,18 @@ class HomePage extends StatelessWidget {
                           width: 10,
                         ),
                         SizedBox(
-                          width: MediaQuery.of(context).size.width/2.5,
+                          width: MediaQuery.of(context).size.width / 2.5,
                           child: RichText(
                             text: const TextSpan(
                                 text: 'Forecasts',
                                 style: kCardTextStyle,
                                 children: [
                                   TextSpan(
-                                    text: '\nMachine Learning generated forecast prices of cryptocurrencies and their accuracy levels, probabilities are available.',
+                                    text:
+                                        '\nMachine Learning generated forecast prices of cryptocurrencies and their accuracy levels, probabilities are available.',
                                     style: kTransparentStyle,
                                   ),
-                                ]
-                            ),
+                                ]),
                           ),
                         ),
                       ],
@@ -292,7 +299,7 @@ class HomePage extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         SizedBox(
-                          width: MediaQuery.of(context).size.width/2.5,
+                          width: MediaQuery.of(context).size.width / 2.5,
                           child: RichText(
                             textAlign: TextAlign.right,
                             text: const TextSpan(
@@ -300,12 +307,12 @@ class HomePage extends StatelessWidget {
                                 style: kCardTextStyle,
                                 children: [
                                   TextSpan(
-                                    text: '\nCustom user card is available for every user with varying colors according to the level of the user. '
+                                    text:
+                                        '\nCustom user card is available for every user with varying colors according to the level of the user. '
                                         'User level is calculated with the score which is contributed by the overall accuracy and the past predictions user has made.',
                                     style: kTransparentStyle,
                                   ),
-                                ]
-                            ),
+                                ]),
                           ),
                         ),
                         const SizedBox(
@@ -330,29 +337,29 @@ class HomePage extends StatelessWidget {
             Container(
               child: Padding(
                 padding: EdgeInsets.symmetric(
-                    horizontal: MediaQuery.of(context).size.width / 15,vertical: 20),
+                    horizontal: MediaQuery.of(context).size.width / 15,
+                    vertical: 20),
                 child: Column(
                   children: [
                     const Text(
                       'Screenshots',
                       style: kCardTextStyle3,
                     ),
-                    Container(
+                    SizedBox(
                       height: MediaQuery.of(context).size.height - 210,
                       child: CarouselSlider.builder(
-                          itemCount: screenshots.length,
-                          itemBuilder: (context,index,realIndex){
-                            final screenshot=screenshots[index];
-                            return buildImage(screenshot,index);
-                          },
-                          options: CarouselOptions(
-                              height: MediaQuery.of(context).size.height - 250,
-                            autoPlay: true,
-                            enlargeCenterPage: true,
-                          ),
+                        itemCount: screenshots.length,
+                        itemBuilder: (context, index, realIndex) {
+                          final screenshot = screenshots[index];
+                          return buildImage(screenshot, index);
+                        },
+                        options: CarouselOptions(
+                          height: MediaQuery.of(context).size.height - 250,
+                          autoPlay: true,
+                          enlargeCenterPage: true,
+                        ),
                       ),
                     ),
-
                   ],
                 ),
               ),
@@ -363,21 +370,21 @@ class HomePage extends StatelessWidget {
             Container(
               child: Padding(
                 padding: EdgeInsets.symmetric(
-                    horizontal: MediaQuery.of(context).size.width / 15,vertical: 30),
+                    horizontal: MediaQuery.of(context).size.width / 15,
+                    vertical: 30),
                 child: Column(
                   children: [
                     RichText(
                       textAlign: TextAlign.center,
                       text: const TextSpan(
                           text: 'Try using\n',
-                        style: kCardSmallTextStyle,
-                        children: [
-                          TextSpan(
-                            text: 'CryptoPal',
-                            style: kTitleStyle,
-                          ),
-                        ]
-                      ),
+                          style: kCardSmallTextStyle,
+                          children: [
+                            TextSpan(
+                              text: 'CryptoPal',
+                              style: kTitleStyle,
+                            ),
+                          ]),
                     ),
                     const SizedBox(
                       height: 20,
@@ -432,7 +439,7 @@ class HomePage extends StatelessWidget {
                       ),
                       Center(
                         child: GestureDetector(
-                          child:const Text(
+                          child: const Text(
                             'Dinuka Gayashan',
                             style: TextStyle(
                               fontSize: 28,
@@ -441,7 +448,8 @@ class HomePage extends StatelessWidget {
                             ),
                           ),
                           onTap: () async {
-                            await launch('https://dinukagayashan.github.io/_di-Website');
+                            await launch(
+                                'https://dinukagayashan.github.io/_di-Website');
                           },
                         ),
                       ),
@@ -458,10 +466,10 @@ class HomePage extends StatelessWidget {
       ),
     );
   }
-  Widget buildImage(final screenshot,index)=>Container(
-    margin: const EdgeInsets.symmetric(horizontal: 0),
-    child: screenshot,
-    color: kAccentColor3,
-  );
-}
 
+  Widget buildImage(final screenshot, index) => Container(
+        margin: const EdgeInsets.symmetric(horizontal: 0),
+        child: screenshot,
+        color: kAccentColor3,
+      );
+}

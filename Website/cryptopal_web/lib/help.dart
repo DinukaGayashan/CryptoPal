@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'constants.dart';
+import 'package:cryptopal_web/constants.dart';
 
 class Help extends StatefulWidget {
   const Help({Key? key}) : super(key: key);
@@ -18,7 +18,7 @@ class _HelpState extends State<Help> {
               child:
                 ExpansionPanelList(
                   elevation: 0,
-                  animationDuration: Duration(milliseconds: 500),
+                  animationDuration: const Duration(milliseconds: 500),
                   children: [
                     ExpansionPanel(
                       backgroundColor: kTransparentColor8,

@@ -19,8 +19,6 @@ const kRed = Color(0xffea4f30);
 const kGreen = Color(0xff1fba72);
 const kYellow = Color(0xfff1ae2d);
 const kBlue = Color(0xff008ff7);
-const kGraphColor1= Color(0xff1bbfd0);
-const kGraphColor2= Color(0xffdd636b);
 
 const TextStyle kMainTitleStyle = TextStyle(
   color: kBaseColor2,

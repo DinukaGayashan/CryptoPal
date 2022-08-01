@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:glass/glass.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'constants.dart';
+import 'package:cryptopal_web/constants.dart';
 
 // Widget glassCard(BuildContext context, Widget content) {
 //   return Padding(

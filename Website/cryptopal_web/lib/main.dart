@@ -1,10 +1,11 @@
-import 'package:cryptopal_web/help.dart';
-import 'package:cryptopal_web/home_page.dart';
-import 'package:cryptopal_web/share_app.dart';
+import 'package:cryptopal_web/privacy_policy.dart';
+import 'package:cryptopal_web/terms_conditions.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'constants.dart';
 import 'package:flutter_web_plugins/flutter_web_plugins.dart';
+import 'package:cryptopal_web/constants.dart';
+import 'package:cryptopal_web/help.dart';
+import 'package:cryptopal_web/home_page.dart';
 
 void main() {
   setUrlStrategy(PathUrlStrategy());
@@ -29,14 +30,13 @@ class CryptoPalWeb extends StatelessWidget {
           ),
         ),
       ),
-      initialRoute: '/',
+      initialRoute: '/TermsConditions',
       routes: {
         '/': (context) => const HomePage(),
         '/Help': (context) => const Help(),
-        '/ShareApp': (context) => const ShareApp(),
+        '/PrivacyPolicy': (context) => const PrivacyPolicy(),
+        '/TermsConditions': (context) => const TermsConditions(),
       },
     );
   }
 }
-
-
