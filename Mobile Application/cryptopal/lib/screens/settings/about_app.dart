@@ -1,4 +1,6 @@
 import 'package:cryptopal/screens/settings/logo_page.dart';
+import 'package:cryptopal/screens/settings/privacy_policy.dart';
+import 'package:cryptopal/screens/settings/terms_conditions.dart';
 import 'package:flutter/material.dart';
 import 'package:cryptopal/utility/constants.dart';
 import 'package:cryptopal/utility/widgets.dart';
@@ -68,12 +70,16 @@ class AboutApp extends StatelessWidget {
                 ),
                 Center(
                   child: SizedBox(
-                    width: 150,
-                    child: MaterialButton(
+                    width: 130,
+                    child:TextButton(
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: const [
-                          Icon(Icons.share_rounded,size: 18,),
+                          Icon(
+                            Icons.share_rounded,
+                            size: 18,
+                            color: kBaseColor2,
+                          ),
                           SizedBox(width: 10,),
                           Text(
                               'Share App',
@@ -82,7 +88,7 @@ class AboutApp extends StatelessWidget {
                         ],
                       ),
                       onPressed: () async {
-                        await Share.shareWithResult('https://cryptopal-e288a.web.app/ShareApp');
+                        await Share.shareWithResult('https://cryptopal-e288a.web.app');
                       },
                     ),
                   ),
@@ -93,10 +99,21 @@ class AboutApp extends StatelessWidget {
                 Center(
                   child: TextButton(
                     onPressed: (){
-                      snackBar(context, message: 'No Terms, No Conditions ;-)', color: kGreen);
+                      Navigator.pushNamed(context, PrivacyPolicy.id);
                     },
                     child: const Text(
-                        'Terms & Conditions',
+                        'Privacy Policy',
+                      style: kLinkStyle,
+                    ),
+                  ),
+                ),
+                Center(
+                  child: TextButton(
+                    onPressed: (){
+                      Navigator.pushNamed(context, TermsConditions.id);
+                    },
+                    child: const Text(
+                      'Terms & Conditions',
                       style: kLinkStyle,
                     ),
                   ),
@@ -104,15 +121,9 @@ class AboutApp extends StatelessWidget {
                 const SizedBox(
                   height: 50,
                 ),
-
-
-
-
-
                 const SizedBox(
                   height: 50,
                 ),
-
                 Column(
                   children: [
                     const Center(

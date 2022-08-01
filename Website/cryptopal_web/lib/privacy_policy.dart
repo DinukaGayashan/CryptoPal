@@ -13,7 +13,7 @@ class PrivacyPolicy extends StatelessWidget {
           RichText(
             text: const TextSpan(
               text:
-                  '\nDinuka Gayashan built the CryptoPal app as an Open Source app. This SERVICE is provided by Dinuka Gayashan '
+                  'Dinuka Gayashan built the CryptoPal app as an Open Source app. This SERVICE is provided by Dinuka Gayashan '
                   'at no cost and is intended for use as is.\n'
                   'This page is used to inform visitors regarding my policies with '
                   'the collection, use, and disclosure of Personal Information if anyone decided to use my Service.\n'

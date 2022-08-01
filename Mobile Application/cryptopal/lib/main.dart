@@ -1,3 +1,5 @@
+import 'package:cryptopal/screens/settings/privacy_policy.dart';
+import 'package:cryptopal/screens/settings/terms_conditions.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -40,6 +42,8 @@ class CryptoPal extends StatelessWidget {
         SignUp.id: (context) => const SignUp(),
         SignIn.id: (context) => const SignIn(),
         RegistrationForm.id: (context) => const RegistrationForm(),
+        PrivacyPolicy.id: (context) => const PrivacyPolicy(),
+        TermsConditions.id: (context) => const TermsConditions(),
         DashboardLoading.id: (context) => const DashboardLoading(),
       },
     );

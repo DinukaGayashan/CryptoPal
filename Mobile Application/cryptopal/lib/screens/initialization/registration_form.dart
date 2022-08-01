@@ -1,4 +1,5 @@
 import 'package:cryptopal/screens/initialization/sign_in.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -7,6 +8,9 @@ import 'package:cryptopal/utility/constants.dart';
 import 'package:cryptopal/utility/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:cryptopal/screens/initialization/welcome.dart';
+
+import '../settings/privacy_policy.dart';
+import '../settings/terms_conditions.dart';
 
 class RegistrationForm extends StatefulWidget {
   const RegistrationForm({Key? key}) : super(key: key);
@@ -23,7 +27,8 @@ class _RegistrationFormState extends State<RegistrationForm> {
   late String name;
   late DateTime birthday;
   late final User? user;
-  bool emailVerified=false;
+  bool emailVerified = false;
+  bool agreementStatus = false;
 
   void getUser() {
     try {
@@ -34,34 +39,33 @@ class _RegistrationFormState extends State<RegistrationForm> {
   }
 
   Future checkEmailVerification() async {
-    User? user=_auth.currentUser;
+    User? user = _auth.currentUser;
     await user?.reload();
-    if(user?.emailVerified==true){
-      if (_formKey.currentState!.validate()) {
-        try {
-          await _firestore
-              .collection('users')
-              .doc(user?.uid)
-              .set(
-            {
-              'email': user?.email,
-              'name': name,
-              'birthday': DateFormat('yyyy-MM-dd')
-                  .format(birthday),
-            },
-            SetOptions(merge: true),
-          );
-          Navigator.pushReplacementNamed(
-              context, SignIn.id);
-        } catch (e) {
-          snackBar(context,
-              message: e.toString(), color: kRed);
+    if (agreementStatus) {
+      if (user?.emailVerified == true) {
+        if (_formKey.currentState!.validate()) {
+          try {
+            await _firestore.collection('users').doc(user?.uid).set(
+              {
+                'email': user?.email,
+                'name': name,
+                'birthday': DateFormat('yyyy-MM-dd').format(birthday),
+              },
+              SetOptions(merge: true),
+            );
+            Navigator.pushReplacementNamed(context, SignIn.id);
+          } catch (e) {
+            snackBar(context, message: e.toString(), color: kRed);
+          }
         }
+      } else {
+        snackBar(context,
+            message: 'Please verify your email to continue.', color: kRed);
       }
     } else {
       snackBar(context,
           message:
-          'Please verify your email to continue.',
+              'Please agree to Privacy Policy and Terms & Conditions to continue.',
           color: kRed);
     }
   }
@@ -263,12 +267,60 @@ class _RegistrationFormState extends State<RegistrationForm> {
                     const SizedBox(
                       height: 30.0,
                     ),
+                    Row(
+                      children: [
+                        Checkbox(
+                          activeColor: kAccentColor3,
+                          value: agreementStatus,
+                          onChanged: (value) {
+                            agreementStatus = value!;
+                            setState(() {
+                              agreementStatus = value;
+                            });
+                          },
+                        ),
+                        Flexible(
+                          child: RichText(
+                            text: TextSpan(
+                                text: 'Agree to ',
+                                style: kTransparentStyle,
+                                children: [
+                                  TextSpan(
+                                    text: 'Privacy Policy',
+                                    style: kLinkStyle,
+                                    recognizer: TapGestureRecognizer()
+                                      ..onTap = () {
+                                        Navigator.pushNamed(
+                                            context, PrivacyPolicy.id);
+                                      },
+                                  ),
+                                  const TextSpan(
+                                    text: ' and ',
+                                  ),
+                                  TextSpan(
+                                    text: 'Terms & Conditions',
+                                    style: kLinkStyle,
+                                    recognizer: TapGestureRecognizer()
+                                      ..onTap = () {
+                                        Navigator.pushNamed(
+                                            context, TermsConditions.id);
+                                      },
+                                  ),
+                                ]),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 30.0,
+                    ),
                     SizedBox(
                       height: 50,
                       width: double.infinity,
                       child: CupertinoButton(
                         color: kAccentColor1,
-                        borderRadius: const BorderRadius.all(Radius.circular(5)),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(5)),
                         onPressed: () async {
                           await checkEmailVerification();
                         },

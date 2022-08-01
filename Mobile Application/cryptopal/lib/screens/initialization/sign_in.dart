@@ -183,7 +183,8 @@ class _SignInState extends State<SignIn> {
                                     value: rememberMeToggle,
                                     onChanged: (bool? value) {
                                       _handleRememberMe(value!);
-                                    }),
+                                    }
+                                    ),
                               ),
                             ),
                             const SizedBox(width: 5.0),
