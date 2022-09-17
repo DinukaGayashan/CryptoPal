@@ -30,7 +30,7 @@ class CryptoPalWeb extends StatelessWidget {
           ),
         ),
       ),
-      initialRoute: '/TermsConditions',
+      initialRoute: '/',
       routes: {
         '/': (context) => const HomePage(),
         '/Help': (context) => const Help(),

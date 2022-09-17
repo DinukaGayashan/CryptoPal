@@ -377,7 +377,7 @@ class HomePage extends StatelessWidget {
                     RichText(
                       textAlign: TextAlign.center,
                       text: const TextSpan(
-                          text: 'Try using\n',
+                          text: 'try using\n',
                           style: kCardSmallTextStyle,
                           children: [
                             TextSpan(
@@ -390,7 +390,7 @@ class HomePage extends StatelessWidget {
                       height: 20,
                     ),
                     const Text(
-                      'Available for Android',
+                      'available on Android',
                       style: kTransparentStyle,
                     ),
                     const SizedBox(

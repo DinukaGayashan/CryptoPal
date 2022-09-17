@@ -533,7 +533,7 @@ class _DashboardState extends State<Dashboard> {
                                       ),
                                       SizedBox(
                                         height: 50.0,
-                                        width: 160.0,
+                                        width: 220.0,
                                         child: Tooltip(
                                           message: 'Accuracy History',
                                           child: SfLinearGauge(

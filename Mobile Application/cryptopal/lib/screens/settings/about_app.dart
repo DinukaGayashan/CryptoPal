@@ -94,7 +94,7 @@ class AboutApp extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(
-                  height: 50,
+                  height: 10,
                 ),
                 Center(
                   child: TextButton(
@@ -118,11 +118,8 @@ class AboutApp extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SizedBox(
-                  height: 50,
-                ),
-                const SizedBox(
-                  height: 50,
+                SizedBox(
+                  height: MediaQuery.of(context).size.height-600,
                 ),
                 Column(
                   children: [
