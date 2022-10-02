@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:glass/glass.dart';
-import 'constants.dart';
+import 'package:cryptopal/utility/constants.dart';
 
 Widget glassCard(BuildContext context, Widget content) {
   return Padding(

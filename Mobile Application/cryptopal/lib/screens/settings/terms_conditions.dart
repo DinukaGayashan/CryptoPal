@@ -34,17 +34,18 @@ class _TermsConditionsState extends State<TermsConditions> {
                   child: Stack(
                     children: [
                       WebView(
-                        initialUrl: 'https://cryptopal-e288a.web.app/TermsConditions',
+                        initialUrl:
+                            'https://cryptopal-e288a.web.app/TermsConditions',
                         javascriptMode: JavascriptMode.unrestricted,
                         onPageFinished: (progress) =>
                             setState(() => loading = false),
                       ),
                       loading
                           ? const Center(
-                        child: CircularProgressIndicator(
-                          color: kAccentColor1,
-                        ),
-                      )
+                              child: CircularProgressIndicator(
+                                color: kAccentColor1,
+                              ),
+                            )
                           : const SizedBox()
                     ],
                   ),

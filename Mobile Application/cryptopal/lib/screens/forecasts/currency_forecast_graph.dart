@@ -4,31 +4,34 @@ import 'package:cryptopal/utility/constants.dart';
 import 'package:cryptopal/utility/widgets.dart';
 import 'package:cryptopal/utility/real_price_data.dart';
 import 'package:cryptopal/utility/cryptocurrency_data.dart';
-
-import '../../utility/forecast_price_data.dart';
+import 'package:cryptopal/utility/forecast_price_data.dart';
 
 class CurrencyForecastsGraph extends StatelessWidget {
-  const CurrencyForecastsGraph(this.realPriceList, this.forecastPriceList, this.currencyIndex, {Key? key}) : super(key: key);
+  const CurrencyForecastsGraph(
+      this.realPriceList, this.forecastPriceList, this.currencyIndex,
+      {Key? key})
+      : super(key: key);
 
   final List<RealPricesOfACurrency> realPriceList;
   final List<ForecastPricesOfACurrency> forecastPriceList;
   final int currencyIndex;
 
-  List<RealPrice> getRealPrices ({required String currency, int number=0}){
-    List<RealPrice> realPrices=[];
-    for(var type in realPriceList){
-      if(type.currency==currency){
-        realPrices=type.pricesList;
+  List<RealPrice> getRealPrices({required String currency, int number = 0}) {
+    List<RealPrice> realPrices = [];
+    for (var type in realPriceList) {
+      if (type.currency == currency) {
+        realPrices = type.pricesList;
         break;
       }
     }
-    if(number!=0 && realPrices.length>number){
-      return realPrices.sublist(realPrices.length-number);
+    if (number != 0 && realPrices.length > number) {
+      return realPrices.sublist(realPrices.length - number);
     }
     return realPrices;
   }
 
-  List<ForecastPrice> getForecastPrices({required String currency, int number = 0}) {
+  List<ForecastPrice> getForecastPrices(
+      {required String currency, int number = 0}) {
     List<ForecastPrice> forecastPrices = [];
     for (var type in forecastPriceList) {
       if (type.currency == currency) {
@@ -37,7 +40,7 @@ class CurrencyForecastsGraph extends StatelessWidget {
       }
     }
     if (number != 0 && forecastPrices.length > number) {
-      return forecastPrices.sublist(0,forecastPrices.length - number);
+      return forecastPrices.sublist(0, forecastPrices.length - number);
     }
     return forecastPrices;
   }
@@ -47,13 +50,15 @@ class CurrencyForecastsGraph extends StatelessWidget {
     return Scaffold(
       backgroundColor: kBaseColor1,
       body: SafeArea(
-        child: glassCard(context,
+        child: glassCard(
+          context,
           Column(
             children: [
-              topBar(context, cryptocurrencyNames[selectedCryptocurrencies[currencyIndex]].toString()+' Forecasts'),
+              topBar(context,
+                  '${cryptocurrencyNames[selectedCryptocurrencies[currencyIndex]]} Forecasts'),
               SizedBox(
                 width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height-155,
+                height: MediaQuery.of(context).size.height - 155,
                 child: SfCartesianChart(
                   legend: Legend(
                     isVisible: true,
@@ -80,23 +85,23 @@ class CurrencyForecastsGraph extends StatelessWidget {
                   ),
                   series: <ChartSeries>[
                     LineSeries<RealPrice, DateTime>(
-                      name: selectedCryptocurrencies[currencyIndex] +
-                          ' Real Price',
+                      name:
+                          '${selectedCryptocurrencies[currencyIndex]} Real Price',
                       color: kGraphColor1,
                       dataSource: getRealPrices(
-                          currency: selectedCryptocurrencies[currencyIndex] +
-                              '-USD'),
+                          currency:
+                              '${selectedCryptocurrencies[currencyIndex]}-USD'),
                       xValueMapper: (RealPrice data, _) =>
                           DateTime.parse(data.date),
                       yValueMapper: (RealPrice data, _) => data.closePrice,
                     ),
                     LineSeries<ForecastPrice, DateTime>(
-                      name: selectedCryptocurrencies[currencyIndex] +
-                          ' Forecast Price',
+                      name:
+                          '${selectedCryptocurrencies[currencyIndex]} Forecast Price',
                       color: kGraphColor2,
                       dataSource: getForecastPrices(
-                          currency: selectedCryptocurrencies[currencyIndex]+
-                              '-USD'),
+                          currency:
+                              '${selectedCryptocurrencies[currencyIndex]}-USD'),
                       xValueMapper: (ForecastPrice data, _) =>
                           DateTime.parse(data.date),
                       yValueMapper: (ForecastPrice data, _) => data.closePrice,
@@ -104,7 +109,6 @@ class CurrencyForecastsGraph extends StatelessWidget {
                   ],
                 ),
               ),
-
             ],
           ),
         ),

@@ -1,8 +1,6 @@
 import 'dart:io';
-
 import 'package:cryptopal/screens/initialization/registration_form.dart';
 import 'package:cryptopal/screens/initialization/welcome.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_functions/cloud_functions.dart';
@@ -20,34 +18,29 @@ class Loading extends StatefulWidget {
 }
 
 class _LoadingState extends State<Loading> {
-
-  void trySignIn() async{
-    final _auth = FirebaseAuth.instance;
-    final _functions = FirebaseFunctions.instance;
+  void trySignIn() async {
+    final auth = FirebaseAuth.instance;
+    final functions = FirebaseFunctions.instance;
 
     try {
-      SharedPreferences _prefs = await SharedPreferences.getInstance();
-      var _email = _prefs.getString("email") ?? "";
-      var _password = _prefs.getString("password") ?? "";
-      var _rememberMe = _prefs.getBool("remember_me") ?? false;
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      var email = prefs.getString("email") ?? "";
+      var password = prefs.getString("password") ?? "";
+      var rememberMe = prefs.getBool("remember_me") ?? false;
 
-      if(_rememberMe){
+      if (rememberMe) {
         try {
-          await _auth.signInWithEmailAndPassword(
-              email: _email, password: _password);
+          await auth.signInWithEmailAndPassword(
+              email: email, password: password);
           try {
-            HttpsCallable checkUser =
-            _functions.httpsCallable('checkUser');
-            final result =
-            await checkUser.call(<String, dynamic>{
-              'email': _email,
+            HttpsCallable checkUser = functions.httpsCallable('checkUser');
+            final result = await checkUser.call(<String, dynamic>{
+              'email': email,
             });
             if (result.data.toString() == 'user') {
-              Navigator.pushReplacementNamed(
-                  context, DashboardLoading.id);
+              Navigator.pushReplacementNamed(context, DashboardLoading.id);
             } else {
-              Navigator.pushReplacementNamed(
-                  context, RegistrationForm.id);
+              Navigator.pushReplacementNamed(context, RegistrationForm.id);
             }
           } catch (e) {
             rethrow;
@@ -55,23 +48,21 @@ class _LoadingState extends State<Loading> {
         } catch (e) {
           rethrow;
         }
-      }
-      else{
-        Navigator.pushReplacementNamed(
-            context, Welcome.id);
+      } else {
+        Navigator.pushReplacementNamed(context, Welcome.id);
       }
     } catch (e) {
       rethrow;
     }
   }
 
-  void checkConnection()async{
-    try{
+  void checkConnection() async {
+    try {
       final result = await InternetAddress.lookup('google.com');
       if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
         trySignIn();
       }
-    }catch(e){
+    } catch (e) {
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -93,8 +84,7 @@ class _LoadingState extends State<Loading> {
                 ),
                 onPressed: () async {
                   Navigator.of(context).pop();
-                  Navigator.pushReplacementNamed(
-                      context, Loading.id);
+                  Navigator.pushReplacementNamed(context, Loading.id);
                 },
               ),
             ],
@@ -123,7 +113,7 @@ class _LoadingState extends State<Loading> {
                       backgroundColor: Colors.transparent,
                       radius: 100.0,
                       child:
-                      Image.asset('assets/images/CryptoPal-logo-white.png'),
+                          Image.asset('assets/images/CryptoPal-logo-white.png'),
                     ),
                   ),
                   const SizedBox(
@@ -133,10 +123,10 @@ class _LoadingState extends State<Loading> {
                       child: Hero(
                         tag: 'name',
                         child: DefaultTextStyle(
+                          style: kMainTitleStyle,
                           child: Text(
                             'CryptoPal',
                           ),
-                          style: kMainTitleStyle,
                         ),
                       ),
                     ),
@@ -150,11 +140,11 @@ class _LoadingState extends State<Loading> {
                     tag: 'description',
                     child: DefaultTextStyle(
                       style: kInstructionStyle,
-                    child: Text(
-                      'Advisory platform for cryptocurrency investments',
-
+                      child: Text(
+                        'Advisory platform for cryptocurrency investments',
+                      ),
                     ),
-                  ),),
+                  ),
                 ),
               ),
               const SizedBox(

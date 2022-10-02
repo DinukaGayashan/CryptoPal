@@ -6,11 +6,11 @@ Future<List<News>> getNewsData(bool x) async {
   late List<News> news = [];
 
   final response = await http.get(Uri.parse(
-      'https://newsapi.org/v2/everything?q=cryptocurrency&apiKey='+NewsAPIAPIKey));
+      'https://newsapi.org/v2/everything?q=cryptocurrency&apiKey=$NewsAPIAPIKey'));
 
-  final numberOfNews=jsonDecode(response.body)['articles'].length;
+  final numberOfNews = jsonDecode(response.body)['articles'].length;
 
-  for(int i=0;i<numberOfNews;i++){
+  for (int i = 0; i < numberOfNews; i++) {
     try {
       news.add(News.fromJson(jsonDecode(response.body), i));
     } catch (e) {
@@ -33,12 +33,12 @@ class News {
 
   News(
       {this.title,
-        this.link,
-        this.description,
-        this.content,
-        this.date,
-        this.imageUrl,
-        this.source,
+      this.link,
+      this.description,
+      this.content,
+      this.date,
+      this.imageUrl,
+      this.source,
       this.author});
 
   factory News.fromJson(Map<String, dynamic> json, int index) {
@@ -54,4 +54,3 @@ class News {
     );
   }
 }
-

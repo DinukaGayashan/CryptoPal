@@ -3,9 +3,12 @@ import 'package:cryptopal/utility/cryptocurrency_data.dart';
 
 final _firestore = FirebaseFirestore.instance;
 
-Future<List<RealPrice>> getPricesOfACurrency(currency) async{
-  List<RealPrice> priceList=[];
-  final priceSnaps = await _firestore.collection('realPrices').where('currency',isEqualTo: currency+'-USD').get();
+Future<List<RealPrice>> getPricesOfACurrency(currency) async {
+  List<RealPrice> priceList = [];
+  final priceSnaps = await _firestore
+      .collection('realPrices')
+      .where('currency', isEqualTo: currency + '-USD')
+      .get();
   for (var snap in priceSnaps.docs) {
     priceList.add(RealPrice(
         snap.data()['date'],
@@ -18,22 +21,22 @@ Future<List<RealPrice>> getPricesOfACurrency(currency) async{
 }
 
 Future<List<RealPricesOfACurrency>> getRealPriceData() async {
-
   List<RealPricesOfACurrency> allPricesLists =
       List<RealPricesOfACurrency>.filled(
           selectedCryptocurrencies.length, RealPricesOfACurrency(''));
   for (int i = 0; i < selectedCryptocurrencies.length; i++) {
-    allPricesLists[i] = RealPricesOfACurrency('${selectedCryptocurrencies[i]}-USD');
+    allPricesLists[i] =
+        RealPricesOfACurrency('${selectedCryptocurrencies[i]}-USD');
   }
 
   try {
-    List<Future> queries=[];
-    for(int i=0;i<selectedCryptocurrencies.length;i++){
+    List<Future> queries = [];
+    for (int i = 0; i < selectedCryptocurrencies.length; i++) {
       queries.add(getPricesOfACurrency(selectedCryptocurrencies[i]));
     }
-    final results=await Future.wait(queries);
-    for(int i=0;i<selectedCryptocurrencies.length;i++){
-      allPricesLists[i].pricesList=results[i];
+    final results = await Future.wait(queries);
+    for (int i = 0; i < selectedCryptocurrencies.length; i++) {
+      allPricesLists[i].pricesList = results[i];
       allPricesLists[i].calculatePriceIncreasePercentage();
     }
 
@@ -57,14 +60,14 @@ Future<List<RealPricesOfACurrency>> getRealPriceData() async {
       allPricesLists[i].calculatePriceIncreasePercentage();
     }*/
   } catch (e) {
-    print(e);
+    rethrow;
   }
   return allPricesLists;
 }
 
 class RealPricesOfACurrency {
   late String currency;
-  late double priceIncreasePercentage=0;
+  late double priceIncreasePercentage = 0;
   late List<RealPrice> pricesList = [];
 
   RealPricesOfACurrency(this.currency);
@@ -85,9 +88,9 @@ class RealPrice {
       this.lowestPrice);
 }
 
-class GraphData{
+class GraphData {
   late dynamic valueOne;
   late dynamic valueTwo;
 
-  GraphData({required this.valueOne,required this.valueTwo});
+  GraphData({required this.valueOne, required this.valueTwo});
 }

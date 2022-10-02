@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:number_display/number_display.dart';
 
-const String description="CryptoPal is an advisory platform for cryptocurrency investments that only focused on educational purposes. Please do not use this application as a advisor for financial investment purposes.";
+const String description =
+    "CryptoPal is an advisory platform for cryptocurrency investments that only focused on educational purposes. Please do not use this application as a advisor for financial investment purposes.";
 
 const kBaseColor1 = Color(0xff000000);
 const kBaseColor2 = Color(0xffeeeeee);
@@ -22,24 +23,43 @@ const kRed = Color(0xffea4f30);
 const kGreen = Color(0xff1fba72);
 const kYellow = Color(0xfff1ae2d);
 const kBlue = Color(0xff008ff7);
-const kGraphColor1= Color(0xff1bbfd0);
-const kGraphColor2= Color(0xffdd636b);
-const List<Color> kUserColorMap=[Color(0xff121212),Color(0xff607d8b),Color(0xff9e9e9e),Color(0xff795548),
-  Color(0xffff5722),Color(0xffff9800),Color(0xffffc107),Color(0xffcddc39),Color(0xff8bc34a),Color(0xff4caf50),
-  Color(0xff009688),Color(0xff00bcd4),Color(0xff03a9f4),Color(0xff2196f3),Color(0xff00bcd4),Color(0xff3f51b5),
-  Color(0xff673ab7),Color(0xff9c27b0),Color(0xffe91e63),Color(0xfff44336)];
-const Color topLevelUserColor=Color(0xffff1144);
+const kGraphColor1 = Color(0xff1bbfd0);
+const kGraphColor2 = Color(0xffdd636b);
+const List<Color> kUserColorMap = [
+  Color(0xff121212),
+  Color(0xff607d8b),
+  Color(0xff9e9e9e),
+  Color(0xff795548),
+  Color(0xffff5722),
+  Color(0xffff9800),
+  Color(0xffffc107),
+  Color(0xffcddc39),
+  Color(0xff8bc34a),
+  Color(0xff4caf50),
+  Color(0xff009688),
+  Color(0xff00bcd4),
+  Color(0xff03a9f4),
+  Color(0xff2196f3),
+  Color(0xff00bcd4),
+  Color(0xff3f51b5),
+  Color(0xff673ab7),
+  Color(0xff9c27b0),
+  Color(0xffe91e63),
+  Color(0xfff44336)
+];
+const Color topLevelUserColor = Color(0xffff1144);
 
 DateTime kMinDayInGraph = DateTime.now().subtract(const Duration(days: 60));
-DateTime kMinDayInForecastGraph = DateTime.now().subtract(const Duration(days: 40));
+DateTime kMinDayInForecastGraph =
+    DateTime.now().subtract(const Duration(days: 40));
 DateTime kMinDayInExtendedGraph =
     DateTime.now().subtract(const Duration(days: 100));
 DateTime kMinDayInSmallGraph =
-DateTime.now().subtract(const Duration(days: 10));
+    DateTime.now().subtract(const Duration(days: 10));
 
 final kDashboardPriceDisplay = createDisplay(length: 7);
 final kCurrencyPriceDisplay = createDisplay(length: 10);
-final kUserScoreDisplay = createDisplay(length:4);
+final kUserScoreDisplay = createDisplay(length: 4);
 
 const TextStyle kMainTitleStyle = TextStyle(
   color: kBaseColor2,

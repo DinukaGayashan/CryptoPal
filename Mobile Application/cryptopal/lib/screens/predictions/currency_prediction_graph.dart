@@ -7,22 +7,25 @@ import 'package:cryptopal/utility/real_price_data.dart';
 import 'package:cryptopal/utility/cryptocurrency_data.dart';
 
 class CurrencyPredictionGraph extends StatelessWidget {
-  const CurrencyPredictionGraph(this.currencyIndex, this.realPriceList, this.prediction, {Key? key}) : super(key: key);
+  const CurrencyPredictionGraph(
+      this.currencyIndex, this.realPriceList, this.prediction,
+      {Key? key})
+      : super(key: key);
 
   final int currencyIndex;
   final Prediction prediction;
   final List<RealPricesOfACurrency> realPriceList;
 
-  List<RealPrice> getRealPrices ({required String currency, int number=0}){
-    List<RealPrice> realPrices=[];
-    for(var type in realPriceList){
-      if(type.currency==currency){
-        realPrices=type.pricesList;
+  List<RealPrice> getRealPrices({required String currency, int number = 0}) {
+    List<RealPrice> realPrices = [];
+    for (var type in realPriceList) {
+      if (type.currency == currency) {
+        realPrices = type.pricesList;
         break;
       }
     }
-    if(number!=0 && realPrices.length>number){
-      return realPrices.sublist(realPrices.length-number);
+    if (number != 0 && realPrices.length > number) {
+      return realPrices.sublist(realPrices.length - number);
     }
     return realPrices;
   }
@@ -32,13 +35,15 @@ class CurrencyPredictionGraph extends StatelessWidget {
     return Scaffold(
       backgroundColor: kBaseColor1,
       body: SafeArea(
-        child: glassCard(context,
+        child: glassCard(
+          context,
           Column(
             children: [
-              topBar(context, cryptocurrencyNames[selectedCryptocurrencies[currencyIndex]].toString()+' Prediction'),
+              topBar(context,
+                  '${cryptocurrencyNames[selectedCryptocurrencies[currencyIndex]]} Prediction'),
               SizedBox(
                 width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height-155,
+                height: MediaQuery.of(context).size.height - 155,
                 child: SfCartesianChart(
                   legend: Legend(
                     isVisible: true,
@@ -65,18 +70,25 @@ class CurrencyPredictionGraph extends StatelessWidget {
                   ),
                   series: <ChartSeries>[
                     LineSeries<RealPrice, DateTime>(
-                      name: selectedCryptocurrencies[currencyIndex]+' Close Price',
+                      name:
+                          '${selectedCryptocurrencies[currencyIndex]} Close Price',
                       color: kGraphColor1,
-                      dataSource: getRealPrices(currency: selectedCryptocurrencies[currencyIndex]+'-USD'),
-                      xValueMapper: (RealPrice data, _) => DateTime.parse(data.date),
+                      dataSource: getRealPrices(
+                          currency:
+                              '${selectedCryptocurrencies[currencyIndex]}-USD'),
+                      xValueMapper: (RealPrice data, _) =>
+                          DateTime.parse(data.date),
                       yValueMapper: (RealPrice data, _) => data.closePrice,
                     ),
                     LineSeries<Prediction, DateTime>(
-                      name: selectedCryptocurrencies[currencyIndex]+' Prediction',
+                      name:
+                          '${selectedCryptocurrencies[currencyIndex]} Prediction',
                       color: kGraphColor2,
                       dataSource: prediction.toList(prediction),
-                      xValueMapper: (Prediction data, _) => data.predictionDateAsDate,
-                      yValueMapper: (Prediction data, _) => data.predictionClosePrice,
+                      xValueMapper: (Prediction data, _) =>
+                          data.predictionDateAsDate,
+                      yValueMapper: (Prediction data, _) =>
+                          data.predictionClosePrice,
                       markerSettings: const MarkerSettings(
                         isVisible: true,
                       ),
@@ -84,7 +96,6 @@ class CurrencyPredictionGraph extends StatelessWidget {
                   ],
                 ),
               ),
-
             ],
           ),
         ),

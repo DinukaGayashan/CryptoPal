@@ -26,7 +26,7 @@ class _NewsDisplayState extends State<NewsDisplay> {
             context,
             Column(
               children: <Widget>[
-                topBar(context, 'News on ' + widget.news.source.toString()),
+                topBar(context, 'News on ${widget.news.source}'),
                 SizedBox(
                   width: MediaQuery.of(context).size.width - 100,
                   child: LinearProgressIndicator(

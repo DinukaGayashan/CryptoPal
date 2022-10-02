@@ -7,7 +7,10 @@ import 'package:cryptopal/utility/real_price_data.dart';
 import 'package:cryptopal/utility/cryptocurrency_data.dart';
 
 class CurrencyOpenCloseGraph extends StatelessWidget {
-  const CurrencyOpenCloseGraph(this.currencyIndex, this.realPriceList, this.showClose,this.showOpen, {Key? key}) : super(key: key);
+  const CurrencyOpenCloseGraph(
+      this.currencyIndex, this.realPriceList, this.showClose, this.showOpen,
+      {Key? key})
+      : super(key: key);
 
   static const String id = 'CurrencyOpenCloseGraph';
   final int currencyIndex;
@@ -34,13 +37,15 @@ class CurrencyOpenCloseGraph extends StatelessWidget {
     return Scaffold(
       backgroundColor: kBaseColor1,
       body: SafeArea(
-        child: glassCard(context,
+        child: glassCard(
+          context,
           Column(
             children: [
-              topBar(context, cryptocurrencyNames[selectedCryptocurrencies[currencyIndex]].toString()+' Open Close Prices'),
+              topBar(context,
+                  '${cryptocurrencyNames[selectedCryptocurrencies[currencyIndex]]} Open Close Prices'),
               SizedBox(
                 width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height-155,
+                height: MediaQuery.of(context).size.height - 155,
                 child: SfCartesianChart(
                   zoomPanBehavior: ZoomPanBehavior(
                     enablePinching: true,
@@ -68,32 +73,28 @@ class CurrencyOpenCloseGraph extends StatelessWidget {
                   series: <ChartSeries>[
                     LineSeries<RealPrice, DateTime>(
                       isVisible: showClose,
-                      name: selectedCryptocurrencies[currencyIndex] +
-                          ' Close Price',
+                      name:
+                          '${selectedCryptocurrencies[currencyIndex]} Close Price',
                       color: kGraphColor1,
                       dataSource: getRealPrices(
                           currency:
-                          selectedCryptocurrencies[currencyIndex] +
-                              '-USD'),
+                              '${selectedCryptocurrencies[currencyIndex]}-USD'),
                       xValueMapper: (RealPrice data, _) =>
                           DateTime.parse(data.date),
-                      yValueMapper: (RealPrice data, _) =>
-                      data.closePrice,
+                      yValueMapper: (RealPrice data, _) => data.closePrice,
                       //pointColorMapper: (RealPrice data, _) => data.closePrice>data.openPrice?kGreen:kRed,
                     ),
                     LineSeries<RealPrice, DateTime>(
                       isVisible: showOpen,
-                      name: selectedCryptocurrencies[currencyIndex] +
-                          ' Open Price',
+                      name:
+                          '${selectedCryptocurrencies[currencyIndex]} Open Price',
                       color: kGraphColor2,
                       dataSource: getRealPrices(
                           currency:
-                          selectedCryptocurrencies[currencyIndex] +
-                              '-USD'),
+                              '${selectedCryptocurrencies[currencyIndex]}-USD'),
                       xValueMapper: (RealPrice data, _) =>
                           DateTime.parse(data.date),
-                      yValueMapper: (RealPrice data, _) =>
-                      data.openPrice,
+                      yValueMapper: (RealPrice data, _) => data.openPrice,
                     ),
                   ],
                 ),

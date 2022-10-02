@@ -7,7 +7,8 @@ import 'package:cryptopal/utility/real_price_data.dart';
 import 'package:cryptopal/utility/cryptocurrency_data.dart';
 
 class CurrencyOHLCGraph extends StatelessWidget {
-  const CurrencyOHLCGraph(this.currencyIndex, this.realPriceList, {Key? key}) : super(key: key);
+  const CurrencyOHLCGraph(this.currencyIndex, this.realPriceList, {Key? key})
+      : super(key: key);
 
   static const String id = 'CurrencyOHLCGraph';
   final int currencyIndex;
@@ -32,13 +33,15 @@ class CurrencyOHLCGraph extends StatelessWidget {
     return Scaffold(
       backgroundColor: kBaseColor1,
       body: SafeArea(
-        child: glassCard(context,
+        child: glassCard(
+          context,
           Column(
             children: [
-              topBar(context, cryptocurrencyNames[selectedCryptocurrencies[currencyIndex]].toString()+' OHLC Prices'),
+              topBar(context,
+                  '${cryptocurrencyNames[selectedCryptocurrencies[currencyIndex]]} OHLC Prices'),
               SizedBox(
                 width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height-155,
+                height: MediaQuery.of(context).size.height - 155,
                 child: SfCartesianChart(
                   zoomPanBehavior: ZoomPanBehavior(
                     enablePinching: true,
@@ -57,22 +60,17 @@ class CurrencyOHLCGraph extends StatelessWidget {
                   ),
                   series: <ChartSeries>[
                     CandleSeries<RealPrice, DateTime>(
-                      name: selectedCryptocurrencies[currencyIndex] +
-                          ' OHLC Prices',
+                      name:
+                          '${selectedCryptocurrencies[currencyIndex]} OHLC Prices',
                       dataSource: getRealPrices(
                           currency:
-                          selectedCryptocurrencies[currencyIndex] +
-                              '-USD'),
+                              '${selectedCryptocurrencies[currencyIndex]}-USD'),
                       xValueMapper: (RealPrice data, _) =>
                           DateTime.parse(data.date),
-                      lowValueMapper: (RealPrice data, _) =>
-                      data.lowestPrice,
-                      highValueMapper: (RealPrice data, _) =>
-                      data.highestPrice,
-                      openValueMapper: (RealPrice data, _) =>
-                      data.openPrice,
-                      closeValueMapper: (RealPrice data, _) =>
-                      data.closePrice,
+                      lowValueMapper: (RealPrice data, _) => data.lowestPrice,
+                      highValueMapper: (RealPrice data, _) => data.highestPrice,
+                      openValueMapper: (RealPrice data, _) => data.openPrice,
+                      closeValueMapper: (RealPrice data, _) => data.closePrice,
                       enableSolidCandles: true,
                     ),
                   ],

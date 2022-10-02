@@ -34,17 +34,18 @@ class _PrivacyPolicyState extends State<PrivacyPolicy> {
                   child: Stack(
                     children: [
                       WebView(
-                        initialUrl: 'https://cryptopal-e288a.web.app/PrivacyPolicy',
+                        initialUrl:
+                            'https://cryptopal-e288a.web.app/PrivacyPolicy',
                         javascriptMode: JavascriptMode.unrestricted,
                         onPageFinished: (progress) =>
                             setState(() => loading = false),
                       ),
                       loading
                           ? const Center(
-                        child: CircularProgressIndicator(
-                          color: kAccentColor1,
-                        ),
-                      )
+                              child: CircularProgressIndicator(
+                                color: kAccentColor1,
+                              ),
+                            )
                           : const SizedBox()
                     ],
                   ),

@@ -5,10 +5,12 @@ import 'package:cryptopal/utility/user_account.dart';
 import 'package:cryptopal/utility/constants.dart';
 import 'package:cryptopal/utility/widgets.dart';
 import 'package:cryptopal/utility/cryptocurrency_data.dart';
-import '../../utility/real_price_data.dart';
+import 'package:cryptopal/utility/real_price_data.dart';
 
 class CurrencyPredictionErrorsGraph extends StatelessWidget {
-  const CurrencyPredictionErrorsGraph(this.currentUser, this.currencyIndex, {Key? key}) : super(key: key);
+  const CurrencyPredictionErrorsGraph(this.currentUser, this.currencyIndex,
+      {Key? key})
+      : super(key: key);
 
   final UserAccount currentUser;
   final int currencyIndex;
@@ -19,20 +21,25 @@ class CurrencyPredictionErrorsGraph extends StatelessWidget {
     Iterable<String> dates = currentUser.history.keys;
     if (type == 'error') {
       for (var d in dates) {
-        if(currentUser.history[d]?.errorsOnCurrencies[currency]!=null){
+        if (currentUser.history[d]?.errorsOnCurrencies[currency] != null) {
           if (!currentUser.history[d]?.errorsOnCurrencies[currency].isNaN) {
             currencyValues.add(GraphData(
-                valueOne:d, valueTwo:currentUser.history[d]?.errorsOnCurrencies[currency]));
+                valueOne: d,
+                valueTwo:
+                    currentUser.history[d]?.errorsOnCurrencies[currency]));
           }
         }
       }
     } else {
       for (var d in dates) {
-        if(currentUser.history[d]?.errorVarianceOnCurrencies[currency]!=null){
+        if (currentUser.history[d]?.errorVarianceOnCurrencies[currency] !=
+            null) {
           if (!currentUser
               .history[d]?.errorVarianceOnCurrencies[currency].isNaN) {
             currencyValues.add(GraphData(
-                valueOne:d, valueTwo:currentUser.history[d]?.errorVarianceOnCurrencies[currency]));
+                valueOne: d,
+                valueTwo: currentUser
+                    .history[d]?.errorVarianceOnCurrencies[currency]));
           }
         }
       }
@@ -45,13 +52,15 @@ class CurrencyPredictionErrorsGraph extends StatelessWidget {
     return Scaffold(
       backgroundColor: kBaseColor1,
       body: SafeArea(
-        child: glassCard(context,
+        child: glassCard(
+          context,
           Column(
             children: [
-              topBar(context, cryptocurrencyNames[selectedCryptocurrencies[currencyIndex]].toString()+' Prediction Error'),
+              topBar(context,
+                  '${cryptocurrencyNames[selectedCryptocurrencies[currencyIndex]]} Prediction Error'),
               SizedBox(
                 width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height-155,
+                height: MediaQuery.of(context).size.height - 155,
                 child: SfCartesianChart(
                   legend: Legend(
                     isVisible: true,
@@ -76,22 +85,23 @@ class CurrencyPredictionErrorsGraph extends StatelessWidget {
                   ),
                   series: <ChartSeries>[
                     ScatterSeries<GraphData, DateTime>(
-                      name: selectedCryptocurrencies[currencyIndex] +
-                          ' Prediction Error Deviation',
+                      name:
+                          '${selectedCryptocurrencies[currencyIndex]} Prediction Error Deviation',
                       color: kGraphColor2,
                       dataSource: getValuesOnCurrencyNoNaN(
-                          currency: selectedCryptocurrencies[
-                          currencyIndex],
+                          currency: selectedCryptocurrencies[currencyIndex],
                           type: 'variance'),
-                      trendlines:<Trendline>[
+                      trendlines: <Trendline>[
                         Trendline(
                           name: 'Trendline',
                           color: kGraphColor2,
                           type: TrendlineType.polynomial,
                         )
                       ],
-                      xValueMapper: (GraphData data, _) => DateTime.parse(data.valueOne),
-                      yValueMapper: (GraphData data, _) => sqrt(data.valueTwo).toDouble(),
+                      xValueMapper: (GraphData data, _) =>
+                          DateTime.parse(data.valueOne),
+                      yValueMapper: (GraphData data, _) =>
+                          sqrt(data.valueTwo).toDouble(),
                       markerSettings: const MarkerSettings(
                         isVisible: true,
                         height: 2,

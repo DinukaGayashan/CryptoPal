@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cryptopal/utility/user_account.dart';
 import 'package:cryptopal/utility/constants.dart';
@@ -7,7 +6,7 @@ import 'package:cryptopal/utility/widgets.dart';
 import 'package:cryptopal/utility/real_price_data.dart';
 import 'package:cryptopal/utility/cryptocurrency_data.dart';
 import 'package:hashtagable/hashtagable.dart';
-import 'currency_prediction_graph.dart';
+import 'package:cryptopal/screens/predictions/currency_prediction_graph.dart';
 
 class FuturePredictions extends StatefulWidget {
   const FuturePredictions(this.currentUser, this.realPriceList, {Key? key})
@@ -38,8 +37,7 @@ class _FuturePredictionsState extends State<FuturePredictions> {
   }
 
   RealPrice? getRealPrice({required String currency, required String date}) {
-    final List<RealPrice> priceList =
-        getRealPrices(currency: currency + '-USD');
+    final List<RealPrice> priceList = getRealPrices(currency: '$currency-USD');
     RealPrice x = RealPrice(date, 0, 0, 0, 0);
     for (var i in priceList) {
       if (i.date == date) {
@@ -95,9 +93,7 @@ class _FuturePredictionsState extends State<FuturePredictions> {
                                 SizedBox(
                                   height: 60.0,
                                   child: Text(
-                                    prediction.predictionDate +
-                                        '\n' +
-                                        prediction.predictionCurrency,
+                                    '${prediction.predictionDate}\n${prediction.predictionCurrency}',
                                     style: kCardLargeTextStyle,
                                   ),
                                 ),
@@ -114,17 +110,11 @@ class _FuturePredictionsState extends State<FuturePredictions> {
                                             style: kInstructionStyle2,
                                           ),
                                           content: Text(
-                                            "Do you want to delete the prediction made on " +
-                                                prediction.predictedDate +
-                                                "?\n"
-                                                    "\nPrediction currency: " +
-                                                prediction.predictionCurrency +
-                                                "\nPrediction date: " +
-                                                prediction.predictionDate +
-                                                "\nPrediction close price: \$ " +
-                                                prediction.predictionClosePrice
-                                                    .toString() +
-                                                "\n\nThis cannot be undone.",
+                                            "Do you want to delete the prediction made on ${prediction.predictedDate}?\n"
+                                            "\nPrediction currency: ${prediction.predictionCurrency}"
+                                            "\nPrediction date: ${prediction.predictionDate}"
+                                            "\nPrediction close price: \$ ${prediction.predictionClosePrice}\n"
+                                            "\nThis cannot be undone.",
                                             style: kInstructionStyle,
                                           ),
                                           actions: [
@@ -168,16 +158,11 @@ class _FuturePredictionsState extends State<FuturePredictions> {
                                                 try {
                                                   await _firestore
                                                       .collection('users')
-                                                      .doc(widget.currentUser
-                                                          .user.uid)
+                                                      .doc(widget
+                                                          .currentUser.user.uid)
                                                       .collection('predictions')
-                                                      .doc(prediction
-                                                              .predictionDate
-                                                              .toString()
-                                                              .split(' ')[0] +
-                                                          ' ' +
-                                                          prediction
-                                                              .predictionCurrency)
+                                                      .doc(
+                                                          '${prediction.predictionDate.toString().split(' ')[0]} ${prediction.predictionCurrency}')
                                                       .delete();
                                                   snackBar(context,
                                                       message:
@@ -228,8 +213,8 @@ class _FuturePredictionsState extends State<FuturePredictions> {
                                     style: kCardSmallTextStyle,
                                     children: <TextSpan>[
                                       TextSpan(
-                                        text: prediction.predictionClosePrice
-                                            .toString()+' \$',
+                                        text:
+                                            '${prediction.predictionClosePrice} \$',
                                         style: kCardTextStyle2,
                                       ),
                                     ],
@@ -237,13 +222,12 @@ class _FuturePredictionsState extends State<FuturePredictions> {
                                 ),
                               ],
                             ),
-                            prediction.predictionKeywords!=null?
-                            HashTagText(
-                                text: '\n'+prediction.predictionKeywords.toString(),
-                                basicStyle: kTransparentStyle,
-                                decoratedStyle: kCardSmallTextStyle
-                            ):
-                                const SizedBox(),
+                            prediction.predictionKeywords != null
+                                ? HashTagText(
+                                    text: '\n${prediction.predictionKeywords}',
+                                    basicStyle: kTransparentStyle,
+                                    decoratedStyle: kCardSmallTextStyle)
+                                : const SizedBox(),
                           ],
                         ),
                       ),

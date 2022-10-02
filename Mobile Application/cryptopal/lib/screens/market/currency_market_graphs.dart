@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:cryptopal/utility/real_price_data.dart';
 import 'package:cryptopal/utility/constants.dart';
 import 'package:cryptopal/utility/widgets.dart';
-
-import 'currency_ohlc_graph.dart';
-import 'currency_open_close_graph.dart';
+import 'package:cryptopal/screens/market/currency_ohlc_graph.dart';
+import 'package:cryptopal/screens/market/currency_open_close_graph.dart';
 import 'package:cryptopal/utility/cryptocurrency_data.dart';
 
 class CurrencyMarketGraphs extends StatefulWidget {
@@ -51,14 +49,20 @@ class _CurrencyMarketGraphsState extends State<CurrencyMarketGraphs> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  topBar(context, cryptocurrencyNames[selectedCryptocurrencies[widget.currencyIndex]].toString()+' Market Prices'),
+                  topBar(context,
+                      '${cryptocurrencyNames[selectedCryptocurrencies[widget.currencyIndex]]} Market Prices'),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       IconButton(
-                        onPressed: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (context){
-                            return CurrencyOpenCloseGraph(widget.currencyIndex, widget.realPriceList, _showClosePrice, _showOpenPrice);
+                        onPressed: () {
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) {
+                            return CurrencyOpenCloseGraph(
+                                widget.currencyIndex,
+                                widget.realPriceList,
+                                _showClosePrice,
+                                _showOpenPrice);
                           }));
                         },
                         icon: const Icon(
@@ -102,12 +106,12 @@ class _CurrencyMarketGraphsState extends State<CurrencyMarketGraphs> {
                       series: <ChartSeries>[
                         LineSeries<RealPrice, DateTime>(
                           isVisible: _showClosePrice,
-                          name: selectedCryptocurrencies[widget.currencyIndex] +
-                              ' Close Price',
+                          name:
+                              '${selectedCryptocurrencies[widget.currencyIndex]} Close Price',
                           color: kGraphColor1,
                           dataSource: getRealPrices(
                               currency:
-                                  selectedCryptocurrencies[widget.currencyIndex] + '-USD'),
+                                  '${selectedCryptocurrencies[widget.currencyIndex]}-USD'),
                           xValueMapper: (RealPrice data, _) =>
                               DateTime.parse(data.date),
                           yValueMapper: (RealPrice data, _) => data.closePrice,
@@ -115,12 +119,12 @@ class _CurrencyMarketGraphsState extends State<CurrencyMarketGraphs> {
                         ),
                         LineSeries<RealPrice, DateTime>(
                           isVisible: _showOpenPrice,
-                          name: selectedCryptocurrencies[widget.currencyIndex] +
-                              ' Open Price',
+                          name:
+                              '${selectedCryptocurrencies[widget.currencyIndex]} Open Price',
                           color: kGraphColor2,
                           dataSource: getRealPrices(
                               currency:
-                                  selectedCryptocurrencies[widget.currencyIndex] + '-USD'),
+                                  '${selectedCryptocurrencies[widget.currencyIndex]}-USD'),
                           xValueMapper: (RealPrice data, _) =>
                               DateTime.parse(data.date),
                           yValueMapper: (RealPrice data, _) => data.openPrice,
@@ -133,34 +137,40 @@ class _CurrencyMarketGraphsState extends State<CurrencyMarketGraphs> {
                     children: [
                       ElevatedButton(
                         style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(_showClosePrice?kAccentColor3:Colors.transparent),
-                            ),
-                          onPressed: (){
-                            setState(() {
-                              if(_showClosePrice){
-                                _showClosePrice = _showOpenPrice?false:true;
-                              }else{
-                                _showClosePrice = true;
-                              }
-                            });
-                          },
-                          child: const Text(
-                            'Close Price',
-                            style: kCardSmallTextStyle,
-                          ),
+                          backgroundColor: MaterialStateProperty.all(
+                              _showClosePrice
+                                  ? kAccentColor3
+                                  : Colors.transparent),
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            if (_showClosePrice) {
+                              _showClosePrice = _showOpenPrice ? false : true;
+                            } else {
+                              _showClosePrice = true;
+                            }
+                          });
+                        },
+                        child: const Text(
+                          'Close Price',
+                          style: kCardSmallTextStyle,
+                        ),
                       ),
                       const SizedBox(
                         width: 20.0,
                       ),
                       ElevatedButton(
                         style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all(_showOpenPrice?kAccentColor3:Colors.transparent),
+                          backgroundColor: MaterialStateProperty.all(
+                              _showOpenPrice
+                                  ? kAccentColor3
+                                  : Colors.transparent),
                         ),
-                        onPressed: (){
+                        onPressed: () {
                           setState(() {
-                            if(_showOpenPrice){
-                              _showOpenPrice = _showClosePrice?false:true;
-                            }else{
+                            if (_showOpenPrice) {
+                              _showOpenPrice = _showClosePrice ? false : true;
+                            } else {
                               _showOpenPrice = true;
                             }
                           });
@@ -179,9 +189,11 @@ class _CurrencyMarketGraphsState extends State<CurrencyMarketGraphs> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       IconButton(
-                        onPressed: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (context){
-                            return CurrencyOHLCGraph(widget.currencyIndex, widget.realPriceList);
+                        onPressed: () {
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) {
+                            return CurrencyOHLCGraph(
+                                widget.currencyIndex, widget.realPriceList);
                           }));
                         },
                         icon: const Icon(
@@ -216,11 +228,11 @@ class _CurrencyMarketGraphsState extends State<CurrencyMarketGraphs> {
                       ),
                       series: <ChartSeries>[
                         CandleSeries<RealPrice, DateTime>(
-                          name: selectedCryptocurrencies[widget.currencyIndex] +
-                              ' OHLC Prices',
+                          name:
+                              '${selectedCryptocurrencies[widget.currencyIndex]} OHLC Prices',
                           dataSource: getRealPrices(
                               currency:
-                                  selectedCryptocurrencies[widget.currencyIndex] + '-USD'),
+                                  '${selectedCryptocurrencies[widget.currencyIndex]}-USD'),
                           xValueMapper: (RealPrice data, _) =>
                               DateTime.parse(data.date),
                           lowValueMapper: (RealPrice data, _) =>

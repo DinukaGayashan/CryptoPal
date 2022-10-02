@@ -7,9 +7,8 @@ import 'package:cryptopal/utility/real_price_data.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:cryptopal/utility/cryptocurrency_data.dart';
-import '../predictions/currency_predictions_graph.dart';
-import 'currency_prediction_accuracy_graph.dart';
-import 'currency_prediction_errors_graph.dart';
+import 'package:cryptopal/screens/predictions/currency_predictions_graph.dart';
+import 'package:cryptopal/screens/statistics/currency_prediction_accuracy_graph.dart';
 
 class CurrencyPredictionStatistics extends StatefulWidget {
   const CurrencyPredictionStatistics(
@@ -22,20 +21,22 @@ class CurrencyPredictionStatistics extends StatefulWidget {
   final List<RealPricesOfACurrency> realPriceList;
 
   @override
-  State<CurrencyPredictionStatistics> createState() => _CurrencyPredictionStatisticsState();
+  State<CurrencyPredictionStatistics> createState() =>
+      _CurrencyPredictionStatisticsState();
 }
 
-class _CurrencyPredictionStatisticsState extends State<CurrencyPredictionStatistics> {
+class _CurrencyPredictionStatisticsState
+    extends State<CurrencyPredictionStatistics> {
   List<Prediction> getUserPredictions(
       {required String currency, bool past = false}) {
     List<Prediction> predictions = [];
     List<Prediction> predictionSnap =
-    past ? currentUser.pastPredictions : currentUser.predictions;
+        past ? currentUser.pastPredictions : currentUser.predictions;
     if (currency == 'all') {
       predictions = predictionSnap;
     } else {
       for (var prediction in predictionSnap) {
-        if (prediction.predictionCurrency == currency + '-USD') {
+        if (prediction.predictionCurrency == '$currency-USD') {
           predictions.add(prediction);
         }
       }
@@ -46,7 +47,7 @@ class _CurrencyPredictionStatisticsState extends State<CurrencyPredictionStatist
   List<Prediction> getUserFuturePredictions({required String currency}) {
     List<Prediction> predictions = [];
     for (var p in currentUser.futurePredictions) {
-      if (p.predictionCurrency == currency + '-USD') {
+      if (p.predictionCurrency == '$currency-USD') {
         predictions.add(p);
       }
     }
@@ -68,8 +69,7 @@ class _CurrencyPredictionStatisticsState extends State<CurrencyPredictionStatist
   }
 
   RealPrice? getRealPrice({required String currency, required String date}) {
-    final List<RealPrice> priceList =
-    getRealPrices(currency: currency + '-USD');
+    final List<RealPrice> priceList = getRealPrices(currency: '$currency-USD');
     RealPrice x = RealPrice(date, 0, 0, 0, 0);
     for (var i in priceList) {
       if (i.date == date) {
@@ -86,12 +86,15 @@ class _CurrencyPredictionStatisticsState extends State<CurrencyPredictionStatist
     if (type == 'error') {
       for (var d in dates) {
         currencyValues.add(GraphData(
-            valueOne:d, valueTwo:currentUser.history[d]?.errorsOnCurrencies[currency]));
+            valueOne: d,
+            valueTwo: currentUser.history[d]?.errorsOnCurrencies[currency]));
       }
     } else {
       for (var d in dates) {
         currencyValues.add(GraphData(
-            valueOne:d, valueTwo:currentUser.history[d]?.errorVarianceOnCurrencies[currency]));
+            valueOne: d,
+            valueTwo:
+                currentUser.history[d]?.errorVarianceOnCurrencies[currency]));
       }
     }
     return currencyValues;
@@ -103,20 +106,25 @@ class _CurrencyPredictionStatisticsState extends State<CurrencyPredictionStatist
     Iterable<String> dates = currentUser.history.keys;
     if (type == 'error') {
       for (var d in dates) {
-        if(currentUser.history[d]?.errorsOnCurrencies[currency]!=null){
+        if (currentUser.history[d]?.errorsOnCurrencies[currency] != null) {
           if (!currentUser.history[d]?.errorsOnCurrencies[currency].isNaN) {
             currencyValues.add(GraphData(
-                valueOne:d, valueTwo:currentUser.history[d]?.errorsOnCurrencies[currency]));
+                valueOne: d,
+                valueTwo:
+                    currentUser.history[d]?.errorsOnCurrencies[currency]));
           }
         }
       }
     } else {
       for (var d in dates) {
-        if(currentUser.history[d]?.errorVarianceOnCurrencies[currency]!=null){
+        if (currentUser.history[d]?.errorVarianceOnCurrencies[currency] !=
+            null) {
           if (!currentUser
               .history[d]?.errorVarianceOnCurrencies[currency].isNaN) {
             currencyValues.add(GraphData(
-                valueOne:d, valueTwo:currentUser.history[d]?.errorVarianceOnCurrencies[currency]));
+                valueOne: d,
+                valueTwo: currentUser
+                    .history[d]?.errorVarianceOnCurrencies[currency]));
           }
         }
       }
@@ -137,7 +145,7 @@ class _CurrencyPredictionStatisticsState extends State<CurrencyPredictionStatist
               children: <Widget>[
                 topBar(
                   context,
-                  cryptocurrencyNames[selectedCryptocurrencies[widget.currencyIndex]].toString() + ' Predictions',
+                  '${cryptocurrencyNames[selectedCryptocurrencies[widget.currencyIndex]]} Predictions',
                 ),
                 const SizedBox(
                   height: 20.0,
@@ -149,11 +157,8 @@ class _CurrencyPredictionStatisticsState extends State<CurrencyPredictionStatist
                       style: kCardSmallTextStyle,
                       children: <TextSpan>[
                         TextSpan(
-                          text: ' ' +
-                              ((currentUser.errorStandardDeviationOnCurrencies[selectedCryptocurrencies[widget.currencyIndex]]!) > 100?0:100-(currentUser.errorStandardDeviationOnCurrencies[selectedCryptocurrencies[widget.currencyIndex]]!)
-                                  .roundToDouble())
-                                  .toString() +
-                              '%',
+                          text:
+                              ' ${(currentUser.errorStandardDeviationOnCurrencies[selectedCryptocurrencies[widget.currencyIndex]]!) > 100 ? 0 : 100 - (currentUser.errorStandardDeviationOnCurrencies[selectedCryptocurrencies[widget.currencyIndex]]!).roundToDouble()}%',
                           style: kCardTextStyle2,
                         ),
                       ],
@@ -173,10 +178,27 @@ class _CurrencyPredictionStatisticsState extends State<CurrencyPredictionStatist
                     LinearBarPointer(
                       thickness: 25.0,
                       enableAnimation: true,
-                      value: (currentUser.errorStandardDeviationOnCurrencies[selectedCryptocurrencies[widget.currencyIndex]]!) > 100?0:100-(currentUser.errorStandardDeviationOnCurrencies[selectedCryptocurrencies[widget.currencyIndex]]!).roundToDouble(),
-                      color: ((currentUser.errorStandardDeviationOnCurrencies[selectedCryptocurrencies[widget.currencyIndex]]!) > 100?0:100-(currentUser.errorStandardDeviationOnCurrencies[selectedCryptocurrencies[widget.currencyIndex]]!)
-                          .roundToDouble()) >
-                          50
+                      value: (currentUser.errorStandardDeviationOnCurrencies[
+                                  selectedCryptocurrencies[
+                                      widget.currencyIndex]]!) >
+                              100
+                          ? 0
+                          : 100 -
+                              (currentUser.errorStandardDeviationOnCurrencies[
+                                      selectedCryptocurrencies[
+                                          widget.currencyIndex]]!)
+                                  .roundToDouble(),
+                      color: ((currentUser.errorStandardDeviationOnCurrencies[
+                                          selectedCryptocurrencies[
+                                              widget.currencyIndex]]!) >
+                                      100
+                                  ? 0
+                                  : 100 -
+                                      (currentUser.errorStandardDeviationOnCurrencies[
+                                              selectedCryptocurrencies[
+                                                  widget.currencyIndex]]!)
+                                          .roundToDouble()) >
+                              50
                           ? kGreen
                           : kRed,
                       edgeStyle: LinearEdgeStyle.bothCurve,
@@ -195,9 +217,9 @@ class _CurrencyPredictionStatisticsState extends State<CurrencyPredictionStatist
                       onPressed: () {
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) {
-                              return CurrencyPredictionsGraph(currentUser,
-                                  widget.currencyIndex, widget.realPriceList);
-                            }));
+                          return CurrencyPredictionsGraph(currentUser,
+                              widget.currencyIndex, widget.realPriceList);
+                        }));
                       },
                       icon: const Icon(
                         Icons.fullscreen,
@@ -239,26 +261,27 @@ class _CurrencyPredictionStatisticsState extends State<CurrencyPredictionStatist
                     ),
                     series: <ChartSeries>[
                       LineSeries<RealPrice, DateTime>(
-                        name: selectedCryptocurrencies[widget.currencyIndex] +
-                            ' Close Price',
+                        name:
+                            '${selectedCryptocurrencies[widget.currencyIndex]} Close Price',
                         color: kGraphColor1,
                         dataSource: getRealPrices(
-                            currency: selectedCryptocurrencies[widget.currencyIndex] +
-                                '-USD'),
+                            currency:
+                                '${selectedCryptocurrencies[widget.currencyIndex]}-USD'),
                         xValueMapper: (RealPrice data, _) =>
                             DateTime.parse(data.date),
                         yValueMapper: (RealPrice data, _) => data.closePrice,
                       ),
                       LineSeries<Prediction, DateTime>(
-                        name: selectedCryptocurrencies[widget.currencyIndex] +
-                            ' Prediction',
+                        name:
+                            '${selectedCryptocurrencies[widget.currencyIndex]} Prediction',
                         color: kGraphColor2,
                         dataSource: getUserPredictions(
-                            currency: selectedCryptocurrencies[widget.currencyIndex]),
+                            currency:
+                                selectedCryptocurrencies[widget.currencyIndex]),
                         xValueMapper: (Prediction data, _) =>
-                        data.predictionDateAsDate,
+                            data.predictionDateAsDate,
                         yValueMapper: (Prediction data, _) =>
-                        data.predictionClosePrice,
+                            data.predictionClosePrice,
                         markerSettings: const MarkerSettings(
                           isVisible: true,
                         ),
@@ -269,81 +292,84 @@ class _CurrencyPredictionStatisticsState extends State<CurrencyPredictionStatist
                 const SizedBox(
                   height: 20.0,
                 ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        IconButton(
-                          onPressed: () {
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (context) {
-                                  return CurrencyPredictionAccuracyGraph(
-                                      currentUser, widget.currencyIndex);
-                                }));
-                          },
-                          icon: const Icon(
-                            Icons.fullscreen,
-                          ),
-                          tooltip: 'Full Screen View',
-                          alignment: Alignment.bottomRight,
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      width: double.infinity,
-                      child: SfCartesianChart(
-                        title: ChartTitle(
-                          text: 'Prediction Accuracy',
-                          textStyle: kCardSmallTextStyle,
-                        ),
-                        legend: Legend(
-                          isVisible: true,
-                          overflowMode: LegendItemOverflowMode.wrap,
-                          position: LegendPosition.bottom,
-                        ),
-                        zoomPanBehavior: ZoomPanBehavior(
-                          enablePinching: true,
-                          enablePanning: true,
-                          enableMouseWheelZooming: true,
-                          zoomMode: ZoomMode.x,
-                        ),
-                        primaryXAxis: DateTimeAxis(),
-                        primaryYAxis: NumericAxis(),
-                        plotAreaBorderWidth: 1,
-                        enableAxisAnimation: true,
-                        crosshairBehavior: CrosshairBehavior(
-                          enable: true,
-                        ),
-                        tooltipBehavior: TooltipBehavior(
-                          enable: true,
-                        ),
-                        series: <ChartSeries>[
-                          ScatterSeries<GraphData, DateTime>(
-                            name: '${selectedCryptocurrencies[widget.currencyIndex]} Prediction Accuracy',
-                            color: kGraphColor1,
-                            dataSource: getValuesOnCurrencyNoNaN(
-                                currency: selectedCryptocurrencies[
-                                widget.currencyIndex],
-                            type: 'variance'),
-                            trendlines:<Trendline>[
-                              Trendline(
-                                name: 'Trendline',
-                                color: kGraphColor1,
-                                type: TrendlineType.polynomial,
-                              )
-                            ],
-                            xValueMapper: (GraphData data, _) =>
-                                DateTime.parse(data.valueOne),
-                            yValueMapper: (GraphData data, _) =>
-                                data.valueTwo>1000?0:100-sqrt(data.valueTwo),
-                            markerSettings: const MarkerSettings(
-                              isVisible: true,
-                              height: 2,
-                              width: 2,
-                            ),
-                          ),
-                        ],
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                          return CurrencyPredictionAccuracyGraph(
+                              currentUser, widget.currencyIndex);
+                        }));
+                      },
+                      icon: const Icon(
+                        Icons.fullscreen,
                       ),
+                      tooltip: 'Full Screen View',
+                      alignment: Alignment.bottomRight,
                     ),
+                  ],
+                ),
+                SizedBox(
+                  width: double.infinity,
+                  child: SfCartesianChart(
+                    title: ChartTitle(
+                      text: 'Prediction Accuracy',
+                      textStyle: kCardSmallTextStyle,
+                    ),
+                    legend: Legend(
+                      isVisible: true,
+                      overflowMode: LegendItemOverflowMode.wrap,
+                      position: LegendPosition.bottom,
+                    ),
+                    zoomPanBehavior: ZoomPanBehavior(
+                      enablePinching: true,
+                      enablePanning: true,
+                      enableMouseWheelZooming: true,
+                      zoomMode: ZoomMode.x,
+                    ),
+                    primaryXAxis: DateTimeAxis(),
+                    primaryYAxis: NumericAxis(),
+                    plotAreaBorderWidth: 1,
+                    enableAxisAnimation: true,
+                    crosshairBehavior: CrosshairBehavior(
+                      enable: true,
+                    ),
+                    tooltipBehavior: TooltipBehavior(
+                      enable: true,
+                    ),
+                    series: <ChartSeries>[
+                      ScatterSeries<GraphData, DateTime>(
+                        name:
+                            '${selectedCryptocurrencies[widget.currencyIndex]} Prediction Accuracy',
+                        color: kGraphColor1,
+                        dataSource: getValuesOnCurrencyNoNaN(
+                            currency:
+                                selectedCryptocurrencies[widget.currencyIndex],
+                            type: 'variance'),
+                        trendlines: <Trendline>[
+                          Trendline(
+                            name: 'Trendline',
+                            color: kGraphColor1,
+                            type: TrendlineType.polynomial,
+                          )
+                        ],
+                        xValueMapper: (GraphData data, _) =>
+                            DateTime.parse(data.valueOne),
+                        yValueMapper: (GraphData data, _) =>
+                            data.valueTwo > 1000
+                                ? 0
+                                : 100 - sqrt(data.valueTwo),
+                        markerSettings: const MarkerSettings(
+                          isVisible: true,
+                          height: 2,
+                          width: 2,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
                 // const SizedBox(
                 //   height: 20.0,
                 // ),
@@ -426,14 +452,11 @@ class _CurrencyPredictionStatisticsState extends State<CurrencyPredictionStatist
                 const SizedBox(
                   height: 30,
                 ),
-                  ],
-                ),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 }
-
-
-

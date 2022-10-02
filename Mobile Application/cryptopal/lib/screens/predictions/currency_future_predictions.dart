@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cryptopal/utility/user_account.dart';
 import 'package:cryptopal/utility/constants.dart';
@@ -7,7 +6,7 @@ import 'package:cryptopal/utility/widgets.dart';
 import 'package:cryptopal/utility/real_price_data.dart';
 import 'package:cryptopal/utility/cryptocurrency_data.dart';
 import 'package:hashtagable/widgets/hashtag_text.dart';
-import 'currency_prediction_graph.dart';
+import 'package:cryptopal/screens/predictions/currency_prediction_graph.dart';
 
 class CurrencyFuturePredictions extends StatefulWidget {
   const CurrencyFuturePredictions(
@@ -25,7 +24,6 @@ class CurrencyFuturePredictions extends StatefulWidget {
 }
 
 class _CurrencyFuturePredictionsState extends State<CurrencyFuturePredictions> {
-
   final _firestore = FirebaseFirestore.instance;
 
   List<Prediction> getUserPredictions(
@@ -37,7 +35,7 @@ class _CurrencyFuturePredictionsState extends State<CurrencyFuturePredictions> {
       predictions = predictionSnap;
     } else {
       for (var prediction in predictionSnap) {
-        if (prediction.predictionCurrency == currency + '-USD') {
+        if (prediction.predictionCurrency == '$currency-USD') {
           predictions.add(prediction);
         }
       }
@@ -48,7 +46,7 @@ class _CurrencyFuturePredictionsState extends State<CurrencyFuturePredictions> {
   List<Prediction> getUserFuturePredictions({required String currency}) {
     List<Prediction> predictions = [];
     for (var p in currentUser.futurePredictions) {
-      if (p.predictionCurrency == currency + '-USD') {
+      if (p.predictionCurrency == '$currency-USD') {
         predictions.add(p);
       }
     }
@@ -70,8 +68,7 @@ class _CurrencyFuturePredictionsState extends State<CurrencyFuturePredictions> {
   }
 
   RealPrice? getRealPrice({required String currency, required String date}) {
-    final List<RealPrice> priceList =
-    getRealPrices(currency: currency + '-USD');
+    final List<RealPrice> priceList = getRealPrices(currency: '$currency-USD');
     RealPrice x = RealPrice(date, 0, 0, 0, 0);
     for (var i in priceList) {
       if (i.date == date) {
@@ -94,8 +91,7 @@ class _CurrencyFuturePredictionsState extends State<CurrencyFuturePredictions> {
               children: <Widget>[
                 topBar(
                   context,
-                  cryptocurrencyNames[selectedCryptocurrencies[widget.currencyIndex]].toString()+
-                      ' Future Predictions',
+                  '${cryptocurrencyNames[selectedCryptocurrencies[widget.currencyIndex]]} Future Predictions',
                 ),
                 const SizedBox(
                   height: 10.0,
@@ -125,7 +121,7 @@ class _CurrencyFuturePredictionsState extends State<CurrencyFuturePredictions> {
                                 ),
                                 IconButton(
                                   highlightColor: kRed,
-                                  onPressed: (){
+                                  onPressed: () {
                                     showDialog(
                                       context: context,
                                       builder: (BuildContext context) {
@@ -136,11 +132,11 @@ class _CurrencyFuturePredictionsState extends State<CurrencyFuturePredictions> {
                                             style: kInstructionStyle2,
                                           ),
                                           content: Text(
-                                            "Do you want to delete the prediction made on "+prediction.predictedDate+"?\n"
-                                                "\nPrediction currency: "+prediction.predictionCurrency+
-                                                "\nPrediction date: "+prediction.predictionDate+
-                                                "\nPrediction close price: \$ "+prediction.predictionClosePrice.toString()+
-                                                "\n\nThis cannot be undone.",
+                                            "Do you want to delete the prediction made on ${prediction.predictedDate}?\n"
+                                            "\nPrediction currency: ${prediction.predictionCurrency}"
+                                            "\nPrediction date: ${prediction.predictionDate}"
+                                            "\nPrediction close price: \$ ${prediction.predictionClosePrice}\n"
+                                            "\nThis cannot be undone.",
                                             style: kInstructionStyle,
                                           ),
                                           actions: [
@@ -161,26 +157,46 @@ class _CurrencyFuturePredictionsState extends State<CurrencyFuturePredictions> {
                                               onPressed: () async {
                                                 Navigator.of(context).pop();
 
-                                                currentUser.predictions.removeWhere((item) => item.predictionCurrency== prediction.predictionCurrency && item.predictionDate==prediction.predictionDate);
-                                                currentUser.futurePredictions.removeWhere((item) => item.predictionCurrency== prediction.predictionCurrency && item.predictionDate==prediction.predictionDate);
+                                                currentUser.predictions
+                                                    .removeWhere((item) =>
+                                                        item.predictionCurrency ==
+                                                            prediction
+                                                                .predictionCurrency &&
+                                                        item.predictionDate ==
+                                                            prediction
+                                                                .predictionDate);
+                                                currentUser.futurePredictions
+                                                    .removeWhere((item) =>
+                                                        item.predictionCurrency ==
+                                                            prediction
+                                                                .predictionCurrency &&
+                                                        item.predictionDate ==
+                                                            prediction
+                                                                .predictionDate);
 
-                                                setState(()=>
-                                                    getUserFuturePredictions(
-                                                        currency: selectedCryptocurrencies[widget.currencyIndex])
-                                                );
+                                                setState(() => getUserFuturePredictions(
+                                                    currency:
+                                                        selectedCryptocurrencies[
+                                                            widget
+                                                                .currencyIndex]));
 
                                                 try {
                                                   await _firestore
                                                       .collection('users')
-                                                      .doc(widget.currentUser.user.uid)
+                                                      .doc(widget
+                                                          .currentUser.user.uid)
                                                       .collection('predictions')
-                                                      .doc(prediction.predictionDate.toString().split(' ')[0] +
-                                                      ' ' +
-                                                      prediction.predictionCurrency)
+                                                      .doc(
+                                                          '${prediction.predictionDate.toString().split(' ')[0]} ${prediction.predictionCurrency}')
                                                       .delete();
-                                                  snackBar(context, message: 'Prediction successfully deleted.', color: kGreen);
+                                                  snackBar(context,
+                                                      message:
+                                                          'Prediction successfully deleted.',
+                                                      color: kGreen);
                                                 } catch (e) {
-                                                  snackBar(context,message: e.toString(),color: kRed);
+                                                  snackBar(context,
+                                                      message: e.toString(),
+                                                      color: kRed);
                                                 }
                                               },
                                             ),
@@ -195,7 +211,9 @@ class _CurrencyFuturePredictionsState extends State<CurrencyFuturePredictions> {
                                 ),
                               ],
                             ),
-                            const SizedBox(height: 10,),
+                            const SizedBox(
+                              height: 10,
+                            ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
@@ -211,14 +229,17 @@ class _CurrencyFuturePredictionsState extends State<CurrencyFuturePredictions> {
                                     ],
                                   ),
                                 ),
-                                const SizedBox(width: 20,),
+                                const SizedBox(
+                                  width: 20,
+                                ),
                                 RichText(
                                   text: TextSpan(
                                     text: 'Prediction Price\n',
                                     style: kCardSmallTextStyle,
                                     children: <TextSpan>[
                                       TextSpan(
-                                        text: prediction.predictionClosePrice.toString()+' \$',
+                                        text:
+                                            '${prediction.predictionClosePrice} \$',
                                         style: kCardTextStyle2,
                                       ),
                                     ],
@@ -226,23 +247,23 @@ class _CurrencyFuturePredictionsState extends State<CurrencyFuturePredictions> {
                                 ),
                               ],
                             ),
-                            prediction.predictionKeywords!=null?
-                            HashTagText(
-                                text: '\n'+prediction.predictionKeywords.toString(),
-                                basicStyle: kTransparentStyle,
-                                decoratedStyle: kCardSmallTextStyle
-                            ):
-                            const SizedBox(),
+                            prediction.predictionKeywords != null
+                                ? HashTagText(
+                                    text: '\n${prediction.predictionKeywords}',
+                                    basicStyle: kTransparentStyle,
+                                    decoratedStyle: kCardSmallTextStyle)
+                                : const SizedBox(),
                           ],
                         ),
                       ),
                     ),
-                    onTap: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context){
-                        return CurrencyPredictionGraph(widget.currencyIndex, widget.realPriceList, prediction);
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return CurrencyPredictionGraph(widget.currencyIndex,
+                            widget.realPriceList, prediction);
                       }));
                     },
-
                   ),
                 const SizedBox(
                   height: 30,

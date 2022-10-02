@@ -1,3 +1,5 @@
+import 'dart:ui' as ui;
+import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:glass/glass.dart';
@@ -7,12 +9,9 @@ import 'package:cryptopal/utility/user_account.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:flutter/rendering.dart';
-import 'dart:ui' as ui;
-import 'dart:io';
-
-import 'about_app.dart';
-import 'account.dart';
-import 'help.dart';
+import 'package:cryptopal/screens/settings/about_app.dart';
+import 'package:cryptopal/screens/settings/account.dart';
+import 'package:cryptopal/screens/settings/help.dart';
 
 class Settings extends StatefulWidget {
   const Settings(this.currentUser, {Key? key}) : super(key: key);
@@ -23,24 +22,25 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
-
-  late String joinedDate='';
+  late String joinedDate = '';
   late int profileLevel;
   late Color kUserColor;
   late GlobalKey userCardKey;
 
   @override
   Widget build(BuildContext context) {
-
-    final dates=currentUser.history.keys.toList();
+    final dates = currentUser.history.keys.toList();
     dates.sort();
-    joinedDate=dates.first;
-    int userGroup=currentUser.score~/100;
-    int userLevelInGroup=currentUser.score%(userGroup==0?100:userGroup*100);
-    try{
-      kUserColor=Color.alphaBlend(kUserColorMap[userGroup+1].withAlpha(userLevelInGroup), kUserColorMap[userGroup].withAlpha(255-userLevelInGroup));
-    }catch(e){
-      kUserColor=topLevelUserColor;
+    joinedDate = dates.first;
+    int userGroup = currentUser.score ~/ 100;
+    int userLevelInGroup =
+        currentUser.score % (userGroup == 0 ? 100 : userGroup * 100);
+    try {
+      kUserColor = Color.alphaBlend(
+          kUserColorMap[userGroup + 1].withAlpha(userLevelInGroup),
+          kUserColorMap[userGroup].withAlpha(255 - userLevelInGroup));
+    } catch (e) {
+      kUserColor = topLevelUserColor;
     }
 
     return Scaffold(
@@ -56,90 +56,90 @@ class _SettingsState extends State<Settings> {
                 const SizedBox(
                   height: 20.0,
                 ),
-                WidgetToImage(
-                    builder: (key){
-                      userCardKey=key;
-                      return Card(
-                        color: kUserColor,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30.0),
-                          side: BorderSide.none,
-                        ),
-                        child: SizedBox(
-                          height: 220,
-                          child: Stack(
-                            children: [
-                              SizedBox(
-                                width:double.infinity,
-                                child: RichText(
-                                  textAlign: TextAlign.right,
-                                  text: TextSpan(
-                                    text: '\n',
+                WidgetToImage(builder: (key) {
+                  userCardKey = key;
+                  return Card(
+                    color: kUserColor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30.0),
+                      side: BorderSide.none,
+                    ),
+                    child: SizedBox(
+                      height: 220,
+                      child: Stack(
+                        children: [
+                          SizedBox(
+                            width: double.infinity,
+                            child: RichText(
+                              textAlign: TextAlign.right,
+                              text: TextSpan(
+                                text: '\n',
+                                style: const TextStyle(
+                                  fontSize: 85,
+                                ),
+                                children: <TextSpan>[
+                                  TextSpan(
+                                    text: kUserScoreDisplay(currentUser.score),
                                     style: const TextStyle(
-                                      fontSize:85,
+                                      fontSize: 160,
+                                      fontFamily: 'Bierstadt',
+                                      color: kTransparentColor5,
                                     ),
-                                    children: <TextSpan>[
-                                      TextSpan(
-                                        text: kUserScoreDisplay(currentUser.score),
-                                        style: const TextStyle(
-                                          fontSize:160,
-                                          fontFamily: 'Bierstadt',
-                                          color: kTransparentColor5,
-                                        ),
-                                      ),
-                                    ],
                                   ),
-                                ),
+                                ],
                               ),
-                              Center(
-                                child: RichText(
-                                  textAlign: TextAlign.center,
-                                  text: TextSpan(
-                                    text: '${currentUser.name}\n',
-                                    style: kCardTitleStyle,
-                                    children: <TextSpan>[
-                                      TextSpan(
-                                        text: currentUser.user.email.toString(),
-                                        style: kCardSmallTextStyle,
-                                      ),
-                                      TextSpan(
-                                        text:'\nJoined $joinedDate',
-                                        style: kTransparentSmallStyle,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                height: 40,
-                                child:Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: <Widget>[
-                                    const SizedBox(width: 10,),
-                                    CircleAvatar(
-                                      backgroundColor: Colors.transparent,
-                                      radius: 15.0,
-                                      child: Image.asset(
-                                          'assets/images/CryptoPal-logo-black.png'),
-                                    ),
-                                    const Text(
-                                        'CryptoPal',
-                                        style: kSmallBlackTitleStyle,
-                                      ),
-                                  ],
-                                ),
-                              ),
-                            ],
+                            ),
                           ),
-                        ),
-                      ).asGlass(
-                        clipBorderRadius: BorderRadius.circular(30),
-                        frosted: false,
-                        tintColor: kUserColor,
-                      );
-                    }
-                ),
+                          Center(
+                            child: RichText(
+                              textAlign: TextAlign.center,
+                              text: TextSpan(
+                                text: '${currentUser.name}\n',
+                                style: kCardTitleStyle,
+                                children: <TextSpan>[
+                                  TextSpan(
+                                    text: currentUser.user.email.toString(),
+                                    style: kCardSmallTextStyle,
+                                  ),
+                                  TextSpan(
+                                    text: '\nJoined $joinedDate',
+                                    style: kTransparentSmallStyle,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 40,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: <Widget>[
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                CircleAvatar(
+                                  backgroundColor: Colors.transparent,
+                                  radius: 15.0,
+                                  child: Image.asset(
+                                      'assets/images/CryptoPal-logo-black.png'),
+                                ),
+                                const Text(
+                                  'CryptoPal',
+                                  style: kSmallBlackTitleStyle,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ).asGlass(
+                    clipBorderRadius: BorderRadius.circular(30),
+                    frosted: false,
+                    tintColor: kUserColor,
+                  );
+                }),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
@@ -180,30 +180,33 @@ class _SettingsState extends State<Settings> {
                       },
                     ),*/
                     IconButton(
-                      tooltip:'Share User Card',
+                      tooltip: 'Share User Card',
                       icon: const Icon(
                         Icons.share,
                         size: 20,
                         color: kTransparentColor3,
                       ),
                       onPressed: () async {
-                        RenderRepaintBoundary boundary= userCardKey.currentContext?.findRenderObject()  as RenderRepaintBoundary;
-                        final image=await boundary.toImage(pixelRatio:3);
-                        final bytes=await image.toByteData(format: ui.ImageByteFormat.png);
-                        final pngBytes=bytes?.buffer.asUint8List();
+                        RenderRepaintBoundary boundary =
+                            userCardKey.currentContext?.findRenderObject()
+                                as RenderRepaintBoundary;
+                        final image = await boundary.toImage(pixelRatio: 3);
+                        final bytes = await image.toByteData(
+                            format: ui.ImageByteFormat.png);
+                        final pngBytes = bytes?.buffer.asUint8List();
 
                         final String dir = (await getTemporaryDirectory()).path;
-                        final String fullPath = '$dir/CryptoPal_${currentUser.name}_User_Card@${DateTime
-                            .now()}.png';
+                        final String fullPath =
+                            '$dir/CryptoPal_${currentUser.name}_User_Card@${DateTime.now()}.png';
                         File capturedFile = File(fullPath);
                         await capturedFile.writeAsBytes(pngBytes!);
-                        await Share.shareFiles([fullPath],text:'CryptoPal User Card of ${currentUser.name} @${DateTime
-                            .now()}');
+                        await Share.shareFiles([fullPath],
+                            text:
+                                'CryptoPal User Card of ${currentUser.name} @${DateTime.now()}');
                       },
                     ),
                   ],
                 ),
-
                 const SizedBox(
                   height: 20.0,
                 ),
@@ -220,10 +223,10 @@ class _SettingsState extends State<Settings> {
                   onTap: () {
                     Navigator.push(context,
                         CupertinoPageRoute(builder: (context) {
-                          return Account(
-                            currentUser,
-                          );
-                        })).then((_) {
+                      return Account(
+                        currentUser,
+                      );
+                    })).then((_) {
                       setState(() {
                         currentUser.name;
                         currentUser.birthday;
@@ -244,8 +247,8 @@ class _SettingsState extends State<Settings> {
                   onTap: () {
                     Navigator.push(context,
                         CupertinoPageRoute(builder: (context) {
-                          return const Help();
-                        }));
+                      return const Help();
+                    }));
                   },
                 ),
                 ListTile(
@@ -261,18 +264,15 @@ class _SettingsState extends State<Settings> {
                   onTap: () {
                     Navigator.push(context,
                         CupertinoPageRoute(builder: (context) {
-                          return const AboutApp();
-                        }));
+                      return const AboutApp();
+                    }));
                   },
                 ),
-
-
                 const SizedBox(
                   height: 30,
                 ),
               ],
             ),
-
           ),
         ),
       ),
@@ -290,7 +290,7 @@ class WidgetToImage extends StatefulWidget {
 }
 
 class _WidgetToImageState extends State<WidgetToImage> {
-  final globalKey=GlobalKey();
+  final globalKey = GlobalKey();
   @override
   Widget build(BuildContext context) {
     return RepaintBoundary(

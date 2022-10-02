@@ -1,13 +1,11 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-
-import '../../utility/constants.dart';
-import '../../utility/cryptocurrency_data.dart';
-import '../../utility/real_price_data.dart';
-import '../../utility/widgets.dart';
-import 'currency_market.dart';
+import 'package:cryptopal/utility/constants.dart';
+import 'package:cryptopal/utility/cryptocurrency_data.dart';
+import 'package:cryptopal/utility/real_price_data.dart';
+import 'package:cryptopal/utility/widgets.dart';
+import 'package:cryptopal/screens/market/currency_market.dart';
 
 class Market extends StatelessWidget {
   const Market(this.realPriceList, {Key? key}) : super(key: key);
@@ -46,7 +44,8 @@ class Market extends StatelessWidget {
                 for (int i = 0; (i < selectedCryptocurrencies.length); i++)
                   InkWell(
                     borderRadius: BorderRadius.circular(30),
-                    child: glassCard(context,
+                    child: glassCard(
+                      context,
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -56,9 +55,7 @@ class Market extends StatelessWidget {
                             child: Row(
                               children: [
                                 SvgPicture.asset(
-                                  'assets/images/cryptocoin_icons/color/' +
-                                      selectedCryptocurrencies[i].toLowerCase() +
-                                      '.svg',
+                                  'assets/images/cryptocoin_icons/color/${selectedCryptocurrencies[i].toLowerCase()}.svg',
                                   width: 45.0,
                                   height: 45.0,
                                 ),
@@ -66,15 +63,16 @@ class Market extends StatelessWidget {
                                   width: 10.0,
                                 ),
                                 Column(
-                                  crossAxisAlignment:
-                                  CrossAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
                                     Text(
                                       selectedCryptocurrencies[i],
                                       style: kCardTextStyle,
                                     ),
                                     Text(
-                                      cryptocurrencyNames[selectedCryptocurrencies[i]].toString(),
+                                      cryptocurrencyNames[
+                                              selectedCryptocurrencies[i]]
+                                          .toString(),
                                       style: kCardSmallTextStyle,
                                     ),
                                   ],
@@ -100,44 +98,37 @@ class Market extends StatelessWidget {
                                 LineSeries<RealPrice, DateTime>(
                                   dataSource: getRealPrices(
                                       currency:
-                                      selectedCryptocurrencies[i] + '-USD',
+                                          '${selectedCryptocurrencies[i]}-USD',
                                       number: 20),
                                   xValueMapper: (RealPrice data, _) =>
                                       DateTime.parse(data.date),
                                   yValueMapper: (RealPrice data, _) =>
-                                  data.closePrice,
-                                  color: realPriceList[i]
-                                      .priceIncreasePercentage >
-                                      0
-                                      ? kGreen
-                                      : kRed,
+                                      data.closePrice,
+                                  color:
+                                      realPriceList[i].priceIncreasePercentage >
+                                              0
+                                          ? kGreen
+                                          : kRed,
                                 ),
                               ],
                             ),
                           ),
-
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                '\$ ' +
-                                    kDashboardPriceDisplay(realPriceList[i]
-                                        .pricesList
-                                        .last
-                                        .closePrice),
+                                '\$ ${kDashboardPriceDisplay(realPriceList[i].pricesList.last.closePrice)}',
                                 style: kCardSmallTextStyle,
                               ),
                               Row(
                                 children: [
                                   Icon(
-                                    realPriceList[i]
-                                        .priceIncreasePercentage >
-                                        0
+                                    realPriceList[i].priceIncreasePercentage > 0
                                         ? Icons.arrow_upward
                                         : Icons.arrow_downward,
                                     color: realPriceList[i]
-                                        .priceIncreasePercentage >
-                                        0
+                                                .priceIncreasePercentage >
+                                            0
                                         ? kGreen
                                         : kRed,
                                     size: 15,
@@ -145,17 +136,13 @@ class Market extends StatelessWidget {
                                   SizedBox(
                                     width: 60.0,
                                     child: Text(
-                                      double.parse((realPriceList[i]
-                                          .priceIncreasePercentage)
-                                          .toStringAsFixed(2))
-                                          .toString() +
-                                          '%',
+                                      '${double.parse((realPriceList[i].priceIncreasePercentage).toStringAsFixed(2))}%',
                                       style: TextStyle(
                                         fontSize: 15,
                                         fontFamily: 'Bierstadt',
                                         color: realPriceList[i]
-                                            .priceIncreasePercentage >
-                                            0
+                                                    .priceIncreasePercentage >
+                                                0
                                             ? kGreen
                                             : kRed,
                                       ),
@@ -171,8 +158,8 @@ class Market extends StatelessWidget {
                     onTap: () {
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) {
-                            return CurrencyMarket(i, realPriceList);
-                          }));
+                        return CurrencyMarket(i, realPriceList);
+                      }));
                     },
                   ),
                 const SizedBox(

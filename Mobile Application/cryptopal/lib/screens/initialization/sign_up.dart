@@ -48,10 +48,10 @@ class _SignUpState extends State<SignUp> {
                           child: Hero(
                             tag: 'name',
                             child: DefaultTextStyle(
+                              style: kTitleStyle,
                               child: Text(
                                 'CryptoPal',
                               ),
-                              style: kTitleStyle,
                             ),
                           ),
                         ),
@@ -147,7 +147,8 @@ class _SignUpState extends State<SignUp> {
                           width: double.infinity,
                           child: CupertinoButton(
                             color: kAccentColor1,
-                            borderRadius: const BorderRadius.all(Radius.circular(5)),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(5)),
                             onPressed: () async {
                               if (password1.length < 6) {
                                 snackBar(context,
@@ -156,9 +157,8 @@ class _SignUpState extends State<SignUp> {
                                     color: kRed);
                               } else if (password1 == password2) {
                                 try {
-                                  final user = await _auth
-                                      .createUserWithEmailAndPassword(
-                                          email: email, password: password1);
+                                  await _auth.createUserWithEmailAndPassword(
+                                      email: email, password: password1);
                                   Navigator.pushReplacementNamed(
                                       context, RegistrationForm.id);
                                 } catch (e) {

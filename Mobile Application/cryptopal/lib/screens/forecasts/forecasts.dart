@@ -5,16 +5,18 @@ import 'package:cryptopal/utility/real_price_data.dart';
 import 'package:cryptopal/utility/constants.dart';
 import 'package:cryptopal/utility/widgets.dart';
 import 'package:cryptopal/utility/cryptocurrency_data.dart';
-import '../../utility/forecast_price_data.dart';
-import 'currency_forecasts.dart';
+import 'package:cryptopal/utility/forecast_price_data.dart';
+import 'package:cryptopal/screens/forecasts/currency_forecasts.dart';
 
 class Forecasts extends StatelessWidget {
-  const Forecasts(this.realPriceList, this.forecastPriceList, {Key? key}) : super(key: key);
+  const Forecasts(this.realPriceList, this.forecastPriceList, {Key? key})
+      : super(key: key);
 
   final List<RealPricesOfACurrency> realPriceList;
   final List<ForecastPricesOfACurrency> forecastPriceList;
 
-  List<ForecastPrice> getForecastPrices({required String currency, int number = 0}) {
+  List<ForecastPrice> getForecastPrices(
+      {required String currency, int number = 0}) {
     List<ForecastPrice> forecastPrices = [];
     for (var type in forecastPriceList) {
       if (type.currency == currency) {
@@ -23,7 +25,7 @@ class Forecasts extends StatelessWidget {
       }
     }
     if (number != 0 && forecastPrices.length > number) {
-      return forecastPrices.sublist(0,forecastPrices.length - number);
+      return forecastPrices.sublist(0, forecastPrices.length - number);
     }
     return forecastPrices;
   }
@@ -46,7 +48,7 @@ class Forecasts extends StatelessWidget {
                 const SizedBox(
                   height: 20.0,
                 ),
-                for(int i=0;i<selectedCryptocurrencies.length;i++)
+                for (int i = 0; i < selectedCryptocurrencies.length; i++)
                   InkWell(
                     borderRadius: BorderRadius.circular(30),
                     child: glassCard(
@@ -60,9 +62,7 @@ class Forecasts extends StatelessWidget {
                             child: Row(
                               children: [
                                 SvgPicture.asset(
-                                  'assets/images/cryptocoin_icons/color/' +
-                                      selectedCryptocurrencies[i].toLowerCase() +
-                                      '.svg',
+                                  'assets/images/cryptocoin_icons/color/${selectedCryptocurrencies[i].toLowerCase()}.svg',
                                   width: 45.0,
                                   height: 45.0,
                                 ),
@@ -70,15 +70,16 @@ class Forecasts extends StatelessWidget {
                                   width: 10.0,
                                 ),
                                 Column(
-                                  crossAxisAlignment:
-                                  CrossAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
                                     Text(
                                       selectedCryptocurrencies[i],
                                       style: kCardTextStyle,
                                     ),
                                     Text(
-                                      cryptocurrencyNames[selectedCryptocurrencies[i]].toString(),
+                                      cryptocurrencyNames[
+                                              selectedCryptocurrencies[i]]
+                                          .toString(),
                                       style: kCardSmallTextStyle,
                                     ),
                                   ],
@@ -101,19 +102,19 @@ class Forecasts extends StatelessWidget {
                                 charts.LineSeries<ForecastPrice, DateTime>(
                                   dataSource: getForecastPrices(
                                       currency:
-                                      selectedCryptocurrencies[i] + '-USD',
+                                          '${selectedCryptocurrencies[i]}-USD',
                                       number: 20),
                                   xValueMapper: (ForecastPrice data, _) =>
                                       DateTime.parse(data.date),
                                   yValueMapper: (ForecastPrice data, _) =>
-                                  data.closePrice,
-                                  color: forecastPriceList[i].errorPercentage<
-                                      10
+                                      data.closePrice,
+                                  color: forecastPriceList[i].errorPercentage <
+                                          10
                                       ? kGreen
-                                      : forecastPriceList[i].errorPercentage<
-                                      20
-                                      ? kYellow
-                                      : kRed,
+                                      : forecastPriceList[i].errorPercentage <
+                                              20
+                                          ? kYellow
+                                          : kRed,
                                 ),
                               ],
                             ),
@@ -124,17 +125,19 @@ class Forecasts extends StatelessWidget {
                               style: kTransparentSmallStyle,
                               children: <TextSpan>[
                                 TextSpan(
-                                  text: (100-forecastPriceList[i].errorPercentage).roundToDouble().toString()+'%',
+                                  text:
+                                      '${(100 - forecastPriceList[i].errorPercentage).roundToDouble()}%',
                                   style: TextStyle(
                                     fontSize: 15,
                                     fontFamily: 'Bierstadt',
-                                    color: forecastPriceList[i].errorPercentage<
-                                        10
+                                    color: forecastPriceList[i]
+                                                .errorPercentage <
+                                            10
                                         ? kGreen
-                                        : forecastPriceList[i].errorPercentage<
-                                        20
-                                        ? kYellow
-                                        : kRed,
+                                        : forecastPriceList[i].errorPercentage <
+                                                20
+                                            ? kYellow
+                                            : kRed,
                                   ),
                                 ),
                               ],
@@ -146,8 +149,9 @@ class Forecasts extends StatelessWidget {
                     onTap: () {
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) {
-                            return CurrencyForecasts(realPriceList,forecastPriceList,i);
-                          }));
+                        return CurrencyForecasts(
+                            realPriceList, forecastPriceList, i);
+                      }));
                     },
                   ),
                 const SizedBox(
@@ -161,4 +165,3 @@ class Forecasts extends StatelessWidget {
     );
   }
 }
-

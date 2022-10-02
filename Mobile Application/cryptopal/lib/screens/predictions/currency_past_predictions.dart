@@ -19,21 +19,21 @@ class CurrencyPastPredictions extends StatefulWidget {
   final List<RealPricesOfACurrency> realPriceList;
 
   @override
-  State<CurrencyPastPredictions> createState() => _CurrencyPastPredictionsState();
+  State<CurrencyPastPredictions> createState() =>
+      _CurrencyPastPredictionsState();
 }
 
 class _CurrencyPastPredictionsState extends State<CurrencyPastPredictions> {
-
   List<Prediction> getUserPredictions(
       {required String currency, bool past = false}) {
     List<Prediction> predictions = [];
     List<Prediction> predictionSnap =
-    past ? currentUser.pastPredictions : currentUser.predictions;
+        past ? currentUser.pastPredictions : currentUser.predictions;
     if (currency == 'all') {
       predictions = predictionSnap;
     } else {
       for (var prediction in predictionSnap) {
-        if (prediction.predictionCurrency == currency + '-USD') {
+        if (prediction.predictionCurrency == '$currency-USD') {
           predictions.add(prediction);
         }
       }
@@ -56,8 +56,7 @@ class _CurrencyPastPredictionsState extends State<CurrencyPastPredictions> {
   }
 
   RealPrice? getRealPrice({required String currency, required String date}) {
-    final List<RealPrice> priceList =
-    getRealPrices(currency: currency + '-USD');
+    final List<RealPrice> priceList = getRealPrices(currency: '$currency-USD');
     RealPrice x = RealPrice(date, 0, 0, 0, 0);
     for (var i in priceList) {
       if (i.date == date) {
@@ -80,15 +79,15 @@ class _CurrencyPastPredictionsState extends State<CurrencyPastPredictions> {
               children: <Widget>[
                 topBar(
                   context,
-                  cryptocurrencyNames[selectedCryptocurrencies[widget.currencyIndex]].toString()+
-                      ' Past Predictions',
+                  '${cryptocurrencyNames[selectedCryptocurrencies[widget.currencyIndex]]} Past Predictions',
                 ),
                 const SizedBox(
                   height: 10.0,
                 ),
                 for (var prediction in getUserPredictions(
-                    currency: selectedCryptocurrencies[widget.currencyIndex],
-                    past: true)
+                        currency:
+                            selectedCryptocurrencies[widget.currencyIndex],
+                        past: true)
                     .reversed)
                   InkWell(
                     borderRadius: BorderRadius.circular(30),
@@ -133,7 +132,8 @@ class _CurrencyPastPredictionsState extends State<CurrencyPastPredictions> {
                                         style: kCardSmallTextStyle,
                                         children: <TextSpan>[
                                           TextSpan(
-                                            text: kCurrencyPriceDisplay(getRealPrice(currency: prediction.predictionCurrency.split('-')[0], date: prediction.predictedDate)?.closePrice)+' \$',
+                                            text:
+                                                '${kCurrencyPriceDisplay(getRealPrice(currency: prediction.predictionCurrency.split('-')[0], date: prediction.predictedDate)?.closePrice)} \$',
                                             style: kCardTextStyle2,
                                           ),
                                         ],
@@ -148,8 +148,8 @@ class _CurrencyPastPredictionsState extends State<CurrencyPastPredictions> {
                                         style: kCardSmallTextStyle,
                                         children: <TextSpan>[
                                           TextSpan(
-                                            text: (100-sqrt(prediction.errorPercentage*prediction.errorPercentage))
-                                                .roundToDouble().toString()+'%',
+                                            text:
+                                                '${(100 - sqrt(prediction.errorPercentage * prediction.errorPercentage)).roundToDouble()}%',
                                             style: kCardTextStyle2,
                                           ),
                                         ],
@@ -160,14 +160,17 @@ class _CurrencyPastPredictionsState extends State<CurrencyPastPredictions> {
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
-                                    const SizedBox(height: 50,),
+                                    const SizedBox(
+                                      height: 50,
+                                    ),
                                     RichText(
                                       text: TextSpan(
                                         text: 'Prediction Price\n',
                                         style: kCardSmallTextStyle,
                                         children: <TextSpan>[
                                           TextSpan(
-                                            text: kCurrencyPriceDisplay(prediction.predictionClosePrice)+' \$',
+                                            text:
+                                                '${kCurrencyPriceDisplay(prediction.predictionClosePrice)} \$',
                                             style: kCardTextStyle2,
                                           ),
                                         ],
@@ -175,17 +178,15 @@ class _CurrencyPastPredictionsState extends State<CurrencyPastPredictions> {
                                     ),
                                     const SizedBox(
                                       height: 10.0,
-                                    ),RichText(
+                                    ),
+                                    RichText(
                                       text: TextSpan(
                                         text: 'Actual Price\n',
                                         style: kCardSmallTextStyle,
                                         children: <TextSpan>[
                                           TextSpan(
-                                            text: kCurrencyPriceDisplay(getRealPrice(
-                                                currency: selectedCryptocurrencies[
-                                                widget.currencyIndex],
-                                                date: prediction.predictionDate)
-                                                ?.closePrice)+' \$',
+                                            text:
+                                                '${kCurrencyPriceDisplay(getRealPrice(currency: selectedCryptocurrencies[widget.currencyIndex], date: prediction.predictionDate)?.closePrice)} \$',
                                             style: kCardTextStyle2,
                                           ),
                                         ],
@@ -200,7 +201,8 @@ class _CurrencyPastPredictionsState extends State<CurrencyPastPredictions> {
                                         style: kCardSmallTextStyle,
                                         children: <TextSpan>[
                                           TextSpan(
-                                            text: kCurrencyPriceDisplay(prediction.errorValue)+' \$',
+                                            text:
+                                                '${kCurrencyPriceDisplay(prediction.errorValue)} \$',
                                             style: kCardTextStyle2,
                                           ),
                                         ],
@@ -210,20 +212,21 @@ class _CurrencyPastPredictionsState extends State<CurrencyPastPredictions> {
                                 ),
                               ],
                             ),
-                            prediction.predictionKeywords!=null?
-                            HashTagText(
-                                text: '\n'+prediction.predictionKeywords.toString(),
-                                basicStyle: kTransparentStyle,
-                                decoratedStyle: kCardSmallTextStyle
-                            ):
-                            const SizedBox(),
+                            prediction.predictionKeywords != null
+                                ? HashTagText(
+                                    text: '\n${prediction.predictionKeywords}',
+                                    basicStyle: kTransparentStyle,
+                                    decoratedStyle: kCardSmallTextStyle)
+                                : const SizedBox(),
                           ],
                         ),
                       ),
                     ),
-                    onTap: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context){
-                        return CurrencyPredictionGraph(widget.currencyIndex, widget.realPriceList, prediction);
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return CurrencyPredictionGraph(widget.currencyIndex,
+                            widget.realPriceList, prediction);
                       }));
                     },
                   ),

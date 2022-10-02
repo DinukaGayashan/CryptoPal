@@ -31,7 +31,7 @@ class _PredictionsState extends State<Predictions> {
       predictions = predictionSnap;
     } else {
       for (var prediction in predictionSnap) {
-        if (prediction.predictionCurrency == currency + '-USD') {
+        if (prediction.predictionCurrency == '$currency-USD') {
           predictions.add(prediction);
         }
       }
@@ -48,7 +48,7 @@ class _PredictionsState extends State<Predictions> {
         tooltip: 'Add Prediction',
         onPressed: () {
           Navigator.push(context, MaterialPageRoute(builder: (context) {
-            return AddPrediction(currentUser,widget.realPriceList);
+            return AddPrediction(currentUser, widget.realPriceList);
           })).then((_) {
             setState(() {
               currentUser.predictions;
@@ -56,7 +56,10 @@ class _PredictionsState extends State<Predictions> {
             });
           });
         },
-        child: const Icon(Icons.add,color: kTransparentColor4,),
+        child: const Icon(
+          Icons.add,
+          color: kTransparentColor4,
+        ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       body: SafeArea(
@@ -109,7 +112,8 @@ class _PredictionsState extends State<Predictions> {
                                 style: kCardSmallTextStyle,
                                 children: <TextSpan>[
                                   TextSpan(
-                                    text: currentUser.pastPredictions.length.toString(),
+                                    text: currentUser.pastPredictions.length
+                                        .toString(),
                                     style: kCardTextStyle2,
                                   ),
                                 ],
@@ -121,9 +125,9 @@ class _PredictionsState extends State<Predictions> {
                       onTap: () {
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) {
-                              return PastPredictions(currentUser,
-                                  widget.realPriceList);
-                            }));
+                          return PastPredictions(
+                              currentUser, widget.realPriceList);
+                        }));
                       },
                     ),
                     InkWell(
@@ -156,8 +160,9 @@ class _PredictionsState extends State<Predictions> {
                       onTap: () {
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) {
-                              return FuturePredictions(currentUser, widget.realPriceList);
-                            })).then((_) {
+                          return FuturePredictions(
+                              currentUser, widget.realPriceList);
+                        })).then((_) {
                           setState(() {
                             currentUser.predictions;
                             currentUser.futurePredictions;
@@ -184,9 +189,7 @@ class _PredictionsState extends State<Predictions> {
                             Column(
                               children: <Widget>[
                                 SvgPicture.asset(
-                                  'assets/images/cryptocoin_icons/color/' +
-                                      selectedCryptocurrencies[i].toLowerCase() +
-                                      '.svg',
+                                  'assets/images/cryptocoin_icons/color/${selectedCryptocurrencies[i].toLowerCase()}.svg',
                                   width: 40.0,
                                   height: 40.0,
                                 ),
@@ -198,7 +201,9 @@ class _PredictionsState extends State<Predictions> {
                                   style: kCardTextStyle,
                                 ),
                                 Text(
-                                  cryptocurrencyNames[selectedCryptocurrencies[i]].toString(),
+                                  cryptocurrencyNames[
+                                          selectedCryptocurrencies[i]]
+                                      .toString(),
                                   style: kCardSmallTextStyle,
                                 ),
                               ],
@@ -216,7 +221,8 @@ class _PredictionsState extends State<Predictions> {
                                     children: <TextSpan>[
                                       TextSpan(
                                         text: getUserPredictions(
-                                                currency: selectedCryptocurrencies[i])
+                                                currency:
+                                                    selectedCryptocurrencies[i])
                                             .length
                                             .toString(),
                                         style: kCardTextStyle2,
@@ -233,9 +239,8 @@ class _PredictionsState extends State<Predictions> {
                                     style: kCardSmallTextStyle,
                                     children: <TextSpan>[
                                       TextSpan(
-                                        text: ((currentUser.errorStandardDeviationOnCurrencies[selectedCryptocurrencies[i]]!) > 100?0:100-(currentUser.errorStandardDeviationOnCurrencies[selectedCryptocurrencies[i]]!)
-                                                    .roundToDouble())
-                                            .toString()+'%',
+                                        text:
+                                            '${(currentUser.errorStandardDeviationOnCurrencies[selectedCryptocurrencies[i]]!) > 100 ? 0 : 100 - (currentUser.errorStandardDeviationOnCurrencies[selectedCryptocurrencies[i]]!).roundToDouble()}%',
                                         style: kCardTextStyle2,
                                       ),
                                     ],
@@ -256,7 +261,8 @@ class _PredictionsState extends State<Predictions> {
                                     children: <TextSpan>[
                                       TextSpan(
                                         text: getUserPredictions(
-                                                currency: selectedCryptocurrencies[i],
+                                                currency:
+                                                    selectedCryptocurrencies[i],
                                                 past: true)
                                             .length
                                             .toString(),
@@ -274,12 +280,8 @@ class _PredictionsState extends State<Predictions> {
                                     style: kCardSmallTextStyle,
                                     children: <TextSpan>[
                                       TextSpan(
-                                        text: (currentUser
-                                                        .errorsOnCurrencies[
-                                                    selectedCryptocurrencies[i]] ??
-                                                0)
-                                            .roundToDouble()
-                                            .toString()+'%',
+                                        text:
+                                            '${(currentUser.errorsOnCurrencies[selectedCryptocurrencies[i]] ?? 0).roundToDouble()}%',
                                         style: kCardTextStyle2,
                                       ),
                                     ],
@@ -294,12 +296,12 @@ class _PredictionsState extends State<Predictions> {
                     onTap: () {
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) {
-                            return CurrencyPredictions(
-                              currentUser,
-                              i,
-                              widget.realPriceList,
-                            );
-                          })).then((_) {
+                        return CurrencyPredictions(
+                          currentUser,
+                          i,
+                          widget.realPriceList,
+                        );
+                      })).then((_) {
                         setState(() {
                           currentUser.predictions;
                           currentUser.futurePredictions;

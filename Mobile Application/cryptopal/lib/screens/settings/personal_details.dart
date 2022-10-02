@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:cryptopal/utility/constants.dart';
 import 'package:cryptopal/utility/widgets.dart';
 import 'package:intl/intl.dart';
-import '../../utility/user_account.dart';
+import 'package:cryptopal/utility/user_account.dart';
 
 class PersonalDetails extends StatefulWidget {
   const PersonalDetails(this.currentUser, {Key? key}) : super(key: key);
@@ -38,20 +38,21 @@ class _PersonalDetailsState extends State<PersonalDetails> {
     ],
     'wayOfKnowing': [
       notEnteredString,
-      'From internet',
-      'from friends',
+      'From the internet',
+      'From friends',
       'Other'
     ],
     'purposeOfInvesting': [
       notEnteredString,
       'Main income',
-      'Another investment',
+      'Sub investment',
       'Other'
     ],
     'amountOfInvesting': [
       notEnteredString,
       'less than \$10',
       'less than \$100',
+      'less than \$1000',
       'Other'
     ],
   };
@@ -107,83 +108,85 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                     style: kCardTextStyle,
                   ),
                   trailing: IconButton(
-                    icon:const Icon(
-                        Icons.edit,
+                    icon: const Icon(
+                      Icons.edit,
                       color: kTransparentColor3,
                       size: 18,
                     ),
-                    onPressed: (){
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              backgroundColor: kBackgroundColor,
-                              title: const Text(
-                                'Change Username',
-                                style: kInstructionStyle2,
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            backgroundColor: kBackgroundColor,
+                            title: const Text(
+                              'Change Username',
+                              style: kInstructionStyle2,
+                            ),
+                            content: SizedBox(
+                              width: 200,
+                              height: 35,
+                              child: TextField(
+                                decoration: const InputDecoration(
+                                  hintText: "Enter new username",
+                                  hintStyle: kTransparentStyle,
+                                  focusedBorder: UnderlineInputBorder(
+                                    borderSide:
+                                        BorderSide(color: kAccentColor3),
+                                  ),
+                                ),
+                                textCapitalization: TextCapitalization.words,
+                                style: kCardTextStyle,
+                                cursorHeight: 20,
+                                cursorColor: kBaseColor2,
+                                autofocus: true,
+                                onChanged: (value) {
+                                  newName = value;
+                                },
                               ),
-                              content: SizedBox(
-                                width: 200,
-                                height: 35,
-                                child: TextField(
-                                  decoration: const InputDecoration(
-                                    hintText: "Enter new username",
-                                    hintStyle: kTransparentStyle,
-                                    focusedBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(color: kAccentColor3),
-                                    ),
-                                  ),
-                                  textCapitalization: TextCapitalization.words,
-                                  style: kCardTextStyle,
-                                  cursorHeight: 20,
-                                  cursorColor: kBaseColor2,
-                                  autofocus: true,
-                                  onChanged: (value) {
-                                    newName = value;
-                                  },
+                            ),
+                            actions: [
+                              TextButton(
+                                child: const Text(
+                                  "Cancel",
+                                  style: kLinkStyle,
                                 ),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
                               ),
-                              actions: [
-                                TextButton(
-                                  child: const Text(
-                                    "Cancel",
-                                    style: kLinkStyle,
-                                  ),
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
+                              TextButton(
+                                child: const Text(
+                                  "Confirm",
+                                  style: kLinkStyle,
                                 ),
-                                TextButton(
-                                  child: const Text(
-                                    "Confirm",
-                                    style: kLinkStyle,
-                                  ),
-                                  onPressed: () async {
-                                    currentUser.name = newName;
-                                    try {
-                                      await _firestore
-                                          .collection('users')
-                                          .doc(currentUser.user.uid)
-                                          .set(
-                                        {
-                                          'name': newName,
-                                        },
-                                        SetOptions(merge: true),
-                                      );
-                                      snackBar(context,
-                                          message: 'Username changed successfully.',
-                                          color: kGreen);
-                                    } catch (e) {
-                                      snackBar(context,
-                                          message: e.toString(), color: kRed);
-                                    }
-                                    Navigator.of(context).pop();
-                                  },
-                                ),
-                              ],
-                            );
-                          },
-                        );
+                                onPressed: () async {
+                                  currentUser.name = newName;
+                                  try {
+                                    await _firestore
+                                        .collection('users')
+                                        .doc(currentUser.user.uid)
+                                        .set(
+                                      {
+                                        'name': newName,
+                                      },
+                                      SetOptions(merge: true),
+                                    );
+                                    snackBar(context,
+                                        message:
+                                            'Username changed successfully.',
+                                        color: kGreen);
+                                  } catch (e) {
+                                    snackBar(context,
+                                        message: e.toString(), color: kRed);
+                                  }
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                            ],
+                          );
+                        },
+                      );
                     },
                   ),
                 ),

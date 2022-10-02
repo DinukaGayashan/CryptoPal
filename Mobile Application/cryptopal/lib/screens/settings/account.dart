@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cryptopal/screens/settings/personal_details.dart';
 import 'package:cryptopal/screens/settings/select_cryptocurrencies.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -7,9 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:cryptopal/utility/constants.dart';
 import 'package:cryptopal/utility/widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import '../../utility/user_account.dart';
-import '../initialization/welcome.dart';
+import 'package:cryptopal/utility/user_account.dart';
+import 'package:cryptopal/screens/initialization/welcome.dart';
 
 class Account extends StatefulWidget {
   const Account(this.currentUser, {Key? key}) : super(key: key);
@@ -21,7 +19,7 @@ class Account extends StatefulWidget {
 
 class _AccountState extends State<Account> {
   final _auth = FirebaseAuth.instance;
-  late String oldPassword,newPassword1,newPassword2;
+  late String oldPassword, newPassword1, newPassword2;
 
   @override
   Widget build(BuildContext context) {
@@ -44,27 +42,26 @@ class _AccountState extends State<Account> {
                       'Personal Details',
                       style: kCardTextStyle,
                     ),
-                    onTap: (){
+                    onTap: () {
                       Navigator.push(context,
                           CupertinoPageRoute(builder: (context) {
-                            return PersonalDetails(
-                              currentUser,
-                            );
-                          })).then((_) {
+                        return PersonalDetails(
+                          currentUser,
+                        );
+                      })).then((_) {
                         setState(() {
                           currentUser.name;
                           currentUser.birthday;
                         });
                       });
-                    }
-                ),
+                    }),
                 ListTile(
                   leading: const Icon(Icons.password),
                   title: const Text(
                     'Change Password',
                     style: kCardTextStyle,
                   ),
-                  onTap: (){
+                  onTap: () {
                     showDialog(
                       context: context,
                       builder: (BuildContext context) {
@@ -75,7 +72,7 @@ class _AccountState extends State<Account> {
                             style: kInstructionStyle2,
                           ),
                           content: Container(
-                            constraints: BoxConstraints(maxHeight: 200),
+                            constraints: const BoxConstraints(maxHeight: 200),
                             height: 150,
                             child: Column(
                               children: [
@@ -90,7 +87,8 @@ class _AccountState extends State<Account> {
                                       hintText: "Enter current password",
                                       hintStyle: kTransparentStyle,
                                       focusedBorder: UnderlineInputBorder(
-                                        borderSide: BorderSide(color: kAccentColor3),
+                                        borderSide:
+                                            BorderSide(color: kAccentColor3),
                                       ),
                                     ),
                                     keyboardType: TextInputType.visiblePassword,
@@ -100,11 +98,13 @@ class _AccountState extends State<Account> {
                                     cursorColor: kBaseColor2,
                                     autofocus: true,
                                     onChanged: (value) {
-                                      oldPassword=value;
+                                      oldPassword = value;
                                     },
                                   ),
                                 ),
-                                const SizedBox(height: 20,),
+                                const SizedBox(
+                                  height: 20,
+                                ),
                                 SizedBox(
                                   width: 200,
                                   height: 35,
@@ -113,7 +113,8 @@ class _AccountState extends State<Account> {
                                       hintText: "Enter new password",
                                       hintStyle: kTransparentStyle,
                                       focusedBorder: UnderlineInputBorder(
-                                        borderSide: BorderSide(color: kAccentColor3),
+                                        borderSide:
+                                            BorderSide(color: kAccentColor3),
                                       ),
                                     ),
                                     keyboardType: TextInputType.visiblePassword,
@@ -123,11 +124,13 @@ class _AccountState extends State<Account> {
                                     cursorColor: kBaseColor2,
                                     autofocus: true,
                                     onChanged: (value) {
-                                      newPassword1=value;
+                                      newPassword1 = value;
                                     },
                                   ),
                                 ),
-                                const SizedBox(height: 10,),
+                                const SizedBox(
+                                  height: 10,
+                                ),
                                 SizedBox(
                                   width: 200,
                                   height: 35,
@@ -136,7 +139,8 @@ class _AccountState extends State<Account> {
                                       hintText: "Enter new password",
                                       hintStyle: kTransparentStyle,
                                       focusedBorder: UnderlineInputBorder(
-                                        borderSide: BorderSide(color: kAccentColor3),
+                                        borderSide:
+                                            BorderSide(color: kAccentColor3),
                                       ),
                                     ),
                                     keyboardType: TextInputType.visiblePassword,
@@ -146,7 +150,7 @@ class _AccountState extends State<Account> {
                                     cursorColor: kBaseColor2,
                                     autofocus: true,
                                     onChanged: (value) {
-                                      newPassword2=value;
+                                      newPassword2 = value;
                                     },
                                   ),
                                 ),
@@ -169,29 +173,47 @@ class _AccountState extends State<Account> {
                                 style: kLinkStyle,
                               ),
                               onPressed: () async {
-                                try{
-                                  final authCredentials=EmailAuthProvider.credential(email: currentUser.user.email.toString(), password: oldPassword);
-                                  final passwordCheck=await currentUser.user.reauthenticateWithCredential(authCredentials);
-                                  if(passwordCheck.user!=null){
-                                    try{
-                                      if(newPassword1==newPassword2){
-                                        try{
-                                          currentUser.user.updatePassword(newPassword1);
-                                          snackBar(context, message: 'Password changed successfully.', color: kGreen);
+                                try {
+                                  final authCredentials =
+                                      EmailAuthProvider.credential(
+                                          email:
+                                              currentUser.user.email.toString(),
+                                          password: oldPassword);
+                                  final passwordCheck = await currentUser.user
+                                      .reauthenticateWithCredential(
+                                          authCredentials);
+                                  if (passwordCheck.user != null) {
+                                    try {
+                                      if (newPassword1 == newPassword2) {
+                                        try {
+                                          currentUser.user
+                                              .updatePassword(newPassword1);
+                                          snackBar(context,
+                                              message:
+                                                  'Password changed successfully.',
+                                              color: kGreen);
                                           Navigator.of(context).pop();
-                                        }catch(e){
-                                          snackBar(context, message: e.toString(), color: kRed);
+                                        } catch (e) {
+                                          snackBar(context,
+                                              message: e.toString(),
+                                              color: kRed);
                                         }
+                                      } else {
+                                        snackBar(context,
+                                            message:
+                                                'Entered new passwords are not matching.',
+                                            color: kRed);
                                       }
-                                      else{
-                                        snackBar(context, message: 'Entered new passwords are not matching.', color: kRed);
-                                      }
-                                    }catch(e){
-                                      snackBar(context, message: e.toString(), color: kRed);
+                                    } catch (e) {
+                                      snackBar(context,
+                                          message: e.toString(), color: kRed);
                                     }
                                   }
-                                }catch(e){
-                                  snackBar(context, message: 'Entered password is not correct.', color: kRed);
+                                } catch (e) {
+                                  snackBar(context,
+                                      message:
+                                          'Entered password is not correct.',
+                                      color: kRed);
                                 }
                               },
                             ),
@@ -207,11 +229,11 @@ class _AccountState extends State<Account> {
                     'Select Cryptocurrencies',
                     style: kCardTextStyle,
                   ),
-                  onTap: (){
+                  onTap: () {
                     Navigator.push(context,
                         CupertinoPageRoute(builder: (context) {
-                          return const SelectCryptocurrencies();
-                        }));
+                      return const SelectCryptocurrencies();
+                    }));
                   },
                 ),
                 const ListTile(),
@@ -253,12 +275,13 @@ class _AccountState extends State<Account> {
                               onPressed: () async {
                                 _auth.signOut();
                                 SharedPreferences.getInstance().then(
-                                      (prefs) {
+                                  (prefs) {
                                     prefs.setBool("remember_me", false);
                                   },
                                 );
-                                Navigator.of(context)
-                                    .pushNamedAndRemoveUntil(Welcome.id, (Route<dynamic> route) => false);
+                                Navigator.of(context).pushNamedAndRemoveUntil(
+                                    Welcome.id,
+                                    (Route<dynamic> route) => false);
                               },
                             ),
                           ],
@@ -274,8 +297,7 @@ class _AccountState extends State<Account> {
                       style: kCardTextStyle4,
                     ),
                     iconColor: kRed,
-                    onTap: (){}
-                ),
+                    onTap: () {}),
                 const SizedBox(
                   height: 30.0,
                 ),

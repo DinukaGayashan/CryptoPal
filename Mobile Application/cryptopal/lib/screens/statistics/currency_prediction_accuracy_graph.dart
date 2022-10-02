@@ -5,10 +5,12 @@ import 'package:cryptopal/utility/user_account.dart';
 import 'package:cryptopal/utility/constants.dart';
 import 'package:cryptopal/utility/widgets.dart';
 import 'package:cryptopal/utility/cryptocurrency_data.dart';
-import '../../utility/real_price_data.dart';
+import 'package:cryptopal/utility/real_price_data.dart';
 
 class CurrencyPredictionAccuracyGraph extends StatelessWidget {
-  const CurrencyPredictionAccuracyGraph(this.currentUser, this.currencyIndex, {Key? key}) : super(key: key);
+  const CurrencyPredictionAccuracyGraph(this.currentUser, this.currencyIndex,
+      {Key? key})
+      : super(key: key);
 
   final UserAccount currentUser;
   final int currencyIndex;
@@ -19,20 +21,25 @@ class CurrencyPredictionAccuracyGraph extends StatelessWidget {
     Iterable<String> dates = currentUser.history.keys;
     if (type == 'error') {
       for (var d in dates) {
-        if(currentUser.history[d]?.errorsOnCurrencies[currency]!=null){
+        if (currentUser.history[d]?.errorsOnCurrencies[currency] != null) {
           if (!currentUser.history[d]?.errorsOnCurrencies[currency].isNaN) {
             currencyValues.add(GraphData(
-                valueOne:d, valueTwo:currentUser.history[d]?.errorsOnCurrencies[currency]));
+                valueOne: d,
+                valueTwo:
+                    currentUser.history[d]?.errorsOnCurrencies[currency]));
           }
         }
       }
     } else {
       for (var d in dates) {
-        if(currentUser.history[d]?.errorVarianceOnCurrencies[currency]!=null){
+        if (currentUser.history[d]?.errorVarianceOnCurrencies[currency] !=
+            null) {
           if (!currentUser
               .history[d]?.errorVarianceOnCurrencies[currency].isNaN) {
             currencyValues.add(GraphData(
-                valueOne:d, valueTwo:currentUser.history[d]?.errorVarianceOnCurrencies[currency]));
+                valueOne: d,
+                valueTwo: currentUser
+                    .history[d]?.errorVarianceOnCurrencies[currency]));
           }
         }
       }
@@ -45,13 +52,15 @@ class CurrencyPredictionAccuracyGraph extends StatelessWidget {
     return Scaffold(
       backgroundColor: kBaseColor1,
       body: SafeArea(
-        child: glassCard(context,
+        child: glassCard(
+          context,
           Column(
             children: [
-              topBar(context, cryptocurrencyNames[selectedCryptocurrencies[currencyIndex]].toString()+' Prediction Accuracy'),
+              topBar(context,
+                  '${cryptocurrencyNames[selectedCryptocurrencies[currencyIndex]]} Prediction Accuracy'),
               SizedBox(
                 width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height-155,
+                height: MediaQuery.of(context).size.height - 155,
                 child: SfCartesianChart(
                   legend: Legend(
                     isVisible: true,
@@ -76,13 +85,13 @@ class CurrencyPredictionAccuracyGraph extends StatelessWidget {
                   ),
                   series: <ChartSeries>[
                     ScatterSeries<GraphData, DateTime>(
-                      name: '${selectedCryptocurrencies[currencyIndex]} Prediction Accuracy',
+                      name:
+                          '${selectedCryptocurrencies[currencyIndex]} Prediction Accuracy',
                       color: kGraphColor1,
                       dataSource: getValuesOnCurrencyNoNaN(
-                          currency: selectedCryptocurrencies[
-                          currencyIndex],
+                          currency: selectedCryptocurrencies[currencyIndex],
                           type: 'variance'),
-                      trendlines:<Trendline>[
+                      trendlines: <Trendline>[
                         Trendline(
                           name: 'Trendline',
                           color: kGraphColor1,
@@ -92,7 +101,7 @@ class CurrencyPredictionAccuracyGraph extends StatelessWidget {
                       xValueMapper: (GraphData data, _) =>
                           DateTime.parse(data.valueOne),
                       yValueMapper: (GraphData data, _) =>
-                      data.valueTwo>1000?0:100-sqrt(data.valueTwo),
+                          data.valueTwo > 1000 ? 0 : 100 - sqrt(data.valueTwo),
                       markerSettings: const MarkerSettings(
                         isVisible: true,
                         height: 2,

@@ -10,28 +10,29 @@ class LogoPage extends StatefulWidget {
 }
 
 class _LogoPageState extends State<LogoPage> {
-  double radius=200;
-  Color fillColor=kUserColorMap[Random().nextInt(kUserColorMap.length)];
+  double radius = 200;
+  Color fillColor = kUserColorMap[Random().nextInt(kUserColorMap.length)];
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: GestureDetector(
-        onTap: (){
+        onTap: () {
           setState(() {
-            fillColor=kUserColorMap[Random().nextInt(kUserColorMap.length)];
+            fillColor = kUserColorMap[Random().nextInt(kUserColorMap.length)];
           });
         },
-        onLongPress: (){
+        onLongPress: () {
           Navigator.pop(context);
         },
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 800),
           curve: Curves.ease,
           color: fillColor,
-          height:MediaQuery.of(context).size.height,
+          height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
-          constraints: BoxConstraints(minHeight: MediaQuery.of(context).size.height),
+          constraints:
+              BoxConstraints(minHeight: MediaQuery.of(context).size.height),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
@@ -43,13 +44,13 @@ class _LogoPageState extends State<LogoPage> {
                   curve: Curves.easeOutBack,
                   child: CircleAvatar(
                     backgroundColor: Colors.transparent,
-                    child: Image.asset(
-                        'assets/images/CryptoPal-logo-white.png'),
+                    child:
+                        Image.asset('assets/images/CryptoPal-logo-white.png'),
                   ),
                 ),
-                onTap: (){
+                onTap: () {
                   setState(() {
-                    radius=radius>200?200:300;
+                    radius = radius > 200 ? 200 : 300;
                   });
                 },
               ),
@@ -65,7 +66,9 @@ class _LogoPageState extends State<LogoPage> {
                   ),
                 ),
               ),
-              const SizedBox(height: 50,),
+              const SizedBox(
+                height: 50,
+              ),
             ],
           ),
         ),

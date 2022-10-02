@@ -1,11 +1,9 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:cryptopal/utility/user_account.dart';
 import 'package:cryptopal/utility/constants.dart';
 import 'package:cryptopal/utility/widgets.dart';
-
-import '../../utility/real_price_data.dart';
+import 'package:cryptopal/utility/real_price_data.dart';
 
 class PredictionAccuracyGraph extends StatelessWidget {
   const PredictionAccuracyGraph(this.currentUser, {Key? key}) : super(key: key);
@@ -16,10 +14,10 @@ class PredictionAccuracyGraph extends StatelessWidget {
     List<GraphData> accuracyValues = [];
     Iterable<String> dates = currentUser.history.keys;
     for (var d in dates) {
-      if(currentUser.history[d]?.accuracy!=null){
-        if (currentUser.history[d]?.accuracy.isNaN!=true) {
+      if (currentUser.history[d]?.accuracy != null) {
+        if (currentUser.history[d]?.accuracy.isNaN != true) {
           accuracyValues.add(GraphData(
-              valueOne:d, valueTwo:currentUser.history[d]?.accuracy));
+              valueOne: d, valueTwo: currentUser.history[d]?.accuracy));
         }
       }
     }
@@ -31,13 +29,14 @@ class PredictionAccuracyGraph extends StatelessWidget {
     return Scaffold(
       backgroundColor: kBaseColor1,
       body: SafeArea(
-        child: glassCard(context,
+        child: glassCard(
+          context,
           Column(
             children: [
-              topBar(context,'Price Prediction Accuracy'),
+              topBar(context, 'Price Prediction Accuracy'),
               SizedBox(
                 width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height-155,
+                height: MediaQuery.of(context).size.height - 155,
                 child: SfCartesianChart(
                   legend: Legend(
                     isVisible: true,
@@ -63,9 +62,9 @@ class PredictionAccuracyGraph extends StatelessWidget {
                   series: <ChartSeries>[
                     ScatterSeries<GraphData, DateTime>(
                       name: 'Price Prediction Accuracy',
-                      color:kGraphColor1,
+                      color: kGraphColor1,
                       dataSource: getAccuracyHistoryNoNaN(),
-                      trendlines:<Trendline>[
+                      trendlines: <Trendline>[
                         Trendline(
                           name: 'Trendline',
                           color: kGraphColor1,
@@ -74,8 +73,7 @@ class PredictionAccuracyGraph extends StatelessWidget {
                       ],
                       xValueMapper: (GraphData data, _) =>
                           DateTime.parse(data.valueOne),
-                      yValueMapper: (GraphData data, _) =>
-                      data.valueTwo,
+                      yValueMapper: (GraphData data, _) => data.valueTwo,
                       markerSettings: const MarkerSettings(
                         isVisible: true,
                         height: 2,

@@ -8,9 +8,8 @@ import 'package:cryptopal/utility/constants.dart';
 import 'package:cryptopal/utility/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:cryptopal/screens/initialization/welcome.dart';
-
-import '../settings/privacy_policy.dart';
-import '../settings/terms_conditions.dart';
+import 'package:cryptopal/screens/settings/privacy_policy.dart';
+import 'package:cryptopal/screens/settings/terms_conditions.dart';
 
 class RegistrationForm extends StatefulWidget {
   const RegistrationForm({Key? key}) : super(key: key);
@@ -217,9 +216,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
                                       style: kSubSubjectStyle,
                                     ),
                                     content: Text(
-                                      "Are you sure that you want to delete account created for " +
-                                          userEmail.toString() +
-                                          " email address?",
+                                      "Are you sure that you want to delete account created for $userEmail email address?",
                                       style: kInstructionStyle,
                                     ),
                                     actions: [
@@ -241,9 +238,8 @@ class _RegistrationFormState extends State<RegistrationForm> {
                                           try {
                                             user?.delete();
                                             snackBar(context,
-                                                message: 'Account for email ' +
-                                                    userEmail.toString() +
-                                                    ' is deleted.',
+                                                message:
+                                                    'Account for email $userEmail is deleted.',
                                                 color: kGreen);
                                             Navigator.of(context).pop();
                                             Navigator.pushReplacementNamed(

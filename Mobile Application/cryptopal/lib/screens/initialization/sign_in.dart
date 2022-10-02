@@ -27,19 +27,19 @@ class _SignInState extends State<SignIn> {
 
   void loadUserEmailPassword() async {
     try {
-      SharedPreferences _prefs = await SharedPreferences.getInstance();
-      var _email = _prefs.getString("email") ?? "";
-      var _password = _prefs.getString("password") ?? "";
-      var _rememberMe = _prefs.getBool("remember_me") ?? false;
-      email = _email;
-      password = _password;
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      var email = prefs.getString("email") ?? "";
+      var password = prefs.getString("password") ?? "";
+      var rememberMe = prefs.getBool("remember_me") ?? false;
+      email = email;
+      password = password;
 
-      if (_rememberMe) {
+      if (rememberMe) {
         setState(() {
           rememberMeToggle = true;
         });
-        _emailController.text = _email;
-        _passwordController.text = _password;
+        _emailController.text = email;
+        _passwordController.text = password;
       }
     } catch (e) {
       rethrow;
@@ -93,10 +93,10 @@ class _SignInState extends State<SignIn> {
                       child: Hero(
                         tag: 'name',
                         child: DefaultTextStyle(
+                          style: kTitleStyle,
                           child: Text(
                             'CryptoPal',
                           ),
-                          style: kTitleStyle,
                         ),
                       ),
                     ),
@@ -183,8 +183,7 @@ class _SignInState extends State<SignIn> {
                                     value: rememberMeToggle,
                                     onChanged: (bool? value) {
                                       _handleRememberMe(value!);
-                                    }
-                                    ),
+                                    }),
                               ),
                             ),
                             const SizedBox(width: 5.0),
@@ -202,9 +201,8 @@ class _SignInState extends State<SignIn> {
                             try {
                               await _auth.sendPasswordResetEmail(email: email);
                               snackBar(context,
-                                  message: 'Password reset email sent to ' +
-                                      email +
-                                      '.',
+                                  message:
+                                      'Password reset email sent to $email.',
                                   color: kGreen);
                             } catch (e) {
                               snackBar(context,
@@ -229,7 +227,8 @@ class _SignInState extends State<SignIn> {
                       width: double.infinity,
                       child: CupertinoButton(
                         color: kAccentColor1,
-                        borderRadius: const BorderRadius.all(Radius.circular(5)),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(5)),
                         onPressed: () async {
                           _handleRememberMe(rememberMeToggle);
                           try {

@@ -10,7 +10,8 @@ import 'package:cryptopal/utility/real_price_data.dart';
 import 'package:hashtagable/hashtagable.dart';
 
 class AddPrediction extends StatefulWidget {
-  const AddPrediction(this.currentUser, this.realPriceList,{Key? key}) : super(key: key);
+  const AddPrediction(this.currentUser, this.realPriceList, {Key? key})
+      : super(key: key);
 
   final UserAccount currentUser;
   final List<RealPricesOfACurrency> realPriceList;
@@ -20,11 +21,11 @@ class AddPrediction extends StatefulWidget {
 
 class _AddPredictionState extends State<AddPrediction> {
   final _firestore = FirebaseFirestore.instance;
-  final String today=DateTime.now().toString().split(' ')[0];
+  final String today = DateTime.now().toString().split(' ')[0];
   late int selectedCrypto = 0;
   late double predictionPrice;
   late DateTime predictionDate = DateTime.now().add(const Duration(days: 1));
-  late String? keywords=null;
+  late String? keywords = null;
 
   List<RealPrice> getRealPrices({required String currency, int number = 0}) {
     List<RealPrice> realPrices = [];
@@ -70,15 +71,14 @@ class _AddPredictionState extends State<AddPrediction> {
                       diameterRatio: 1.2,
                       itemExtent: 32.0,
                       children: List<Widget>.generate(
-                          selectedCryptocurrencies.length,
-                              (int index) {
-                            return Center(
-                              child: Text(
-                                    selectedCryptocurrencies[index],
-                                style: kSubjectStyle,
-                              ),
-                            );
-                          }),
+                          selectedCryptocurrencies.length, (int index) {
+                        return Center(
+                          child: Text(
+                            selectedCryptocurrencies[index],
+                            style: kSubjectStyle,
+                          ),
+                        );
+                      }),
                     ),
                   ),
                   const SizedBox(
@@ -97,14 +97,15 @@ class _AddPredictionState extends State<AddPrediction> {
                     ),
                   ),
                   const SizedBox(
-                    height:30.0,
+                    height: 30.0,
                   ),
                   SizedBox(
                     width: double.infinity,
                     height: 200,
                     child: SfCartesianChart(
                       title: ChartTitle(
-                        text: selectedCryptocurrencies[selectedCrypto]+' Close Price',
+                        text:
+                            '${selectedCryptocurrencies[selectedCrypto]} Close Price',
                         textStyle: kCardSmallTextStyle,
                       ),
                       zoomPanBehavior: ZoomPanBehavior(
@@ -127,15 +128,15 @@ class _AddPredictionState extends State<AddPrediction> {
                       series: <ChartSeries>[
                         LineSeries<RealPrice, DateTime>(
                           color: widget.realPriceList[selectedCrypto]
-                              .priceIncreasePercentage >
-                              0
+                                      .priceIncreasePercentage >
+                                  0
                               ? kGreen
                               : kRed,
-                          name: selectedCryptocurrencies[selectedCrypto] +
-                              ' Close Price',
+                          name:
+                              '${selectedCryptocurrencies[selectedCrypto]} Close Price',
                           dataSource: getRealPrices(
-                              currency: selectedCryptocurrencies[selectedCrypto] +
-                                  '-USD'),
+                              currency:
+                                  '${selectedCryptocurrencies[selectedCrypto]}-USD'),
                           xValueMapper: (RealPrice data, _) =>
                               DateTime.parse(data.date),
                           yValueMapper: (RealPrice data, _) => data.closePrice,
@@ -146,11 +147,14 @@ class _AddPredictionState extends State<AddPrediction> {
                   RichText(
                     textAlign: TextAlign.center,
                     text: TextSpan(
-                      text: 'Last close price ('+widget.realPriceList.last.pricesList.last.date+')\n',
+                      text:
+                          'Last close price (${widget.realPriceList.last.pricesList.last.date})\n',
                       style: kCardSmallTextStyle,
                       children: <TextSpan>[
                         TextSpan(
-                          text: widget.realPriceList[selectedCrypto].pricesList.last.closePrice.toString(),
+                          text: widget.realPriceList[selectedCrypto].pricesList
+                              .last.closePrice
+                              .toString(),
                           style: kCardTextStyle2,
                         ),
                         const TextSpan(
@@ -161,7 +165,7 @@ class _AddPredictionState extends State<AddPrediction> {
                     ),
                   ),
                   const SizedBox(
-                    height:30.0,
+                    height: 30.0,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -174,7 +178,7 @@ class _AddPredictionState extends State<AddPrediction> {
                         width: 10.0,
                       ),
                       SizedBox(
-                        width: MediaQuery.of(context).size.width-230,
+                        width: MediaQuery.of(context).size.width - 230,
                         child: TextFormField(
                           textAlign: TextAlign.center,
                           keyboardType: const TextInputType.numberWithOptions(),
@@ -221,16 +225,18 @@ class _AddPredictionState extends State<AddPrediction> {
                         'Description',
                         style: kInstructionStyle2,
                       ),
-                      const SizedBox(width: 10,),
+                      const SizedBox(
+                        width: 10,
+                      ),
                       SizedBox(
-                        width: MediaQuery.of(context).size.width-170,
+                        width: MediaQuery.of(context).size.width - 170,
                         child: HashTagTextField(
                           decorateAtSign: true,
                           decoratedStyle: kCardSmallTextStyle,
                           basicStyle: kTransparentStyle,
                           cursorHeight: 17,
                           cursorColor: kAccentColor1,
-                            textAlignVertical:TextAlignVertical.bottom,
+                          textAlignVertical: TextAlignVertical.bottom,
                           decoration: const InputDecoration(
                             focusedBorder: UnderlineInputBorder(
                               borderSide: BorderSide(color: kAccentColor1),
@@ -241,8 +247,8 @@ class _AddPredictionState extends State<AddPrediction> {
                             hintText: '#hashtags',
                             hintStyle: kTransparentStyle,
                           ),
-                          onChanged: (text){
-                            keywords=text;
+                          onChanged: (text) {
+                            keywords = text;
                           },
                         ),
                       ),
@@ -258,24 +264,25 @@ class _AddPredictionState extends State<AddPrediction> {
                       color: kAccentColor1,
                       borderRadius: const BorderRadius.all(Radius.circular(8)),
                       onPressed: () async {
-                        try{
-                          if(predictionPrice>=0){
-                            String date = predictionDate.toString().split(' ')[0];
+                        try {
+                          if (predictionPrice >= 0) {
+                            String date =
+                                predictionDate.toString().split(' ')[0];
                             String currency =
-                                selectedCryptocurrencies[selectedCrypto] + '-USD';
+                                '${selectedCryptocurrencies[selectedCrypto]}-USD';
                             double price = predictionPrice.toDouble();
 
                             currentUser.predictions.removeWhere((item) =>
-                            item.predictionCurrency == currency &&
+                                item.predictionCurrency == currency &&
                                 item.predictionDate == date);
                             currentUser.futurePredictions.removeWhere((item) =>
-                            item.predictionCurrency == currency &&
+                                item.predictionCurrency == currency &&
                                 item.predictionDate == date);
 
-                            currentUser.predictions
-                                .add(Prediction(today, date, currency, price,keywords, 0, 0));
-                            currentUser.futurePredictions
-                                .add(Prediction(today, date, currency, price,keywords, 0, 0));
+                            currentUser.predictions.add(Prediction(
+                                today, date, currency, price, keywords, 0, 0));
+                            currentUser.futurePredictions.add(Prediction(
+                                today, date, currency, price, keywords, 0, 0));
 
                             try {
                               await _firestore
@@ -284,27 +291,30 @@ class _AddPredictionState extends State<AddPrediction> {
                                   .collection('predictions')
                                   .doc('$date $currency')
                                   .set({
-                                'predictedDate':today,
+                                'predictedDate': today,
                                 'predictionDate': date,
                                 'predictionCurrency': currency,
                                 'predictionClosePrice': price,
-                                'predictionKeywords':keywords,
-                                'errorValue':null,
+                                'predictionKeywords': keywords,
+                                'errorValue': null,
                               });
                               snackBar(context,
                                   message: 'Prediction successfully added.',
                                   color: kGreen);
                               Navigator.pop(context);
                             } catch (e) {
-                              snackBar(context, message: e.toString(), color: kRed);
+                              snackBar(context,
+                                  message: e.toString(), color: kRed);
                             }
-                          }else{
+                          } else {
                             snackBar(context,
                                 message: 'Prediction price cannot be negative.',
                                 color: kRed);
                           }
-                        }catch(e){
-                          snackBar(context, message:'Prediction closing price required.', color: kRed);
+                        } catch (e) {
+                          snackBar(context,
+                              message: 'Prediction closing price required.',
+                              color: kRed);
                         }
                       },
                       child: const Text(

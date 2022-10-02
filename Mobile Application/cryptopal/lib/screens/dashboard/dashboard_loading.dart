@@ -49,13 +49,13 @@ class DashboardLoading extends StatelessWidget {
   // }
 
   Future<List<News>> getData() {
-    return compute(getNewsData,true);
+    return compute(getNewsData, true);
   }
 
   void continueToDashboard(BuildContext context) async {
     UserAccount currentUser = UserAccount();
-    List<RealPricesOfACurrency> realPriceList=[];
-    List<ForecastPricesOfACurrency> mlForecastPriceList=[];
+    List<RealPricesOfACurrency> realPriceList = [];
+    List<ForecastPricesOfACurrency> mlForecastPriceList = [];
     List<News> newsList = [];
 
     Stopwatch stopwatchx = Stopwatch()..start();
@@ -85,7 +85,7 @@ class DashboardLoading extends StatelessWidget {
 
     stopwatch.reset();
     stopwatch.start();
-    mlForecastPriceList=await getMLForecastPriceData();
+    mlForecastPriceList = await getMLForecastPriceData();
     stopwatch.stop();
     print('ml data done in ${stopwatch.elapsed}');
 
@@ -93,16 +93,16 @@ class DashboardLoading extends StatelessWidget {
     print('loading done in ${stopwatchx.elapsed}');
 
     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-      return Dashboard(currentUser, realPriceList, mlForecastPriceList, newsList);
+      return Dashboard(
+          currentUser, realPriceList, mlForecastPriceList, newsList);
     }));
   }
 
   @override
   Widget build(BuildContext context) {
-
-    try{
+    try {
       continueToDashboard(context);
-    }catch(e){
+    } catch (e) {
       snackBar(context, message: e.toString(), color: kRed);
     }
     return Scaffold(
@@ -120,7 +120,7 @@ class DashboardLoading extends StatelessWidget {
                       backgroundColor: Colors.transparent,
                       radius: 100.0,
                       child:
-                      Image.asset('assets/images/CryptoPal-logo-white.png'),
+                          Image.asset('assets/images/CryptoPal-logo-white.png'),
                     ),
                   ),
                   const SizedBox(
@@ -149,8 +149,8 @@ class DashboardLoading extends StatelessWidget {
                       style: kInstructionStyle,
                       child: Text(
                         'Advisory platform for cryptocurrency investments',
-
-                      ),),
+                      ),
+                    ),
                   ),
                 ),
               ),

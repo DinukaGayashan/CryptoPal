@@ -10,28 +10,33 @@ import 'package:cryptopal/utility/real_price_data.dart';
 import 'package:cryptopal/screens/predictions/currency_prediction_graph.dart';
 
 class PredictionsOnDays extends StatefulWidget {
-  const PredictionsOnDays(this.predictionsOnDays, this.realPriceList, {Key? key}) : super(key: key);
-  final Map<String,List<Prediction>> predictionsOnDays;
+  const PredictionsOnDays(this.predictionsOnDays, this.realPriceList,
+      {Key? key})
+      : super(key: key);
+  final Map<String, List<Prediction>> predictionsOnDays;
   final List<RealPricesOfACurrency> realPriceList;
 
+  @override
   State<PredictionsOnDays> createState() => _PredictionsOnDaysState();
 }
 
 class _PredictionsOnDaysState extends State<PredictionsOnDays> {
   late List<String> dates;
 
-  List<GraphData> getPredictionCountOnDays(){
-    List<GraphData> count=[];
-    for(var d in dates){
-      count.add(GraphData(valueOne: DateTime.parse(d), valueTwo: widget.predictionsOnDays[d]?.length));
+  List<GraphData> getPredictionCountOnDays() {
+    List<GraphData> count = [];
+    for (var d in dates) {
+      count.add(GraphData(
+          valueOne: DateTime.parse(d),
+          valueTwo: widget.predictionsOnDays[d]?.length));
     }
     return count;
   }
 
-  void getHistoryDates(){
-    dates=widget.predictionsOnDays.keys.toList();
+  void getHistoryDates() {
+    dates = widget.predictionsOnDays.keys.toList();
     dates.sort();
-    dates=dates.reversed.toList();
+    dates = dates.reversed.toList();
   }
 
   @override
@@ -71,7 +76,7 @@ class _PredictionsOnDaysState extends State<PredictionsOnDays> {
                     series: <ChartSeries>[
                       ColumnSeries<GraphData, DateTime>(
                         name: 'Number of predictions',
-                        color:kGraphColor1,
+                        color: kGraphColor1,
                         dataSource: getPredictionCountOnDays(),
                         xValueMapper: (GraphData data, _) => data.valueOne,
                         yValueMapper: (GraphData data, _) => data.valueTwo,
@@ -79,8 +84,11 @@ class _PredictionsOnDaysState extends State<PredictionsOnDays> {
                     ],
                   ),
                 ),
-                const SizedBox(height: 30,),
-                PredictionOnDaysList(widget.predictionsOnDays,widget.realPriceList,dates),
+                const SizedBox(
+                  height: 30,
+                ),
+                PredictionOnDaysList(
+                    widget.predictionsOnDays, widget.realPriceList, dates),
                 const SizedBox(
                   height: 30,
                 ),
@@ -94,8 +102,11 @@ class _PredictionsOnDaysState extends State<PredictionsOnDays> {
 }
 
 class PredictionOnDaysList extends StatefulWidget {
-  const PredictionOnDaysList(this.predictionsOnDays, this.realPriceList, this.dates, {Key? key}) : super(key: key);
-  final Map<String,List<Prediction>> predictionsOnDays;
+  const PredictionOnDaysList(
+      this.predictionsOnDays, this.realPriceList, this.dates,
+      {Key? key})
+      : super(key: key);
+  final Map<String, List<Prediction>> predictionsOnDays;
   final List<RealPricesOfACurrency> realPriceList;
   final List<String> dates;
 
@@ -104,7 +115,7 @@ class PredictionOnDaysList extends StatefulWidget {
 }
 
 class _PredictionOnDaysListState extends State<PredictionOnDaysList> {
-  late String selectedDate=DateTime.now().toString().split(' ')[0];
+  late String selectedDate = DateTime.now().toString().split(' ')[0];
 
   List<RealPrice> getRealPrices({required String currency, int number = 0}) {
     List<RealPrice> realPrices = [];
@@ -121,8 +132,7 @@ class _PredictionOnDaysListState extends State<PredictionOnDaysList> {
   }
 
   RealPrice? getRealPrice({required String currency, required String date}) {
-    final List<RealPrice> priceList =
-    getRealPrices(currency: currency + '-USD');
+    final List<RealPrice> priceList = getRealPrices(currency: '$currency-USD');
     RealPrice x = RealPrice(date, 0, 0, 0, 0);
     for (var i in priceList) {
       if (i.date == date) {
@@ -132,10 +142,10 @@ class _PredictionOnDaysListState extends State<PredictionOnDaysList> {
     return x;
   }
 
-  int getCryptocurrencyIndex(String predictionCurrency){
-    int i=0;
-    for(i=0;i<selectedCryptocurrencies.length;i++){
-      if(selectedCryptocurrencies[i]==predictionCurrency.split('-')[0]){
+  int getCryptocurrencyIndex(String predictionCurrency) {
+    int i = 0;
+    for (i = 0; i < selectedCryptocurrencies.length; i++) {
+      if (selectedCryptocurrencies[i] == predictionCurrency.split('-')[0]) {
         break;
       }
     }
@@ -156,27 +166,27 @@ class _PredictionOnDaysListState extends State<PredictionOnDaysList> {
             },
             diameterRatio: 1.2,
             itemExtent: 32.0,
-            children: List<Widget>.generate(
-                widget.dates.length,
-                    (int index) {
-                  return Center(
-                    child: Text(
-                      widget.dates.elementAt(index),
-                      style: kCardTextStyle,
-                    ),
-                  );
-                }),
+            children: List<Widget>.generate(widget.dates.length, (int index) {
+              return Center(
+                child: Text(
+                  widget.dates.elementAt(index),
+                  style: kCardTextStyle,
+                ),
+              );
+            }),
           ),
         ),
-        const SizedBox(height: 15,),
-        for(var prediction in widget.predictionsOnDays[selectedDate]!)
+        const SizedBox(
+          height: 15,
+        ),
+        for (var prediction in widget.predictionsOnDays[selectedDate]!)
           InkWell(
             borderRadius: BorderRadius.circular(30),
             child: glassCard(
               context,
               Padding(
-                padding: const EdgeInsets.symmetric(
-                    vertical: 10, horizontal: 20),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -185,7 +195,7 @@ class _PredictionOnDaysListState extends State<PredictionOnDaysList> {
                       children: <Widget>[
                         SizedBox(
                           child: Text(
-                            prediction.predictionDate+'\n'+prediction.predictionCurrency,
+                            '${prediction.predictionDate}\n${prediction.predictionCurrency}',
                             style: kCardLargeTextStyle,
                           ),
                         ),
@@ -195,7 +205,8 @@ class _PredictionOnDaysListState extends State<PredictionOnDaysList> {
                             style: kCardSmallTextStyle,
                             children: <TextSpan>[
                               TextSpan(
-                                text: kCurrencyPriceDisplay(prediction.predictionClosePrice)+' \$',
+                                text:
+                                    '${kCurrencyPriceDisplay(prediction.predictionClosePrice)} \$',
                                 style: kCardTextStyle2,
                               ),
                             ],
@@ -203,20 +214,22 @@ class _PredictionOnDaysListState extends State<PredictionOnDaysList> {
                         ),
                       ],
                     ),
-                    prediction.predictionKeywords!=null?
-                    HashTagText(
-                        text: '\n'+prediction.predictionKeywords.toString(),
-                        basicStyle: kTransparentStyle,
-                        decoratedStyle: kCardSmallTextStyle
-                    ):
-                    const SizedBox(),
+                    prediction.predictionKeywords != null
+                        ? HashTagText(
+                            text: '\n${prediction.predictionKeywords}',
+                            basicStyle: kTransparentStyle,
+                            decoratedStyle: kCardSmallTextStyle)
+                        : const SizedBox(),
                   ],
                 ),
               ),
             ),
-            onTap: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context){
-                return CurrencyPredictionGraph(getCryptocurrencyIndex(prediction.predictionCurrency), widget.realPriceList, prediction);
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return CurrencyPredictionGraph(
+                    getCryptocurrencyIndex(prediction.predictionCurrency),
+                    widget.realPriceList,
+                    prediction);
               }));
             },
           ),
@@ -224,4 +237,3 @@ class _PredictionOnDaysListState extends State<PredictionOnDaysList> {
     );
   }
 }
-

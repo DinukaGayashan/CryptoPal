@@ -38,10 +38,10 @@ class Welcome extends StatelessWidget {
                           child: Hero(
                             tag: 'name',
                             child: DefaultTextStyle(
+                              style: kMainTitleStyle,
                               child: Text(
                                 'CryptoPal',
                               ),
-                              style: kMainTitleStyle,
                             ),
                           ),
                         ),
@@ -51,44 +51,45 @@ class Welcome extends StatelessWidget {
                   SizedBox(
                     height: 50.0,
                     child: Center(
-                        child: GestureDetector(
-                          child: const DefaultTextStyle(
+                      child: GestureDetector(
+                        child: const DefaultTextStyle(
+                          style: kInstructionStyle,
+                          child: Text(
+                            'Advisory platform for cryptocurrency investments',
                             style: kInstructionStyle,
-                            child: Text(
-                              'Advisory platform for cryptocurrency investments',
-                              style: kInstructionStyle,
-                            ),
                           ),
-                          onTap: () {
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  backgroundColor: kBackgroundColor,
-                                  title: const Text(
-                                    "CryptoPal",
-                                    style: kTitleStyle,
-                                  ),
-                                  content: const Text(
-                                    description,
-                                    style: kInstructionStyle,
-                                  ),
-                                  actions: [
-                                    TextButton(
-                                      child: const Text(
-                                        "OK",
-                                        style: kLinkStyle,
-                                      ),
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                      },
+                        ),
+                        onTap: () {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                backgroundColor: kBackgroundColor,
+                                title: const Text(
+                                  "CryptoPal",
+                                  style: kTitleStyle,
+                                ),
+                                content: const Text(
+                                  description,
+                                  style: kInstructionStyle,
+                                ),
+                                actions: [
+                                  TextButton(
+                                    child: const Text(
+                                      "OK",
+                                      style: kLinkStyle,
                                     ),
-                                  ],
-                                );
-                              },
-                            );
-                          },
-                        ),),
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        },
+                      ),
+                    ),
                   ),
                   const SizedBox(
                     height: 30.0,
@@ -100,7 +101,8 @@ class Welcome extends StatelessWidget {
                       width: double.infinity,
                       child: CupertinoButton(
                         color: kAccentColor1,
-                        borderRadius: const BorderRadius.all(Radius.circular(5)),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(5)),
                         onPressed: () {
                           Navigator.pushNamed(context, SignIn.id);
                         },
@@ -121,7 +123,8 @@ class Welcome extends StatelessWidget {
                       width: double.infinity,
                       child: CupertinoButton(
                         color: kAccentColor1,
-                        borderRadius: const BorderRadius.all(Radius.circular(5)),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(5)),
                         onPressed: () {
                           Navigator.pushNamed(context, SignUp.id);
                         },

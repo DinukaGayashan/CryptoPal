@@ -44,14 +44,13 @@ class _CurrencyMarketState extends State<CurrencyMarket> {
             context,
             ListView(
               children: <Widget>[
-                topBar(context, cryptocurrencyNames[selectedCryptocurrencies[widget.currencyIndex]].toString()+' Market'),
+                topBar(context,
+                    '${cryptocurrencyNames[selectedCryptocurrencies[widget.currencyIndex]]} Market'),
                 const SizedBox(
                   height: 10.0,
                 ),
                 SvgPicture.asset(
-                  'assets/images/cryptocoin_icons/color/' +
-                      selectedCryptocurrencies[widget.currencyIndex].toLowerCase() +
-                      '.svg',
+                  'assets/images/cryptocoin_icons/color/${selectedCryptocurrencies[widget.currencyIndex].toLowerCase()}.svg',
                   width: 60.0,
                   height: 60.0,
                 ),
@@ -61,10 +60,8 @@ class _CurrencyMarketState extends State<CurrencyMarket> {
                 Center(
                   child: RichText(
                     text: TextSpan(
-                      text: "\$ " +
-                          kCurrencyPriceDisplay(widget.realPriceList[widget.currencyIndex].pricesList
-                              .last.closePrice) +
-                          ' ',
+                      text:
+                          "\$ ${kCurrencyPriceDisplay(widget.realPriceList[widget.currencyIndex].pricesList.last.closePrice)} ",
                       style: kCardNumberStyle,
                       children: <TextSpan>[
                         TextSpan(
@@ -80,12 +77,7 @@ class _CurrencyMarketState extends State<CurrencyMarket> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      (double.parse((widget.realPriceList[widget.currencyIndex]
-                                          .priceIncreasePercentage)
-                                      .toStringAsFixed(2))
-                                  .abs())
-                              .toString() +
-                          '%',
+                      '${double.parse((widget.realPriceList[widget.currencyIndex].priceIncreasePercentage).toStringAsFixed(2)).abs()}%',
                       style: TextStyle(
                         fontSize: 20,
                         fontFamily: 'Bierstadt',
@@ -147,11 +139,11 @@ class _CurrencyMarketState extends State<CurrencyMarket> {
                                 0
                             ? kGreen
                             : kRed,
-                        name: selectedCryptocurrencies[widget.currencyIndex] +
-                            ' Close Price',
+                        name:
+                            '${selectedCryptocurrencies[widget.currencyIndex]} Close Price',
                         dataSource: getRealPrices(
-                            currency: selectedCryptocurrencies[widget.currencyIndex] +
-                                '-USD'),
+                            currency:
+                                '${selectedCryptocurrencies[widget.currencyIndex]}-USD'),
                         xValueMapper: (RealPrice data, _) =>
                             DateTime.parse(data.date),
                         yValueMapper: (RealPrice data, _) => data.closePrice,
@@ -168,9 +160,9 @@ class _CurrencyMarketState extends State<CurrencyMarket> {
                     onPressed: () {
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) {
-                            return CurrencyMarketGraphs(
-                                widget.realPriceList, widget.currencyIndex);
-                          }));
+                        return CurrencyMarketGraphs(
+                            widget.realPriceList, widget.currencyIndex);
+                      }));
                     },
                   ),
                 ),
