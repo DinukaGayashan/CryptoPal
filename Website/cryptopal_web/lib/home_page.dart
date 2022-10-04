@@ -116,219 +116,217 @@ class HomePage extends StatelessWidget {
               frosted: false,
               tintColor: kBaseColor1,
             ),
-            Container(
-              child: Padding(
-                padding: EdgeInsets.symmetric(
-                    horizontal: MediaQuery.of(context).size.width / 5,
-                    vertical: 20),
-                child: Column(
-                  children: [
-                    const Text(
-                      'Features',
-                      style: kCardTextStyle3,
-                    ),
-                    const Text(
-                      'This application helps you to get an idea about your price prediction capability, '
-                      'provides forecast prices by machine learning and news related to cryptocurrencies.',
-                      style: kCardSmallTextStyle,
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(
-                      height: 50,
-                    ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Icon(
-                          Icons.attach_money,
-                          size: 50,
+            Padding(
+              padding: EdgeInsets.symmetric(
+                  horizontal: MediaQuery.of(context).size.width / 5,
+                  vertical: 20),
+              child: Column(
+                children: [
+                  const Text(
+                    'Features',
+                    style: kCardTextStyle3,
+                  ),
+                  const Text(
+                    'This application helps you to get an idea about your price prediction capability, '
+                    'provides forecast prices by machine learning and news related to cryptocurrencies.',
+                    style: kCardSmallTextStyle,
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(
+                    height: 50,
+                  ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(
+                        Icons.attach_money,
+                        size: 50,
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width / 2.5,
+                        child: RichText(
+                          text: const TextSpan(
+                              text: 'Market',
+                              style: kCardTextStyle,
+                              children: [
+                                TextSpan(
+                                  text:
+                                      '\nMarket prices of the currencies user has chosen are available from the starting day of particular cryptocurrency trading.',
+                                  style: kTransparentStyle,
+                                ),
+                              ]),
                         ),
-                        const SizedBox(
-                          width: 10,
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 50,
+                  ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width / 2.5,
+                        child: RichText(
+                          textAlign: TextAlign.right,
+                          text: const TextSpan(
+                              text: 'News',
+                              style: kCardTextStyle,
+                              children: [
+                                TextSpan(
+                                  text:
+                                      '\nNews related to cryptocurrencies are available from different news providers and they can be viewed within the app itself.',
+                                  style: kTransparentStyle,
+                                ),
+                              ]),
                         ),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width / 2.5,
-                          child: RichText(
-                            text: const TextSpan(
-                                text: 'Market',
-                                style: kCardTextStyle,
-                                children: [
-                                  TextSpan(
-                                    text:
-                                        '\nMarket prices of the currencies user has chosen are available from the starting day of particular cryptocurrency trading.',
-                                    style: kTransparentStyle,
-                                  ),
-                                ]),
-                          ),
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      const Icon(
+                        Icons.newspaper,
+                        size: 50,
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 50,
+                  ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(
+                        Icons.auto_graph,
+                        size: 50,
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width / 2.5,
+                        child: RichText(
+                          text: const TextSpan(
+                              text: 'Predictions',
+                              style: kCardTextStyle,
+                              children: [
+                                TextSpan(
+                                  text:
+                                      '\nUser can add price predictions for cryptocurrencies and after that prediction date prediction results will be calculated.',
+                                  style: kTransparentStyle,
+                                ),
+                              ]),
                         ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 50,
-                    ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width / 2.5,
-                          child: RichText(
-                            textAlign: TextAlign.right,
-                            text: const TextSpan(
-                                text: 'News',
-                                style: kCardTextStyle,
-                                children: [
-                                  TextSpan(
-                                    text:
-                                        '\nNews related to cryptocurrencies are available from different news providers and they can be viewed within the app itself.',
-                                    style: kTransparentStyle,
-                                  ),
-                                ]),
-                          ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 50,
+                  ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width / 2.5,
+                        child: RichText(
+                          textAlign: TextAlign.right,
+                          text: const TextSpan(
+                              text: 'Statistics',
+                              style: kCardTextStyle,
+                              children: [
+                                TextSpan(
+                                  text:
+                                      '\nPrediction accuracy, error value and deviation will be calculated and with those results for a cryptocurrency and overall user results. '
+                                      'Also these historical results will be stored and used to generate meaningful results to understand user capability of price prediction.',
+                                  style: kTransparentStyle,
+                                ),
+                              ]),
                         ),
-                        const SizedBox(
-                          width: 10,
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      const Icon(
+                        Icons.equalizer,
+                        size: 50,
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 50,
+                  ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(
+                        Icons.next_week,
+                        size: 50,
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width / 2.5,
+                        child: RichText(
+                          text: const TextSpan(
+                              text: 'Forecasts',
+                              style: kCardTextStyle,
+                              children: [
+                                TextSpan(
+                                  text:
+                                      '\nMachine Learning generated forecast prices of cryptocurrencies and their accuracy levels, probabilities are available.',
+                                  style: kTransparentStyle,
+                                ),
+                              ]),
                         ),
-                        const Icon(
-                          Icons.newspaper,
-                          size: 50,
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 50,
+                  ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width / 2.5,
+                        child: RichText(
+                          textAlign: TextAlign.right,
+                          text: const TextSpan(
+                              text: 'Share',
+                              style: kCardTextStyle,
+                              children: [
+                                TextSpan(
+                                  text:
+                                      '\nCustom user card is available for every user with varying colors according to the level of the user. '
+                                      'User level is calculated with the score which is contributed by the overall accuracy and the past predictions user has made.',
+                                  style: kTransparentStyle,
+                                ),
+                              ]),
                         ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 50,
-                    ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Icon(
-                          Icons.auto_graph,
-                          size: 50,
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width / 2.5,
-                          child: RichText(
-                            text: const TextSpan(
-                                text: 'Predictions',
-                                style: kCardTextStyle,
-                                children: [
-                                  TextSpan(
-                                    text:
-                                        '\nUser can add price predictions for cryptocurrencies and after that prediction date prediction results will be calculated.',
-                                    style: kTransparentStyle,
-                                  ),
-                                ]),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 50,
-                    ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width / 2.5,
-                          child: RichText(
-                            textAlign: TextAlign.right,
-                            text: const TextSpan(
-                                text: 'Statistics',
-                                style: kCardTextStyle,
-                                children: [
-                                  TextSpan(
-                                    text:
-                                        '\nPrediction accuracy, error value and deviation will be calculated and with those results for a cryptocurrency and overall user results. '
-                                        'Also these historical results will be stored and used to generate meaningful results to understand user capability of price prediction.',
-                                    style: kTransparentStyle,
-                                  ),
-                                ]),
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        const Icon(
-                          Icons.equalizer,
-                          size: 50,
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 50,
-                    ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Icon(
-                          Icons.next_week,
-                          size: 50,
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width / 2.5,
-                          child: RichText(
-                            text: const TextSpan(
-                                text: 'Forecasts',
-                                style: kCardTextStyle,
-                                children: [
-                                  TextSpan(
-                                    text:
-                                        '\nMachine Learning generated forecast prices of cryptocurrencies and their accuracy levels, probabilities are available.',
-                                    style: kTransparentStyle,
-                                  ),
-                                ]),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 50,
-                    ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width / 2.5,
-                          child: RichText(
-                            textAlign: TextAlign.right,
-                            text: const TextSpan(
-                                text: 'Share',
-                                style: kCardTextStyle,
-                                children: [
-                                  TextSpan(
-                                    text:
-                                        '\nCustom user card is available for every user with varying colors according to the level of the user. '
-                                        'User level is calculated with the score which is contributed by the overall accuracy and the past predictions user has made.',
-                                    style: kTransparentStyle,
-                                  ),
-                                ]),
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        const Icon(
-                          Icons.share,
-                          size: 50,
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 50,
-                    ),
-                  ],
-                ),
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      const Icon(
+                        Icons.share,
+                        size: 50,
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 50,
+                  ),
+                ],
               ),
             ).asGlass(
               tintColor: kTransparentColor1,

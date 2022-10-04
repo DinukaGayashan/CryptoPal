@@ -45,71 +45,47 @@ class AboutApp extends StatelessWidget {
                           ),
                         ],
                       ),
-                      onTap: (){
+                      onTap: () {
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) {
-                              return const LogoPage();
-                            }));
+                          return const LogoPage();
+                        }));
                       },
                     ),
                     const Text(
-                      'Version 0.9',
+                      'Version 1.0',
                       style: kTransparentSmallStyle,
                       textAlign: TextAlign.center,
                     ),
                     const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 20.0,vertical: 30),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 20.0, vertical: 30),
                       child: Text(
                         "CryptoPal is an advisory platform for cryptocurrency investments that only focused on educational purposes. "
-                            "Please do not use this application as a advisor for financial investment purposes.",
+                        "Please do not use this application as a advisor for financial investment purposes.",
                         style: kCardSmallTextStyle,
                         textAlign: TextAlign.center,
                       ),
                     ),
                   ],
                 ),
-                Center(
-                  child: SizedBox(
-                    width: 130,
-                    child:TextButton(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
-                          Icon(
-                            Icons.share_rounded,
-                            size: 18,
-                            color: kBaseColor2,
-                          ),
-                          SizedBox(width: 10,),
-                          Text(
-                              'Share App',
-                            style: kCardSmallTextStyle,
-                          )
-                        ],
-                      ),
-                      onPressed: () async {
-                        await Share.shareWithResult('https://cryptopal-e288a.web.app');
-                      },
-                    ),
-                  ),
-                ),
                 const SizedBox(
                   height: 10,
                 ),
                 Center(
                   child: TextButton(
-                    onPressed: (){
+                    onPressed: () {
                       Navigator.pushNamed(context, PrivacyPolicy.id);
                     },
                     child: const Text(
-                        'Privacy Policy',
+                      'Privacy Policy',
                       style: kLinkStyle,
                     ),
                   ),
                 ),
                 Center(
                   child: TextButton(
-                    onPressed: (){
+                    onPressed: () {
                       Navigator.pushNamed(context, TermsConditions.id);
                     },
                     child: const Text(
@@ -119,7 +95,38 @@ class AboutApp extends StatelessWidget {
                   ),
                 ),
                 SizedBox(
-                  height: MediaQuery.of(context).size.height-600,
+                  height: MediaQuery.of(context).size.height / 16,
+                ),
+                Center(
+                  child: SizedBox(
+                    width: 130,
+                    child: TextButton(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const [
+                          Icon(
+                            Icons.share_rounded,
+                            size: 18,
+                            color: kBaseColor2,
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Text(
+                            'Share App',
+                            style: kCardSmallTextStyle,
+                          )
+                        ],
+                      ),
+                      onPressed: () async {
+                        await Share.shareWithResult(
+                            'https://cryptopal-e288a.web.app');
+                      },
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height / 20,
                 ),
                 Column(
                   children: [
@@ -140,7 +147,7 @@ class AboutApp extends StatelessWidget {
                     ),
                     Center(
                       child: GestureDetector(
-                        child:const Text(
+                        child: const Text(
                           'Dinuka Gayashan',
                           style: TextStyle(
                             fontSize: 28,
@@ -149,7 +156,8 @@ class AboutApp extends StatelessWidget {
                           ),
                         ),
                         onTap: () async {
-                          await launch('https://dinukagayashan.github.io/_di-Website');
+                          await launch(
+                              'https://dinukagayashan.github.io/_di-Website');
                         },
                       ),
                     ),

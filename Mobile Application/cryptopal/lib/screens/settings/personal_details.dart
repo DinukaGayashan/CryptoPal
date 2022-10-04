@@ -38,7 +38,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
     ],
     'wayOfKnowing': [
       notEnteredString,
-      'From the internet',
+      'From internet',
       'From friends',
       'Other'
     ],

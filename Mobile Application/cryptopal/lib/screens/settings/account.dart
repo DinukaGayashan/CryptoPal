@@ -291,13 +291,55 @@ class _AccountState extends State<Account> {
                   },
                 ),
                 ListTile(
-                    leading: const Icon(Icons.remove_circle_outline),
-                    title: const Text(
-                      'Delete Account',
-                      style: kCardTextStyle4,
-                    ),
-                    iconColor: kRed,
-                    onTap: () {}),
+                  leading: const Icon(Icons.remove_circle_outline),
+                  title: const Text(
+                    'Delete Account',
+                    style: kCardTextStyle4,
+                  ),
+                  iconColor: kRed,
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          backgroundColor: kBackgroundColor,
+                          title: const Text(
+                            'Confirm Account Delete',
+                            style: kInstructionStyle2,
+                          ),
+                          content: const Text(
+                            "Do you want to delete account?",
+                            style: kInstructionStyle,
+                          ),
+                          actions: [
+                            TextButton(
+                              child: const Text(
+                                "No",
+                                style: kLinkStyle,
+                              ),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                            TextButton(
+                              child: const Text(
+                                "Yes",
+                                style: kLinkStyle,
+                              ),
+                              onPressed: () {
+                                snackBar(context,
+                                    message:
+                                        'Account deletion cannot be performed now.',
+                                    color: kRed);
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  },
+                ),
                 const SizedBox(
                   height: 30.0,
                 ),

@@ -26,17 +26,16 @@ Widget background(BuildContext context, Widget content) {
   return Container(
     decoration: const BoxDecoration(
       image: DecorationImage(
-        image: AssetImage('assets/images/background.jpg'),
-        fit: BoxFit.cover,
-        colorFilter: ColorFilter.mode(kBackgroundColor, BlendMode.darken)
-      ),
+          image: AssetImage('assets/images/background.jpg'),
+          fit: BoxFit.cover,
+          colorFilter: ColorFilter.mode(kBackgroundColor, BlendMode.darken)),
       //color: kBackgroundColor,
     ),
     child: content,
   );
 }
 
-Widget downloadButton(){
+Widget downloadButton() {
   return SizedBox(
     width: 220,
     child: InkWell(
@@ -48,7 +47,7 @@ Widget downloadButton(){
         ),
         width: 100,
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 12,horizontal: 8),
+          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -70,8 +69,9 @@ Widget downloadButton(){
           ),
         ),
       ),
-      onTap: () async{
-        await launch('https://firebasestorage.googleapis.com/v0/b/cryptopal-e288a.appspot.com/o/CryptoPal%20app-release%2Fapp-release.apk?alt=media&token=02292fa1-f8de-41a7-a4ff-e8ad805eb0ee');
+      onTap: () async {
+        await launch(
+            'https://firebasestorage.googleapis.com/v0/b/cryptopal-e288a.appspot.com/o/CryptoPal%20app-release%2Fapp-release.apk?alt=media&token=7f1f32c9-709b-4664-a0c3-3a905b2cdd64');
       },
     ),
   );
