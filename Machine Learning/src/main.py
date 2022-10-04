@@ -10,10 +10,7 @@ import pandas as pd
 import numpy as np
 from sklearn.preprocessing import StandardScaler
 
-from tensorflow.python.keras.models import Sequential
-from tensorflow.python.keras.layers import Dense, Dropout
-from tensorflow.python.keras.layers import LSTM
-from tensorflow.python.keras.callbacks import ModelCheckpoint, EarlyStopping
+import tensorflow as tf
 
 from fastapi import BackgroundTasks, FastAPI
 from starlette.middleware.cors import CORSMiddleware
@@ -72,21 +69,25 @@ def run_ml(currency, date):
 
     train_x = np.reshape(train_x, (train_x.shape[0], train_x.shape[1], 1))
 
-    regressor = Sequential()
-    regressor.add(
-        LSTM(units=128, activation='relu', return_sequences=True, input_shape=(train_x.shape[1], train_x.shape[2])))
-    regressor.add(Dropout(0.2))
-    regressor.add(LSTM(units=64, input_shape=(train_x.shape[1], train_x.shape[2])))
-    regressor.add(Dropout(0.2))
-    regressor.add(Dense(units=1))
+    # regressor = Sequential()
+    # regressor.add(
+    #     LSTM(units=128, activation='relu', return_sequences=True, input_shape=(train_x.shape[1], train_x.shape[2])))
+    # regressor.add(Dropout(0.2))
+    # regressor.add(LSTM(units=64, input_shape=(train_x.shape[1], train_x.shape[2])))
+    # regressor.add(Dropout(0.2))
+    # regressor.add(Dense(units=1))
+    #
+    # regressor.compile(optimizer='adam', loss='mean_squared_error')
+    # checkpoint_path = 'best_model_for_' + currency + '.hdf5'
+    # checkpoint = ModelCheckpoint(filepath=checkpoint_path, monitor='val_loss', verbose=1, save_best_only=True,
+    #                              mode='min')
+    # early_stopping = EarlyStopping(monitor='val_loss', patience=10, restore_best_weights=True)
+    # callbacks = [checkpoint, early_stopping]
+    # history = regressor.fit(train_x, train_y, batch_size=32, epochs=300, verbose=0, shuffle=False, validation_data=())
 
-    regressor.compile(optimizer='adam', loss='mean_squared_error')
-    checkpoint_path = 'best_model_for_' + currency + '.hdf5'
-    checkpoint = ModelCheckpoint(filepath=checkpoint_path, monitor='val_loss', verbose=1, save_best_only=True,
-                                 mode='min')
-    early_stopping = EarlyStopping(monitor='val_loss', patience=10, restore_best_weights=True)
-    callbacks = [checkpoint, early_stopping]
-    history = regressor.fit(train_x, train_y, batch_size=32, epochs=300, verbose=0, shuffle=False, validation_data=())
+    regressor = tf.keras.models.load_model(
+        'src/final_model_for_'+currency, custom_objects=None, compile=True, options=None
+    )
 
     predicted_train_data = regressor.predict(train_x)
     predicted_train_data = scaler_train_df.inverse_transform(predicted_train_data.reshape(-1, 1))
