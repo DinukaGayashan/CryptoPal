@@ -58,39 +58,39 @@ class DashboardLoading extends StatelessWidget {
     List<ForecastPricesOfACurrency> mlForecastPriceList = [];
     List<News> newsList = [];
 
-    //Stopwatch stopwatchx = Stopwatch()..start();
+    Stopwatch stopwatchx = Stopwatch()..start();
 
-    //Stopwatch stopwatch = Stopwatch()..start();
+    Stopwatch stopwatch = Stopwatch()..start();
     await loadCryptocurrencyData();
-    //stopwatch.stop();
-    //print('crypto done in ${stopwatch.elapsed}');
+    stopwatch.stop();
+    print('crypto done in ${stopwatch.elapsed}');
 
-    //stopwatch.reset();
-    //stopwatch.start();
+    stopwatch.reset();
+    stopwatch.start();
     currentUser = await getActiveUserData();
-    //stopwatch.stop();
-    //print('user done in ${stopwatch.elapsed}');
+    stopwatch.stop();
+    print('user done in ${stopwatch.elapsed}');
 
-    //stopwatch.reset();
-    //stopwatch.start();
+    stopwatch.reset();
+    stopwatch.start();
     newsList = await getData();
-    //stopwatch.stop();
-    //print('news done in ${stopwatch.elapsed}');
+    stopwatch.stop();
+    print('news done in ${stopwatch.elapsed}');
 
-    //stopwatch.reset();
-    //stopwatch.start();
+    stopwatch.reset();
+    stopwatch.start();
     realPriceList = await getRealPriceData();
-    //stopwatch.stop();
-    //print('real data done in ${stopwatch.elapsed}');
+    stopwatch.stop();
+    print('real data done in ${stopwatch.elapsed}');
 
-    //stopwatch.reset();
-    //stopwatch.start();
+    stopwatch.reset();
+    stopwatch.start();
     mlForecastPriceList = await getMLForecastPriceData();
-    //stopwatch.stop();
-    //print('ml data done in ${stopwatch.elapsed}');
+    stopwatch.stop();
+    print('ml data done in ${stopwatch.elapsed}');
 
-    //stopwatchx.stop();
-    //print('loading done in ${stopwatchx.elapsed}');
+    stopwatchx.stop();
+    print('loading done in ${stopwatchx.elapsed}');
 
     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
       return Dashboard(

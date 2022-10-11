@@ -95,3 +95,24 @@ exports.addPastCryptoData = functions.https
         }
       }
     });
+
+
+exports.addMLForecasts = functions.firestore
+    .document("realPrices/{dataId}")
+    .onCreate(async (snapshot, context) => {
+      const currency=snapshot.data().currency;
+      const date=snapshot.data().date;
+      const mlForecastURL="https://cryptopal2.herokuapp.com/?currency_type="+currency+"&current_date="+date;
+
+      https.get(mlForecastURL, (res) => {
+        let str="";
+        res.on("data", function(chunk) {
+          str+=chunk;
+        });
+        res.on("end", function() {
+          console.log(str);
+        });
+      }).on("error", (e) => {
+        console.error(e);
+      });
+    });

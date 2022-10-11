@@ -245,8 +245,11 @@ Future<UserAccount> getActiveUserData() async {
               .inDays *
           10;
     }
-    currentUser.score += currentUser.accuracy.toInt();
-    currentUser.score = currentUser.score ~/ 10;
+
+    if (currentUser.accuracy.isFinite) {
+      currentUser.score += currentUser.accuracy.toInt();
+      currentUser.score = currentUser.score ~/ 10;
+    }
   } catch (e) {
     rethrow;
   }

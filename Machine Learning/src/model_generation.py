@@ -73,6 +73,6 @@ def run_ml(currency, date):
 
 
 if __name__ == '__main__':
-    cryptocurrencies = ['BTC']#, 'ETH', 'LTC', 'XRP', 'DOGE']
+    cryptocurrencies = ['BTC', 'ETH', 'LTC', 'XRP', 'DOGE']
     for cryptocurrency in cryptocurrencies:
         run_ml(cryptocurrency+'-USD', '2022-10-03')
