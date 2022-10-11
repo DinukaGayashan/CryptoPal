@@ -1,4 +1,10 @@
+
+
+__pycache__/
 serviceAccountKey.json
-/__pycache__
 
-
+final_model_for_BTC-USD/
+final_model_for_DOGE-USD/
+final_model_for_ETH-USD/
+final_model_for_LTC-USD/
+final_model_for_XRP-USD/
