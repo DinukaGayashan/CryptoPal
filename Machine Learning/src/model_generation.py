@@ -25,7 +25,7 @@ def dataset_generator_lstm(dataset, look_back=10):
     return np.array(data_x), np.array(data_y)
 
 
-def run_ml(currency, date):
+def run_ml(currency):
     print('ML started for ' + currency)
 
     look_back_period = 10
@@ -75,4 +75,4 @@ def run_ml(currency, date):
 if __name__ == '__main__':
     cryptocurrencies = ['BTC', 'ETH', 'LTC', 'XRP', 'DOGE']
     for cryptocurrency in cryptocurrencies:
-        run_ml(cryptocurrency+'-USD', '2022-10-03')
+        run_ml(cryptocurrency+'-USD')
