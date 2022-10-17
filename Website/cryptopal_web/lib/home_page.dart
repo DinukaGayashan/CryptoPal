@@ -391,6 +391,10 @@ class HomePage extends StatelessWidget {
                       'available on Android',
                       style: kTransparentStyle,
                     ),
+                    const Text(
+                      '(Android 12 or higher required)',
+                      style: kTransparentSmallStyle,
+                    ),
                     const SizedBox(
                       height: 10,
                     ),
@@ -447,7 +451,7 @@ class HomePage extends StatelessWidget {
                           ),
                           onTap: () async {
                             await launch(
-                                'https://dinukagayashan.github.io/_di-Website');
+                                'https://dinukagayashan.github.io/DinukaGayashan/');
                           },
                         ),
                       ),

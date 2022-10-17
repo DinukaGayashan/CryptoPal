@@ -71,7 +71,7 @@ Widget downloadButton() {
       ),
       onTap: () async {
         await launch(
-            'https://firebasestorage.googleapis.com/v0/b/cryptopal-e288a.appspot.com/o/CryptoPal%20app-release%2Fapp-release.apk?alt=media&token=b519cde5-6fbe-4c90-b917-4013c5c6d7ff');
+            'https://firebasestorage.googleapis.com/v0/b/cryptopal-e288a.appspot.com/o/CryptoPal%20app-release%2Fapp-release.apk?alt=media&token=eecdf31a-0429-434a-87dc-922f99ad993f');
       },
     ),
   );

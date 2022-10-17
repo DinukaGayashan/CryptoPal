@@ -157,7 +157,7 @@ class AboutApp extends StatelessWidget {
                         ),
                         onTap: () async {
                           await launch(
-                              'https://dinukagayashan.github.io/_di-Website');
+                              'https://dinukagayashan.github.io/DinukaGayashan');
                         },
                       ),
                     ),
