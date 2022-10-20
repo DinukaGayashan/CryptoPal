@@ -14,7 +14,7 @@ This is the complete repository that contains the whole project CryptoPal. This 
 <br>
 
 ## Overview
-Cryptocurrency investment has gained a huge interest lately although cryptocurrencies are considered high-risk investments. To overcome issues cryptocurrecny investments, CryptoPal is an advisory software system that helps users to get an idea, and experience cryptocurrency investment. It acknowledges users with market data and related news, provides users with forecast prices generated with machine learning models and allows users to add price predictions and view the statistics of their predictions. This will lead users to improve their prediction capability and experience the cryptocurrency price behavior which leads to an overall improvement in users’ ability to invest in cryptocurrencies.
+Cryptocurrency investment has gained a huge interest lately although cryptocurrencies are considered high-risk investments. To overcome issues with cryptocurrecny investments, CryptoPal is an advisory software system that helps users to get an idea, and experience cryptocurrency investment. It acknowledges users with market data and related news, provides users with forecast prices generated with machine learning models and allows users to add price predictions and view the statistics of their predictions. This will lead users to improve their prediction capability and experience the cryptocurrency price behavior which leads to an overall improvement in users’ ability to invest in cryptocurrencies.
 
 ### Features
 * Provide cryptocurrency market data.
